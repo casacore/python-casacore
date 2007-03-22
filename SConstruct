@@ -67,11 +67,12 @@ if not env.GetOption('clean'):
     conf.env.Append(CPPPATH=[distutils.sysconfig.get_python_inc()])
     if not conf.CheckHeader("Python.h", language='c'):
         Exit(1)
+    pylib = 'python'+distutils.sysconfig.get_python_version()
     if env['PLATFORM'] == "darwin":
         print "Platform darwin - using python framework"
         conf.env.Append(FRAMEWORKS=["Python"])
     else:
-	if not conf.CheckLib(library=pylib, language='c'): Exit(1)
+	if not conf.CheckLib(library=, language='c'): Exit(1)
 
     conf.env.AppendUnique(CPPPATH=env["numpyincdir"])
     hasnums = False
