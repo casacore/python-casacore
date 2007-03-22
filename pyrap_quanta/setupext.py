@@ -56,7 +56,7 @@ def casacore_defines():
     """
     pd = { "darwin": [("AIPS_DARWIN", None)],
 	   "64bit": [("__x86_64__", None), ("AIPS_64B", None)],
-	   "linux": [("AIPS_LINUX", None)]
+	   "linux2": [("AIPS_LINUX", None)]
 	   }
     # -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
     platfdefs = [("AIPS_STDLIB", None), ("AIPS_AUTO_STL", None)]
@@ -64,10 +64,6 @@ def casacore_defines():
     sysarch = platform.architecture()[0]
     if sysarch == '64bit':
 	platfdefs += pd["64bit"]
-    if  sysplf == 'linux2':
-	platfdefs += pd["linux"]
-	if sysarch == '64bit':
-	    platfdefs += ["-fPIC"]
     else:
 	platfdefs += pd[sysplf]
     if sys.byteorder == "little":
