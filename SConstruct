@@ -72,7 +72,7 @@ if not env.GetOption('clean'):
         print "Platform darwin - using python framework"
         conf.env.Append(FRAMEWORKS=["Python"])
     else:
-	if not conf.CheckLib(library=, language='c'): Exit(1)
+	if not conf.CheckLib(library=pylib, language='c'): Exit(1)
 
     conf.env.AppendUnique(CPPPATH=env["numpyincdir"])
     hasnums = False
