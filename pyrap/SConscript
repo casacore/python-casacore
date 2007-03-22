@@ -62,5 +62,5 @@ if myenv["tests"]:
 	tapp = testenv.LoadableModule(toutfile, source=i)
 
 # install headers, only works with absolute dir.
-installer.AddHeaders( rootdir, "*.h", "", True )
-installer.AddHeaders( rootdir, "*.tcc", "", True )
+installer.AddHeaders( os.path.join(rootdir,"pyrap"), "*.h", "pyrap", True )
+installer.AddHeaders( os.path.join(rootdir,"pyrap"), "*.tcc", "pyrap", True )
