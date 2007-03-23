@@ -16,7 +16,7 @@ opts.Add(("CC", "The c compiler", None))
 opts.Add(("CXX", "The c++ compiler", None))
 opts.Add(("CPPFLAGS", "Extra compiler flags ", None))
 opts.Add(PathOption("casacoreroot", "The location of casacore",
-		    "/usr"))
+		    "/usr/local"))
 opts.Add(("numpyincdir", "The include dir for numpy", 
 	  distutils.sysconfig.get_python_inc()))
 opts.Add(("numarrayincdir", "The include dir for numarray", 
