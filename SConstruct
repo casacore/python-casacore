@@ -39,7 +39,6 @@ env["casaincdir"] = [os.path.join(env["casacoreroot"],"include","casacore")]
 env["casalibdir"] = [os.path.join(env["casacoreroot"],"lib")]
 env["casashrdir"] = [os.path.join(env["casacoreroot"],"share","casacore")]
 
-print os.path.join(env["casashrdir"][0], "casa.py")
 if not os.path.exists(os.path.join(env["casashrdir"][0], "casa.py")):
     print "Could not find casacore scons tools"
     Exit(1)
