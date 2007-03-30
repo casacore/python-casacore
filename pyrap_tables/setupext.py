@@ -7,7 +7,8 @@ class casacorebuild_ext(build_ext.build_ext):
     user_options = build_ext.build_ext.user_options + \
             [('casacore=', None, 'Prefix for casacore installation location'),
 	     ('pyrap=', None, 'Prefix for pyrap installation location'),
-	     ('boost=', None, 'Prefix for boost_python installation location')
+	     ('boost=', None, 'Prefix for boost_python installation location'),
+	     ('boostlib=', None, 'Name of the boost_python library')
 	     ]
 
     def initialize_options(self):
@@ -18,7 +19,8 @@ class casacorebuild_ext(build_ext.build_ext):
         
         # attribute corresponding to directory prefix
         # command line option
-	self.libraries = ['casa_casa', 'pyrap', 'boost_python']
+	self.libraries = ['casa_casa', 'pyrap']
+	self.boostlib = 'boost_python'
 	self.pyrap = '/usr/local'
 	self.casacore = '/usr/local'
 	self.boost = '/usr'
@@ -49,7 +51,8 @@ class casacorebuild_ext(build_ext.build_ext):
 	    self.include_dirs += [princdir]
 	if boostincdir not in self.include_dirs:
 	    self.include_dirs += [boostincdir]
-
+	self.libraries += [self.boostlib]
+	    
 def casacore_defines():
     """
     Get/autodetect platform specific defines.

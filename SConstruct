@@ -22,6 +22,7 @@ opts.Add(("numpyincdir", "The include dir for numpy",
 opts.Add(("numarrayincdir", "The include dir for numarray", 
 	  distutils.sysconfig.get_python_inc()))
 opts.Add(("boostroot", "The root dir where boost is installed", None))
+opts.Add(("boostlib", "The name of the boost python library", "boost_python"))
 opts.Add(("boostlibdir", "The boost library location", None))
 opts.Add(("boostincdir", "The boost header file location", None))
 
@@ -90,7 +91,7 @@ if not env.GetOption('clean'):
 	print "No numarray or numpy found."
 	Exit(1)
     conf.env.AddCustomPackage('boost')
-    if not conf.CheckLibWithHeader('boost_python', 
+    if not conf.CheckLibWithHeader(env["boostlib"], 
 				   'boost/python.hpp', 'c++'): 
 	Exit(1)
 
