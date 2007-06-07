@@ -60,10 +60,6 @@ Help( opts.GenerateHelpText( env ) )
 # Auto configure
 if not env.GetOption('clean'):
     conf = Configure(env)
-    conf.env.AppendUnique(LIBPATH=conf.env["casalibdir"])
-    conf.env.AppendUnique(CPPPATH=conf.env["casaincdir"])
-    if not conf.CheckLib('casa_casa', language='c++'):
-	Exit(1)	
     conf.env.Append(CPPPATH=[distutils.sysconfig.get_python_inc()])
     if not conf.CheckHeader("Python.h", language='c'):
         Exit(1)
@@ -72,7 +68,8 @@ if not env.GetOption('clean'):
         print "Platform darwin - using python framework"
         conf.env.Append(FRAMEWORKS=["Python"])
     else:
-	if not conf.CheckLib(library=pylib, language='c'): Exit(1)
+	if not conf.CheckLib(library=pylib, language='c', autoadd=0): Exit(1)
+        conf.env.PrependUnique(LIBS=[pylib])
 
     conf.env.AppendUnique(CPPPATH=env["numpyincdir"])
     hasnums = False
@@ -92,8 +89,15 @@ if not env.GetOption('clean'):
 	Exit(1)
     conf.env.AddCustomPackage('boost')
     if not conf.CheckLibWithHeader(env["boostlib"], 
-				   'boost/python.hpp', 'c++'): 
+				   'boost/python.hpp', 'c++', autoadd=0): 
 	Exit(1)
+    conf.env.PrependUnique(LIBS=[env["boostlib"]])
+
+    conf.env.AppendUnique(LIBPATH=conf.env["casalibdir"])
+    conf.env.AppendUnique(CPPPATH=conf.env["casaincdir"])
+    if not conf.CheckLib('casa_casa', language='c++'):
+	Exit(1)	
+    conf.env.PrependUnique(LIBS=['casa_casa'])
 
     env = conf.Finish()
 
