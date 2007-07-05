@@ -44,10 +44,7 @@ if not os.path.exists(os.path.join(env["casashrdir"][0], "casa.py")):
     print "Could not find casacore scons tools"
     Exit(1)
 
-env.Tool('buildenv', env["casashrdir"])
-env.Tool('utils', env["casashrdir"])
 env.Tool('installer', env["casashrdir"])
-env.Tool('casa', env["casashrdir"])
 # add installer options, e.g. prefix
 env.AddInstallerOptions( opts )
 # add them into environment
@@ -55,11 +52,31 @@ opts.Update( env )
 # cache them for the next run
 opts.Save( 'options.cfg', env)
 Help( opts.GenerateHelpText( env ) )
-
+env.Tool('buildenv', env["casashrdir"])
+env.Tool('utils', env["casashrdir"])
+env.Tool('casa', env["casashrdir"])
 
 # Auto configure
 if not env.GetOption('clean'):
     conf = Configure(env)
+    conf.env.AppendUnique(CPPPATH=env["numpyincdir"])
+    hasnums = False
+    if not conf.CheckHeader("numpy/config.h"):
+	pass
+    else:
+	conf.env.Append(CPPDEFINES=["-DAIPS_USENUMPY"])
+	hasnums = True
+        
+    conf.env.AppendUnique(CPPPATH=env["numarrayincdir"])
+    if env["numarrayincdir"]:
+        if not conf.CheckHeader("numarray/numconfig.h"):
+            pass
+        else:
+            conf.env.Append(CPPDEFINES=["-DAIPS_USENUMARRAY"])
+            hasnums = True
+    if not hasnums: 
+	print "No numarray or numpy found."
+	Exit(1)
     conf.env.Append(CPPPATH=[distutils.sysconfig.get_python_inc()])
     if not conf.CheckHeader("Python.h", language='c'):
         Exit(1)
@@ -71,22 +88,6 @@ if not env.GetOption('clean'):
 	if not conf.CheckLib(library=pylib, language='c', autoadd=0): Exit(1)
         conf.env.PrependUnique(LIBS=[pylib])
 
-    conf.env.AppendUnique(CPPPATH=env["numpyincdir"])
-    hasnums = False
-    if not conf.CheckHeader("numpy/config.h"):
-	pass
-    else:
-	conf.env.Append(CPPDEFINES=["-DAIPS_USENUMPY=1"])
-	hasnums = True
-    conf.env.AppendUnique(CPPPATH=env["numarrayincdir"])
-    if not conf.CheckHeader("numarray/numconfig.h"):
-	pass
-    else:
-	conf.env.Append(CPPDEFINES=["-DAIPS_USENUMARRAY=1"])
-	hasnums = True
-    if not hasnums: 
-	print "No numarray or numpy found."
-	Exit(1)
     conf.env.AddCustomPackage('boost')
     if not conf.CheckLibWithHeader(env["boostlib"], 
 				   'boost/python.hpp', 'c++', autoadd=0): 
