@@ -14,7 +14,8 @@ opts.Add(ListOption("libtype", "The type of library to build",
 opts.Add(BoolOption("tests", "Build the tests?", False))
 opts.Add(("CC", "The c compiler", None))
 opts.Add(("CXX", "The c++ compiler", None))
-opts.Add(("CPPFLAGS", "Extra compiler flags ", None))
+opts.Add(("extracppflags", "Extra preprocessor flags ", None))
+opts.Add(("extralinkflags", "Extra linker flags ", None))
 opts.Add(PathOption("casacoreroot", "The location of casacore",
 		    "/usr/local"))
 opts.Add(("numpyincdir", "The include dir for numpy", 

@@ -57,7 +57,7 @@ def casacore_defines():
     """
     Get/autodetect platform specific defines.
     """
-    pd = { "darwin": [("AIPS_DARWIN", None)],
+    pd = { "darwin": [("AIPS_DARWIN", None), ("AIPS_NO_LEA_MALLOC", None)],
 	   "64bit": [("__x86_64__", None), ("AIPS_64B", None)],
 	   "linux2": [("AIPS_LINUX", None)]
 	   }
