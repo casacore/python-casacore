@@ -28,14 +28,14 @@
 #ifndef PYRAP_PYCBASICDATA_H
 #define PYRAP_PYCBASICDATA_H
 
+// include first to avoid _POSIX_C_SOURCE redefined warnings
+#include <boost/python.hpp>
+#include <boost/python/object.hpp>
 #include <casa/BasicSL/String.h>
 #include <casa/Arrays/IPosition.h>
 #include <casa/Arrays/Vector.h>
 #include <vector>
 #include <map>
-#include <boost/python.hpp>
-#include <boost/python/object.hpp>
-
 
 // Define classes and functions to convert the basic data types and
 // containers to and from Python.

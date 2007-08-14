@@ -30,9 +30,11 @@
 #define PYRAP_PYCVALUEHOLDER_H
 
 //# Includes
+
+// include first to avoid _POSIX_C_SOURCE redefined warnings
+#include <boost/python.hpp>
 #include <casa/Containers/ValueHolder.h>
 #include <casa/Utilities/DataType.h>
-#include <boost/python.hpp>
 
 namespace casa { namespace pyrap {
 
