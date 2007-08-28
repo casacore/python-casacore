@@ -28,7 +28,7 @@
 #ifndef PYRAP_PYCBASICDATA_H
 #define PYRAP_PYCBASICDATA_H
 
-// include first to avoid _POSIX_C_SOURCE redefined warnings
+// include python first to avoid _POSIX_C_SOURCE redefined warnings
 #include <boost/python.hpp>
 #include <boost/python/object.hpp>
 #include <casa/BasicSL/String.h>
@@ -211,7 +211,8 @@ namespace casa { namespace pyrap {
     {
       boost::python::list result;
       typename ContainerType::const_iterator i = c.begin();
-      for( ; i != c.end(); ++i) {
+      typename ContainerType::const_iterator iEnd = c.end();
+      for( ; i != iEnd; ++i) {
 	result.append(*i);
       }
       return result;
@@ -247,7 +248,8 @@ namespace casa { namespace pyrap {
     {
       boost::python::list result;
       ContainerType::const_iterator i = c.begin();
-      for( ; i != c.end(); ++i) {
+      ContainerType::const_iterator iEnd = c.end();
+      for( ; i != iEnd; ++i) {
 	result.append((std::string const&)(*i));
       }
       return result;
@@ -265,7 +267,8 @@ namespace casa { namespace pyrap {
     {
       boost::python::list result;
       ContainerType::const_iterator i = c.begin();
-      for( ; i != c.end(); ++i) {
+      ContainerType::const_iterator iEnd = c.end();
+      for( ; i != iEnd; ++i) {
 	result.append((std::string const&)(*i));
       }
       return result;
@@ -283,7 +286,8 @@ namespace casa { namespace pyrap {
     {
       boost::python::list result;
       ContainerType::const_iterator i = c.begin();
-      for( ; i != c.end(); ++i) {
+      ContainerType::const_iterator iEnd = c.end();
+      for( ; i != iEnd; ++i) {
 	result.append((std::string const&)(*i));
       }
       return result;
