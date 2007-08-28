@@ -54,6 +54,12 @@
 #define PYC_USE_PYARRAY "numarray"
 namespace casa { namespace pyrap { namespace numarray {
 
+  Bool importArray()
+  {
+    import_array();
+    return True;
+  }
+
   Array<String> ArrayCopyStr_toArray (const IPosition&,
 				      void*, uInt)
   {

@@ -51,6 +51,7 @@
   Bool isImported();
   inline Bool canImport()
     { return True; }
+  Bool importArray();
   void loadAPI();
   // </group>
 

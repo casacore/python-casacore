@@ -50,6 +50,14 @@ typedef npy_complex128 Complex64;
 #define PYC_USE_PYARRAY "numpy"
 namespace casa { namespace pyrap { namespace numpy {
 
+  Bool importArray()
+  {
+    // numpy has diferent versions of import_array (from version 1.0.1 on).
+    // Therefore import_array1 is used.
+    import_array1(True);
+    return True;
+  }
+
   Array<String> ArrayCopyStr_toArray (const IPosition& shape,
 				      void* data, uInt slen)
   {
