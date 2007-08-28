@@ -23,7 +23,7 @@
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
 #
-# $Id: tablecolumn.py,v 1.8 2006/11/08 00:12:55 gvandiep Exp $
+# $Id: tablecolumn.py,v 1.9 2007/08/28 07:22:18 gvandiep Exp $
 
 class tablecolumn:
     """
@@ -129,43 +129,76 @@ class tablecolumn:
         return self._table.nrows();
 
     def __getitem__ (self, key):
-        if not isinstance(key, slice):
-            if key >= self._table.nrows():
-                raise IndexError("tablecolumn key past end-of-table");
-            return self.getcell (key);
-        startrow = 0;
-        if key.start != None:
-            startrow = key.start;
-        incr = 1;
-        if key.step != None:
-            incr = key.step;
-            if incr <= 0:
-                raise RuntimeError("tablecolumn slice step must be > 0");
-        nrow = -1;
-        if key.stop != None:
-            if (key.stop <= startrow):
-                nrow = 0;
-            else:
-                nrow = (key.stop - startrow + incr - 1) / incr;
-        return self.getcol (startrow, nrow, incr);
+        sei = self.checkkey (key, self._table.nrows());
+        if len(sei) == 1:
+            # A single row.
+            return self.getcell (sei[0]);
+        # Handle row by row and store values in a list.
+        result = [];
+        rownr  = sei[0];
+        inx    = 0;
+        while inx < sei[1]:
+            result.append (self.getcell (rownr));
+            rownr += sei[2];
+            inx   += 1;
+        return result;
 
     def __setitem__ (self, key, value):
+        sei = self.checkkey (key, self._table.nrows());
+        if len(sei) == 1:
+            # A single row.
+            return self.putcell (sei[0], value);
+        # Handle row by row.
+        rownr = sei[0];
+        inx   = 0;
+        if not (isinstance(value,list) or isinstance(value,tuple)):
+            # The same value is put in all rows.
+            while inx < sei[1]:
+                self.putcell (rownr, value);
+                rownr += sei[2];
+                inx   += 1;
+        else:
+            # Each row has its own value.
+            if len(value) != sei[1]:
+                raise RuntimeError("tablecolumn slice length differs from value length")
+            for val in value:
+                self.putcell (rownr, val);
+                rownr += sei[2];
+        return True;
+        
+    def checkkey (self, key, nrows):
         if not isinstance(key, slice):
-            if key >= self._table.nrows():
-                raise IndexError("tablecolumn key past end-of-table");
-            return self.putcell (key, value);
-        startrow = 0;
-        if key.start != None:
-            startrow = key.start;
+            # A single index (possibly negative, thus from the end).
+            if key < 0:
+                key += nrows;
+            if key < 0  or  key >= nrows:
+                raise IndexError("tablecolumn index out of range");
+            return [key];
+        # Given as start:stop:step where each part is optional and can
+        # be negative.
         incr = 1;
         if key.step != None:
             incr = key.step;
-            if incr <= 0:
-                raise RuntimeError("tablecolumn slice step must be > 0");
-        nrow = -1;
+            if incr == 0:
+                raise RunTimeError("tablecolumn slice step cannot be zero");
+        strow  = 0;
+        endrow = nrows;
+        if incr < 0:
+            strow  = nrows;
+            endrow = 0;
+        if key.start != None:
+            strow = key.start;
+            if strow < 0:
+                strow += nrows;
+            strow = min(max(strow,0), nrows);
         if key.stop != None:
-            if (key.stop <= startrow):
-                nrow = 0;
-            else:
-                nrow = (key.stop - startrow + incr - 1) / incr;
-        return self.putcol (value, startrow, nrow, incr);
+            endrow = key.stop;
+            if endrow < 0:
+                endrow += nrows;
+            endrow = min(max(endrow,0), nrows);
+        if incr > 0:
+            nrow = int((endrow - strow + incr - 1) / incr);
+        else:
+            nrow = int((strow - endrow - incr - 1) / -incr);
+        nrow = max(0, nrow);
+        return [strow,nrow,incr];

@@ -23,7 +23,7 @@
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
 #
-# $Id: tablerow.py,v 1.5 2006/11/08 00:12:55 gvandiep Exp $
+# $Id: tablerow.py,v 1.6 2007/08/28 07:22:18 gvandiep Exp $
 
 # Make interface to class TableRowProxy available.
 from _tables import TableRow
@@ -37,58 +37,73 @@ from _tables import TableRow
 class _tablerow(TableRow):
     def __init__(self, table, columnnames, exclude=False):
         TableRow.__init__ (self, table, columnnames, exclude);
-
+    
     def _getitem (self, key, nrows):
-        if not isinstance(key, slice):
-            if key >= nrows:
-                raise IndexError("tablerow key past end-of-table");
-            return self.get (key);
-        incr = 1;
-        if key.step != None:
-            incr = key.step;
-        strow=0;
-        if key.start != None:
-            strow = key.start;
-        endrow = nrows;
-        if key.stop != None:
-            endrow = min(endrow, key.stop);
-        if incr <= 0  or  strow >= endrow:
-            raise RuntimeError("tablerow slice start must be < stop and < nrows");
+        sei = self.checkkey (key, nrows);
+        rownr = sei[0];
+        if len(sei) == 1:
+            return self.get (rownr);
         result = [];
-        while strow < endrow:
-            result.append (self.get (strow));
-            strow += incr;
+        inx = 0;
+        while inx < sei[1]:
+            result.append (self.get (rownr));
+            rownr += sei[2];
+            inx   += 1;
         return result;
     
     def _setitem (self, key, value, nrows):
+        sei = self.checkkey (key, nrows);
+        rownr = sei[0];
+        if len(sei) == 1:
+            return self.put (rownr, value);
+        if isinstance(value, dict):
+            # The same value is put in all rows.
+            inx = 0;
+            while inx < sei[1]:
+                self.put (rownr, value, True);
+                rownr += sei[2];
+                inx   += 1;
+        else:
+            # Each row has its own value.
+            if len(value) != sei[1]:
+                raise RuntimeError("tablerow slice length differs from value length")
+            for val in value:
+                self.put (rownr, val, True);
+                rownr += sei[2];
+
+    def checkkey (self, key, nrows):
         if not isinstance(key, slice):
-            if key >= nrows:
-                raise IndexError("tablerow key past end-of-table");
-            return self.put (key, value);
+            if key < 0:
+                key += self._table.nrows();
+            if key < 0  or  key >= nrows:
+                raise IndexError("tablerow index out of range");
+            return [key];
         incr = 1;
         if key.step != None:
             incr = key.step;
-        strow=0;
+            if incr == 0:
+                raise RunTimeError("tablerow slice step cannot be zero");
+        strow  = 0;
+        endrow = nrows;
+        if incr < 0:
+            strow  = nrows;
+            endrow = 0;
         if key.start != None:
             strow = key.start;
-        endrow = nrows;
+            if strow < 0:
+                strow += nrows;
+            strow = min(max(strow,0), nrows);
         if key.stop != None:
-            endrow = min(endrow, key.stop);
-        if incr <= 0  or  strow >= endrow:
-            raise RuntimeError("tablerow slice start must be < stop and < nrows");
-        nrow = (endrow - strow + incr - 1) / incr;
-        if isinstance(value, dict):
-            # The same value is put in all rows.
-            while strow < endrow:
-                self.put (strow, value, True);
-                strow += incr;
+            endrow = key.stop;
+            if endrow < 0:
+                endrow += nrows;
+            endrow = min(max(endrow,0), nrows);
+        if incr > 0:
+            nrow = int((endrow - strow + incr - 1) / incr);
         else:
-            # Each row has its own value.
-            if len(value) != nrow:
-                raise RuntimeError("tablerow slice length differs from value length")
-            for val in value:
-                self.put (strow, val, True);
-                strow += incr;
+            nrow = int((strow - endrow - incr - 1) / -incr);
+        nrow = max(0, nrow);
+        return [strow,nrow,incr];
 
 
 
