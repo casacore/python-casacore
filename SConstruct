@@ -60,16 +60,15 @@ env.Tool('casa', env["casashrdir"])
 # Auto configure
 if not env.GetOption('clean'):
     conf = Configure(env)
-    conf.env.AppendUnique(CPPPATH=env["numpyincdir"])
+    conf.env.AppendUnique(CPPPATH=[env["numpyincdir"]])
     hasnums = False
     if not conf.CheckHeader("numpy/config.h"):
 	pass
     else:
 	conf.env.Append(CPPDEFINES=["-DAIPS_USENUMPY"])
 	hasnums = True
-        
-    conf.env.AppendUnique(CPPPATH=env["numarrayincdir"])
     if env["numarrayincdir"]:
+        conf.env.AppendUnique(CPPPATH=[env["numarrayincdir"]])
         if not conf.CheckHeader("numarray/numconfig.h"):
             pass
         else:
