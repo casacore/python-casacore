@@ -25,8 +25,13 @@
 #
 # $Id: __init__.py,v 1.2 2006/12/04 04:01:03 mmarquar Exp $
 
+import os
 import pyrap_quanta as dq
 from  _measures import measures as _measures
+
+if os.environ.has_key("MEASURESDATA"):
+    if not os.environ.has_key("AIPSPATH"):
+        os.environ["AIPSPATH"] = "%s dummy dumy" %  os.environ["MEASURESDATA"]
 
 def is_measure( v):
     if isinstance(v, dict) and v.has_key("type") and  v.has_key("m0"):
@@ -37,6 +42,10 @@ class measures(_measures):
     def __init__(self):
         _measures.__init__(self)
         self._framestack = {}
+
+    def set_data_path(self, pth):
+        if os.path.exists(pth):
+            os.environ["AIPSPATH"] = "%s dummy dummy" % pth
 
     def measure(self, v, rf, off=False):
         if not off: off = {}
@@ -280,7 +289,7 @@ class measures(_measures):
         for k in x.keys():
             x[k] = self.measure(self.epoch("last", dq.totime(a[k]),
                                            off=self.epoch("r_utc",
-                                                          (dq.quantity(ofe["m0"]) + dq.quantity("0.5d"))),
+                                                          (dq.quantity(ofe["m0"]) + dq.quantity("0.5d")))),
                                 "utc")
         return { "rise": { "last": self.epoch("last",
                                               dq.totime(a["rise"])),
