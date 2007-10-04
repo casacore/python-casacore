@@ -28,6 +28,8 @@
 #include <casa/Quanta.h>
 #include <casa/Quanta/QLogical.h>
 #include <casa/Quanta/QuantumHolder.h>
+#include <casa/Quanta/MVTime.h>
+
 #include <casa/Containers/Record.h>
 #include <casa/Exceptions/Error.h>
 #include <casa/sstream.h>
@@ -77,6 +79,10 @@ namespace casa {
     return qh.asQuantumVectorDouble();
   }
 
+  bool conforms(const QProxy& left, const QProxy& right) {
+    return (left.getFullUnit().getValue() == right.getFullUnit().getValue());
+  }
+
   Record toRecord(const QProxy& q) {
     QuantumHolder qh(q);
     String err;
@@ -87,23 +93,20 @@ namespace casa {
     return rec;
   }
 
+  QProxy toTime(const QProxy& q) {
+    if (q.check(UnitVal::TIME)) {
+      return q;
+    } else {
+      QuantumHolder qh(q);
+      Quantity q0 = MVTime(qh.asQuantity()).get();
+      QuantumHolder qh2(q0);
+      return qh2.asQuantumVectorDouble();
+    }
+    
+  }
+
 }
 
-/*
-#include <casa/Quanta/QLogical.cc>
-#include <casa/Quanta/QMath.cc>
-#include <casa/BasicMath/Math.cc>
-#include <casa/Arrays/ArrayLogical.cc>
-namespace casa {
-  template Bool operator!=(Quantum<Vector<Double> > const &, 
-			   Quantum<Vector<Double> > const &);
-  template Bool operator==(Quantum<Vector<Double> > const &, 
-			   Quantum<Vector<Double> > const &);
-  template Quantum<Vector<Double> > pow(Quantum<Vector<Double> > const &, Int);
-  template Array<Bool> operator<(const Array<Double>&, const Array<Double>&);
-}
-
-*/
 namespace casa { namespace pyrap {
   void quantity()
   {
@@ -125,6 +128,8 @@ namespace casa { namespace pyrap {
       .def ("canonical", (QProxy ( QProxy::* )( ) const)(&QProxy::get))
       .def ("get", (QProxy ( QProxy::* )( const QProxy& ) const)(&QProxy::get))
       .def ("get", &getWithUnit)
+      .def ("conforms", &conforms)
+      .def ("totime", &toTime)
       .def (-self)
       .def (self - self)
       .def (self -= self)
