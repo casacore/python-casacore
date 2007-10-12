@@ -71,6 +71,8 @@ namespace casa {
       def ("log", (QProxy ( * )( const QProxy&) )(&log));
       def ("log10", (QProxy ( * )( const QProxy&) )(&log10));
       def ("exp", (QProxy ( * )( const QProxy&) )(&exp));      
+      def ("abs", (Quantity ( * )( const Quantity&) )(&abs));      
+
     }
   }
 }

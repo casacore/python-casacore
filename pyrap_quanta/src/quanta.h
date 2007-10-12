@@ -31,6 +31,7 @@
 namespace casa {
   namespace pyrap {
     void quantity();
+    void quantvec();
     void quantamath();
   } // python
 } //casa

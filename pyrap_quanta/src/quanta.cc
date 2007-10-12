@@ -40,5 +40,6 @@ BOOST_PYTHON_MODULE(_quanta)
   casa::pyrap::register_convert_casa_record();
 
   casa::pyrap::quantity();
+  casa::pyrap::quantvec();
   casa::pyrap::quantamath();
 }

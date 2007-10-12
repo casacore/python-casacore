@@ -41,17 +41,21 @@ using namespace boost::python;
 
 
 namespace casa {
+  typedef Quantum<Vector<Double> > QProxy;
+  typedef Vector<Double> VD;
 
-  Quantity fromString(const String& str) {
+  /*
+  QProxy qpfromString(const String& str) {
     QuantumHolder qh;
     String err;
     if ( !qh.fromString(err, str) ) {
       throw(AipsError(err));
     }
-    return qh.asQuantity();
+    return qh.asQuantumVectorDouble();
   }
-  
-  String printQuantum(const Quantity& q) {
+  */
+
+  String qpprintQuantum(const QProxy& q) {
     ostringstream oss;
     q.print(oss);
     return String(oss);
@@ -59,29 +63,29 @@ namespace casa {
 
   // these functions take Unit as argument, enable outside access through
   // strings
-  Quantity getWithUnit(const Quantity& q, const String& u)  {
+  QProxy qpgetWithUnit(const QProxy& q, const String& u)  {
     Unit unit(u);
     return q.get(unit);
   }
-  Double getValueWithUnit(const Quantity& q, const String& u)  {
+  VD qpgetValueWithUnit(const QProxy& q, const String& u)  {
     Unit unit(u);
     return q.getValue(unit);
   }
 
-  Quantity fromRecord(const Record& rec) {
+  QProxy qpfromRecord(const Record& rec) {
     QuantumHolder qh;
     String err;
     if ( !qh.fromRecord(err, rec) ) {
       throw(AipsError(err));
     }
-    return qh.asQuantity();
+    return qh.asQuantumVectorDouble();
   }
 
-  bool conforms(const Quantity& left, const Quantity& right) {
+  bool qpconforms(const QProxy& left, const QProxy& right) {
     return (left.getFullUnit().getValue() == right.getFullUnit().getValue());
   }
 
-  Record toRecord(const Quantity& q) {
+  Record qptoRecord(const QProxy& q) {
     QuantumHolder qh(q);
     String err;
     Record rec;
@@ -91,88 +95,91 @@ namespace casa {
     return rec;
   }
 
-  Quantity toTime(const Quantity& q) {
+  QProxy qptoTime(const QProxy& q) {
     if (q.check(UnitVal::TIME)) {
       return q;
     } else {
-      Quantity q0 = MVTime(q).get();
-      return q0;
-    }    
+      QuantumHolder qh(q);
+      Quantity q0 = MVTime(qh.asQuantity()).get();
+      QuantumHolder qh2(q0);
+      return qh2.asQuantumVectorDouble();
+    }
+    
   }
 
 }
 
 namespace casa { namespace pyrap {
-  void quantity()
+  void quantvec()
   {
-    class_<Quantity> ("Quantity")
+    class_<QProxy> ("QuantVec")
       .def (init< >())
-      .def (init< const Quantity& > ())
-      .def (init< Double, const String& >())
+      .def (init< const QProxy& > ())
+      .def (init< const VD&, const String& >())
       //      .def ("__str__", &printQuantum)
-      .def ("get_value", (const Double& ( Quantity::* )( ) const)(&Quantity::getValue),
+      .def ("_get_value", (const VD& ( QProxy::* )( ) const)(&QProxy::getValue),
 	    return_value_policy < copy_const_reference> ()
 	    )
-      .def ("get_value", &getValueWithUnit)
-      .def ("get_unit", &Quantity::getUnit,
+      .def ("_get_value", &qpgetValueWithUnit)
+      .def ("get_unit", &QProxy::getUnit,
 	    return_value_policy < copy_const_reference> ())
-      .def ("convert", (void ( Quantity::* )( const Quantity& ) )(&Quantity::convert))
-      .def ("convert", (void ( Quantity::* )( ) )(&Quantity::convert))
-      .def ("set_value", &Quantity::setValue)
-      .def ("get", (Quantity ( Quantity::* )( ) const)(&Quantity::get))
-      .def ("canonical", (Quantity ( Quantity::* )( ) const)(&Quantity::get))
-      .def ("get", (Quantity ( Quantity::* )( const Quantity& ) const)(&Quantity::get))
-      .def ("get", &getWithUnit)
-      .def ("conforms", &conforms)
-      .def ("totime", &toTime)
-      .def ("to_dict", &toRecord)
+      .def ("convert", (void ( QProxy::* )( const QProxy& ) )(&QProxy::convert))
+      .def ("convert", (void ( QProxy::* )( ) )(&QProxy::convert))
+      .def ("set_value", &QProxy::setValue)
+      .def ("get", (QProxy ( QProxy::* )( ) const)(&QProxy::get))
+      .def ("canonical", (QProxy ( QProxy::* )( ) const)(&QProxy::get))
+      .def ("get", (QProxy ( QProxy::* )( const QProxy& ) const)(&QProxy::get))
+      .def ("get", &qpgetWithUnit)
+      .def ("conforms", &qpconforms)
+      .def ("totime", &qptoTime)
+      .def ("to_dict", &qptoRecord)
       .def (-self)
       .def (self - self)
       .def (self -= self)
-      .def (self -= Double())
-      .def (self - Double() )
-      .def (Double() - self)
+      .def (self -= VD())
+      .def (self - VD() )
+      .def (VD() - self)
       .def (+self)
       .def (self + self)
       .def (self += self)
-      .def (self += Double())
-      .def (self + Double() )
-      .def (Double() + self)
+      .def (self += VD())
+      .def (self + VD() )
+      .def (VD() + self)
       .def (self * self)
       .def (self *= self)
-      .def (self *= Double())
-      .def (self * Double() )
-      .def (Double() * self)
+      .def (self *= VD())
+      .def (self * VD() )
+      .def (VD() * self)
       .def (self / self)
       .def (self /= self)
-      .def (self /= Double())
-      .def (self / Double() )
-      .def (Double() / self)
+      .def (self /= VD())
+      .def (self / VD() )
+      .def (VD() / self)
       .def (self == self)
-      .def (self == Double())
-      .def (Double() == self)
+      .def (self == VD())
+      .def (VD() == self)
       .def (self != self)
-      .def (self != Double())
-      .def (Double() != self)
+      .def (self != VD())
+      .def (VD() != self)
 
       
       .def (self < self)
-      .def (self < Double())
-      .def (Double() < self)
+      .def (self < VD())
+      .def (VD() < self)
       .def (self <= self)
-      .def (self <= Double())
-      .def (Double() <= self)
+      .def (self <= VD())
+      .def (VD() <= self)
 
       .def (self > self)
-      .def (self > Double())
-      .def (Double() > self)
+      .def (self > VD())
+      .def (VD() > self)
       .def (self >= self)
-      .def (self >= Double())
-      .def (Double() >= self)
+      .def (self >= VD())
+      .def (VD() >= self)
       
       ;
-    def ("from_string", &fromString);
-    def ("from_dict", &fromRecord);
+    //def ("from_string", &qpfromString);
+    def ("from_dict_v", &qpfromRecord);
       
   }
 }}
