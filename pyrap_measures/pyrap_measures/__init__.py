@@ -52,8 +52,8 @@ class measures(_measures):
         keys = ["m0", "m1", "m2"]
         for key in keys:
             if v.has_key(key):
-                if isinstance(v[key], dq.quantity):
-                    v[key] = dq.todict(v[key])
+                if isinstance(v[key], dq._quanta.Quantity):
+                    v[key] = v[key].to_dict()
         return _measures.measure(self, v, rf, off)
 
     
@@ -156,9 +156,9 @@ class measures(_measures):
         if is_measure(rfq) and rfq['type'] == 'frequency':
             rfq = dq.from_dict(rfq['m0'])
         if is_measure(v0) and  v0['type'] == 'doppler' \
-               and  isinstance(rfq, dq.quantity) \
+               and  isinstance(rfq, dq._quanta.Quantity) \
                and  rfq.conforms(dq.quantity('Hz')):
-            return self.doptofreq(v0, rf, dq.todict(rfq))
+            return self.doptofreq(v0, rf, dq.to_dict(rfq))
         else:
             raise TypeError('Illegal Doppler or rest frequency specified')
 
@@ -175,10 +175,10 @@ class measures(_measures):
             rfq = dq.from_dict(rfq['m0'])
         if is_measure(v0):
             if v0['type'] == 'radialvelocity':
-                return self.todop(v0, dq.todict(dq.quantity(1.,'Hz')))
-            elif v0['type'] == 'frequency' and  isinstance(rfq, dq.quantity) \
+                return self.todop(v0, dq.to_dict(dq.quantity(1.,'Hz')))
+            elif v0['type'] == 'frequency' and  isinstance(rfq, dq._quanta.Quantity) \
                      and rfq.conforms(dq.quantity('Hz')):
-                return self.todop(v0, dq.todict(rfq))
+                return self.todop(v0, dq.to_dict(rfq))
             else:
                 raise TypeError('Illegal Doppler or rest frequency specified')
         else:
@@ -227,7 +227,7 @@ class measures(_measures):
         v.keys().sort()
         for key in v.keys():
             if re.match(rx, key):
-                out.append(v.get(key))
+                out.append(dq.quantity(v.get(key)))
         return out
 
     def doframe(self, v):
@@ -301,8 +301,8 @@ class measures(_measures):
                  "solved" : True
                  }
     #alias
-    def listcodes(self, ms):
-        return self.alltyp(ms)
+    listcodes = _measures.alltyp
+
     
 
     # posangle - directly from boost
