@@ -2,6 +2,23 @@ import os
 import sys
 import distutils.sysconfig
 
+# try to autodetect numpy
+def get_numpy_incdir():
+    try:
+        # try to find an egg
+        from pkg_resources import require
+        tmp = require("numpy")
+        import numpy
+        return numpy.__path__[0]+"/core/include"
+    except Exception:
+        # now try standard package
+        try:
+            import numpy
+            return numpy.__path__[0]+"/core/include"
+        except ImportError:
+            pass
+    return ""
+
 # Put the package name here
 PACKAGE="pyrap"
 
@@ -19,7 +36,7 @@ opts.Add(("extralinkflags", "Extra linker flags ", None))
 opts.Add(PathOption("casacoreroot", "The location of casacore",
 		    "/usr/local"))
 opts.Add(("numpyincdir", "The include dir for numpy", 
-	  distutils.sysconfig.get_python_inc()))
+	  get_numpy_incdir()))
 opts.Add(("numarrayincdir", "The include dir for numarray", 
 	  distutils.sysconfig.get_python_inc()))
 opts.Add(("boostroot", "The root dir where boost is installed", None))
