@@ -31,7 +31,7 @@ from  _measures import measures as _measures
 
 if os.environ.has_key("MEASURESDATA"):
     if not os.environ.has_key("AIPSPATH"):
-        os.environ["AIPSPATH"] = "%s dummy dumy" %  os.environ["MEASURESDATA"]
+        os.environ["AIPSPATH"] = "%s dummy dummy" %  os.environ["MEASURESDATA"]
 
 def is_measure( v):
     if isinstance(v, dict) and v.has_key("type") and  v.has_key("m0"):
