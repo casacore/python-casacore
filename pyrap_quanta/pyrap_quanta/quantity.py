@@ -2,6 +2,8 @@ from pyrap_quanta._quanta import Quantity
 from pyrap_quanta._quanta import QuantVec
 from pyrap_quanta._quanta import from_string, from_dict, from_dict_v
 
+def is_quantity(q):
+    return isinstance(q, QuantVec) or isinstance(q, Quantity)
 
 # Quantity returns new Quantities, so we need to insert these
 # functions into Quantity
