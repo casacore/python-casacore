@@ -18,7 +18,7 @@ setup(name = PKGNAME,
       author = 'Malte Marquarding',
       author_email = 'Malte.Marquarding@csiro.au',
       url = 'http://code.google.com/p/pyrap',
-      keywords = ['measures','casacore'],
+      keywords = ['functionals', 'mathematics', 'casacore'],
       long_description = '''
 This is a python module to access the casacore c++ scimath functionals.
 ''',
