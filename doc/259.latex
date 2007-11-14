@@ -1,0 +1,22 @@
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+\usepackage[dvips]{graphicx, color}
+%%-----------------------------------------------------------------------------
+
+\begin{document}
+
+\title{NOTE 259: pyrap binding to casacore}
+\author{Ger van Diepen, ASTRON Dwingeloo}
+\date{November 10, 2006}
+\maketitle
+\begin{abstract}
+pyrap is a Python binding to casacore classes using Boost.Python.
+It consists of a set of standard converters and bindings to the classes.
+As much as possible the bindings are the same as in glish.
+\end{abstract}
+%%---------------------------------------------------------------------------
+
+\tableofcontents
+\newpage      
+\input{pyrap.tex}
+\end{document}
