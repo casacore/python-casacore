@@ -7,7 +7,7 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html --> 
 <meta name="src" content="259.tex"> 
-<meta name="date" content="2007-11-14 14:41:00"> 
+<meta name="date" content="2007-11-14 15:18:00"> 
 <link rel="stylesheet" type="text/css" href="259.css"> 
 </head><body 
 >
@@ -189,8 +189,8 @@ it.
 <!--l. 94--><p class="indent" >   An <a 
 href="http://casacore.googlecode.com" >casacore</a> array is returned to Python as an array object containing a copy
 of the <a 
-href="http://casacore.googlecode.com" >casacore</a> array data. If appspython has been built with support for only
-one Python array package (numpy or numarray), it is clear which array type is
+href="http://casacore.googlecode.com" >casacore</a> array data. If pyrap has been built with support for only one
+Python array package (numpy or numarray), it is clear which array type is
 returned. If support for both packages has been built in, by default an array of
 the imported package is returned. If both or no array packages have been
 imported, a numpy array is returned.
@@ -238,9 +238,9 @@ class="cmtt-10x-x-109">dict </span>object described above.</li></ul>
  id="x1-50003"></a>Class wrappers</h3>
 <!--l. 129--><p class="noindent" >Usually a binding to an existing Proxy class is made, for example <span 
 class="cmtt-10x-x-109">TableProxy</span>,
-which should be the same class used in the glish-binding. For a simple binding, only
-some simple C++ code has to be written in appspython/apps/pyxx/pyxx.cc,
-where XX is the name of the class.
+which should be the same class used in the glish-binding. For a simple binding,
+only some simple C++ code has to be written in pyrap_xx/src/pyxx.cc, where
+XX is the name of the package/class.
                                                                      
 
                                                                      
@@ -248,15 +248,15 @@ where XX is the name of the class.
 class="verbatim"><tr class="verbatim"><td 
 class="verbatim"><div class="verbatim">
 //&#x00A0;Include&#x00A0;files&#x00A0;for&#x00A0;converters&#x00A0;being&#x00A0;used.
-&#x00A0;<br />#include&#x00A0;&#x003C;appspython/Converters/PycExcp.h&#x003E;
-&#x00A0;<br />#include&#x00A0;&#x003C;appspython/Converters/PycBasicData.h&#x003E;
-&#x00A0;<br />#include&#x00A0;&#x003C;appspython/Converters/PycRecord.h&#x003E;
+&#x00A0;<br />#include&#x00A0;&#x003C;pyrap/Converters/PycExcp.h&#x003E;
+&#x00A0;<br />#include&#x00A0;&#x003C;pyrap/Converters/PycBasicData.h&#x003E;
+&#x00A0;<br />#include&#x00A0;&#x003C;pyrap/Converters/PycRecord.h&#x003E;
 &#x00A0;<br />//&#x00A0;Include&#x00A0;file&#x00A0;for&#x00A0;boost&#x00A0;python.
 &#x00A0;<br />#include&#x00A0;&#x003C;boost/python.hpp&#x003E;
 &#x00A0;<br />
 &#x00A0;<br />using&#x00A0;namespace&#x00A0;boost::python;
 &#x00A0;<br />
-&#x00A0;<br />namespace&#x00A0;casa&#x00A0;{&#x00A0;namespace&#x00A0;appspython&#x00A0;{
+&#x00A0;<br />namespace&#x00A0;casa&#x00A0;{&#x00A0;namespace&#x00A0;pyrap&#x00A0;{
 &#x00A0;<br />&#x00A0;&#x00A0;void&#x00A0;wrap_xx()
 &#x00A0;<br />&#x00A0;&#x00A0;{
 &#x00A0;<br />&#x00A0;&#x00A0;&#x00A0;&#x00A0;//&#x00A0;Define&#x00A0;the&#x00A0;class;&#x00A0;"xx"&#x00A0;is&#x00A0;the&#x00A0;class&#x00A0;name&#x00A0;in&#x00A0;Python.
@@ -278,11 +278,11 @@ class="verbatim"><div class="verbatim">
 &#x00A0;<br />BOOST_PYTHON_MODULE(_xx)
 &#x00A0;<br />{
 &#x00A0;<br />&#x00A0;&#x00A0;//&#x00A0;Register&#x00A0;the&#x00A0;conversion&#x00A0;functions.
-&#x00A0;<br />&#x00A0;&#x00A0;casa::appspython::register_convert_excp();
-&#x00A0;<br />&#x00A0;&#x00A0;casa::appspython::register_convert_basicdata();
-&#x00A0;<br />&#x00A0;&#x00A0;casa::appspython::register_convert_casa_record();
+&#x00A0;<br />&#x00A0;&#x00A0;casa::pyrap::register_convert_excp();
+&#x00A0;<br />&#x00A0;&#x00A0;casa::pyrap::register_convert_basicdata();
+&#x00A0;<br />&#x00A0;&#x00A0;casa::pyrap::register_convert_casa_record();
 &#x00A0;<br />&#x00A0;&#x00A0;//&#x00A0;Initialize&#x00A0;the&#x00A0;wrapping.
-&#x00A0;<br />&#x00A0;&#x00A0;casa::appspython::wrap_xx();
+&#x00A0;<br />&#x00A0;&#x00A0;casa::pyrap::wrap_xx();
                                                                      
 
                                                                      
@@ -347,15 +347,15 @@ underscore to make it different.
  id="x1-70003.2"></a>Combining multiple classes</h4>
 <!--l. 203--><p class="noindent" >Sometimes one wants to combine multiple classes in a package. A example is
 package <span 
-class="cmtt-10x-x-109">pycasatable </span>which contains the classes <span 
+class="cmtt-10x-x-109">pyrap</span><span 
+class="cmtt-10x-x-109">_tables </span>which contains the classes <span 
 class="cmtt-10x-x-109">table</span>, <span 
 class="cmtt-10x-x-109">tablecolumn</span>,
 <span 
 class="cmtt-10x-x-109">tablerow</span>, <span 
 class="cmtt-10x-x-109">tableiter</span>, and <span 
-class="cmtt-10x-x-109">tableindex</span>. One is referred to the code of
-this package (in code/appspython/apps/pycasatable) to see how to do
-it.
+class="cmtt-10x-x-109">tableindex</span>. One is referred to the code of this
+package to see how to do it.
 <!--l. 210--><p class="noindent" >
    <h3 class="sectionHead"><span class="titlemark">4   </span> <a 
  id="x1-80004"></a>Python specifics</h3>

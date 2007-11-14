@@ -92,7 +92,7 @@ are not reversed automatically, so the programmer is
 responsible for doing it.
 
 An \href{http://casacore.googlecode.com}{casacore} array is returned to Python as an array object
-containing a copy of the \href{http://casacore.googlecode.com}{casacore} array data. If appspython has
+containing a copy of the \href{http://casacore.googlecode.com}{casacore} array data. If pyrap has
 been built with support for only one Python array package (numpy or numarray),
 it is clear which array type is returned. If support for both
 packages has been built in, by default an array of the imported
@@ -130,18 +130,18 @@ Usually a binding to an existing Proxy class is made, for example
 \texttt{TableProxy}, which should be the same class used in the
 glish-binding. 
 For a simple binding, only some simple C++ code has to be written in
-appspython/apps/pyxx/pyxx.cc, where XX is the name of the class.
+pyrap\_xx/src/pyxx.cc, where XX is the name of the package/class.
 \begin{verbatim}
 // Include files for converters being used.
-#include <appspython/Converters/PycExcp.h>
-#include <appspython/Converters/PycBasicData.h>
-#include <appspython/Converters/PycRecord.h>
+#include <pyrap/Converters/PycExcp.h>
+#include <pyrap/Converters/PycBasicData.h>
+#include <pyrap/Converters/PycRecord.h>
 // Include file for boost python.
 #include <boost/python.hpp>
 
 using namespace boost::python;
 
-namespace casa { namespace appspython {
+namespace casa { namespace pyrap {
   void wrap_xx()
   {
     // Define the class; "xx" is the class name in Python.
@@ -163,11 +163,11 @@ namespace casa { namespace appspython {
 BOOST_PYTHON_MODULE(_xx)
 {
   // Register the conversion functions.
-  casa::appspython::register_convert_excp();
-  casa::appspython::register_convert_basicdata();
-  casa::appspython::register_convert_casa_record();
+  casa::pyrap::register_convert_excp();
+  casa::pyrap::register_convert_basicdata();
+  casa::pyrap::register_convert_casa_record();
   // Initialize the wrapping.
-  casa::appspython::wrap_xx();
+  casa::pyrap::wrap_xx();
 }
 \end{verbatim}
 Python requires for each package a file \texttt{\_\_init\_\_.py},
@@ -201,10 +201,10 @@ preceeded by an underscore to make it different.
 
 \subsection{Combining multiple classes}
 Sometimes one wants to combine multiple classes in a package. A
-example is package \texttt{pycasatable} which contains the classes
+example is package \texttt{pyrap\_tables} which contains the classes
 \texttt{table}, \texttt{tablecolumn}, \texttt{tablerow},
 \texttt{tableiter}, and \texttt{tableindex}. One is referred to the
-code of this package (in code/appspython/apps/pycasatable) to see how
+code of this package to see how
 to do it.
 
 \section{Python specifics}
