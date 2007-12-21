@@ -30,6 +30,10 @@ def quantity(*args):
                 return QuantVec(from_dict_v(args[0]))
             else:
                 return Quantity(from_dict(args[0]))
+        elif isinstance(args[0], Quantity) or isinstance(args[0], QuantVec):
+            return args[0]
+        else:
+            raise TypeError("Invalid argument type for")
     else:
         if hasattr(args[0], "__len__"):
             return QuantVec(*args)
