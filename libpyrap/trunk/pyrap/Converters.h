@@ -40,7 +40,7 @@ namespace casa { //# NAMESPACE CASA - BEGIN
 // <module>
 
 // <summary>
-// Convert AIPS++ objects to/from Python (using Boost.Python)
+// Convert casacore objects to/from Python (using Boost.Python)
 // </summary>
 
 // <use visibility=export>
