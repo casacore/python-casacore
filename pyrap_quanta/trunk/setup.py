@@ -1,6 +1,6 @@
 import glob
 from distutils.core import setup, Extension
-from setupext import casacorebuild_ext, casacore_defines
+from setupext import casacorebuild_ext
 
 PKGNAME = "pyrap_quanta"
 EXTNAME = "_quanta"
@@ -9,8 +9,7 @@ casalibs = [] # casa_casa is added by default
 casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME), 
 			sources = glob.glob('src/*.cc'),
 			depends = glob.glob('src/*.h'),
-			libraries= casalibs,
-			define_macros = casacore_defines())
+			libraries = casalibs)
 setup(name = PKGNAME,
       version = 'trunk',
       description = 'Python bindings to casacore Quanta',
