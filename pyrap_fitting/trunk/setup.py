@@ -1,6 +1,6 @@
 import glob
 from distutils.core import setup, Extension
-from setupext import casacorebuild_ext, casacore_defines
+from setupext import casacorebuild_ext
 
 PKGNAME = "pyrap_fitting"
 EXTNAME = "_fitting"
@@ -10,8 +10,7 @@ deplibs = ['gfortran'] # change to g2c if build against it.
 casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME), 
 			sources = glob.glob('src/*.cc'),
 			depends = glob.glob('src/*.h'),
-			libraries= casalibs + deplibs,
-			define_macros = casacore_defines())
+			libraries= casalibs + deplibs)
 setup(name = PKGNAME,
       version = 'trunk',
       description = 'Python bindings to casacore Fitting',

@@ -53,23 +53,3 @@ class casacorebuild_ext(build_ext.build_ext):
 	    self.include_dirs += [boostincdir]
 	self.libraries += [self.boostlib]
 	    
-def casacore_defines():
-    """
-    Get/autodetect platform specific defines.
-    """
-    pd = { "darwin": [("AIPS_DARWIN", None), ("AIPS_NO_LEA_MALLOC", None)],
-	   "64bit": [("__x86_64__", None), ("AIPS_64B", None)],
-	   "linux2": [("AIPS_LINUX", None)]
-	   }
-    # -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
-    platfdefs = [("AIPS_STDLIB", None), ("AIPS_AUTO_STL", None)]
-    sysplf = sys.platform
-    sysarch = platform.architecture()[0]
-    if sysarch == '64bit':
-	platfdefs += pd["64bit"]
-    else:
-	platfdefs += pd[sysplf]
-    if sys.byteorder == "little":
-	platfdefs += [("AIPS_LITTLE_ENDIAN", None)]
-    return platfdefs
-

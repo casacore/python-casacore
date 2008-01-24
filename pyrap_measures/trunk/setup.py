@@ -1,6 +1,6 @@
 import glob
 from distutils.core import setup, Extension
-from setupext import casacorebuild_ext, casacore_defines
+from setupext import casacorebuild_ext
 
 PKGNAME = "pyrap_measures"
 EXTNAME = "_measures"
@@ -10,8 +10,7 @@ casalibs = ['casa_measures', 'casa_scimath', 'casa_scimath_f',
 casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME), 
 			sources = glob.glob('src/*.cc'),
 			depends = glob.glob('src/*.h'),
-			libraries= casalibs,
-			define_macros = casacore_defines())
+			libraries= casalibs)
 setup(name = PKGNAME,
       version = 'trunk',
       description = 'Python bindings to casacore Tables',
