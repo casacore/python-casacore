@@ -29,10 +29,6 @@ opts.Add(ListOption("build", "The build type",
 opts.Add(ListOption("libtype", "The type of library to build", 
 		    "shared", ["static", "shared"]))
 opts.Add(BoolOption("tests", "Build the tests?", False))
-opts.Add(("CC", "The c compiler", None))
-opts.Add(("CXX", "The c++ compiler", None))
-opts.Add(("extracppflags", "Extra preprocessor flags ", None))
-opts.Add(("extralinkflags", "Extra linker flags ", None))
 opts.Add(PathOption("casacoreroot", "The location of casacore",
 		    "/usr/local"))
 opts.Add(("numpyincdir", "The include dir for numpy", 
@@ -62,6 +58,8 @@ if not os.path.exists(os.path.join(env["casashrdir"][0], "casa.py")):
     print "Could not find casacore scons tools"
     Exit(1)
 
+env.Tool('casaoptions', env["casashrdir"])
+env.AddCommonOptions(opts)
 env.Tool('installer', env["casashrdir"])
 # add installer options, e.g. prefix
 env.AddInstallerOptions( opts )
