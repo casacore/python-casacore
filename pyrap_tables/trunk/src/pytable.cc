@@ -38,13 +38,24 @@ namespace casa { namespace pyrap {
 
   void pytable()
   {
+    // Note that all constructors must have a different number of arguments.
     class_<TableProxy> ("Table",
-            init<String, Record, int>())
-      .def (init<String, Record, String, String, int, Record, Record>())
+            init<TableProxy>())
+	    //  2 arg: table query command
       .def (init<String, std::vector<TableProxy> >())
+	    //  3 arg: open single table
+      .def (init<String, Record, int>())
+	    //  4 arg: open multiple tables as concatenation
+      .def (init<Vector<String>, Vector<String>, Record, int>())
+	    //  5 arg: concatenate open tables
+      .def (init<std::vector<TableProxy>, Vector<String>, int, int, int>())
+	    //  7 arg: create new table
+      .def (init<String, Record, String, String, int, Record, Record>())
+	    // 11 arg: read ascii
       .def (init<String, String, String, Bool, IPosition, String, String ,int, int, Vector<String>, Vector<String> >())
-      .def (init<TableProxy>())
 
+      // Member functions
+      // Functions starting with an underscore are wrapped in table.py.
       .def ("flush", &TableProxy::flush,
 	    (boost::python::arg("recursive")=false))
       .def ("resync", &TableProxy::resync)

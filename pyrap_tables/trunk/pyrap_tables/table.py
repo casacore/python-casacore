@@ -34,17 +34,23 @@ from _tables import Table
 def _add_prefix (name):
     return 'Table: ' + name;
 
-def _remove_prefix (name):
+def _do_remove_prefix (name):
     res = name;
-    if (res.find ('Table: ') == 0):
-        res = res.replace ('Table: ', '', 1);
+    if isinstance(res, str):
+        if (res.find ('Table: ') == 0):
+            res = res.replace ('Table: ', '', 1);
     return res;
+
+def _remove_prefix (name):
+    if isinstance(name, str):
+        return _do_remove_prefix (name)
+    return [_do_remove_prefix(nm) for nm in name]
 
 
 # Execute a TaQL command on a table.
 def tablecommand (command, style='Python', tables=[]):
     cmd = command;
-    if style != '':
+    if style:
         cmd = 'using style ' + style + ' ' + command;
     tab = table(cmd, tables, _oper=2);
     result = tab._getcalcresult();
@@ -65,7 +71,7 @@ class table(Table):
     def __init__(self, tablename, tabledesc=False, nrow=0, readonly=True,
                  lockoptions='default', ack=True, dminfo={}, endian='aipsrc',
                  memorytable=False, columnnames=[], datatypes=[],
-                 _oper=0, _delete=False):
+                 _oper=0, _delete=False, concatsubtables=[]):
         if _oper == 1:
             # This is the readascii constructor.
             tabname = _remove_prefix(tablename);
@@ -80,24 +86,16 @@ class table(Table):
             Table.__init__ (self, tablename);
         else:
             # This is the constructor for a normal table open.
+            # It can be done in several forms:
+            #  - open single existing table (PlainTable)
+            #  - open multiple existing tables (ConcatTable)
+            #  - create a new table (PlainTable or MemoryTable)
+            #  - concatenate open tables (ConcatTable)
             tabname = _remove_prefix(tablename);
             lockopt = lockoptions;
             if isinstance(lockoptions, str):
                 lockopt = {'option' : lockoptions};
-            if not isinstance(tabledesc, dict):
-                # Open an existing table.
-                if (readonly):
-                    Table.__init__ (self, tabname, lockopt, 1);
-                    typstr = 'readonly';
-                else:
-                    opt = 5;
-                    if _delete:
-                        opt = 6;
-                    Table.__init__ (self, tabname, lockopt, opt);
-                    typstr = 'read/write';
-                if ack:
-                    print 'Successful', typstr, 'open of', lockopt['option']+'-locked table', tabname+':', self.ncols(), 'columns,', self.nrows(), 'rows';
-            else:
+            if isinstance(tabledesc, dict):
                 # Create a new table.
                 memtype = 'plain';
                 if (memorytable):
@@ -106,6 +104,32 @@ class table(Table):
                                     memtype, nrow, tabledesc, dminfo);
                 if ack:
                     print 'Successful creation of', lockopt['option']+'-locked table', tabname+':', self.ncols(), 'columns,', self.nrows(), 'rows';
+            else:
+                # Deal with existing tables.
+                if not tabname:
+                    raise ValueError("No tables or names given")
+                # Open an existing table
+                opt=1
+                typstr = 'readonly';
+                if not readonly:
+                    typstr = 'read/write';
+                    opt = 5;
+                    if _delete:
+                        opt = 6;
+                if isinstance(tabname,str):
+                    Table.__init__ (self, tabname, lockopt, opt);
+                    if ack:
+                        print 'Successful', typstr, 'open of', lockopt['option']+'-locked table', tabname+':', self.ncols(), 'columns,', self.nrows(), 'rows';
+                elif isinstance(tabname[0],str):
+                    # Concatenate and open named tables.
+                    Table.__init__ (self, tabname, concatsubtables, lockopt, opt)
+                    if ack:
+                        print 'Successful', typstr, 'open of', lockopt['option']+'-locked concatenated tables', tabname,':', self.ncols(), 'columns,', self.nrows(), 'rows';
+                else:
+                    # Concatenate already open tables.
+                    Table.__init__ (self, tabname, concatsubtables, 0, 0, 0)
+                    if ack:
+                        print 'Successful virtual concatenation of', len(tabname), 'tables:', self.ncols(), 'columns,', self.nrows(), 'rows';
         # Create a row object for this table.
         from tablerow import _tablerow;
         self._row = _tablerow (self, self.colnames());
@@ -286,17 +310,17 @@ class table(Table):
 
     def query (self, query='', name='', sortlist='', columns='',
                style='Python'):
-        if query=='' and sortlist=='' and columns=='':
+        if not query and not sortlist and not columns:
             raise ValueError('No selection done (arguments query, sortlist, and columns are empty)');
         command = 'select ';
-        if columns != '':
+        if columns:
             command += columns;
         command += ' from $1';
-        if query != '':
+        if query:
             command += ' where ' + query;
-        if sortlist != '':
+        if sortlist:
                command += ' orderby ' + sortlist;
-        if name != '':
+        if name:
             command += ' giving ' + name;
         return tablecommand(command, style, [self]);
 
