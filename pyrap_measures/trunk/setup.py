@@ -13,7 +13,7 @@ casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME),
 			libraries= casalibs)
 setup(name = PKGNAME,
       version = 'trunk',
-      description = 'Python bindings to casacore Tables',
+      description = 'Python bindings to casacore Measures',
       author = 'Malte Marquarding',
       author_email = 'Malte.Marquarding@csiro.au',
       url = 'http://code.google.com/p/pyrap',

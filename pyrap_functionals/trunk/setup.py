@@ -5,12 +5,11 @@ from setupext import casacorebuild_ext
 PKGNAME = "pyrap_functionals"
 EXTNAME = "_functionals"
 casalibs = ['casa_scimath', 'casa_scimath_f'] # casa_casa is added by default
-deplibs = ['gfortran'] # change to g2c if build against it.
 
-casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME), 
-			sources = glob.glob('src/*.cc'),
-			depends = glob.glob('src/*.h'),
-			libraries= casalibs + deplibs)
+casaextension = Extension(name = "%s.%s" % (PKGNAME, EXTNAME), 
+                          sources = glob.glob('src/*.cc'),
+                          depends = glob.glob('src/*.h'),
+                          libraries = casalibs )
 setup(name = PKGNAME,
       version = 'trunk',
       description = 'Python bindings to casacore Functionals',

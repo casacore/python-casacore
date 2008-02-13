@@ -8,7 +8,8 @@ class casacorebuild_ext(build_ext.build_ext):
             [('casacore=', None, 'Prefix for casacore installation location'),
 	     ('pyrap=', None, 'Prefix for pyrap installation location'),
 	     ('boost=', None, 'Prefix for boost_python installation location'),
-	     ('boostlib=', None, 'Name of the boost_python library')
+	     ('boostlib=', None, 'Name of the boost_python library'),
+	     ('f2clib=', None, 'Name of the fortran to c library')
 	     ]
 
     def initialize_options(self):
@@ -24,6 +25,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	self.pyrap = '/usr/local'
 	self.casacore = '/usr/local'
 	self.boost = '/usr'
+        self.f2clib = 'gfortran'
 	    
     def finalize_options(self):
         """
@@ -52,4 +54,5 @@ class casacorebuild_ext(build_ext.build_ext):
 	if boostincdir not in self.include_dirs:
 	    self.include_dirs += [boostincdir]
 	self.libraries += [self.boostlib]
+	self.libraries += [self.f2clib]
 	    
