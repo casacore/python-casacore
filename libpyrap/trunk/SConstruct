@@ -24,9 +24,9 @@ PACKAGE="pyrap"
 
 # general options
 opts = Options( 'options.cfg', ARGUMENTS )
-opts.Add(ListOption("build", "The build type", 
-		    "opt", ["opt", "dbg"]))
-opts.Add(ListOption("libtype", "The type of library to build", 
+#opts.Add(ListOption("build", "The build type", 
+#		    "opt", ["opt", "dbg"]))
+opts.Add(ListOption("libtype", "The type of library to build",
 		    "shared", ["static", "shared"]))
 opts.Add(BoolOption("tests", "Build the tests?", False))
 opts.Add(PathOption("casacoreroot", "The location of casacore",
