@@ -7,7 +7,7 @@ import string
 import optparse
 
 usage = "usage: %prog [options] <packagename>"
-parser = optparse.OptionParser(usage, description="Thsi scripts builds libpyrap (the casacore to python conversion  libarary and all pyrap_* python bindings to casacore")
+parser = optparse.OptionParser(usage, description="Thsi scripts builds libpyrap (the casacore to python conversion library and all pyrap_* python bindings to casacore")
 
 parser.add_option('--boostroot', dest='boost',
                   default="",
