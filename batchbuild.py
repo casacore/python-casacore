@@ -83,6 +83,7 @@ def run_python(pkg, args):
     print os.path.abspath(".")
     setupscript = "setup.py"
     buildargs = ""
+    installdir = ""
     if args.casacore:
         buildargs += " --casacore=%s" %  args.casacore
     if args.boost:
@@ -105,13 +106,13 @@ def run_scons(target, args):
     pfx = None
     tests = False
     if args.casacore:
-        command += "casacoreroot=%s" %  args.casacore
+        command += " casacoreroot=%s" %  args.casacore
     if args.boost:
-        command += "numpyincdir=%s" %  args.numpyincdir
+        command += " numpyincdir=%s" %  args.numpyincdir
     if args.boost:
-        command += "boostroot=%s" %  args.boost
+        command += " boostroot=%s" %  args.boost
     if args.prefix:
-        command += "prefix%s" %  args.prefix
+        command += " prefix=%s" %  args.prefix
     try:
         failed = os.system(command + " install")
     except KeyboardInterrupt:
