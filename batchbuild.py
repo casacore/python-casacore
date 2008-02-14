@@ -28,6 +28,11 @@ parser.add_option('--prefix', dest='prefix',
                   type="string",
                   help="Install location for libpyrap (default is /usr/local)")
 
+parser.add_option('--python-prefix', dest='pyprefix',
+                  default=None,
+                  type="string",
+                  help="Install location for python modules (default is python site-packages)")
+
 parser.add_option('--numpyincdir', dest='numpyincdir',
                   default=None,
                   type="string",
@@ -86,8 +91,10 @@ def run_python(pkg, args):
         buildargs += " --pyrap=%s" %  args.prefix
     if args.useegg:
         setupscript = "setupegg.py"
+    if args.pyprefix:
+        installdir = "--prefix=%s" % args.pyprefix
     os.system("python %s build_ext %s" % (setupscript, buildargs))
-    os.system("python %s install" % (setupscript))
+    os.system("python %s install %s" % (setupscript, installdir))
     os.chdir(cwd)
 
 def run_scons(target, args):
