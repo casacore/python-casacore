@@ -18,7 +18,7 @@ class functional(_functional):
         if isinstance(mode, dict):
             d['mode'] = mode
         _functional.__init__(self, d, dtype)
-        if isinstance(params, list) or isinstance(params, tuple):
+        if hasattr(params, "__len__")
             if len(params) == 0:
                 pass
             elif len(params) == self.npar():
