@@ -1,8 +1,9 @@
 import glob
-from distutils.core import setup, Extension
+from setuptools import setup, find_packages
+from setuptools.extension import Extension
 from setupext import casacorebuild_ext
 
-PKGNAME = "pyrap_measures"
+PKGNAME = "pyrap.measures"
 EXTNAME = "_measures"
 casalibs = ['casa_measures', 'casa_scimath', 'casa_scimath_f', 
             'casa_tables',] # casa_casa is added by default
@@ -21,7 +22,9 @@ setup(name = PKGNAME,
       long_description = '''
 This is a python module to access the casacore c++ measures package
 ''',
-      packages = [ PKGNAME ],
+      packages = find_packages(),
+      namespace_packages = ["pyrap"],
+      zips_safe = 0,
       license = 'GPL',
       ext_modules =[ casaextension ],
       cmdclass={'build_ext': casacorebuild_ext})

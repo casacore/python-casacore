@@ -1,5 +1,5 @@
 from _fitting import fitting
-from pyrap_functionals import *
+from pyrap.functionals import *
 import numpy as NUM
 
 class fitserver:

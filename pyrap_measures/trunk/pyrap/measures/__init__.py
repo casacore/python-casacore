@@ -26,7 +26,7 @@
 # $Id: __init__.py,v 1.2 2006/12/04 04:01:03 mmarquar Exp $
 
 import os
-import pyrap_quanta as dq
+import pyrap.quanta as dq
 from  _measures import measures as _measures
 
 if os.environ.has_key("MEASURESDATA"):

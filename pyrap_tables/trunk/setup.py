@@ -1,8 +1,9 @@
 import glob
-from distutils.core import setup, Extension
+from setuptools import setup, find_packages
+from setuptools.extension import Extension
 from setupext import casacorebuild_ext
 
-PKGNAME = "pyrap_tables"
+PKGNAME = "pyrap.tables"
 EXTNAME = "_tables"
 casalibs = ['casa_tables'] # casa_casa is added by default
 
@@ -21,9 +22,10 @@ setup(name = PKGNAME,
       long_description = '''
 This is a python module to access the casacore c++ tables package
 ''',
-      packages = [ PKGNAME ],
+      packages = find_packages(),
+      namespace_packages = ["pyrap"],
       license = 'GPL',
+      zip_safe = 0,
       ext_modules =[ casaextension ],
       cmdclass={'build_ext': casacorebuild_ext})
-
       
