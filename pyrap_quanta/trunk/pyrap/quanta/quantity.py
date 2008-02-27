@@ -1,6 +1,6 @@
-from pyrap_quanta._quanta import Quantity
-from pyrap_quanta._quanta import QuantVec
-from pyrap_quanta._quanta import from_string, from_dict, from_dict_v
+from _quanta import Quantity
+from _quanta import QuantVec
+from _quanta import from_string, from_dict, from_dict_v
 
 def is_quantity(q):
     return isinstance(q, QuantVec) or isinstance(q, Quantity)
@@ -19,6 +19,8 @@ def to_string(quant):
     return "%s %s" % (str(quant.get_value()), quant.get_unit())
 QuantVec.__str__ = to_string
 Quantity.__str__ = to_string
+QuantVec.__repr__ = to_string
+Quantity.__repr__ = to_string
 
 def quantity(*args):
     if len(args) == 1:
