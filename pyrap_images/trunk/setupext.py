@@ -24,7 +24,7 @@ class casacorebuild_ext(build_ext.build_ext):
         
         # attribute corresponding to directory prefix
         # command line option
-	self.libraries = ['casa_casa', 'pyrap']
+	self.libraries = ['pyrap', 'casa_casa']
 	self.boostlib = 'boost_python'
 	self.pyrap = '/usr/local'
 	self.casacore = '/usr/local'
