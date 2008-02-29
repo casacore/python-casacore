@@ -5,10 +5,10 @@ from setupext import casacorebuild_ext
 
 PKGNAME = "pyrap.images"
 EXTNAME = "_images"
-casalibs = ['casa_components','casa_coordinates', 'casa_fits', 'casa_lattcies',
-            'casa_measures',
+casalibs = ['casa_images', 'casa_components', 'casa_coordinates',
+            'casa_fits', 'casa_lattices', 'casa_measures',
             'casa_scimath', 'casa_scimath_f', 'casa_tables', 'casa_mirlib'] 
-           # casa_casa is added by default
+# casa_casa is added by default
 
 casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME), 
 			sources = glob.glob('src/*.cc'),
