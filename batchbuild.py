@@ -7,7 +7,7 @@ import string
 import optparse
 
 usage = "usage: %prog [options] <packagename>"
-parser = optparse.OptionParser(usage, description="Thsi scripts builds libpyrap (the casacore to python conversion library and all pyrap_* python bindings to casacore")
+parser = optparse.OptionParser(usage, description="This scripts builds libpyrap (the casacore to python conversion library) and all pyrap_* python bindings to casacore")
 
 parser.add_option('--boostroot', dest='boost',
                   default="",
@@ -32,6 +32,11 @@ parser.add_option('--python-prefix', dest='pyprefix',
                   default=None,
                   type="string",
                   help="Install location for python modules (default is python site-packages)")
+
+parser.add_option('--universal', dest='universal',
+                  default=None,
+                  type="string",
+                  help="true or false")
 
 parser.add_option('--numpyincdir', dest='numpyincdir',
                   default=None,
@@ -107,12 +112,14 @@ def run_scons(target, args):
     tests = False
     if args.casacore:
         command += " casacoreroot=%s" %  args.casacore
-    if args.boost:
+    if args.numpyincdir:
         command += " numpyincdir=%s" %  args.numpyincdir
     if args.boost:
         command += " boostroot=%s" %  args.boost
     if args.prefix:
         command += " prefix=%s" %  args.prefix
+    if args.universal:
+        command += " universal=%s" %  args.universal
     try:
         failed = os.system(command + " install")
     except KeyboardInterrupt:
