@@ -9,6 +9,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	     ('pyrap=', None, 'Prefix for pyrap installation location'),
 	     ('boost=', None, 'Prefix for boost_python installation location'),
 	     ('boostlib=', None, 'Name of the boost_python library'),
+	     ('f2c', None, 'Prefix for the fortran to c library')
 	     ('f2clib=', None, 'Name of the fortran to c library')
 	     ]
 
@@ -25,6 +26,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	self.pyrap = '/usr/local'
 	self.casacore = '/usr/local'
 	self.boost = '/usr'
+	self.f2c = '/usr'
         self.f2clib = 'gfortran'
 	    
     def finalize_options(self):
@@ -37,6 +39,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	cclibdir = os.path.join(self.casacore, 'lib')
 	prlibdir = os.path.join(self.pyrap, 'lib')
 	boostlibdir = os.path.join(self.boost, 'lib')
+	f2clibdir = os.path.join(self.f2c 'lib')
 	ccincdir = os.path.join(self.casacore, 'include', 'casacore')
 	princdir = os.path.join(self.pyrap, 'include')
 	boostincdir = os.path.join(self.boost, 'include')
@@ -47,6 +50,8 @@ class casacorebuild_ext(build_ext.build_ext):
 	    self.library_dirs += [prlibdir]
 	if boostlibdir not in self.library_dirs:
 	    self.library_dirs += [boostlibdir]
+	if f2clibdir not in self.library_dirs:
+	    self.library_dirs += [f2clibdir]
 	if ccincdir not in self.include_dirs:
 	    self.include_dirs += [ccincdir]
 	if princdir not in self.include_dirs:
