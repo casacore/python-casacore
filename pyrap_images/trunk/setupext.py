@@ -9,6 +9,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	     ('pyrap=', None, 'Prefix for pyrap installation location'),
 	     ('boost=', None, 'Prefix for boost_python installation location'),
 	     ('boostlib=', None, 'Name of the boost_python library'),
+	     ('f2c=', None, 'Prefix for f2clib installation location'),
 	     ('f2clib=', None, 'Name of the fortran to c library'),
 	     ('cfitsio=', None, 'Prefix for cfitsio installation location'),
 	     ('cfitsiolib=', None, 'Name of the cfitsio library'),
@@ -29,6 +30,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	self.pyrap = '/usr/local'
 	self.casacore = '/usr/local'
 	self.boost = '/usr'
+	self.f2c = '/usr'
         self.f2clib = 'gfortran'
         self.cfitsio = '/usr'
         self.cfitsiolib = 'cfitsio'
@@ -45,6 +47,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	cclibdir = os.path.join(self.casacore, 'lib')
 	prlibdir = os.path.join(self.pyrap, 'lib')
 	boostlibdir = os.path.join(self.boost, 'lib')
+	f2clibdir = os.path.join(self.f2c, 'lib')
 	cfitsiolibdir = os.path.join(self.cfitsio, 'lib')
 	wcslibdir = os.path.join(self.wcs, 'lib')
 	ccincdir = os.path.join(self.casacore, 'include', 'casacore')
@@ -57,13 +60,14 @@ class casacorebuild_ext(build_ext.build_ext):
             cfitsoincdir = cfitsioincdir2
 	wcsincdir = os.path.join(self.wcs, 'include', 'wcslib')
 
-
 	if cclibdir not in self.library_dirs:
 	    self.library_dirs += [cclibdir]
 	if prlibdir not in self.library_dirs:
 	    self.library_dirs += [prlibdir]
 	if boostlibdir not in self.library_dirs:
 	    self.library_dirs += [boostlibdir]
+	if f2clibdir not in self.library_dirs:
+	    self.library_dirs += [f2clibdir]
 
 	if cfitsiolibdir not in self.library_dirs:
 	    self.library_dirs += [cfitsiolibdir]
