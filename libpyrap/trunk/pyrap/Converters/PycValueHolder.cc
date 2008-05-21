@@ -85,18 +85,19 @@ namespace casa { namespace pyrap {
 
   void* casa_value_from_python::convertible(PyObject* obj_ptr)
   {
-    if (!(PyBool_Check(obj_ptr)
-	  || PyInt_Check(obj_ptr)
-	  || PyFloat_Check(obj_ptr)
-	  || PyComplex_Check(obj_ptr)
-	  || PyString_Check(obj_ptr)
-	  || PyDict_Check(obj_ptr)
-	  || PyList_Check(obj_ptr)
-	  || PyTuple_Check(obj_ptr)
-	  || PyIter_Check(obj_ptr)
-	  || PyRange_Check(obj_ptr)
-	  || PySequence_Check(obj_ptr)
-	  || PycArrayCheck(obj_ptr)  )) {
+    if (! (PyBool_Check(obj_ptr)
+	   || PyInt_Check(obj_ptr)
+	   || PyFloat_Check(obj_ptr)
+	   || PyComplex_Check(obj_ptr)
+	   || PyString_Check(obj_ptr)
+	   || PyDict_Check(obj_ptr)
+	   || PyList_Check(obj_ptr)
+	   || PyTuple_Check(obj_ptr)
+	   || PyIter_Check(obj_ptr)
+	   || PyRange_Check(obj_ptr)
+	   || PySequence_Check(obj_ptr)
+	   || PycArrayCheck(obj_ptr)
+	   || PycArrayScalarCheck(obj_ptr)  )) {
       // An empty numarray is Py_None, so accept that.
       if (obj_ptr != Py_None) {
 	return 0;
@@ -140,11 +141,13 @@ namespace casa { namespace pyrap {
     } else if (PyDict_Check(obj_ptr)) {
       dict d = extract<dict>(obj_ptr)();
       if (d.has_key("shape") && d.has_key("array")) {
-	return ValueHolder(casa_array_from_python::makeArrayFromDict(obj_ptr));
+	return casa_array_from_python::makeArrayFromDict(obj_ptr);
       }
       return ValueHolder(casa_record_from_python::makeRecord (obj_ptr));
     } else if (PycArrayCheck(obj_ptr)) {
-      return ValueHolder(casa_array_from_python::makeArray (obj_ptr));
+      return casa_array_from_python::makeArray (obj_ptr);
+    } else if (PycArrayScalarCheck(obj_ptr)) {
+      return casa_array_from_python::makeScalar (obj_ptr);
     } else {
       return toVector (obj_ptr);
     }
@@ -211,7 +214,7 @@ namespace casa { namespace pyrap {
       } else if (PyString_Check (py_elem_obj.ptr())) {
 	dt = TpString;
       } else {
-	return TpOther;
+	dt = PycArrayScalarType (py_elem_obj.ptr());
       }
       if (result == TpOther) {
 	result = dt;         // first time

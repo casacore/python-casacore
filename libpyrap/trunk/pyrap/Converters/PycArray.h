@@ -35,6 +35,7 @@
 #include <boost/python/object.hpp>
 #include <casa/Arrays/Array.h>
 #include <casa/Containers/ValueHolder.h>
+#include <casa/Utilities/DataType.h>
 #include <casa/Exceptions/Error.h>
 #include <iostream>
 
@@ -61,6 +62,14 @@ namespace casa { namespace pyrap {
   // Check if the PyObject is an array object.
   Bool PycArrayCheck (PyObject* obj_ptr);
 
+  // Check if the PyObject is an array scalar object.
+  Bool PycArrayScalarCheck (PyObject* obj_ptr);
+
+  // Get the data type of the array scalar object.
+  // It returns TpBool, TpInt, TpFloat, or TpComplex.
+  // TpOther is returned if unrecognized.
+  DataType PycArrayScalarType (PyObject* obj_ptr);
+
   struct casa_array_from_python
   {
     // Constructs an Array from a Python object.
@@ -73,6 +82,9 @@ namespace casa { namespace pyrap {
 
     // Construct an Array<String> from a special Python dict object.
     static ValueHolder makeArrayFromDict (PyObject* obj_ptr);
+
+    // Construct a scalar from an array scalar (i.e. element in array).
+    static ValueHolder makeScalar (PyObject* obj_ptr);
   };
 
   // Do the actual making of the PyArrayObject.

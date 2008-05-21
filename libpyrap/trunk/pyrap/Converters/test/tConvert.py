@@ -1,9 +1,9 @@
 from _tConvert import *
 
-t = tConvert();
-
 def dotest(t):
 
+    print ''
+    print 'begin dotest'
     print t.testbool (True);
     print t.testbool (False);
     print t.testint (-1);
@@ -70,7 +70,50 @@ def dotest(t):
     res = t.testvh (NUM.array([[]]));
     print '<<<';
     print res.shape;
+    print 'end dotest'
+    print ''
 
+
+def testarrvh(arr):
+    print '    testarrvh';
+    print t.testvh(arr);
+    print t.testvh(arr[0]);
+    print t.testvh([arr[0]]);
+    print t.testvh([arr[0], arr[1]]);
+
+def testarrb(arr):
+    testarrvh(arr);
+    print t.testbool(arr[0]);
+
+def testarri(arr):
+    testarrvh(arr);
+    print t.testint(arr[0]);
+    print t.testfloat(arr[0]);
+    print t.testcomplex(arr[0]);
+
+def testarrf(arr):
+    testarrvh(arr);
+    print t.testfloat(arr[0]);
+    print t.testcomplex(arr[0]);
+
+def testarrc(arr):
+    testarrvh(arr);
+    print t.testcomplex(arr[0]);
+
+def testnps():
+    testarrb(NUM.array([True,False]));
+    testarri(NUM.int8([-6,-7]));
+    testarri(NUM.uint8([5,6]));
+    testarri(NUM.int16([-16,-17]));
+    testarri(NUM.uint16([15,16]));
+    testarri(NUM.int32([-26,-27]));
+    testarri(NUM.uint32([25,26]));
+    testarri(NUM.int64([-36,-37]));
+    testarri(NUM.uint64([35,36]));
+    testarrf(NUM.float32([-46,-47]));
+    testarrf(NUM.float64([45,46]));
+    testarrc(NUM.complex64([-56-66j,-57-67j]));
+    testarrc(NUM.complex128([-76-86j,-77-87j]));
 
 def testnp():
     # Test byte and sbyte.
@@ -83,6 +126,7 @@ def testnp():
     print '<<<';
     print res.shape;
     print t.testvh(NUM.array([["abcd","c"],["12","x12"]]));
+    testnps();
 
 def testna():
     # Test byte and sbyte.
@@ -98,6 +142,8 @@ def testna():
     print t.testvh({'shape':[2,2], 'array':['abcd','c','12','x12']});
 
 
+t = tConvert();
+
 print "Doing numpy/array test ..."
 if t.canusenumpy():
     import numpy as NUM;
@@ -112,6 +158,8 @@ print "Doing numarray/py test ..."
 if t.canusenumarray():
     import numarray as NUM;
     testna();
+    import numpy as NUM;
+    testnps();
 else:
     import numpy as NUM;
     testnp();

@@ -9,6 +9,187 @@ VH Array<double>
 (0,)
 VH Array<String>
 {'shape': [2, 2], 'array': ['abcd', 'c', '12', 'x12']}
+    testarrvh
+VH Array<Bool>
+[ True False]
+VH Bool
+True
+VH Array<Bool>
+[ True]
+VH Array<Bool>
+[ True False]
+bool 1
+True
+    testarrvh
+VH Array<Short>
+[-6 -7]
+VH Int
+-6
+VH Array<Int>
+[-6]
+VH Array<Int>
+[-6 -7]
+Int -6
+-6
+Float -6
+-6.0
+DComplex (-6,0)
+(-6+0j)
+    testarrvh
+VH Array<Short>
+[5 6]
+VH Int
+5
+VH Array<Int>
+[5]
+VH Array<Int>
+[5 6]
+Int 5
+5
+Float 5
+5.0
+DComplex (5,0)
+(5+0j)
+    testarrvh
+VH Array<Short>
+[-16 -17]
+VH Int
+-16
+VH Array<Int>
+[-16]
+VH Array<Int>
+[-16 -17]
+Int -16
+-16
+Float -16
+-16.0
+DComplex (-16,0)
+(-16+0j)
+    testarrvh
+VH Array<Int>
+[15 16]
+VH Int
+15
+VH Array<Int>
+[15]
+VH Array<Int>
+[15 16]
+Int 15
+15
+Float 15
+15.0
+DComplex (15,0)
+(15+0j)
+    testarrvh
+VH Array<Int>
+[-26 -27]
+VH Int
+-26
+VH Array<Int>
+[-26]
+VH Array<Int>
+[-26 -27]
+Int -26
+-26
+Float -26
+-26.0
+DComplex (-26,0)
+(-26+0j)
+    testarrvh
+VH Array<Int>
+[25 26]
+VH Int
+25
+VH Array<Int>
+[25]
+VH Array<Int>
+[25 26]
+Int 25
+25
+Float 25
+25.0
+DComplex (25,0)
+(25+0j)
+    testarrvh
+VH Array<Int>
+[-36 -37]
+VH Int
+-36
+VH Array<Int>
+[-36]
+VH Array<Int>
+[-36 -37]
+Int -36
+-36
+Float -36
+-36.0
+DComplex (-36,0)
+(-36+0j)
+    testarrvh
+VH Array<Int>
+[35 36]
+VH Int
+35
+VH Array<Int>
+[35]
+VH Array<Int>
+[35 36]
+Int 35
+35
+Float 35
+35.0
+DComplex (35,0)
+(35+0j)
+    testarrvh
+VH Array<float>
+[-46. -47.]
+VH float
+-46.0
+VH Array<double>
+[-46.]
+VH Array<double>
+[-46. -47.]
+Float -46
+-46.0
+DComplex (-46,0)
+(-46+0j)
+    testarrvh
+VH Array<double>
+[ 45.  46.]
+VH double
+45.0
+VH Array<double>
+[ 45.]
+VH Array<double>
+[ 45.  46.]
+Float 45
+45.0
+DComplex (45,0)
+(45+0j)
+    testarrvh
+VH Array<Complex>
+[-56.-66.j -57.-67.j]
+VH Complex
+(-56-66j)
+VH Array<DComplex>
+[-56.-66.j]
+VH Array<DComplex>
+[-56.-66.j -57.-67.j]
+DComplex (-56,-66)
+(-56-66j)
+    testarrvh
+VH Array<DComplex>
+[-76.-86.j -77.-87.j]
+VH DComplex
+(-76-86j)
+VH Array<DComplex>
+[-76.-86.j]
+VH Array<DComplex>
+[-76.-86.j -77.-87.j]
+DComplex (-76,-86)
+(-76-86j)
+
+begin dotest
 bool 1
 True
 bool 0
@@ -18,7 +199,7 @@ Int -1
 Int 10
 10
 Float 3.14
-3.1400001049
+3.14
 Float 12
 12.0
 String this is a string
@@ -102,6 +283,8 @@ VH Array<double>
 VH Array<double>
 <<<
 (1, 0)
+end dotest
+
 
 Doing numarray/py test ...
 VH Array<Short>
@@ -109,11 +292,192 @@ VH Array<Short>
 VH Array<Short>
 [211 212]
 >>>
-VH Array<Int>
+VH Array<double>
 <<<
 (0,)
 VH Array<String>
 {'shape': [2, 2], 'array': ['abcd', 'c', '12', 'x12']}
+    testarrvh
+VH Array<Bool>
+[ True False]
+VH Bool
+True
+VH Array<Bool>
+[ True]
+VH Array<Bool>
+[ True False]
+bool 1
+True
+    testarrvh
+VH Array<Short>
+[-6 -7]
+VH Int
+-6
+VH Array<Int>
+[-6]
+VH Array<Int>
+[-6 -7]
+Int -6
+-6
+Float -6
+-6.0
+DComplex (-6,0)
+(-6+0j)
+    testarrvh
+VH Array<Short>
+[5 6]
+VH Int
+5
+VH Array<Int>
+[5]
+VH Array<Int>
+[5 6]
+Int 5
+5
+Float 5
+5.0
+DComplex (5,0)
+(5+0j)
+    testarrvh
+VH Array<Short>
+[-16 -17]
+VH Int
+-16
+VH Array<Int>
+[-16]
+VH Array<Int>
+[-16 -17]
+Int -16
+-16
+Float -16
+-16.0
+DComplex (-16,0)
+(-16+0j)
+    testarrvh
+VH Array<Int>
+[15 16]
+VH Int
+15
+VH Array<Int>
+[15]
+VH Array<Int>
+[15 16]
+Int 15
+15
+Float 15
+15.0
+DComplex (15,0)
+(15+0j)
+    testarrvh
+VH Array<Int>
+[-26 -27]
+VH Int
+-26
+VH Array<Int>
+[-26]
+VH Array<Int>
+[-26 -27]
+Int -26
+-26
+Float -26
+-26.0
+DComplex (-26,0)
+(-26+0j)
+    testarrvh
+VH Array<Int>
+[25 26]
+VH Int
+25
+VH Array<Int>
+[25]
+VH Array<Int>
+[25 26]
+Int 25
+25
+Float 25
+25.0
+DComplex (25,0)
+(25+0j)
+    testarrvh
+VH Array<Int>
+[-36 -37]
+VH Int
+-36
+VH Array<Int>
+[-36]
+VH Array<Int>
+[-36 -37]
+Int -36
+-36
+Float -36
+-36.0
+DComplex (-36,0)
+(-36+0j)
+    testarrvh
+VH Array<Int>
+[35 36]
+VH Int
+35
+VH Array<Int>
+[35]
+VH Array<Int>
+[35 36]
+Int 35
+35
+Float 35
+35.0
+DComplex (35,0)
+(35+0j)
+    testarrvh
+VH Array<float>
+[-46. -47.]
+VH float
+-46.0
+VH Array<double>
+[-46.]
+VH Array<double>
+[-46. -47.]
+Float -46
+-46.0
+DComplex (-46,0)
+(-46+0j)
+    testarrvh
+VH Array<double>
+[ 45.  46.]
+VH double
+45.0
+VH Array<double>
+[ 45.]
+VH Array<double>
+[ 45.  46.]
+Float 45
+45.0
+DComplex (45,0)
+(45+0j)
+    testarrvh
+VH Array<Complex>
+[-56.-66.j -57.-67.j]
+VH Complex
+(-56-66j)
+VH Array<DComplex>
+[-56.-66.j]
+VH Array<DComplex>
+[-56.-66.j -57.-67.j]
+DComplex (-56,-66)
+(-56-66j)
+    testarrvh
+VH Array<DComplex>
+[-76.-86.j -77.-87.j]
+VH DComplex
+(-76-86j)
+VH Array<DComplex>
+[-76.-86.j]
+VH Array<DComplex>
+[-76.-86.j -77.-87.j]
+DComplex (-76,-86)
+(-76-86j)
+
+begin dotest
 bool 1
 True
 bool 0
@@ -123,7 +487,7 @@ Int -1
 Int 10
 10
 Float 3.14
-3.1400001049
+3.14
 Float 12
 12.0
 String this is a string
@@ -200,10 +564,12 @@ VH Array<DComplex>
 VH Array<double>
 [ 21.]
 >>>
-VH Array<Int>
+VH Array<double>
 <<<
 (0,)
 >>>
-VH Array<Int>
+VH Array<double>
 <<<
 (1, 0)
+end dotest
+

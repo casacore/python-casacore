@@ -31,6 +31,7 @@
 // include python first to avoid _POSIX_C_SOURCE redefined warnings
 #include <boost/python.hpp>
 #include <boost/python/object.hpp>
+#include <pyrap/Converters/PycArray.h>
 #include <casa/BasicSL/String.h>
 #include <casa/Arrays/IPosition.h>
 #include <casa/Arrays/Vector.h>
@@ -389,6 +390,10 @@ namespace casa { namespace pyrap {
 	if (!elem_proxy.check()) return 0;
 	return obj_ptr;
       }
+      // An array scalar is accepted.
+      if (PycArrayScalarCheck(obj_ptr)) {
+	return obj_ptr;
+      }
       // Get the sequence object.
       // It can be a numarray/numpy scalar in which case
       // it fills py_obj with a flattened array.
@@ -425,7 +430,8 @@ namespace casa { namespace pyrap {
 	  || PyInt_Check(obj_ptr)
 	  || PyFloat_Check(obj_ptr)
 	  || PyComplex_Check(obj_ptr)
-	  || PyString_Check(obj_ptr)) {
+	  || PyString_Check(obj_ptr)
+	  || PycArrayScalarCheck(obj_ptr)) {
 	extract<container_element_type> elem_proxy(obj_ptr);
 	ConversionPolicy::reserve(result, 1);
         ConversionPolicy::set_value(result, 0, elem_proxy());

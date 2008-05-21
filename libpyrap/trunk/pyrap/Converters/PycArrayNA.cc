@@ -36,20 +36,36 @@
 
 // Define numarray types as numpy's ones.
 // numarray has no bool; define char as such.
-#define NPY_BOOL    PyArray_CHAR
-#define NPY_BYTE    PyArray_SBYTE
-#define NPY_UBYTE   PyArray_UBYTE
-#define NPY_SHORT   PyArray_SHORT
-#define NPY_USHORT  PyArray_USHORT
-#define NPY_INT     PyArray_INT
-#define NPY_UINT    PyArray_UINT
-#define NPY_LONG    PyArray_LONG
-#define NPY_FLOAT   PyArray_FLOAT
-#define NPY_DOUBLE  PyArray_DOUBLE
-#define NPY_CFLOAT  PyArray_CFLOAT
-#define NPY_CDOUBLE PyArray_CDOUBLE
-#define NPY_OBJECT  PyArray_OBJECT
-#define NPY_STRING  PyArray_INT
+#define NPY_BOOL       PyArray_CHAR
+#define NPY_INT8       PyArray_SBYTE
+#define NPY_UINT8      PyArray_UBYTE
+#define NPY_INT16      PyArray_SHORT
+#define NPY_UINT16     PyArray_USHORT
+#define NPY_INT32      PyArray_INT
+#define NPY_UINT32     PyArray_UINT
+#define NPY_INT64      PyArray_LONG
+#define NPY_UINT64     PyArray_LONG
+#define NPY_FLOAT32    PyArray_FLOAT
+#define NPY_FLOAT64    PyArray_DOUBLE
+#define NPY_COMPLEX64  PyArray_CFLOAT
+#define NPY_COMPLEX128 PyArray_CDOUBLE
+#define NPY_OBJECT     PyArray_OBJECT
+#define NPY_STRING     PyArray_INT
+
+// Make the numarray typedefs equal to those used in numpy.
+typedef ::Bool    npy_bool;
+typedef Int8      npy_int8;
+typedef UInt8     npy_uint8;
+typedef Int16     npy_int16;
+typedef UInt16    npy_uint16;
+typedef Int32     npy_int32;
+typedef UInt32    npy_uint32;
+typedef Int64     npy_int64;
+typedef UInt64    npy_uint64;
+typedef Float32   npy_float32;
+typedef Float64   npy_float64;
+typedef Complex32 npy_complex64;
+typedef Complex64 npy_complex128;
 
 #define PYC_USE_PYARRAY "numarray"
 namespace casa { namespace pyrap { namespace numarray {

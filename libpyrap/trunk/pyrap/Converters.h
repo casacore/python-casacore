@@ -97,6 +97,14 @@ namespace casa { //# NAMESPACE CASA - BEGIN
 //       exception. Only the <src>casa::IterError</src> exception is mapped
 //       to a Python <src>StopIteration</src> exception.
 // </ul>
+// Elements in a numpy array are called array scalars. They do not have a python
+// type like <src>int</src>, but instead a type like <src>numpy.int32</src>.
+// The converters can handle such types and convert them correctly to a scalar.
+// Of course, the converters also can handle sequences containing such types.
+//
+// A numpy or numarray scalar array (e.g. <src>array(1.0)</src> is a somewhat
+// peculiar object that cannot be indexed. It is handled correctly by the
+// converters and handled as a 1-dim array containing one element.
 // </synopsis>
 
 // </module>

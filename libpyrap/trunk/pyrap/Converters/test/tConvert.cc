@@ -45,7 +45,7 @@ namespace casa { namespace pyrap {
       {cout << "bool " << in << endl; return in;}
     Int testint (Int in)
       {cout << "Int " << in << endl; return in;}
-    Double testfloat (Float in)
+    Double testfloat (Double in)
       {cout << "Float " << in << endl; return in;}
     DComplex testcomplex (const DComplex& in)
       {cout << "DComplex " << in << endl; return in;}
@@ -95,11 +95,7 @@ namespace casa { namespace pyrap {
 BOOST_PYTHON_MODULE(_tConvert)
 {
   casa::pyrap::register_convert_excp();
-  casa::pyrap::register_convert_casa_string();
-  casa::pyrap::register_convert_casa_vector<casa::String>();
-  casa::pyrap::register_convert_casa_vector<casa::DComplex>();
-  casa::pyrap::register_convert_casa_vector<casa::Int>();
-  casa::pyrap::register_convert_casa_iposition();
+  casa::pyrap::register_convert_basicdata();
   casa::pyrap::register_convert_casa_valueholder();
   casa::pyrap::register_convert_casa_record();
 

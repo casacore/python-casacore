@@ -42,6 +42,17 @@ namespace casa { namespace pyrap {
     return numpy::PycArrayCheck(obj_ptr) || numarray::PycArrayCheck(obj_ptr);
   }
 
+  Bool PycArrayScalarCheck (PyObject* obj_ptr)
+  {
+    int type;
+    return numpy::PycArrayScalarCheck(obj_ptr, type);
+  }
+
+  DataType PycArrayScalarType (PyObject* obj_ptr)
+  {
+    return numpy::PycArrayScalarType(obj_ptr);
+  }
+
   Bool PycCanUseNumpy()
     { return numpy::canImport(); }
   Bool PycCanUseNumarray()
@@ -57,6 +68,15 @@ namespace casa { namespace pyrap {
       throw AipsError ("PycArray: python object is numpy nor numarray array");
     }
     return numarray::makeArray (obj_ptr, copyData);
+  }
+
+  ValueHolder casa_array_from_python::makeScalar (PyObject* obj_ptr)
+  {
+    int type;
+    if (!numpy::PycArrayScalarCheck(obj_ptr, type)) {
+      throw AipsError ("PycArray: python object is not a numpy array scalar");
+    }
+    return numpy::makeScalar (obj_ptr, type);
   }
 
   ValueHolder casa_array_from_python::makeArrayFromDict (PyObject* obj_ptr)

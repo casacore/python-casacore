@@ -61,59 +61,64 @@
       { throw AipsError ("PycArray: unknown casa type"); }
   };
   template <> struct TypeConvTraits<casa::Bool> {
-    typedef casa::Bool casa_type;
-    typedef ::Bool     python_type;
+    typedef casa::Bool   casa_type;
+    typedef npy_bool     python_type;
     static PyArray_TYPES pyType() { return NPY_BOOL; }
   };
   template <> struct TypeConvTraits<casa::uChar> {
     typedef casa::uChar  casa_type;
-    typedef ::UInt16     python_type;    // Note: numarray uInt8 is Bool
-    static PyArray_TYPES pyType() { return NPY_USHORT; }
+    typedef npy_uint16   python_type;    // Note: numarray uInt8 is Bool
+    static PyArray_TYPES pyType() { return NPY_UINT16; }
   };
   template <> struct TypeConvTraits<casa::Short> {
-    typedef casa::Short casa_type;
-    typedef ::Int16     python_type;
-    static PyArray_TYPES pyType() { return NPY_SHORT; }
+    typedef casa::Short  casa_type;
+    typedef npy_int16    python_type;
+    static PyArray_TYPES pyType() { return NPY_INT16; }
   };
   template <> struct TypeConvTraits<casa::uShort> {
     typedef casa::uShort casa_type;
-    typedef ::UInt16     python_type;
-    static PyArray_TYPES pyType() { return NPY_USHORT; }
+    typedef npy_uint16   python_type;
+    static PyArray_TYPES pyType() { return NPY_UINT16; }
   };
   template <> struct TypeConvTraits<casa::Int> {
-    typedef casa::Int casa_type;
-    typedef ::Int32   python_type;
-    static PyArray_TYPES pyType() { return NPY_INT; }
+    typedef casa::Int    casa_type;
+    typedef npy_int32    python_type;
+    static PyArray_TYPES pyType() { return NPY_INT32; }
   };
   template <> struct TypeConvTraits<casa::uInt> {
-    typedef casa::uInt casa_type;
-    typedef ::UInt32   python_type;
-    static PyArray_TYPES pyType() { return NPY_UINT; }
+    typedef casa::uInt   casa_type;
+    typedef npy_uint32   python_type;
+    static PyArray_TYPES pyType() { return NPY_UINT32; }
   };
   template <> struct TypeConvTraits<casa::Long> {
-    typedef casa::Long casa_type;
-    typedef ::Long     python_type;
-    static PyArray_TYPES pyType() { return NPY_LONG; }
+    typedef casa::Long   casa_type;
+    typedef npy_int64    python_type;
+    static PyArray_TYPES pyType() { return NPY_INT64; }
+  };
+  template <> struct TypeConvTraits<casa::uLong> {
+    typedef casa::uLong  casa_type;
+    typedef npy_uint64   python_type;
+    static PyArray_TYPES pyType() { return NPY_UINT64; }
   };
   template <> struct TypeConvTraits<casa::Float> {
-    typedef casa::Float casa_type;
-    typedef ::Float32   python_type;
-    static PyArray_TYPES pyType() { return NPY_FLOAT; }
+    typedef casa::Float  casa_type;
+    typedef npy_float32  python_type;
+    static PyArray_TYPES pyType() { return NPY_FLOAT32; }
   };
   template <> struct TypeConvTraits<casa::Double> {
     typedef casa::Double casa_type;
-    typedef ::Float64    python_type;
-    static PyArray_TYPES pyType() { return NPY_DOUBLE; }
+    typedef npy_float64  python_type;
+    static PyArray_TYPES pyType() { return NPY_FLOAT64; }
   };
   template <> struct TypeConvTraits<casa::Complex> {
     typedef casa::Complex casa_type;
-    typedef ::Complex32   python_type;
-    static PyArray_TYPES pyType() { return NPY_CFLOAT; }
+    typedef npy_complex64 python_type;
+    static PyArray_TYPES pyType() { return NPY_COMPLEX64; }
   };
   template <> struct TypeConvTraits<casa::DComplex> {
     typedef casa::DComplex casa_type;
-    typedef ::Complex64    python_type;
-    static PyArray_TYPES pyType() { return NPY_CDOUBLE; }
+    typedef npy_complex128 python_type;
+    static PyArray_TYPES pyType() { return NPY_COMPLEX128; }
   };
   template <> struct TypeConvTraits<casa::String> {
     typedef casa::String casa_type;
@@ -124,7 +129,7 @@
   // There is no back conversion, so an exception is thrown.
   template <> struct TypeConvTraits<casa::Char> {
     typedef casa::Char   casa_type;
-    typedef ::Int8       python_type;
+    typedef npy_int8     python_type;
     static PyArray_TYPES pyType()
       { throw AipsError ("PycArray: unknown casa type"); }
   };
@@ -161,7 +166,7 @@
 				  void* data, bool copy)
   {
     // If the python array was contiguous, etc., we can directly use
-    // its data because the Array use is only temporary.
+    // its data because the Array used is only temporary.
     // However, if a copy of the Python array was made in PycArray.cc,
     // we cannot do that because the Python copy is out of scope when
     // the Array object gets used.
@@ -334,21 +339,21 @@
     switch (po->descr->type_num) {
     case NPY_BOOL:
       return ValueHolder (ArrayCopy<Bool>::toArray(shp, po->data, docopy));
-    case NPY_SHORT:
+    case NPY_INT16:
       return ValueHolder (ArrayCopy<Short>::toArray(shp, po->data, docopy));
-    case NPY_USHORT:
+    case NPY_UINT16:
       return ValueHolder (ArrayCopy<uShort>::toArray(shp, po->data, docopy));
-    case NPY_INT:
+    case NPY_INT32:
       return ValueHolder (ArrayCopy<Int>::toArray(shp, po->data, docopy));
-    case NPY_UINT:
+    case NPY_UINT32:
       return ValueHolder (ArrayCopy<uInt>::toArray(shp, po->data, docopy));
-    case NPY_FLOAT:
+    case NPY_FLOAT32:
       return ValueHolder (ArrayCopy<Float>::toArray(shp, po->data, docopy));
-    case NPY_DOUBLE:
+    case NPY_FLOAT64:
       return ValueHolder (ArrayCopy<Double>::toArray(shp, po->data, docopy));
-    case NPY_CFLOAT:
+    case NPY_COMPLEX64:
       return ValueHolder (ArrayCopy<Complex>::toArray(shp, po->data, docopy));
-    case NPY_CDOUBLE:
+    case NPY_COMPLEX128:
       return ValueHolder (ArrayCopy<DComplex>::toArray(shp, po->data, docopy));
     case NPY_OBJECT:
       return ValueHolder (ArrayCopy<String>::toArray(shp, po->data, docopy));
@@ -358,7 +363,7 @@
       // Similarly for BYTE and SBYTE which can equal to BOOL in numarray.
       // Similarly for STRING which exists for numpy and is set to
       // INT for numarray.
-      if (po->descr->type_num == NPY_LONG) {
+      if (po->descr->type_num == NPY_INT64) {
 	if (sizeof(Long) != sizeof(Int)) docopy = False;
 	Array<Long> arr = ArrayCopy<Long>::toArray(shp, po->data, docopy);
 	if (sizeof(Long) == sizeof(Int)) {
@@ -367,12 +372,21 @@
 	Array<Int> res(arr.shape());
 	convertArray (res, arr);
 	return ValueHolder(res);
-      } else if (po->descr->type_num == NPY_BYTE) {
+      } else if (po->descr->type_num == NPY_UINT64) {
+	if (sizeof(uLong) != sizeof(uInt)) docopy = False;
+	Array<uLong> arr = ArrayCopy<uLong>::toArray(shp, po->data, docopy);
+	if (sizeof(uLong) == sizeof(uInt)) {
+	  return ValueHolder((Array<uInt>&)arr);
+	}
+	Array<uInt> res(arr.shape());
+	convertArray (res, arr);
+	return ValueHolder(res);
+      } else if (po->descr->type_num == NPY_INT8) {
 	Array<Char> arr = ArrayCopy<Char>::toArray(shp, po->data, False);
 	Array<Short> res(arr.shape());
 	convertArray (res, arr);
 	return ValueHolder(res);
-      } else if (po->descr->type_num == NPY_UBYTE) {
+      } else if (po->descr->type_num == NPY_UINT8) {
 	// Copy using Char, because uChar is mapped to Short in the Traits.
 	Array<Char> arr = ArrayCopy<Char>::toArray(shp, po->data, False);
 	Array<Short> res(arr.shape());
@@ -400,6 +414,7 @@
   template struct ArrayCopy<Int>;
   template struct ArrayCopy<uInt>;
   template struct ArrayCopy<Long>;
+  template struct ArrayCopy<uLong>;
   template struct ArrayCopy<Float>;
   template struct ArrayCopy<Double>;
 

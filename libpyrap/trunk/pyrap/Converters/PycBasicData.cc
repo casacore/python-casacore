@@ -26,6 +26,7 @@
 //# $Id: PycBasicData.cc,v 1.4 2007/01/29 04:23:01 mmarquar Exp $
 
 #include <pyrap/Converters/PycBasicData.h>
+#include <pyrap/Converters/PycArrayNP.h>
 
 using namespace boost::python;
 
@@ -67,6 +68,7 @@ namespace casa { namespace pyrap {
 
   void register_convert_basicdata()
   {
+    casa::pyrap::numpy::register_convert_arrayscalars();
     casa::pyrap::register_convert_casa_string();
     casa::pyrap::register_convert_casa_iposition();
     casa::pyrap::register_convert_casa_vector<casa::Bool>();
