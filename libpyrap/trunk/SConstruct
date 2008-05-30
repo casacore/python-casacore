@@ -24,8 +24,8 @@ PACKAGE="pyrap"
 
 # general options
 opts = Options( 'options.cfg', ARGUMENTS )
-#opts.Add(ListOption("build", "The build type", 
-#		    "opt", ["opt", "dbg"]))
+opts.Add(ListOption("build", "The build type", 
+		    "opt", ["opt", "dbg"]))
 opts.Add(ListOption("libtype", "The type of library to build",
 		    "shared", ["static", "shared"]))
 opts.Add(BoolOption("tests", "Build the tests?", False))
@@ -71,6 +71,7 @@ Help( opts.GenerateHelpText( env ) )
 env.Tool('buildenv', env["casashrdir"])
 env.Tool('utils', env["casashrdir"])
 env.Tool('casa', env["casashrdir"])
+env.Tool('assaytest', env["casashrdir"])
 
 # Auto configure
 if not env.GetOption('clean'):

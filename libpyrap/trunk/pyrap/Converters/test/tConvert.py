@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from _tConvert import *
 
 def dotest(t):
