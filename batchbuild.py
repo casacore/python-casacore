@@ -18,10 +18,15 @@ parser.add_option('--casacoreroot', dest='casacore',
                   default=None,
                   type="string",
                   help="Root directory of casacore (default is /usr/local)")
-parser.add_option('--g2clib', dest='g2clib',
+
+parser.add_option('--f2clib', dest='f2clib',
                   default=None,
                   type="string",
                   help="Fortran to c library (default is gfortran)")
+parser.add_option('--f2c', dest='f2c',
+                  default=None,
+                  type="string",
+                  help="Root directory of Fortran to c library (default is /usr)")
 
 parser.add_option('--prefix', dest='prefix',
                   default=None,
@@ -93,6 +98,10 @@ def run_python(pkg, args):
         buildargs += " --casacore=%s" %  args.casacore
     if args.boost:
         buildargs += " --boost=%s" %  args.boost
+    if args.f2clib:
+        buildargs += " --f2clib=%s" %  args.f2clib
+    if args.f2c:
+        buildargs += " --f2c=%s" %  args.f2c
     if args.prefix:
         buildargs += " --pyrap=%s" %  args.prefix
     if args.useegg:

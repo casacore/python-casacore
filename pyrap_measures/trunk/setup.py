@@ -24,7 +24,7 @@ This is a python module to access the casacore c++ measures package
 ''',
       packages = find_packages(),
       namespace_packages = ["pyrap"],
-      zips_safe = 0,
+      zip_safe = 0,
       license = 'GPL',
       ext_modules =[ casaextension ],
       cmdclass={'build_ext': casacorebuild_ext})
