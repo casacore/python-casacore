@@ -41,16 +41,12 @@ parser.add_option('--python-prefix', dest='pyprefix',
 parser.add_option('--universal', dest='universal',
                   default=None,
                   type="string",
-                  help="true or false")
+                  help="i386, ppc, x86_64 and ppc64")
 
 parser.add_option('--numpyincdir', dest='numpyincdir',
                   default=None,
                   type="string",
                   help="Location of numpy include directory (default is to autodetect)")
-parser.add_option('-e', '--eggs', dest='useegg',
-                  action="store_true", default=False,
-                  help="Use easy_install to install python modules as eggs")
-
 parser.add_option('-r', '--release', dest='release', type="choice",
                   choices=["current", "trunk"], 
                   default="current",
@@ -104,8 +100,6 @@ def run_python(pkg, args):
         buildargs += " --f2c=%s" %  args.f2c
     if args.prefix:
         buildargs += " --pyrap=%s" %  args.prefix
-    if args.useegg:
-        setupscript = "setupegg.py"
     if args.pyprefix:
         installdir = "--prefix=%s" % args.pyprefix
     os.system("python %s build_ext %s" % (setupscript, buildargs))
