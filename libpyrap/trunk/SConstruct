@@ -79,10 +79,12 @@ if not env.GetOption('clean'):
     conf.env.AppendUnique(CPPPATH=[env["numpyincdir"]])
     hasnums = False
     if not conf.CheckHeader("numpy/config.h"):
-	pass
-    else:
-	conf.env.Append(CPPDEFINES=["-DAIPS_USENUMPY"])
-	hasnums = True
+        #numpy 1.1
+        if not conf.CheckHeader("numpy/numpyconfig.h"):
+            pass
+        else:
+            conf.env.Append(CPPDEFINES=["-DAIPS_USENUMPY"])
+            hasnums = True
     if env["numarrayincdir"]:
         conf.env.AppendUnique(CPPPATH=[env["numarrayincdir"]])
         if not conf.CheckHeader("numarray/numconfig.h"):
