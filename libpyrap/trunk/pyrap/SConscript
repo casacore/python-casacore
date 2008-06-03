@@ -3,7 +3,7 @@ import SCons.Defaults
 
 # import root environment
 Import( ["buildenv", "installer"])
-myenv = buildenv.Copy()
+myenv = buildenv.Clone()
 # get all the sourcefiles recursively
 cpps = myenv.SGlob("*.cc", excludedirs=["test"], recursive=True )
 # need this to go to the root dir, as SConsript asumes to be in the
@@ -25,7 +25,7 @@ if "shared" in BUILD_TARGETS:
 if "static" in BUILD_TARGETS or "shared" not in BUILD_TARGETS:
     installer.AddLibrary(slib)
 
-testenv = myenv.Copy()
+testenv = myenv.Clone()
 # gather test files
 # SGlob works in build dir, so only for cc files
 tests = testenv.SGlob("test/*.py")
