@@ -124,7 +124,7 @@ def run_scons(target, args):
     if args.universal:
         command += " universal=%s" %  args.universal
     try:
-        failed = os.system(command + " install")
+        failed = os.system(command + " shared install")
     except KeyboardInterrupt:
         sys.exit()
     if failed:
