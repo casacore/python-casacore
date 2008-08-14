@@ -146,6 +146,13 @@ class table(Table):
     def __setitem__ (self, key, value):
         self._row._setitem (key, value, self.nrows());
 
+    def close (self):
+        self._row = 0;
+        self._close();
+
+    def done (self):
+        self.close();
+
     def copy (self, newtablename, deep=False, valuecopy=False, dminfo={},
               endian='aipsrc', memorytable=False, copynorows=False):
         t = self._copy (newtablename, memorytable, deep, valuecopy,

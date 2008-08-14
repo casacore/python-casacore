@@ -59,8 +59,7 @@ namespace casa { namespace pyrap {
       .def ("flush", &TableProxy::flush,
 	    (boost::python::arg("recursive")=false))
       .def ("resync", &TableProxy::resync)
-      .def ("close", &TableProxy::close)
-      .def ("done", &TableProxy::close)
+      .def ("_close", &TableProxy::close)
       .def ("_copy", &TableProxy::copy,
  	    (boost::python::arg("newtablename"),
  	     boost::python::arg("memorytable"),
