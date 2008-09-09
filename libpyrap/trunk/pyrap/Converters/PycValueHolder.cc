@@ -169,6 +169,9 @@ namespace casa { namespace pyrap {
       return ValueHolder(from_python_sequence< Vector<DComplex>, casa_variable_capacity_policy >::make_container (obj_ptr)); 
     case TpString:
       return ValueHolder(from_python_sequence< Vector<String>, casa_variable_capacity_policy >::make_container (obj_ptr)); 
+    case TpOther:
+      // empty sequence
+      return ValueHolder(Vector<String>());
     default:
       break;
     }
