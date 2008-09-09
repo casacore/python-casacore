@@ -19,12 +19,14 @@ def dotest(t):
     print t.testipos (NUM.array(3));
 
     print t.testvecint ([1,2,3,4]);
+    print t.testvecint ([]);
     print t.testvecint ((-1,-2,-3,-4));
     print t.testvecint (-10);
     print t.testvecint (NUM.array((10,11,12)));
     print t.testvecint (NUM.array(1));
     print t.testveccomplex ([1+2j, -1-3j, -1.5+2.5j]);
     print t.testvecstr (["a1","a2","b1","b2"])
+    print t.testvecstr (())
     print t.testvecstr ("sc1")
 
     print t.testvh (True);
@@ -36,6 +38,7 @@ def dotest(t):
     print t.testvh ([2,4,6,8,10]);
     print t.testvh ([1.3,4,5,6]);
     print t.testvh ([10-11j,1+2j]);
+    print t.testvh ([]);
     print t.testvh (["str1","str2"]);
     print t.testvh ({"shape":[2,2],"array":["str1","str2","str3","str4"]});
     a  =  t.testvh ({"shape":[2,2],"array":["str1","str2","str3","str4"]});

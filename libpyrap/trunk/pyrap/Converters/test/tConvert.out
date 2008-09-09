@@ -214,6 +214,8 @@ IPos [3]
 [3]
 VecInt [1, 2, 3, 4]
 [1, 2, 3, 4]
+VecInt []
+[]
 VecInt [-1, -2, -3, -4]
 [-1, -2, -3, -4]
 VecInt [-10]
@@ -226,6 +228,8 @@ VecComplex [(1,2), (-1,-3), (-1.5,2.5)]
 [(1+2j), (-1-3j), (-1.5+2.5j)]
 VecStr [a1, a2, b1, b2]
 ['a1', 'a2', 'b1', 'b2']
+VecStr []
+[]
 VecStr [sc1]
 ['sc1']
 VH Bool
@@ -246,6 +250,8 @@ VH Array<double>
 [ 1.3  4.   5.   6. ]
 VH Array<DComplex>
 [ 10.-11.j   1. +2.j]
+VH Array<String>
+[]
 VH Array<String>
 ['str1', 'str2']
 VH Array<String>
@@ -502,6 +508,8 @@ IPos [3]
 [3]
 VecInt [1, 2, 3, 4]
 [1, 2, 3, 4]
+VecInt []
+[]
 VecInt [-1, -2, -3, -4]
 [-1, -2, -3, -4]
 VecInt [-10]
@@ -514,6 +522,8 @@ VecComplex [(1,2), (-1,-3), (-1.5,2.5)]
 [(1+2j), (-1-3j), (-1.5+2.5j)]
 VecStr [a1, a2, b1, b2]
 ['a1', 'a2', 'b1', 'b2']
+VecStr []
+[]
 VecStr [sc1]
 ['sc1']
 VH Bool
@@ -534,6 +544,8 @@ VH Array<double>
 [ 1.3  4.   5.   6. ]
 VH Array<DComplex>
 [ 10.-11.j   1. +2.j]
+VH Array<String>
+[]
 VH Array<String>
 ['str1', 'str2']
 VH Array<String>
