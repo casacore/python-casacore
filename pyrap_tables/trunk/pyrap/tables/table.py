@@ -100,6 +100,7 @@ class table(Table):
                 memtype = 'plain';
                 if (memorytable):
                     memtype = 'memory';
+                print tabname, lockopt, endian, memtype, nrow, dminfo
                 Table.__init__ (self, tabname, lockopt, endian,
                                     memtype, nrow, tabledesc, dminfo);
                 if ack:
@@ -258,19 +259,20 @@ class table(Table):
         if isinstance(val, table):
             val = _add_prefix (val.name());
         if isinstance(keyword, str):
-            return self._putkeyword ('', keyword, -1, val, makesubrecord);
+            return self._putkeyword ('', keyword, -1, makesubrecord, val);
         else:
-            return self._putkeyword ('', '', keyword, val, makesubrecord);
+            return self._putkeyword ('', '', keyword, makesubrecord, val);
 
     def putcolkeyword (self, columnname, keyword, value, makesubrecord=False):
-        if isinstance(value, table):
-            value = 'Table:' + value.name;
+        val = value;
+        if isinstance(val, table):
+            val = _add_prefix (val.name());
         if isinstance(keyword, str):
             return self._putkeyword (columnname, keyword, -1,
-                                      value, makesubrecord);
+                                      makesubrecord, val);
         else:
             return self._putkeyword (columnname, '', keyword,
-                                      value, makesubrecord);
+                                      makesubrecord, val);
 
     def putkeywords (self, value):
         return self._putkeywords ('', value);
