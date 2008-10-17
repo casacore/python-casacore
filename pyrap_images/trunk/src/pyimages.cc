@@ -1,4 +1,4 @@
-//# pyemasures.cc: python module for aips++ measures system
+//# pyimages.cc: python module for aips++ images system
 //# Copyright (C) 2008
 //# Associated Universities, Inc. Washington DC, USA.
 //#
@@ -23,19 +23,54 @@
 //#                        520 Edgemont Road
 //#                        Charlottesville, VA 22903-2475 USA
 //#
-//# $Id: pymeasures.cc,v 1.2 2006/10/17 03:37:27 gvandiep Exp $
+//# $Id$
 
-#include <boost/python.hpp>
-#include <pyrap/Converters/PycExcp.h>
+#include <images/Images/ImageProxy.h>
 #include <pyrap/Converters/PycBasicData.h>
+#include <pyrap/Converters/PycValueHolder.h>
 #include <pyrap/Converters/PycRecord.h>
-#include "pyimages.h"
+#include <boost/python.hpp>
+#include <boost/python/args.hpp>
 
-BOOST_PYTHON_MODULE(_images)
-{
-  casa::pyrap::register_convert_excp();
-  casa::pyrap::register_convert_basicdata();
-  casa::pyrap::register_convert_casa_record();
+using namespace boost::python;
 
-  casa::pyrap::pyimages();
-}
+namespace casa { namespace pyrap {
+
+  void pyimages()
+  {
+    // Note that all constructors must have a different number of arguments.
+    class_<ImageProxy> ("Image")
+            // 1 arg: open image or create from array
+      .def (init<ValueHolder, String, vector<ImageProxy> >())
+	    //  2 arg: concat from image names
+      .def (init<Vector<String>, Int>())
+	    //  3 arg: concat from images objects
+      .def (init<std::vector<ImageProxy>, Int, Int, Int>())
+
+      // Member functions.
+      // Functions starting with un underscore are wrapped in image.py.
+      .def ("ispersistent", &ImageProxy::isPersistent)
+      .def ("name", &ImageProxy::name,
+            (boost::python::arg("strippath")=false))
+      .def ("shape", &ImageProxy::shape)
+      .def ("ndim", &ImageProxy::ndim)
+      .def ("size", &ImageProxy::size)
+      .def ("datatype", &ImageProxy::dataType)
+      .def ("_getdata", &ImageProxy::getData)
+      .def ("_getmask", &ImageProxy::getMask)
+      .def ("_putdata", &ImageProxy::putData)
+      .def ("haslock", &ImageProxy::hasLock,
+ 	    (boost::python::arg("write")=false))
+      .def ("lock", &ImageProxy::lock,
+ 	    (boost::python::arg("write")=false,
+ 	     boost::python::arg("nattempts")=0))
+      .def ("unlock", &ImageProxy::unlock)
+      .def ("_subimage", &ImageProxy::subImage)
+      .def ("coordinates", &ImageProxy::coordSys)
+      .def ("imageinfo", &ImageProxy::imageInfo)
+      .def ("miscinfo", &ImageProxy::miscInfo)
+      .def ("unit", &ImageProxy::unit)
+     ;
+  }
+
+}}

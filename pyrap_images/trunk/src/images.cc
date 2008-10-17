@@ -23,22 +23,34 @@
 //#                        520 Edgemont Road
 //#                        Charlottesville, VA 22903-2475 USA
 //#
-//# $Id: pymeas.cc,v 1.1 2006/09/28 05:55:00 mmarquar Exp $
+//# $Id: pyimages.cc,v 1.1 2006/09/28 05:55:00 mmarquar Exp $
 
-#include <boost/python.hpp>
-#include <boost/python/args.hpp>
-#include <images/Images/ImageProxy.h>
+#include "pyimages.h"
+
+#include <pyrap/Converters/PycExcp.h>
 #include <pyrap/Converters/PycBasicData.h>
+#include <pyrap/Converters/PycValueHolder.h>
 #include <pyrap/Converters/PycRecord.h>
 
-using namespace boost::python;
+#include <images/Images/ImageProxy.h>
+#include <images/Images/FITSImage.h>
+#include <images/Images/MIRIADImage.h>
 
-namespace casa { namespace pyrap {
-  void pyimages()
-  {
-    class_<ImageProxy> ("image")
-      .def (init<>())
-      //.def ("summary", &ImageProxy::summary)
-        ;
-  }
-}}
+#include <boost/python.hpp>
+
+BOOST_PYTHON_MODULE(_images)
+{
+  // Register the required pyrap converters.
+  casa::pyrap::register_convert_excp();
+  casa::pyrap::register_convert_basicdata();
+  casa::pyrap::register_convert_casa_valueholder();
+  casa::pyrap::register_convert_casa_record();
+  casa::pyrap::register_convert_std_vector<casa::ImageProxy>();
+
+  // Register the FITS and Miriad image types.
+  casa::FITSImage::registerOpenFunction();
+  casa::MIRIADImage::registerOpenFunction();
+
+  // Make python interface to images.
+  casa::pyrap::pyimages();
+}

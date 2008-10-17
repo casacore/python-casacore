@@ -19,6 +19,26 @@ parser.add_option('--casacoreroot', dest='casacore',
                   type="string",
                   help="Root directory of casacore (default is /usr/local)")
 
+parser.add_option('--lapackroot', dest='lapack',
+                  default=None,
+                  type="string",
+                  help="Root directory of lapack (default is /usr/local)")
+
+parser.add_option('--hdf5root', dest='hdf5',
+                  default=None,
+                  type="string",
+                  help="Root directory of hdf5 (default is /usr/local)")
+
+parser.add_option('--cfitsioroot', dest='cfitsio',
+                  default=None,
+                  type="string",
+                  help="Root directory of cfitsio (default is /usr/local)")
+
+parser.add_option('--wcsroot', dest='wcs',
+                  default=None,
+                  type="string",
+                  help="Root directory of wcs (default is /usr/local)")
+
 parser.add_option('--f2clib', dest='f2clib',
                   default=None,
                   type="string",
@@ -62,6 +82,7 @@ deps = {'pyrap_quanta' : None,
 	'pyrap_measures': ['pyrap_quanta'],
 	'pyrap_functionals': None,
 	'pyrap_fitting': ['pyrap_functionals'],
+	'pyrap_images': None,
 	}
 
 def get_libs(pkg, version='trunk'):
@@ -92,6 +113,14 @@ def run_python(pkg, args):
     installdir = ""
     if args.casacore:
         buildargs += " --casacore=%s" %  args.casacore
+    if args.lapack:
+        buildargs += " --lapack=%s" %  args.lapack
+    if args.hdf5:
+        buildargs += " --hdf5=%s" %  args.hdf5
+    if args.cfitsio:
+        buildargs += " --cfitsio=%s" %  args.cfitsio
+    if args.wcs:
+        buildargs += " --wcs=%s" %  args.wcs
     if args.boost:
         buildargs += " --boost=%s" %  args.boost
     if args.f2clib:
@@ -134,7 +163,7 @@ def run_scons(target, args):
 
 # build all by default
 tobuild = ['pyrap_quanta', 'pyrap_tables', 'pyrap_measures',
-           'pyrap_functionals', 'pyrap_fitting']
+           'pyrap_functionals', 'pyrap_fitting', 'pyrap_images']
 for k in deps.keys():
     k = k.rstrip("/")
     if k in args:
