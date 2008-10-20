@@ -70,7 +70,7 @@ namespace casa { namespace pyrap {
       .def ("imageinfo", &ImageProxy::imageInfo)
       .def ("miscinfo", &ImageProxy::miscInfo)
       .def ("unit", &ImageProxy::unit)
-     ;
+    ;
   }
 
 }}

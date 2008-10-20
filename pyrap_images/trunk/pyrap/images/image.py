@@ -34,17 +34,21 @@ class image(Image):
     """
 
     def __init__(self, imagenames, axis=0, mask="", images=()):
+        opened = False
         if isinstance(imagenames, tuple)  or  isinstance(imagenames, list):
             if len(imagenames) == 0:
                 raise ValueError('No images given in list or tuple');
             if isinstance(imagenames[0], str):
                 # Concatenate from image names
                 Image.__init__ (self, imagenames, axis)
+                opened = True
             elif isinstance(imagenames[0], image):
                 # Concatenate from image objects
                 Image.__init__ (self, imagenames, axis, 0, 0)
-        # Open an image from name or expression or create from an array
-        Image.__init__ (self, imagenames, mask, images)
+                opened = True
+        if not opened:
+            # Open an image from name or expression or create from an array
+            Image.__init__ (self, imagenames, mask, images)
 
     def __str__ (self):
         return self.name();
