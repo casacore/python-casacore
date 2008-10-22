@@ -24,6 +24,10 @@ parser.add_option('--lapackroot', dest='lapack',
                   type="string",
                   help="Root directory of lapack (default is /usr/local)")
 
+parser.add_option('--enable-hdf5', dest='enable_hdf5',
+                  default=False, action='store_true',
+                  help="Enable the optional hdf5 support")
+
 parser.add_option('--hdf5root', dest='hdf5',
                   default=None,
                   type="string",
@@ -107,7 +111,6 @@ def get_libs(pkg, version='trunk'):
 def run_python(pkg, args):
     cwd = os.getcwd()
     os.chdir(os.path.join(pkg, args.release))
-    print os.path.abspath(".")
     setupscript = "setup.py"
     buildargs = ""
     installdir = ""
@@ -115,6 +118,8 @@ def run_python(pkg, args):
         buildargs += " --casacore=%s" %  args.casacore
     if args.lapack:
         buildargs += " --lapack=%s" %  args.lapack
+    if args.enable_hdf5:
+        buildargs += " --enable-hdf5"
     if args.hdf5:
         buildargs += " --hdf5=%s" %  args.hdf5
     if args.cfitsio:
@@ -131,13 +136,24 @@ def run_python(pkg, args):
         buildargs += " --pyrap=%s" %  args.prefix
     if args.pyprefix:
         installdir = "--prefix=%s" % args.pyprefix
-    os.system("python %s build_ext %s" % (setupscript, buildargs))
-    os.system("python %s install %s" % (setupscript, installdir))
+
+    print "******* python %s build_ext %s" % (setupscript, buildargs)
+    try:
+        err = os.system("python %s build_ext %s" % (setupscript, buildargs))
+        if err:
+            sys.exit(1)
+        err = os.system("python %s install %s" % (setupscript, installdir))
+        if err:
+            sys.exit(1)
+    except KeyboardInterrupt:
+        sys.exit()
     os.chdir(cwd)
 
 def run_scons(target, args):
     cwd = os.getcwd()
     os.chdir(os.path.join(target, args.release))
+    if os.path.exists("options.cfg"):
+        os.remove("options.cfg")
     command = "scons "
     # copy the command line args into the new command
     pfx = None
