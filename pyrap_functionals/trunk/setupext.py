@@ -44,6 +44,11 @@ class casacorebuild_ext(build_ext.build_ext):
         self.f2clib ='gfortran'
         self.lapack = '/usr'
         self.lapacklib = ['lapack', 'blas']
+        # not used here - disable
+        self.cfitsio = None
+        self.cfitsiolib = None
+        self.wcs = None
+        self.wcslib = None
 	    
     def finalize_options(self):
         """

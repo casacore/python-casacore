@@ -40,6 +40,15 @@ class casacorebuild_ext(build_ext.build_ext):
         self.enable_hdf5 = False
         self.hdf5 = '/usr'
         self.hdf5lib = 'hdf5'
+        # not used here - disable
+        self.f2c = None
+        self.f2clib = None
+        self.lapack = None
+        self.lapacklib = None
+        self.cfitsio = None
+        self.cfitsiolib = None
+        self.wcs = None
+        self.wcslib = None
 	    
     def finalize_options(self):
         """
