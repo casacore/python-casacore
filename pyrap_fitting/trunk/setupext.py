@@ -43,7 +43,7 @@ class casacorebuild_ext(build_ext.build_ext):
         self.f2c = '/usr'
         self.f2clib ='gfortran'
         self.lapack = '/usr'
-        self.lapacklib = ['lapack', 'blas']
+        self.lapacklib = 'lapack,blas'
         # not used here - disable
         self.cfitsio = None
         self.cfitsiolib = None
@@ -92,7 +92,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	    self.include_dirs += [lapacklibdir]
 
 	self.libraries += [self.boostlib]
-        self.libraries += self.lapacklib
+        self.libraries += self.lapacklib.split(",")
         self.libraries += [self.f2clib]
 
         if self.enable_hdf5:

@@ -5,6 +5,22 @@ import os
 import re
 import string
 import optparse
+import subprocess
+
+def darwin_sdk(archlist=None):
+    if not archlist:
+        archlist = 'i386,ppc'
+    import platform        
+    devpath = { "4" : "/Developer/SDKs/MacOSX10.4u.sdk",
+                "5" : "/Developer/SDKs/MacOSX10.5.sdk" }
+    version = platform.mac_ver()[0].split(".")
+    if version[0] != '10' or int(version[1]) < 4:
+        print "Only Mac OS X >= 10.4 is supported"
+        sys.exit(1)
+    sdk = string.join([""]+archlist.split(","), " -arch ")
+    sdk += " -isysroot %s" % devpath[version[1]]
+    return (string.join(version[:2],"."), sdk)
+
 
 usage = "usage: %prog [options] <packagename>"
 parser = optparse.OptionParser(usage, description="This scripts builds libpyrap (the casacore to python conversion library) and all pyrap_* python bindings to casacore")
@@ -14,15 +30,15 @@ parser.add_option('--boostroot', dest='boost',
                   type="string",
                   help="Root directory of boost python (default is /usr)")
 
+parser.add_option('--boostlib', dest='boostlib',
+                  default=None,
+                  type="string",
+                  help="Name of the boost_python library (boost_python)")
+
 parser.add_option('--casacoreroot', dest='casacore',
                   default=None,
                   type="string",
                   help="Root directory of casacore (default is /usr/local)")
-
-parser.add_option('--lapackroot', dest='lapack',
-                  default=None,
-                  type="string",
-                  help="Root directory of lapack (default is /usr/local)")
 
 parser.add_option('--enable-hdf5', dest='enable_hdf5',
                   default=False, action='store_true',
@@ -32,6 +48,11 @@ parser.add_option('--hdf5root', dest='hdf5',
                   default=None,
                   type="string",
                   help="Root directory of hdf5 (default is /usr/local)")
+
+parser.add_option('--hdf5lib', dest='hdf5lib',
+                  default=None,
+                  type="string",
+                  help="Name of the hdf5 library (hdf5)")
 
 parser.add_option('--cfitsioroot', dest='cfitsio',
                   default=None,
@@ -51,6 +72,14 @@ parser.add_option('--f2c', dest='f2c',
                   default=None,
                   type="string",
                   help="Root directory of Fortran to c library (default is /usr)")
+parser.add_option('--lapacklib', dest='lapacklib',
+                  default=None,
+                  type="string",
+                  help="The name(s) of the lapack/blas libraries")
+parser.add_option('--lapackroot', dest='lapack',
+                  default=None,
+                  type="string",
+                  help="Root directory of the lapack/blas libraries")
 
 parser.add_option('--prefix', dest='prefix',
                   default=None,
@@ -65,7 +94,7 @@ parser.add_option('--python-prefix', dest='pyprefix',
 parser.add_option('--universal', dest='universal',
                   default=None,
                   type="string",
-                  help="i386, ppc, x86_64 and ppc64")
+                  help="i386, ppc, x86_64 and/or ppc64")
 
 parser.add_option('--numpyincdir', dest='numpyincdir',
                   default=None,
@@ -116,26 +145,47 @@ def run_python(pkg, args):
     installdir = ""
     if args.casacore:
         buildargs += " --casacore=%s" %  args.casacore
-    if args.lapack:
-        buildargs += " --lapack=%s" %  args.lapack
     if args.enable_hdf5:
         buildargs += " --enable-hdf5"
     if args.hdf5:
         buildargs += " --hdf5=%s" %  args.hdf5
+    if args.hdf5lib:
+        buildargs += " --hdf5lib=%s" %  args.hdf5lib
     if args.cfitsio:
         buildargs += " --cfitsio=%s" %  args.cfitsio
     if args.wcs:
         buildargs += " --wcs=%s" %  args.wcs
     if args.boost:
         buildargs += " --boost=%s" %  args.boost
+    if args.boost:
+        buildargs += " --boost=%s" %  args.boost
+    if args.boostlib:
+        buildargs += " --boostlib=%s" %  args.boostlib
     if args.f2clib:
         buildargs += " --f2clib=%s" %  args.f2clib
     if args.f2c:
         buildargs += " --f2c=%s" %  args.f2c
+    if args.lapacklib:
+        buildargs += " --lapacklib=%s" % args.lapacklib
+    if args.lapack:
+        buildargs += " --lapack=%s" %  args.lapack
     if args.prefix:
         buildargs += " --pyrap=%s" %  args.prefix
     if args.pyprefix:
-        installdir = "--prefix=%s" % args.pyprefix
+        installdir = " --prefix=%s" % args.pyprefix
+
+    vers, sdk = darwin_sdk(args.universal)
+    os.environ["MACOSX_DEPLOYMENT_TARGET"] = vers
+    os.environ["CFLAGS"] = sdk
+        
+#    comm = "python %s build_ext %s" % (setupscript, buildargs)
+#    p = subprocess.Popen(comm, env=os.environ, 
+#                         stderr=subprocess.PIPE, shell=True, close_fds=True)
+#    c = p.communicate()
+#    comm = "python %s install %s" % (setupscript, installdir)
+#    p = subprocess.Popen(comm, stdout=subprocess.PIPE, env=os.environ,
+#                         stderr=subprocess.PIPE, shell=True, close_fds=True)
+#    c = p.communicate()
 
     print "******* python %s build_ext %s" % (setupscript, buildargs)
     try:
@@ -155,6 +205,7 @@ def run_scons(target, args):
     if os.path.exists("options.cfg"):
         os.remove("options.cfg")
     command = "scons "
+    print os.path.abspath(os.getcwd())
     # copy the command line args into the new command
     pfx = None
     tests = False
@@ -168,9 +219,16 @@ def run_scons(target, args):
         command += " prefix=%s" %  args.prefix
     if args.universal:
         command += " universal=%s" %  args.universal
+
+    failed = False
     try:
-        failed = os.system(command + " shared install")
-    except KeyboardInterrupt:
+        print command
+        p = subprocess.Popen(command+ " install", env=os.environ,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE, shell=True, close_fds=True)
+        c = p.communicate()
+        failed = c[1]
+    except Exception:#KeyboardInterrupt:
         sys.exit()
     if failed:
         sys.exit(failed)

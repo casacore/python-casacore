@@ -46,7 +46,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	self.wcs = '/usr/local'
 	self.wcslib = 'wcs'
         self.lapack = '/usr'
-        self.lapacklib = ['lapack', 'blas']
+        self.lapacklib = 'lapack,blas'
 	    
     def finalize_options(self):
         """
@@ -105,7 +105,9 @@ class casacorebuild_ext(build_ext.build_ext):
 	self.libraries += [self.boostlib]
 	self.libraries += [self.wcslib]
 	self.libraries += [self.cfitsiolib]
-	self.libraries += self.lapacklib
+	self.libraries += self.lapacklib.split(",")
+	self.libraries += [self.f2clib]
+
         if self.enable_hdf5:
             if hdf5libdir not in self.library_dirs:
                 self.library_dirs += [hdf5libdir]
