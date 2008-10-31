@@ -97,6 +97,9 @@ if not env.GetOption('clean'):
         print "Platform darwin - using python framework"
         conf.env.Append(FRAMEWORKS=["Python"])
     else:
+        # just in case libpython is in some non-default location 
+        conf.env.PrependUnique(LIBPATH=[os.path.join(distutils.sysconfig.PREFIX,
+                                               'lib')])
 	if not conf.CheckLib(library=pylib, language='c', autoadd=0): Exit(1)
         conf.env.PrependUnique(LIBS=[pylib])
 
@@ -106,8 +109,8 @@ if not env.GetOption('clean'):
 	Exit(1)
     conf.env.PrependUnique(LIBS=[env["boostlib"]])
 
-    conf.env.AppendUnique(LIBPATH=conf.env["casalibdir"])
-    conf.env.AppendUnique(CPPPATH=conf.env["casaincdir"])
+    conf.env.PrependUnique(LIBPATH=conf.env["casalibdir"])
+    conf.env.PrependUnique(CPPPATH=conf.env["casaincdir"])
     if not conf.CheckLib('casa_casa', language='c++'):
 	Exit(1)	
     conf.env.PrependUnique(LIBS=['casa_casa'])
