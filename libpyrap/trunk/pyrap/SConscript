@@ -15,14 +15,16 @@ libname = myenv["PACKAGE"]
 # build static lib
 slib =  myenv.StaticLibrary(target = libname, source = [cpps])
 myenv.Alias("static", slib)
+myenv.Clean("static", slib)
 
 dlib =  myenv.SharedLibrary(target = libname, source = cpps)
 myenv.Alias("shared", dlib)
 myenv.Default("shared")
+myenv.Clean("shared", dlib)
 
 if "shared" in BUILD_TARGETS:
     installer.AddLibrary(dlib)
-if "static" in BUILD_TARGETS or "shared" not in BUILD_TARGETS:
+if "static" in BUILD_TARGETS:
     installer.AddLibrary(slib)
 
 testenv = myenv.Clone()
