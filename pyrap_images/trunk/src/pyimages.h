@@ -1,4 +1,4 @@
-//# pyimages.cc: python module for AIPS++ images package
+//# pyimages.cc: python module for casacore images package
 //# Copyright (C) 2008
 //# Associated Universities, Inc. Washington DC, USA.
 //#
@@ -23,7 +23,7 @@
 //#                        520 Edgemont Road
 //#                        Charlottesville, VA 22903-2475 USA
 //#
-//# $Id: pymeasures.h,v 1.1 2006/09/28 05:55:00 mmarquar Exp $
+//# $Id: $
 
 #ifndef PYRAP_IMAGES_H
 #define PYRAP_IMAGES_H
