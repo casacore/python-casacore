@@ -174,9 +174,10 @@ def run_python(pkg, args):
     if args.pyprefix:
         installdir = " --prefix=%s" % args.pyprefix
 
-    vers, sdk = darwin_sdk(args.universal)
-    os.environ["MACOSX_DEPLOYMENT_TARGET"] = vers
-    os.environ["CFLAGS"] = sdk
+    if sys.platform == "darwin":
+        vers, sdk = darwin_sdk(args.universal)
+        os.environ["MACOSX_DEPLOYMENT_TARGET"] = vers
+        os.environ["CFLAGS"] = sdk
         
 #    comm = "python %s build_ext %s" % (setupscript, buildargs)
 #    p = subprocess.Popen(comm, env=os.environ, 
@@ -223,7 +224,7 @@ def run_scons(target, args):
     failed = False
     try:
         print command
-        p = subprocess.Popen(command+ " install", env=os.environ,
+        p = subprocess.Popen(command+ " shared install", env=os.environ,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE, shell=True, close_fds=True)
         c = p.communicate()
