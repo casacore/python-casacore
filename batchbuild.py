@@ -172,7 +172,8 @@ def run_python(pkg, args):
     if args.prefix:
         buildargs += " --pyrap=%s" %  args.prefix
     if args.pyprefix:
-        installdir = " --prefix=%s" % args.pyprefix
+        os.environ["PYTHONPATH"] = args.pyprefix
+        installdir = " --install-dir=%s" % args.pyprefix
 
     if sys.platform == "darwin":
         vers, sdk = darwin_sdk(args.universal)
@@ -193,7 +194,7 @@ def run_python(pkg, args):
         err = os.system("python %s build_ext %s" % (setupscript, buildargs))
         if err:
             sys.exit(1)
-        err = os.system("python %s install %s" % (setupscript, installdir))
+        err = os.system("easy_install %s ." % (installdir))
         if err:
             sys.exit(1)
     except KeyboardInterrupt:
