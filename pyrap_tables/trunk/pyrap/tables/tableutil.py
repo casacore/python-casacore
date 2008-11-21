@@ -93,11 +93,11 @@ def value_type_name (value):
     return 'unknown'
 
 # Create a description of a scalar column
-def tablecreatescalarcoldesc (columnname, value,
-                              datamanagertype='', 
-                              datamanagergroup='',
-                              options=0, maxlen=0, comment='',
-                              valuetype=''):
+def makescacoldesc (columnname, value,
+                    datamanagertype='', 
+                    datamanagergroup='',
+                    options=0, maxlen=0, comment='',
+                    valuetype=''):
     vtype = valuetype
     if vtype == '':
         vtype = value_type_name(value)
@@ -111,11 +111,11 @@ def tablecreatescalarcoldesc (columnname, value,
             'desc' : rec2}
 
 # Create a description of an array column
-def tablecreatearraycoldesc (columnname, value, ndim=0,
-                             shape=[], datamanagertype='',
-                             datamanagergroup='', 
-                             options=0, maxlen=0, comment='',
-                             valuetype=''):
+def makearrcoldesc (columnname, value, ndim=0,
+                    shape=[], datamanagertype='',
+                    datamanagergroup='', 
+                    options=0, maxlen=0, comment='',
+                    valuetype=''):
     vtype = valuetype
     if vtype == '':
         vtype = value_type_name(value)
@@ -135,8 +135,11 @@ def tablecreatearraycoldesc (columnname, value, ndim=0,
             'desc' : rec2}
 
 # Create a table description from a set of column descriptions
-def tablecreatedesc (descs=[]):
+def maketabdesc (descs=[]):
     rec = {}
+    # If a single dict is given, make a list of it.
+    if isinstance(descs, dict):
+        descs = [descs]
     for desc in descs:
         colname = desc['name']
         if rec.has_key(colname):
@@ -144,6 +147,27 @@ def tablecreatedesc (descs=[]):
         rec[colname] = desc['desc']
     return rec;
 
+# Create the old glish names for them.
+def tablecreatescalarcoldesc (columnname, value,
+                              datamanagertype='', 
+                              datamanagergroup='',
+                              options=0, maxlen=0, comment='',
+                              valuetype=''):
+    makescacoldesc (columnname, value,
+                    datamanagertype, datamanagergroup,
+                    options, maxlen, comment, valuetype)
+
+def tablecreatearraycoldesc (columnname, value, ndim=0,
+                             shape=[], datamanagertype='',
+                             datamanagergroup='', 
+                             options=0, maxlen=0, comment='',
+                             valuetype=''):
+    makearrcoldesc (columnname, value, ndim, shape,
+                    datamanagertype, datamanagergroup,
+                    options, maxlen, comment, valuetype)
+
+def tablecreatedesc (descs=[]):
+    maketabdesc (descs)
 
 # Define a hypercolumn in the table description.
 def tabledefinehypercolumn (tabdesc,
