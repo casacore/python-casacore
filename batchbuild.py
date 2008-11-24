@@ -157,8 +157,6 @@ def run_python(pkg, args):
         buildargs += " --wcs=%s" %  args.wcs
     if args.boost:
         buildargs += " --boost=%s" %  args.boost
-    if args.boost:
-        buildargs += " --boost=%s" %  args.boost
     if args.boostlib:
         buildargs += " --boostlib=%s" %  args.boostlib
     if args.f2clib:
@@ -189,7 +187,7 @@ def run_python(pkg, args):
 #                         stderr=subprocess.PIPE, shell=True, close_fds=True)
 #    c = p.communicate()
 
-    print "******* python %s build_ext %s" % (setupscript, buildargs)
+    print "EXECUTING: python %s build_ext %s" % (setupscript, buildargs)
     try:
         err = os.system("python %s build_ext %s" % (setupscript, buildargs))
         if err:
@@ -217,6 +215,8 @@ def run_scons(target, args):
         command += " numpyincdir=%s" %  args.numpyincdir
     if args.boost:
         command += " boostroot=%s" %  args.boost
+    if args.boostlib:
+        command += " boostlib=%s" %  args.boostlib
     if args.prefix:
         command += " prefix=%s" %  args.prefix
     if args.universal:
@@ -224,12 +224,14 @@ def run_scons(target, args):
 
     failed = False
     try:
-        print command
+        print "EXECUTING:", command
         p = subprocess.Popen(command+ " shared install", env=os.environ,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE, shell=True, close_fds=True)
         c = p.communicate()
-        failed = c[1]
+        print c[0]
+        if c[1]: print c[1]
+        failed = p.wait()
     except Exception:#KeyboardInterrupt:
         sys.exit()
     if failed:
