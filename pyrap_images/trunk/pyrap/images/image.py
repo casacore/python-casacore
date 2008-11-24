@@ -28,6 +28,8 @@
 # Make interface to class ImageProxy available.
 from _images import Image
 
+from pyrap.images.coordinates import coordinatesystem
+
 class image(Image):
     """
         The Python interface to casacore images
@@ -71,3 +73,6 @@ class image(Image):
                 'miscinfo'    : self.miscinfo(),
                 'unit'        : self.unit()
                 }
+
+    def coordinates(self):
+        return coordinatesystem(Image.coordinates(self))
