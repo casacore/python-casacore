@@ -189,10 +189,12 @@ def run_python(pkg, args):
 
     print "EXECUTING: python %s build_ext %s" % (setupscript, buildargs)
     try:
-        err = os.system("python %s build_ext %s" % (setupscript, buildargs))
+        err = subprocess.call("python %s build_ext %s" % (setupscript, 
+                                                          buildargs), shell=True)
         if err:
             sys.exit(1)
-        err = os.system("easy_install %s ." % (installdir))
+        print "EXECUTING: easy_install %s ." % (installdir)
+        err = subprocess.call("easy_install %s ." % (installdir), shell=True)
         if err:
             sys.exit(1)
     except KeyboardInterrupt:
@@ -225,13 +227,7 @@ def run_scons(target, args):
     failed = False
     try:
         print "EXECUTING:", command
-        p = subprocess.Popen(command+ " shared install", env=os.environ,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE, shell=True, close_fds=True)
-        c = p.communicate()
-        print c[0]
-        if c[1]: print c[1]
-        failed = p.wait()
+        failed = subprocess.call(command+ " shared install", shell=True) 
     except Exception:#KeyboardInterrupt:
         sys.exit()
     if failed:
