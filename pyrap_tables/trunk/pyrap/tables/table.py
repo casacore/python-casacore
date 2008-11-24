@@ -59,8 +59,9 @@ def tablecommand (command, style='Python', tables=[]):
     if len(result) == 0:
         return tab;
     return result['values'];
-def taql (command, style='Python', tables=[]):
-    return tablecommand (command, style, tables);
+
+# alias
+taql = tablecommand
 
 
 class table(Table):
