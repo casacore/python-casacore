@@ -65,11 +65,48 @@ namespace casa { namespace pyrap {
  	    (boost::python::arg("write")=false,
  	     boost::python::arg("nattempts")=0))
       .def ("unlock", &ImageProxy::unlock)
-      .def ("_subimage", &ImageProxy::subImage)
+      .def ("subimage", &ImageProxy::subImage,
+            (boost::python::arg("blc")=IPosition(),
+             boost::python::arg("trc")=IPosition(),
+             boost::python::arg("inc")=IPosition(),
+             boost::python::arg("dropdegenerate")=false))
       .def ("coordinates", &ImageProxy::coordSys)
       .def ("imageinfo", &ImageProxy::imageInfo)
       .def ("miscinfo", &ImageProxy::miscInfo)
       .def ("unit", &ImageProxy::unit)
+      .def ("history", &ImageProxy::history)
+      .def ("tofits", &ImageProxy::toFits,
+            (boost::python::arg("filename"),
+             boost::python::arg("overwrite")=True,
+             boost::python::arg("velocity")=True,
+             boost::python::arg("optical")=True,
+             boost::python::arg("bitpix")=-32,
+             boost::python::arg("minpix")=-1,
+             boost::python::arg("minpix")=1))
+      .def ("copy", &ImageProxy::copy,
+            (boost::python::arg("filename"),
+             boost::python::arg("overwrite")=True,
+             boost::python::arg("hdf5")=False,
+             boost::python::arg("copymask")=True,
+             boost::python::arg("newmaskname")=String(),
+             boost::python::arg("newtileshape")=IPosition()))
+      .def ("_statistics", &ImageProxy::statistics,
+            (boost::python::arg("axes"),
+             boost::python::arg("mask"),
+             boost::python::arg("minMaxValues"),
+             boost::python::arg("exclude"),
+             boost::python::arg("robust")))
+      .def ("_regrid", &ImageProxy::regrid,
+            (boost::python::arg("axes"),
+             boost::python::arg("outname"),
+             boost::python::arg("overwrite"),
+             boost::python::arg("outshape"),
+             boost::python::arg("coordsys"),
+             boost::python::arg("interpolation"),
+             boost::python::arg("decimate"),
+             boost::python::arg("replicate"),
+             boost::python::arg("refchange"),
+             boost::python::arg("forceregrid")))
     ;
   }
 

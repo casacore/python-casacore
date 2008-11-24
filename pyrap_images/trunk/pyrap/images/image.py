@@ -58,6 +58,9 @@ class image(Image):
     def __len__ (self):
         return self.size();
 
+    def coordinates(self):
+        return coordinatesystem(Image.coordinates(self))
+
     def get (self, blc=(), trc=(), inc=()):
         return self._getdata (blc, trc, inc);
 
@@ -68,11 +71,33 @@ class image(Image):
         return self._putdata (value, blc, inc);
 
     def info (self):
-        return {'coordinates' : self.coordinates(),
+        return {'coordinates' : Image.coordinates(self),
                 'imageinfo'   : self.imageinfo(),
                 'miscinfo'    : self.miscinfo(),
                 'unit'        : self.unit()
                 }
 
-    def coordinates(self):
-        return coordinatesystem(Image.coordinates(self))
+    def _adaptAxes (self, axes):
+        # If axes is a single integer value, turn it into a list.
+        if isinstance(axes, int):
+            axes = [axes]
+        # ImageProxy expects Fortran-numbered axes.
+        # So reverse the axes.
+        n = self.ndim() - 1
+        axout = []
+        for i in range(len(axes),0,-1):
+            axout += [n-axes[i-1]]
+        return axout
+
+    def statistics (self, axes=(), minMaxValues=(), exclude=False, robust=True):
+        return self._statistics (self._adaptAxes(axes), "",
+                                 minMaxValues, exclude, robust)
+
+    def regrid (self, axes, outname="", overwrite=True,
+                outshape=(), coordsys={}, interpolation="linear",
+                decimate=10, replicate=False,
+                refchange=True, forceregrid=False):
+        return self._regrid (self._adaptAxes(axes),
+                             outname, overwrite, outshape, coordsys,
+                             interpolation, decimate, replicate,
+                             refchange, forceregrid)
