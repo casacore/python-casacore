@@ -48,8 +48,8 @@ class coordinatesystem(object):
 
     def __str__(self):
         out = ""
-        for coord in self._names:
-            out += str(self.get_coordinate(coord))
+        for coord in self:
+            out += str(coord)
         return out
 
     def summary(self):
@@ -100,46 +100,31 @@ class coordinatesystem(object):
        return self._csys.get("telescope", None)
 
     def get_referencepixel(self):
-        out = []
-        for name in self._names:
-            out.append(self.get_coordinate(name).get_referencepixel())
-        return out
+        return [coord.get_referencepixel() for coord in self]
 
     def set_referencepixel(self, values):
-        for i,name in enumerate(self._names):
-            self.get_coordinate(name).set_referencepixel(values[i])
+        for i, coord in enumerate(self):
+            coord.set_referencepixel(values[i])
 
     def get_referencevalue(self):
-        out = []
-        for name in self._names:
-            out.append(self.get_coordinate(name).get_referencevalue())
-        return out
+        return [coord.get_referencevalue() for coord in self]
 
     def set_referencevalue(self, values):
-        for i,name in enumerate(self._names):
-            self.get_coordinate(name).set_referencevalue(values[i])
+        for i, coord in enumerate(self):
+            coord.set_referencevalue(values[i])
 
     def get_increment(self):
-        out = []
-        for name in self._names:
-            out.append(self.get_coordinate(name).get_increment())
-        return out
+        return [coord.get_increment() for coord in self]
 
     def set_increment(self, values):
-        for i,name in enumerate(self._names):
-            self.get_coordinate(name).set_increment(values[i])
+        for i, coord in enumerate(self):
+            coord.set_increment(values[i])
 
     def get_unit(self):
-        out = []
-        for name in self._names:
-            out.append(self.get_coordinate(name).get_unit())
-        return out
+        return [coord.get_unit() for coord in self]
 
     def get_axes(self):
-        out = []
-        for name in self._names:
-            out.append(self.get_coordinate(name).get_axes())
-        return out
+        return [coord.get_axes() for coord in self]
 
 
 class coordinate(object):
