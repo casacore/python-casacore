@@ -92,7 +92,7 @@ namespace casa { namespace pyrap {
              boost::python::arg("newtileshape")=IPosition()))
       .def ("_statistics", &ImageProxy::statistics,
             (boost::python::arg("axes"),
-             boost::python::arg("mask"),
+             boost::python::arg("mask"), 
              boost::python::arg("minMaxValues"),
              boost::python::arg("exclude"),
              boost::python::arg("robust")))
