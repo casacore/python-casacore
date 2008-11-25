@@ -94,10 +94,10 @@ class image(Image):
                                  minMaxValues, exclude, robust)
 
     def regrid (self, axes, outname="", overwrite=True,
-                outshape=(), coordsys={}, interpolation="linear",
+                outshape=(), coordsys=None, interpolation="linear",
                 decimate=10, replicate=False,
                 refchange=True, forceregrid=False):
         return self._regrid (self._adaptAxes(axes),
-                             outname, overwrite, outshape, coordsys,
+                             outname, overwrite, outshape, coordsys.dict(),
                              interpolation, decimate, replicate,
                              refchange, forceregrid)

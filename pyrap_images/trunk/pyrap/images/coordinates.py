@@ -52,6 +52,9 @@ class coordinatesystem(object):
             out += str(coord)
         return out
 
+    def dict(self):
+        return self._csys
+
     def summary(self):
         print str(self)
 
@@ -183,9 +186,15 @@ class directioncoordinate(coordinate):
         out += self._template % ("Frame", str(self.get_frame()))
         out += self._template % ("Projection", str(self.get_projection()))
         return out
-        
+
     def get_projection(self):
         return self._coord.get("projection", None)
+
+    def set_projection(self, val):
+        knownproj = ["SIN", "ZEA", "TAN", "NCP", "AIT", "ZEA"] # etc
+        assert val.upper() in knownproj
+        self._coord["projection"] = val.upper()
+
 
     def get_frame(self):
        return self._coord.get("system", None)
@@ -193,7 +202,7 @@ class directioncoordinate(coordinate):
     def set_frame(self, val):
         # maybe uses measures here
         #dm = measures();knonwframes = dm.listcodes(dm.direction())["normal"]
-        knownframes = ["GALACTIC", "J2000"] # etc
+        knownframes = ["GALACTIC", "J2000", "B1950", "SUPERGAL"] # etc
         assert val.upper() in knownframes
         self._coord["system"] = val.upper()
 
