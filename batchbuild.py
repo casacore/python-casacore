@@ -2,6 +2,8 @@
 
 import sys
 import os
+import glob
+import shutil
 import re
 import string
 import optparse
@@ -24,6 +26,10 @@ def darwin_sdk(archlist=None):
 
 usage = "usage: %prog [options] <packagename>"
 parser = optparse.OptionParser(usage, description="This scripts builds libpyrap (the casacore to python conversion library) and all pyrap_* python bindings to casacore")
+
+parser.add_option('--clean', dest='clean',
+                  default=False, action='store_true',
+                  help="clean the build")
 
 parser.add_option('--boostroot', dest='boost',
                   default="",
@@ -140,6 +146,14 @@ def get_libs(pkg, version='trunk'):
 def run_python(pkg, args):
     cwd = os.getcwd()
     os.chdir(os.path.join(pkg, args.release))
+    if args.clean:
+        print "EXECUTING: Cleaning python build"
+        for dir in ["build", "dist", "temp"] + glob.glob('*.egg-info'):
+            if os.path.exists(dir):
+                shutil.rmtree(dir)
+                print "Removed", dir
+        os.chdir(cwd)
+        return
     setupscript = "setup.py"
     buildargs = ""
     installdir = ""
@@ -177,15 +191,6 @@ def run_python(pkg, args):
         vers, sdk = darwin_sdk(args.universal)
         os.environ["MACOSX_DEPLOYMENT_TARGET"] = vers
         os.environ["CFLAGS"] = sdk
-        
-#    comm = "python %s build_ext %s" % (setupscript, buildargs)
-#    p = subprocess.Popen(comm, env=os.environ, 
-#                         stderr=subprocess.PIPE, shell=True, close_fds=True)
-#    c = p.communicate()
-#    comm = "python %s install %s" % (setupscript, installdir)
-#    p = subprocess.Popen(comm, stdout=subprocess.PIPE, env=os.environ,
-#                         stderr=subprocess.PIPE, shell=True, close_fds=True)
-#    c = p.communicate()
 
     print "EXECUTING: python %s build_ext %s" % (setupscript, buildargs)
     try:
@@ -207,7 +212,7 @@ def run_scons(target, args):
     if os.path.exists("options.cfg"):
         os.remove("options.cfg")
     command = "scons "
-    print os.path.abspath(os.getcwd())
+    #print os.path.abspath(os.getcwd())
     # copy the command line args into the new command
     pfx = None
     tests = False
@@ -223,16 +228,30 @@ def run_scons(target, args):
         command += " prefix=%s" %  args.prefix
     if args.universal:
         command += " universal=%s" %  args.universal
-
+    if args.clean:
+        command += " --clean"
+    else:
+        command += " shared install"
     failed = False
     try:
         print "EXECUTING:", command
-        failed = subprocess.call(command+ " shared install", shell=True) 
+        failed = subprocess.call(command, shell=True) 
     except Exception:#KeyboardInterrupt:
         sys.exit()
     if failed:
-        sys.exit(failed)
         sys.stdout.flush()
+        sys.exit(failed)
+    #some extra tidying
+    if args.clean:
+        toclean = glob.glob(".scon*")
+        for dir in toclean:
+            if os.path.exists(dir):
+                if os.path.isdir(dir):
+                    shutil.rmtree(dir)
+                else:
+                    os.remove(dir)
+
+                print "Removed", dir
     os.chdir(cwd)
 
 # build all by default
