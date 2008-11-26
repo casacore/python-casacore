@@ -77,6 +77,7 @@ class coordinatesystem(object):
             raise LookupError("Coordinate record doesn't contain valid coordinates")
 
     def __getitem__(self, name):
+        # reverse index back to fortran order as the record is using this
         i = self._names[::-1].index(name)
         return eval("%scoordinate(self._csys['%s'])" % (name, name+str(i)))
 
@@ -84,6 +85,7 @@ class coordinatesystem(object):
     get_coordinate = __getitem__
 
     def __setitem__(self, name, val):
+        # reverse index back to fortran order as the record is using this
         i = self._names[::-1].index(name)
         assert isinstance(val, eval("%scoordinate" % name))
         self._csys[key+str(i)] = val._coord
@@ -151,6 +153,9 @@ class coordinate(object):
                                  str(self.get_increment()) \
                                      + " " + str(self.get_unit()))
         return out
+
+    # ALL list/array values have to be reversed as the coordsys dict holds 
+    # everything in fortran order.
 
     def get_referencepixel(self):
         return self._coord.get("crpix", [])[::-1]
