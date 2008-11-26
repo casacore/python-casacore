@@ -111,3 +111,6 @@ class image(Image):
                                    outshape, coordsys.dict(),
                                    interpolation, decimate, replicate,
                                    refchange, forceregrid))
+
+    def subimage(self, blc=(), trc=(), inc=(), dropdegenerate=False):
+        return image(Image.subimage(self, blc, trc, inc, dropdegenerate))
