@@ -70,19 +70,21 @@ class coordinatesystem(object):
                     idx = int(key[len(name):])
                     self._names[idx] = name
                     n +=1
-        self._names = self._names[:n]
+        # reverse as we are c order in python
+        self._names = self._names[:n][::-1]
+        
         if len(self._names) == 0:
             raise LookupError("Coordinate record doesn't contain valid coordinates")
 
     def __getitem__(self, name):
-        i = self._names.index(name)
+        i = self._names[::-1].index(name)
         return eval("%scoordinate(self._csys['%s'])" % (name, name+str(i)))
 
     # alias
     get_coordinate = __getitem__
 
     def __setitem__(self, name, val):
-        i = self._names.index(name)
+        i = self._names[::-1].index(name)
         assert isinstance(val, eval("%scoordinate" % name))
         self._csys[key+str(i)] = val._coord
 
@@ -151,30 +153,30 @@ class coordinate(object):
         return out
 
     def get_referencepixel(self):
-        return self._coord.get("crpix", None)
+        return self._coord.get("crpix", [])[::-1]
 
     def set_referencepixel(self, pix):
         assert len(pix) == len(self._coord["crpix"])
-        self._coord["crpix"] = pix[:]
+        self._coord["crpix"] = pix[::-1]
 
     def get_referencevalue(self):
-        return self._coord.get("crval", None)
+        return self._coord.get("crval", [])[::-1]
 
     def set_referencevalue(self, val):
         assert len(val) == len(self._coord["crval"])
-        self._coord["crval"] = val[:]
+        self._coord["crval"] = val[::-1]
 
     def get_increment(self):
-        return self._coord.get("cdelt", None)
+        return self._coord.get("cdelt", [])[::-1]
 
     def set_increment(self, inc):
-        self._coord["cdelt"] = inc
+        self._coord["cdelt"] = inc[::-1]
     
     def get_unit(self):
-        return self._coord.get("units", None)
+        return self._coord.get("units", [])[::-1]
 
     def get_axes(self):
-        return self._coord.get("axes", None)
+        return self._coord.get("axes", [])[::-1]
 
 
 class directioncoordinate(coordinate):
@@ -251,7 +253,7 @@ class spectralcoordinate(coordinate):
     def set_frame(self, val):
         # maybe uses measures here
         #dm = measures();knonwframes = dm.listcodes(dm.frequency())["normal"]
-        knownframes = ["BARY", "LSRK"] 
+        knownframes = ["BARY", "LSRK", "TOPO"] 
         assert val.upper() in knownframes
         self._coord["system"] = val.upper()
 
