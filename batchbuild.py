@@ -116,13 +116,14 @@ parser.add_option('-r', '--release', dest='release', type="choice",
 # parse command line options
 (opts, args) = parser.parse_args()
 
-deps = {'pyrap_quanta' : None,
-	'pyrap_tables': None,
-	'pyrap_measures': ['pyrap_quanta'],
-	'pyrap_functionals': None,
-	'pyrap_fitting': ['pyrap_functionals'],
-	'pyrap_images': None,
-	}
+deps = { 'pyrap_util' : None,
+         'pyrap_quanta' : None,
+         'pyrap_tables': ['pyrap_util'],
+         'pyrap_measures': ['pyrap_quanta'],
+         'pyrap_functionals': None,
+         'pyrap_fitting': ['pyrap_functionals'],
+         'pyrap_images': ['pyrap_util']
+         }
 
 def get_libs(pkg, version='trunk'):
     validver = ['current', 'trunk']
@@ -192,12 +193,16 @@ def run_python(pkg, args):
         os.environ["MACOSX_DEPLOYMENT_TARGET"] = vers
         os.environ["CFLAGS"] = sdk
 
-    print "EXECUTING: python %s build_ext %s" % (setupscript, buildargs)
+
     try:
-        err = subprocess.call("python %s build_ext %s" % (setupscript, 
-                                                          buildargs), shell=True)
-        if err:
-            sys.exit(1)
+        # don't build extension if the package doesn't have extensions
+        if os.path.exists("setupext.py"):
+            print "EXECUTING: python %s build_ext %s" % (setupscript, buildargs)
+            err = subprocess.call("python %s build_ext %s" % (setupscript, 
+                                                              buildargs),
+                                  shell=True)
+            if err:
+                sys.exit(1)
         print "EXECUTING: easy_install %s ." % (installdir)
         err = subprocess.call("easy_install %s ." % (installdir), shell=True)
         if err:
@@ -255,7 +260,7 @@ def run_scons(target, args):
     os.chdir(cwd)
 
 # build all by default
-tobuild = ['pyrap_quanta', 'pyrap_tables', 'pyrap_measures',
+tobuild = ['pyrap_util', 'pyrap_quanta', 'pyrap_tables', 'pyrap_measures',
            'pyrap_functionals', 'pyrap_fitting', 'pyrap_images']
 for k in deps.keys():
     k = k.rstrip("/")
