@@ -35,22 +35,25 @@ class image(Image):
         The Python interface to casacore images
     """
 
-    def __init__(self, imagenames, axis=0, mask="", images=()):
-        opened = False
-        if isinstance(imagenames, tuple)  or  isinstance(imagenames, list):
-            if len(imagenames) == 0:
-                raise ValueError('No images given in list or tuple');
-            if isinstance(imagenames[0], str):
-                # Concatenate from image names
-                Image.__init__ (self, imagenames, axis)
-                opened = True
-            elif isinstance(imagenames[0], image):
-                # Concatenate from image objects
-                Image.__init__ (self, imagenames, axis, 0, 0)
-                opened = True
-        if not opened:
-            # Open an image from name or expression or create from an array
-            Image.__init__ (self, imagenames, mask, images)
+    def __init__(self, imagename, axis=0, mask="", images=()):
+        if isinstance(imagename, Image):
+            Image.__init__ (self, imagename)
+        else:
+            opened = False
+            if isinstance(imagename, tuple)  or  isinstance(imagename, list):
+                if len(imagename) == 0:
+                    raise ValueError('No images given in list or tuple');
+                if isinstance(imagename[0], str):
+                    # Concatenate from image names
+                    Image.__init__ (self, imagename, axis)
+                    opened = True
+                elif isinstance(imagename[0], image):
+                    # Concatenate from image objects
+                    Image.__init__ (self, imagename, axis, 0, 0)
+                    opened = True
+            if not opened:
+                # Open an image from name or expression or create from an array
+                Image.__init__ (self, imagename, mask, images)
 
     def __str__ (self):
         return self.name();
@@ -77,6 +80,12 @@ class image(Image):
                 'unit'        : self.unit()
                 }
 
+    def saveas (self, filename, overwrite=True, hdf5=False,
+                copymask=True, newmaskname="", newtileshape=()):
+        self._saveas (filename, overwrite, hdf5,
+                      copymask, newmaskname,
+                      newtileshape)
+
     def _adaptAxes (self, axes):
         # If axes is a single integer value, turn it into a list.
         if isinstance(axes, int):
@@ -97,7 +106,8 @@ class image(Image):
                 outshape=(), coordsys=None, interpolation="linear",
                 decimate=10, replicate=False,
                 refchange=True, forceregrid=False):
-        return self._regrid (self._adaptAxes(axes),
-                             outname, overwrite, outshape, coordsys.dict(),
-                             interpolation, decimate, replicate,
-                             refchange, forceregrid)
+        return image(self._regrid (self._adaptAxes(axes),
+                                   outname, overwrite,
+                                   outshape, coordsys.dict(),
+                                   interpolation, decimate, replicate,
+                                   refchange, forceregrid))

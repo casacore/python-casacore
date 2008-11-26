@@ -40,11 +40,13 @@ namespace casa { namespace pyrap {
   {
     // Note that all constructors must have a different number of arguments.
     class_<ImageProxy> ("Image")
-            // 1 arg: open image or create from array
+            // 1 arg: copy constructor
+      .def (init<ImageProxy>())
+            // 3 arg: open image or create from array
       .def (init<ValueHolder, String, vector<ImageProxy> >())
 	    //  2 arg: concat from image names
       .def (init<Vector<String>, Int>())
-	    //  3 arg: concat from images objects
+	    //  4 arg: concat from images objects
       .def (init<std::vector<ImageProxy>, Int, Int, Int>())
 
       // Member functions.
@@ -83,7 +85,7 @@ namespace casa { namespace pyrap {
              boost::python::arg("bitpix")=-32,
              boost::python::arg("minpix")=-1,
              boost::python::arg("minpix")=1))
-      .def ("copy", &ImageProxy::copy,
+      .def ("_saveas", &ImageProxy::saveAs,
             (boost::python::arg("filename"),
              boost::python::arg("overwrite")=True,
              boost::python::arg("hdf5")=False,
