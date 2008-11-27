@@ -49,16 +49,26 @@ def _remove_prefix (name):
 
 # Execute a TaQL command on a table.
 def tablecommand (command, style='Python', tables=[]):
+    # Substitute possible tables given as $name.
     cmd = command;
+    # Copy the tables argument and make sure it is a list
+    tabs = []
+    for tab in tables:
+        tabs += [tab]
+    try:
+        from pyrap.util import substitute
+        cmd = substitute(cmd, [(table, '', tabs)])
+    except:
+        pass
     if style:
-        cmd = 'using style ' + style + ' ' + command;
-    tab = table(cmd, tables, _oper=2);
-    result = tab._getcalcresult();
+        cmd = 'using style ' + style + ' ' + cmd
+    tab = table(cmd, tabs, _oper=2)
+    result = tab._getcalcresult()
     # If result is empty, it was a normal TaQL command resulting in a table.
     # Otherwise it is a record containing calc values.
     if len(result) == 0:
-        return tab;
-    return result['values'];
+        return tab
+    return result['values']
 
 # alias
 taql = tablecommand
