@@ -148,26 +148,10 @@ def maketabdesc (descs=[]):
     return rec;
 
 # Create the old glish names for them.
-def tablecreatescalarcoldesc (columnname, value,
-                              datamanagertype='', 
-                              datamanagergroup='',
-                              options=0, maxlen=0, comment='',
-                              valuetype=''):
-    makescacoldesc (columnname, value,
-                    datamanagertype, datamanagergroup,
-                    options, maxlen, comment, valuetype)
+tablecreatescalarcoldesc = makescacoldesc
+tablecreatearraycoldesc  = makearrcoldesc
+tablecreatedesc          = maketabdesc
 
-def tablecreatearraycoldesc (columnname, value, ndim=0,
-                             shape=[], datamanagertype='',
-                             datamanagergroup='', 
-                             options=0, maxlen=0, comment='',
-                             valuetype=''):
-    makearrcoldesc (columnname, value, ndim, shape,
-                    datamanagertype, datamanagergroup,
-                    options, maxlen, comment, valuetype)
-
-def tablecreatedesc (descs=[]):
-    maketabdesc (descs)
 
 # Define a hypercolumn in the table description.
 def tabledefinehypercolumn (tabdesc,
