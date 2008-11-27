@@ -27,6 +27,7 @@
 
 # Make interface to class ImageProxy available.
 from _images import Image
+import numpy, numpy.core.ma
 
 from pyrap.images.coordinates import coordinatesystem
 
@@ -53,7 +54,16 @@ class image(Image):
                     opened = True
             if not opened:
                 # Open an image from name or expression or create from an array
-                Image.__init__ (self, imagename, mask, images)
+                # Copy the tables argument and make sure it is a list
+                imgs = []
+                for img in images:
+                    imgs += [img]
+                try:
+                    from pyrap.util import substitute
+                    imagename = substitute(imagename, [(image, '', imgs)])
+                except:
+                    pass
+                Image.__init__ (self, imagename, mask, imgs)
 
     def __str__ (self):
         return self.name();
@@ -64,11 +74,16 @@ class image(Image):
     def coordinates(self):
         return coordinatesystem(Image.coordinates(self))
 
-    def get (self, blc=(), trc=(), inc=()):
+    def getdata (self, blc=(), trc=(), inc=()):
         return self._getdata (blc, trc, inc);
 
     def getmask (self, blc=(), trc=(), inc=()):
         return self._getmask (blc, trc, inc);
+
+    # Get data and mask; negate mask as for numpy True is invalid.
+    def get (self, blc=(), trc=(), inc=()):
+        return numpy.core.ma.masked_array (self.getdata(blc,trc,inc),
+                                           -self.getmask(blc,trc,inc))
 
     def put (self, value, blc=(), trc=(), inc=()):
         return self._putdata (value, blc, inc);
