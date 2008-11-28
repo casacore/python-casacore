@@ -124,9 +124,9 @@ namespace casa { namespace pyrap {
   ValueHolder casa_value_from_python::makeValueHolder (PyObject* obj_ptr)
   {
     using namespace boost::python;
-    // An empty numarray is Py_None, so return an empty Array.
+    // An empty numarray is Py_None, so return an empty 0-dim Array.
     if (obj_ptr == Py_None) {
-      return ValueHolder(Array<Int>());
+      return ValueHolder(0, True);
     }
     if (PyBool_Check(obj_ptr)) {
       return ValueHolder(extract<bool>(obj_ptr)());
@@ -170,8 +170,8 @@ namespace casa { namespace pyrap {
     case TpString:
       return ValueHolder(from_python_sequence< Vector<String>, casa_variable_capacity_policy >::make_container (obj_ptr)); 
     case TpOther:
-      // empty sequence
-      return ValueHolder(Vector<String>());
+      // empty sequence is set as empty 1-dim array
+      return ValueHolder(1, True);
     default:
       break;
     }
