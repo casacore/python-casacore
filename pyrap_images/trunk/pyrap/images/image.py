@@ -62,6 +62,7 @@ class image(Image):
                     from pyrap.util import substitute
                     imagename = substitute(imagename, [(image, '', imgs)])
                 except:
+                    print "Probably could not import pyrap.util"
                     pass
                 Image.__init__ (self, imagename, mask, imgs)
 
@@ -77,16 +78,27 @@ class image(Image):
     def getdata (self, blc=(), trc=(), inc=()):
         return self._getdata (blc, trc, inc);
 
+    # Negate the mask; in numpy True means invalid.
     def getmask (self, blc=(), trc=(), inc=()):
-        return self._getmask (blc, trc, inc);
+        return -self._getmask (blc, trc, inc);
 
-    # Get data and mask; negate mask as for numpy True is invalid.
+    # Get data and mask;
     def get (self, blc=(), trc=(), inc=()):
         return numpy.core.ma.masked_array (self.getdata(blc,trc,inc),
-                                           -self.getmask(blc,trc,inc))
+                                           self.getmask(blc,trc,inc))
+
+    def putdata (self, value, blc=(), trc=(), inc=()):
+        return self._putdata (value, blc, inc);
+
+    def putmask (self, value, blc=(), trc=(), inc=()):
+        return self._putmask (-value, blc, inc);
 
     def put (self, value, blc=(), trc=(), inc=()):
-        return self._putdata (value, blc, inc);
+        if isinstance(value, numpy.core.ma.MaskedArray):
+            self.putdata (value.data, blc, trc, inc);
+            self.putmask (numpy.core.ma.getmaskarray(value), blc, trc, inc);
+        else:
+            self.putdata (value, blc, trc, inc);
 
     def info (self):
         return {'coordinates' : Image.coordinates(self),

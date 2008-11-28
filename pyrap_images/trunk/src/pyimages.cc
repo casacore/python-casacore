@@ -61,6 +61,7 @@ namespace casa { namespace pyrap {
       .def ("_getdata", &ImageProxy::getData)
       .def ("_getmask", &ImageProxy::getMask)
       .def ("_putdata", &ImageProxy::putData)
+      .def ("_putmask", &ImageProxy::putMask)
       .def ("haslock", &ImageProxy::hasLock,
  	    (boost::python::arg("write")=false))
       .def ("lock", &ImageProxy::lock,
@@ -71,7 +72,7 @@ namespace casa { namespace pyrap {
             (boost::python::arg("blc")=IPosition(),
              boost::python::arg("trc")=IPosition(),
              boost::python::arg("inc")=IPosition(),
-             boost::python::arg("dropdegenerate")=false))
+             boost::python::arg("dropdegenerate")=true))
       .def ("coordinates", &ImageProxy::coordSys)
       .def ("imageinfo", &ImageProxy::imageInfo)
       .def ("miscinfo", &ImageProxy::miscInfo)
