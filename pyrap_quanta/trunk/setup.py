@@ -2,6 +2,7 @@ import glob
 from setuptools import setup, find_packages
 from setuptools.extension import Extension
 from setupext import casacorebuild_ext
+from setupext import assay
 
 PKGNAME = "pyrap.quanta"
 EXTNAME = "_quanta"
@@ -26,4 +27,4 @@ This is a python module to do unit conversion using the casacore Quanta c++ libr
       license = 'GPL',
       zip_safe = 0,
       ext_modules =[ casaextension ],
-      cmdclass={'build_ext': casacorebuild_ext})
+      cmdclass={'build_ext': casacorebuild_ext, "test": assay})

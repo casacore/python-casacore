@@ -2,6 +2,7 @@ import glob
 from setuptools import setup, find_packages
 from setuptools.extension import Extension
 from setupext import casacorebuild_ext
+from setupext import assay
 
 PKGNAME = "pyrap.images"
 EXTNAME = "_images"
@@ -14,6 +15,9 @@ casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME),
 			sources = glob.glob('src/*.cc'),
 			depends = glob.glob('src/*.h'),
 			libraries= casalibs)
+
+from setuptools import Command
+
 
 setup(name = PKGNAME,
       version = 'trunk',
@@ -30,5 +34,5 @@ This is a python module to access the casacore c++ images package
       license = 'GPL',
       zip_safe = 0,
       ext_modules =[ casaextension ],
-      cmdclass={'build_ext': casacorebuild_ext})
+      cmdclass={'build_ext': casacorebuild_ext, 'test': assay})
       

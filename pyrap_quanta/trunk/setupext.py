@@ -1,5 +1,6 @@
 import os, sys, platform
 from distutils.command import build_ext
+from setuptools import Command
  
 class casacorebuild_ext(build_ext.build_ext):
     """
@@ -89,3 +90,40 @@ class casacorebuild_ext(build_ext.build_ext):
             self.libraries += [self.hdf5lib]
 
 
+class assay(Command):
+    """Command to run casacore_assay"""
+
+    ## The description string of this Command class    
+    description = "run an assay test on the target"
+
+    ## List of option tuples: long name, short name (None if no short
+    # name), and help string.
+    user_options = [('casacore=', 'c', "Path to casacoreroot")]
+
+    ## Initialise all the option member variables
+    def initialize_options (self):
+        self.casacore = "/usr/local"
+    
+    ## Finalize the option member variables after they have been configured
+    # by command line arguments or the configuration file. Needs to ensure that
+    # they are valid for processing.
+    def finalize_options (self):
+        pass
+
+    def run(self):
+        import subprocess
+        import glob
+        tdir = "tests"
+        if not os.path.exists(tdir):
+            print "No tests found"
+            return
+        os.chdir(tdir)
+        comm = os.path.join(self.casacore, "share", "casacore", 
+                            "casacore_assay")
+        if not os.path.exists(comm):
+            print "casacore_assay not found"
+            return
+
+        tfiles = glob.glob("t*.py")
+        for f in tfiles:
+            err = subprocess.call(comm+" ./"+f, shell=True)

@@ -38,7 +38,7 @@ def dotest(t):
     print t.testvh ([2,4,6,8,10]);
     print t.testvh ([1.3,4,5,6]);
     print t.testvh ([10-11j,1+2j]);
-    print t.testvh ([]);
+#    print t.testvh ([]);
     print t.testvh (["str1","str2"]);
     print t.testvh ({"shape":[2,2],"array":["str1","str2","str3","str4"]});
     a  =  t.testvh ({"shape":[2,2],"array":["str1","str2","str3","str4"]});

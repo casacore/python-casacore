@@ -31,6 +31,10 @@ parser.add_option('--clean', dest='clean',
                   default=False, action='store_true',
                   help="clean the build")
 
+parser.add_option('--test', dest='test',
+                  default=False, action='store_true',
+                  help="Run assay tests")
+
 parser.add_option('--boostroot', dest='boost',
                   default="",
                   type="string",
@@ -147,8 +151,9 @@ def get_libs(pkg, version='trunk'):
 def run_python(pkg, args):
     cwd = os.getcwd()
     os.chdir(os.path.join(pkg, args.release))
+    print "** Entering", os.path.abspath(os.curdir)
     if args.clean:
-        print "EXECUTING: Cleaning python build"
+        print "** EXECUTING: Cleaning python build"
         for dir in ["build", "dist", "temp"] + glob.glob('*.egg-info'):
             if os.path.exists(dir):
                 shutil.rmtree(dir)
@@ -196,17 +201,28 @@ def run_python(pkg, args):
 
     try:
         # don't build extension if the package doesn't have extensions
-        if os.path.exists("setupext.py"):
-            print "EXECUTING: python %s build_ext %s" % (setupscript, buildargs)
+        if args.test:
+            b = ""
+            if args.casacore:
+                b += " --casacore=%s" %  args.casacore
+            print "** EXECUTING: python %s test %s" % (setupscript, b)
+            err = subprocess.call("python %s test %s" % (setupscript, 
+                                                              b),
+                                  shell=True)
+
+        else:
+            print "** EXECUTING: python %s build_ext %s" % (setupscript, 
+                                                            buildargs)
             err = subprocess.call("python %s build_ext %s" % (setupscript, 
                                                               buildargs),
                                   shell=True)
             if err:
                 sys.exit(1)
-        print "EXECUTING: easy_install %s ." % (installdir)
-        err = subprocess.call("easy_install %s ." % (installdir), shell=True)
-        if err:
-            sys.exit(1)
+            print "** EXECUTING: easy_install %s ." % (installdir)
+            err = subprocess.call("easy_install %s ." % (installdir), 
+                                  shell=True)
+            if err:
+                sys.exit(1)
     except KeyboardInterrupt:
         sys.exit()
     os.chdir(cwd)
@@ -214,6 +230,7 @@ def run_python(pkg, args):
 def run_scons(target, args):
     cwd = os.getcwd()
     os.chdir(os.path.join(target, args.release))
+    print "** Entering", os.path.abspath(os.curdir)
     if os.path.exists("options.cfg"):
         os.remove("options.cfg")
     command = "scons "
@@ -235,6 +252,8 @@ def run_scons(target, args):
         command += " universal=%s" %  args.universal
     if args.clean:
         command += " --clean"
+    elif args.test:
+        command += " test -Q"
     else:
         command += " shared install"
     failed = False
