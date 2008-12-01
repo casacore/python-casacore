@@ -42,12 +42,18 @@ namespace casa { namespace pyrap {
     class_<ImageProxy> ("Image")
             // 1 arg: copy constructor
       .def (init<ImageProxy>())
-            // 3 arg: open image or create from array
-      .def (init<ValueHolder, String, vector<ImageProxy> >())
-	    //  2 arg: concat from image names
+	    // 2 arg: concat from image names
       .def (init<Vector<String>, Int>())
-	    //  4 arg: concat from images objects
+            // 3 arg: open image or image expression
+      .def (init<String, String, vector<ImageProxy> >())
+	    // 4 arg: concat from images objects
       .def (init<std::vector<ImageProxy>, Int, Int, Int>())
+            // 8 arg: create image from array
+      .def (init<ValueHolder, ValueHolder, Record, String, Bool, Bool,
+            String, IPosition>())
+            // 9 arg: create image from shape
+      .def (init<IPosition, ValueHolder, Record, String, Bool, Bool,
+            String, IPosition, Int>())
 
       // Member functions.
       // Functions starting with un underscore are wrapped in image.py.

@@ -36,8 +36,14 @@ class image(Image):
         The Python interface to casacore images
     """
 
-    def __init__(self, imagename, axis=0, mask="", images=()):
+    def __init__(self, imagename, axis=0, maskname="", images=(), values=None,
+                 coordsys=None, overwrite=True, ashdf5=False, mask=(),
+                 shape=None, tileshape=()):
+        coord = {}
+        if not coordsys is None:
+            coord = coordsys.dict()
         if isinstance(imagename, Image):
+            # Create from the value returned by subimage, etc.
             Image.__init__ (self, imagename)
         else:
             opened = False
@@ -53,22 +59,48 @@ class image(Image):
                     Image.__init__ (self, imagename, axis, 0, 0)
                     opened = True
             if not opened:
-                # Open an image from name or expression or create from an array
-                # Copy the tables argument and make sure it is a list
-                imgs = []
-                for img in images:
-                    imgs += [img]
-                try:
-                    from pyrap.util import substitute
-                    imagename = substitute(imagename, [(image, '', imgs)])
-                except:
-                    print "Probably could not import pyrap.util"
-                    pass
-                Image.__init__ (self, imagename, mask, imgs)
+                if not isinstance(imagename, str):
+                    raise ValueError("first argument must be name or sequence of images or names")
+                if shape is None:
+                    if values is None:
+                        # Open an image from name or expression
+                        # Copy the tables argument and make sure it is a list
+                        imgs = []
+                        for img in images:
+                            imgs += [img]
+                        try:
+                            # Substitute possible $ arguments
+                            from pyrap.util import substitute
+                            imagename = substitute(imagename, [(image, '', imgs)])
+                        except:
+                            print "Probably could not import pyrap.util"
+                            pass
+                        Image.__init__ (self, imagename, maskname, imgs)
+                    else:
+                        # Create an image from an array
+                        # The values can be a masked array;
+                        #  use the mask if no explicit mask is given
+                        if isinstance(values, numpy.core.ma.MaskedArray):
+                            if len(mask) == 0:
+                                mask = numpy.core.ma.getmaskarray(values)
+                            values = values.data
+                        if len(mask) > 0:
+                            mask = -mask;  # casa and numpy have opposite flags
+                        Image.__init__ (self, values, mask, coord,
+                                        imagename, overwrite, ashdf5,
+                                        maskname, tileshape)
+                else:
+                    # Create an image from a shape (values gives the data type)
+                    # default type is float.
+                    if values is None:
+                        values = float(0)
+                    Image.__init__ (self, shape, values, coord,
+                                    imagename, overwrite, ashdf5,
+                                    maskname, tileshape, 0)
 
     def __str__ (self):
         return self.name();
-    
+
     def __len__ (self):
         return self.size();
 
@@ -91,6 +123,7 @@ class image(Image):
         return self._putdata (value, blc, inc);
 
     def putmask (self, value, blc=(), trc=(), inc=()):
+        # casa and numpy have opposite flags
         return self._putmask (-value, blc, inc);
 
     def put (self, value, blc=(), trc=(), inc=()):
@@ -129,8 +162,8 @@ class image(Image):
         return self._statistics (self._adaptAxes(axes), "",
                                  minMaxValues, exclude, robust)
 
-    def regrid (self, axes, outname="", overwrite=True,
-                outshape=(), coordsys=None, interpolation="linear",
+    def regrid (self, axes, coordsys, outname="", overwrite=True,
+                outshape=(), interpolation="linear",
                 decimate=10, replicate=False,
                 refchange=True, forceregrid=False):
         return image(self._regrid (self._adaptAxes(axes),
