@@ -143,7 +143,7 @@ def maketabdesc (descs=[]):
     for desc in descs:
         colname = desc['name']
         if rec.has_key(colname):
-            raise ValueError('Column name ' + name + ' multiply used in table description')
+            raise ValueError('Column name ' + colname + ' multiply used in table description')
         rec[colname] = desc['desc']
     return rec;
 

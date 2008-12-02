@@ -34,7 +34,7 @@ class tableindex(TableIndex):
     """
 
     def __init__(self, table, columnnames, sort=True):
-        TableIndex.__init__ (self, table, columnnames, sort);
+        TableIndex.__init__ (self, table, columnnames, not sort);
 
     def _makekey (self, key):
         d = key;

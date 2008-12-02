@@ -90,8 +90,11 @@ class table(Table):
                             lockoptions, ack, dminfo, endian, memorytable,
                             columnnames, datatypes);
         elif _oper == 2:
-            # This is the query constructor.
+            # This is the query or calc constructor.
             Table.__init__ (self, tablename, tabledesc);
+            if len(self._getcalcresult()) != 0:
+                # Do not make row object for a calc result
+                return
         elif _oper == 3:
             # This is the constructor taking a Table (used by copy).
             Table.__init__ (self, tablename);
@@ -111,9 +114,8 @@ class table(Table):
                 memtype = 'plain';
                 if (memorytable):
                     memtype = 'memory';
-                print tabname, lockopt, endian, memtype, nrow, dminfo
                 Table.__init__ (self, tabname, lockopt, endian,
-                                    memtype, nrow, tabledesc, dminfo);
+                                memtype, nrow, tabledesc, dminfo);
                 if ack:
                     print 'Successful creation of', lockopt['option']+'-locked table', tabname+':', self.ncols(), 'columns,', self.nrows(), 'rows';
             else:
@@ -143,9 +145,12 @@ class table(Table):
                     if ack:
                         print 'Successful virtual concatenation of', len(tabname), 'tables:', self.ncols(), 'columns,', self.nrows(), 'rows';
         # Create a row object for this table.
+        self._makerow()
+
+    def _makerow (self):
         from tablerow import _tablerow;
         self._row = _tablerow (self, self.colnames());
-
+    
     def __str__ (self):
         return _add_prefix (self.name());
     
@@ -178,18 +183,19 @@ class table(Table):
         return table(t, _oper=3);
 
     def col (self, columnname):
-        from tables import tablecolumn;
+        from tablecolumn import tablecolumn;
         return tablecolumn (self, columnname);
 
     def row (self, columnnames, exclude=False):
+        from tablerow import tablerow;
         return tablerow (self, columnnames, exclude);
 
     def iter (self, columnnames, order='', sort=True):
-        from tables import tableiter;
+        from tableiter import tableiter;
         return tableiter (self, columnnames, order, sort);
 
     def index (self, columnnames, sort=True):
-        from tables import tableindex;
+        from tableindex import tableindex;
         return tableindex (self, columnnames, sort);
 
     def isvarcol (self, columnname):
@@ -228,6 +234,18 @@ class table(Table):
         return self._getcolshapestring (columnname,
                                         startrow, nrow, rowincr,
                                         True);              #reverse axes
+
+    def addcols (self, desc, dminfo={}):
+        self._addcols (desc, dminfo)
+        self._makerow()
+
+    def renamecol (self, oldname, newname):
+        self._renamecol (oldname, newname)
+        self._makerow()
+
+    def removecols (self, columnnames):
+        self._removecols (columnnames)
+        self._makerow()
 
     def keywordnames (self):
         return self._getfieldnames ('', '', -1);

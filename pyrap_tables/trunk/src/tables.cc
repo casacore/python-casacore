@@ -49,3 +49,4 @@ BOOST_PYTHON_MODULE(_tables)
   casa::pyrap::pytableiter();
   casa::pyrap::pytableindex();
 }
+
