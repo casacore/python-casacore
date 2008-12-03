@@ -214,7 +214,7 @@ namespace casa { namespace pyrap {
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("keyword"),
 	     boost::python::arg("keywordindex")))
-      .def ("getdminfo", &TableProxy::getDataManagerInfo)
+      .def ("_getdminfo", &TableProxy::getDataManagerInfo)
       .def ("getdesc", &TableProxy::getTableDescription,
 	    (boost::python::arg("actual")=true,
 	     boost::python::arg("_cOrder")=true))

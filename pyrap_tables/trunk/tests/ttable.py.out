@@ -10,6 +10,7 @@
 ['cols', 'colc', 'coli', 'cold', 'colb', 'colarr', 'coli2']
 {'*1': {'TYPE': 'StandardStMan', 'NAME': 'StandardStMan', 'COLUMNS': ['colarr', 'colarrssm', 'colb', 'colc', 'cold', 'coli', 'cols'], 'SPEC': {'CACHESIZE': 2, 'BUCKETSIZE': 1540}}, '*2': {'TYPE': 'IncrementalStMan', 'NAME': 'ism1', 'COLUMNS': ['coli2'], 'SPEC': {'CACHESIZE': 1, 'BUCKETSIZE': 32768}}, '*3': {'TYPE': 'TiledShapeStMan', 'NAME': 'tsm1', 'COLUMNS': ['colarrtsm'], 'SPEC': {'SEQNR': 2, 'HYPERCUBES': {}, 'DEFAULTTILESHAPE': array([], dtype=int32), 'MAXIMUMCACHESIZE': 0}}}
 {'comment': '', 'dataManagerType': 'TiledShapeStMan', '_c_order': True, 'option': 0, 'valueType': 'dcomplex', 'maxlen': 0, 'dataManagerGroup': 'tsm1', 'ndim': 2}
+{'TYPE': 'TiledShapeStMan', 'NAME': 'tsm2', 'SPEC': {'SEQNR': 3, 'HYPERCUBES': {}, 'DEFAULTTILESHAPE': array([], dtype=int32), 'MAXIMUMCACHESIZE': 0}}
 [[[  1.+0.j   2.+0.j   3.+0.j]
   [  4.+0.j   5.+0.j   6.+0.j]]
 

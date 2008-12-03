@@ -321,6 +321,17 @@ class table(Table):
         else:
             self._removekeyword (columnname, '', keyword);
 
+    def getdminfo (self, columnname=None):
+        dminfo = self._getdminfo()
+        if columnname is None:
+            return dminfo
+        # Find the info for the given column
+        for fld in dminfo.itervalues():
+            if columnname in fld["COLUMNS"]:
+                fldc = fld.copy();
+                del fldc['COLUMNS']     # remove COLUMNS field
+                return fldc
+        raise KeyError("Column " + columnname + " does not exist")
 
     def summary (self, recurse=False):
         print 'Table summary:', self.name();

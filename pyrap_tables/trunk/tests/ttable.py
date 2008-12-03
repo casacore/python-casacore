@@ -43,7 +43,12 @@ t.addcols (maketabdesc(makearrcoldesc("colarrssm","")))
 t.addcols (maketabdesc(makearrcoldesc("colarrtsm",0.+0j, ndim=2)),
            dminfo={'TYPE':"TiledShapeStMan", 'NAME':"tsm1", 'SPEC':{}})
 print t.getdminfo()
+coldmi = t.getdminfo('colarrtsm')
 print t.getcoldesc('colarrtsm')
+coldmi["NAME"] = 'tsm2'
+t.addcols (maketabdesc(makearrcoldesc("colarrtsm2",0., ndim=2)), coldmi)
+print t.getdminfo('colarrtsm2')
+t.removecols('colarrtsm2')
 # Write some data.
 t.putcell('colarrtsm', 0, numpy.array([[1,2,3],[4,5,6]]))
 t.putcell('colarrtsm', 1, t.getcell('colarrtsm',0)+10)
