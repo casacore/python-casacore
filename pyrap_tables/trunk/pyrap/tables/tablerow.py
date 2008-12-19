@@ -32,12 +32,33 @@ from _tables import TableRow
 # to know the actual number of rows.
 # However, a mutual dependency is created when doing that for the tablerow
 # object inside the table object.
-# Therefore an intermediate _tablerow exists to be used in table.
+# Therefore an intermediate _tablerow exists to be used in class table.
 
 class _tablerow(TableRow):
     def __init__(self, table, columnnames, exclude=False):
         TableRow.__init__ (self, table, columnnames, exclude);
     
+    def iswritable(self):
+        """Tell if all columns in the row object are writable."""
+        return self._iswritable()
+
+    def get (self, rownr):
+        """Get the contents of the given row."""
+        return self._get (rownr)
+
+    def put (self, rownr, value, matchingfields=True):
+        """Put the values into the given row.
+
+        The value should be a dict (as returned by method :func:`get`.
+        The names of the fields in the dict should match the names of the
+        columns used in the `tablerow` object.
+
+        `matchingfields=True` means that the value may contain more fields
+        and only fields matching a column name will be used.
+
+        """
+        self._put (rownr, value, matchingfields)
+
     def _getitem (self, key, nrows):
         sei = self.checkkey (key, nrows);
         rownr = sei[0];
@@ -108,10 +129,31 @@ class _tablerow(TableRow):
 
 
 class tablerow(_tablerow):
-    """
-        The Python interface to AIPS++ table rows
-    """
+    """The Python interface to Casacore table rows.
 
+    A table row is a record (dict) containing the values of a single row for
+    one or more columns in a table. In constructing the `tablerow` object, one
+    can specify which columns are to be included or excluded.
+
+    A `tablerow` object can easily be constructed using :func:`table.row`.
+
+    One or more rows can be read or written using the standard python indexing
+    syntax where (negative) strides are possible.
+    For example:
+
+      t = table ('3c343.MS')
+      tr = t.row (['ANTENNA1', 'ANTENNA2', 'ARRAY_ID'])
+      tr[0]               # get row 0
+      tr[:5]              # get row 0,1,2,3,4
+      tr[-5,-1,]          # get last 4 rows
+      tr[-1,-5,-1]        # get last 4 rows in reversed order
+      tr[1] = tr[0]       # put values of row 0 into row 1
+
+    Note that the last line will fail because the table is opened readonly.
+    The argument `readonly=False` is needed in the table constructor to make
+    it work.
+
+    """
     def __init__(self, table, columnnames, exclude=False):
         _tablerow.__init__ (self, table, columnnames, exclude);
         self._table = table;

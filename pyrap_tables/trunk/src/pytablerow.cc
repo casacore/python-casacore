@@ -41,13 +41,13 @@ namespace casa { namespace pyrap {
     class_<TableRowProxy> ("TableRow",
 	    init<TableProxy, Vector<String>, Bool>())
 
-      .def ("iswritable", &TableRowProxy::isWritable)
-      .def ("get", &TableRowProxy::get,
+      .def ("_iswritable", &TableRowProxy::isWritable)
+      .def ("_get", &TableRowProxy::get,
 	    (boost::python::arg("rownr")))
-      .def ("put", &TableRowProxy::put,
+      .def ("_put", &TableRowProxy::put,
 	    (boost::python::arg("rownr"),
 	     boost::python::arg("value"),
-	     boost::python::arg("matchingfields")=true))
+	     boost::python::arg("matchingfields")))
       ;
   }
     

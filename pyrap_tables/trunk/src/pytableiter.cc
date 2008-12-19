@@ -41,7 +41,7 @@ namespace casa { namespace pyrap {
     class_<TableIterProxy> ("TableIter",
 	    init<TableProxy, Vector<String>, String, String>())
 
-      .def ("reset", &TableIterProxy::reset)
+      .def ("_reset", &TableIterProxy::reset)
       .def ("_next", &TableIterProxy::next)
       ;
   }

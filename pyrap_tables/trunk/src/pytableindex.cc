@@ -41,9 +41,9 @@ namespace casa { namespace pyrap {
     class_<TableIndexProxy> ("TableIndex",
 	    init<TableProxy, Vector<String>, Bool>())
 
-      .def ("isunique", &TableIndexProxy::isUnique)
-      .def ("colnames", &TableIndexProxy::columnNames)
-      .def ("setchanged", &TableIndexProxy::setChanged)
+      .def ("_isunique", &TableIndexProxy::isUnique)
+      .def ("_colnames", &TableIndexProxy::columnNames)
+      .def ("_setchanged", &TableIndexProxy::setChanged)
       .def ("_rownr", &TableIndexProxy::getRowNumber)
       .def ("_rownrs", &TableIndexProxy::getRowNumbers)
       .def ("_rownrsrange", &TableIndexProxy::getRowNumbersRange)

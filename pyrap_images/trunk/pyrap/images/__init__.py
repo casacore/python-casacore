@@ -25,5 +25,35 @@
 #
 # $Id$
 
+"""Python interface to the Casacore images module.
+
+A `casacore image
+<http://www.astron.nl/casacore/doc/html/group__Images__module.html>`_
+represents an astronomical image of arbitrary dimensionality.
+Several image formats are recognized:
+
+`casacore`
+  is the native casacore image format stored in a casacore table.
+`HDF5`
+  is the `HDF5 <http://www.hdf5group.org>`_ format used by many other packages.
+`FITS`
+  is the well-known FITS format
+`miriad`
+  is the format used by the MIRIAD package
+
+The following functionality exists:
+
+- get and put data (slices)
+- get or put a mask
+- get meta data like coordinates and history
+- get statistics
+- form a subimage
+- form an image expression which is treated as an ordinary image
+- regrid the image
+- write the image to a FITS file
+
+"""
+
+
 # Make image interface available.
 from image import image

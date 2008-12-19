@@ -56,9 +56,9 @@ namespace casa { namespace pyrap {
 
       // Member functions
       // Functions starting with an underscore are wrapped in table.py.
-      .def ("flush", &TableProxy::flush,
-	    (boost::python::arg("recursive")=false))
-      .def ("resync", &TableProxy::resync)
+      .def ("_flush", &TableProxy::flush,
+            (boost::python::arg("recursive")))
+      .def ("_resync", &TableProxy::resync)
       .def ("_close", &TableProxy::close)
       .def ("_copy", &TableProxy::copy,
  	    (boost::python::arg("newtablename"),
@@ -68,49 +68,46 @@ namespace casa { namespace pyrap {
  	     boost::python::arg("endian"),
  	     boost::python::arg("dminfo"),
  	     boost::python::arg("copynorows")))
-      .def ("copyrows", &TableProxy::copyRows,
+      .def ("_copyrows", &TableProxy::copyRows,
  	    (boost::python::arg("outtable"),
- 	     boost::python::arg("startrowin")=1,
- 	     boost::python::arg("startrowout")=-1,
- 	     boost::python::arg("nrow")=-1))
+ 	     boost::python::arg("startrowin"),
+ 	     boost::python::arg("startrowout"),
+ 	     boost::python::arg("nrow")))
       .def ("_selectrows", &TableProxy::selectRows,
  	    (boost::python::arg("rownrs"),
  	     boost::python::arg("name")))
-      .def ("iswritable", &TableProxy::isWritable)
-      .def ("endianformat", &TableProxy::endianFormat)
-      .def ("lock", &TableProxy::lock,
- 	    (boost::python::arg("write")=true,
- 	     boost::python::arg("nattempts")=0))
-      .def ("unlock", &TableProxy::unlock)
-      .def ("datachanged", &TableProxy::hasDataChanged)
-      .def ("lock", &TableProxy::lock,
- 	    (boost::python::arg("write")=true,
- 	     boost::python::arg("nattempts")=0))
-      .def ("haslock", &TableProxy::hasLock,
- 	    (boost::python::arg("write")=true))
-      .def ("lockoptions", &TableProxy::lockOptions)
-      .def ("ismultiused", &TableProxy::isMultiUsed,
- 	    (boost::python::arg("checksubtables")=false))
-      .def ("name", &TableProxy::tableName)
-      .def ("info", &TableProxy::tableInfo)
-      .def ("putinfo", &TableProxy::putTableInfo,
+      .def ("_iswritable", &TableProxy::isWritable)
+      .def ("_endianformat", &TableProxy::endianFormat)
+      .def ("_lock", &TableProxy::lock,
+ 	    (boost::python::arg("write"),
+ 	     boost::python::arg("nattempts")))
+      .def ("_unlock", &TableProxy::unlock)
+      .def ("_haslock", &TableProxy::hasLock,
+ 	    (boost::python::arg("write")))
+      .def ("_lockoptions", &TableProxy::lockOptions)
+      .def ("_datachanged", &TableProxy::hasDataChanged)
+      .def ("_ismultiused", &TableProxy::isMultiUsed,
+ 	    (boost::python::arg("checksubtables")))
+      .def ("_name", &TableProxy::tableName)
+      .def ("_info", &TableProxy::tableInfo)
+      .def ("_putinfo", &TableProxy::putTableInfo,
  	    (boost::python::arg("value")))
-      .def ("addreadmeline", &TableProxy::addReadmeLine,
+      .def ("_addreadmeline", &TableProxy::addReadmeLine,
  	    (boost::python::arg("value")))
-      .def ("setmaxcachesize", &TableProxy::setMaximumCacheSize,
+      .def ("_setmaxcachesize", &TableProxy::setMaximumCacheSize,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("nbytes")))
-      .def ("rownumbers", &TableProxy::rowNumbers)
-      .def ("colnames", &TableProxy::columnNames)
-      .def ("isscalarcol", &TableProxy::isScalarColumn,
+      .def ("_rownumbers", &TableProxy::rowNumbers,
+	    (boost::python::arg("table")))
+      .def ("_colnames", &TableProxy::columnNames)
+      .def ("_isscalarcol", &TableProxy::isScalarColumn,
 	    (boost::python::arg("columnname")))
-      .def ("coldatatype", &TableProxy::columnDataType,
+      .def ("_coldatatype", &TableProxy::columnDataType,
 	    (boost::python::arg("columnname")))
-      .def ("colarraytype", &TableProxy::columnArrayType,
+      .def ("_colarraytype", &TableProxy::columnArrayType,
 	    (boost::python::arg("columnname")))
-      .def ("ncols", &TableProxy::ncolumns)
-      .def ("nrows", &TableProxy::nrows)
-      .def ("__len__", &TableProxy::nrows)
+      .def ("_ncols", &TableProxy::ncolumns)
+      .def ("_nrows", &TableProxy::nrows)
       .def ("_addcols", &TableProxy::addColumns,
 	    (boost::python::arg("desc"),
 	     boost::python::arg("dminfo")))
@@ -119,14 +116,14 @@ namespace casa { namespace pyrap {
 	     boost::python::arg("newname")))
       .def ("_removecols", &TableProxy::removeColumns,
 	    (boost::python::arg("columnnames")))
-      .def ("addrows", &TableProxy::addRow,
-	    (boost::python::arg("nrows")=1))
-      .def ("removerows", &TableProxy::removeRow,
+      .def ("_addrows", &TableProxy::addRow,
+	    (boost::python::arg("nrows")))
+      .def ("_removerows", &TableProxy::removeRow,
 	    (boost::python::arg("rownrs")))
-      .def ("iscelldefined", &TableProxy::cellContentsDefined,
+      .def ("_iscelldefined", &TableProxy::cellContentsDefined,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("rownr")))
-      .def ("getcell", &TableProxy::getCell,
+      .def ("_getcell", &TableProxy::getCell,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("rownr")))
       .def ("_getcellslice", &TableProxy::getCellSliceIP,
@@ -135,16 +132,16 @@ namespace casa { namespace pyrap {
 	     boost::python::arg("blc"),
 	     boost::python::arg("trc"),
 	     boost::python::arg("inc")))
-      .def ("getcol", &TableProxy::getColumn,
+      .def ("_getcol", &TableProxy::getColumn,
 	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow")=0,
-	     boost::python::arg("nrow")=-1,
-	     boost::python::arg("rowincr")=1))
-      .def ("getvarcol", &TableProxy::getVarColumn,
+	     boost::python::arg("startrow"),
+	     boost::python::arg("nrow"),
+	     boost::python::arg("rowincr")))
+      .def ("_getvarcol", &TableProxy::getVarColumn,
 	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow")=0,
-	     boost::python::arg("nrow")=-1,
-	     boost::python::arg("rowincr")=1))
+	     boost::python::arg("startrow"),
+	     boost::python::arg("nrow"),
+	     boost::python::arg("rowincr")))
       .def ("_getcolslice", &TableProxy::getColumnSliceIP,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("blc"),
@@ -215,12 +212,12 @@ namespace casa { namespace pyrap {
 	     boost::python::arg("keyword"),
 	     boost::python::arg("keywordindex")))
       .def ("_getdminfo", &TableProxy::getDataManagerInfo)
-      .def ("getdesc", &TableProxy::getTableDescription,
-	    (boost::python::arg("actual")=true,
+      .def ("_getdesc", &TableProxy::getTableDescription,
+	    (boost::python::arg("actual"),
 	     boost::python::arg("_cOrder")=true))
-      .def ("getcoldesc", &TableProxy::getColumnDescription,
+      .def ("_getcoldesc", &TableProxy::getColumnDescription,
 	    (boost::python::arg("columnname"),
- 	     boost::python::arg("actual")=true,
+ 	     boost::python::arg("actual"),
 	     boost::python::arg("_cOrder")=true))
       .def ("_getasciiformat", &TableProxy::getAsciiFormat)
       .def ("_getcalcresult", &TableProxy::getCalcResult)

@@ -57,48 +57,48 @@ namespace casa { namespace pyrap {
 
       // Member functions.
       // Functions starting with un underscore are wrapped in image.py.
-      .def ("ispersistent", &ImageProxy::isPersistent)
-      .def ("name", &ImageProxy::name,
-            (boost::python::arg("strippath")=false))
-      .def ("shape", &ImageProxy::shape)
-      .def ("ndim", &ImageProxy::ndim)
-      .def ("size", &ImageProxy::size)
-      .def ("datatype", &ImageProxy::dataType)
+      .def ("_ispersistent", &ImageProxy::isPersistent)
+      .def ("_name", &ImageProxy::name,
+            (boost::python::arg("strippath")))
+      .def ("_shape", &ImageProxy::shape)
+      .def ("_ndim", &ImageProxy::ndim)
+      .def ("_size", &ImageProxy::size)
+      .def ("_datatype", &ImageProxy::dataType)
       .def ("_getdata", &ImageProxy::getData)
       .def ("_getmask", &ImageProxy::getMask)
       .def ("_putdata", &ImageProxy::putData)
       .def ("_putmask", &ImageProxy::putMask)
-      .def ("haslock", &ImageProxy::hasLock,
- 	    (boost::python::arg("write")=false))
-      .def ("lock", &ImageProxy::lock,
- 	    (boost::python::arg("write")=false,
- 	     boost::python::arg("nattempts")=0))
-      .def ("unlock", &ImageProxy::unlock)
-      .def ("subimage", &ImageProxy::subImage,
-            (boost::python::arg("blc")=IPosition(),
-             boost::python::arg("trc")=IPosition(),
-             boost::python::arg("inc")=IPosition(),
-             boost::python::arg("dropdegenerate")=true))
-      .def ("coordinates", &ImageProxy::coordSys)
-      .def ("imageinfo", &ImageProxy::imageInfo)
-      .def ("miscinfo", &ImageProxy::miscInfo)
-      .def ("unit", &ImageProxy::unit)
-      .def ("history", &ImageProxy::history)
-      .def ("tofits", &ImageProxy::toFits,
+      .def ("_haslock", &ImageProxy::hasLock,
+ 	    (boost::python::arg("write")))
+      .def ("_lock", &ImageProxy::lock,
+ 	    (boost::python::arg("write"),
+ 	     boost::python::arg("nattempts")))
+      .def ("_unlock", &ImageProxy::unlock)
+      .def ("_subimage", &ImageProxy::subImage,
+            (boost::python::arg("blc"),
+             boost::python::arg("trc"),
+             boost::python::arg("inc"),
+             boost::python::arg("dropdegenerate")))
+      .def ("_coordinates", &ImageProxy::coordSys)
+      .def ("_imageinfo", &ImageProxy::imageInfo)
+      .def ("_miscinfo", &ImageProxy::miscInfo)
+      .def ("_unit", &ImageProxy::unit)
+      .def ("_history", &ImageProxy::history)
+      .def ("_tofits", &ImageProxy::toFits,
             (boost::python::arg("filename"),
-             boost::python::arg("overwrite")=True,
-             boost::python::arg("velocity")=True,
-             boost::python::arg("optical")=True,
-             boost::python::arg("bitpix")=-32,
-             boost::python::arg("minpix")=-1,
-             boost::python::arg("minpix")=1))
+             boost::python::arg("overwrite"),
+             boost::python::arg("velocity"),
+             boost::python::arg("optical"),
+             boost::python::arg("bitpix"),
+             boost::python::arg("minpix"),
+             boost::python::arg("maxpix")))
       .def ("_saveas", &ImageProxy::saveAs,
             (boost::python::arg("filename"),
-             boost::python::arg("overwrite")=True,
-             boost::python::arg("hdf5")=False,
-             boost::python::arg("copymask")=True,
-             boost::python::arg("newmaskname")=String(),
-             boost::python::arg("newtileshape")=IPosition()))
+             boost::python::arg("overwrite"),
+             boost::python::arg("hdf5"),
+             boost::python::arg("copymask"),
+             boost::python::arg("newmaskname"),
+             boost::python::arg("newtileshape")))
       .def ("_statistics", &ImageProxy::statistics,
             (boost::python::arg("axes"),
              boost::python::arg("mask"), 

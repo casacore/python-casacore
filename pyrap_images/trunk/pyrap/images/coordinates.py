@@ -1,4 +1,4 @@
-# image.py: Python coordinate system wrapper
+# coordinates.py: Python coordinate system wrapper
 # Copyright (C) 2008
 # Associated Universities, Inc. Washington DC, USA.
 #
@@ -23,7 +23,7 @@
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
 #
-# $Id: $
+# $Id$
 
 import string
 import numpy
@@ -34,12 +34,13 @@ class coordinatesystem(object):
     coordinatesystem record return from casacore images.
     This only handles one instance of each coordinate type.
     It uses reference semantics for the individual coordinates,
-    e.g. following will work:
+    e.g. following will work::
     
-    cs = im.coordinates()
-    cs["direction"].set_referencepixel([0.0,0.0])
-    # or equivalent
-    cs.get_coordinates("direction").set_referencepixel([0.0,0.0])
+      cs = im.coordinates()
+      cs["direction"].set_referencepixel([0.0,0.0])
+      # or equivalent
+      cs.get_coordinates("direction").set_referencepixel([0.0,0.0])
+
     """
     def __init__(self, rec):
         self._csys = rec
@@ -59,7 +60,7 @@ class coordinatesystem(object):
         print str(self)
 
     def _get_coordinatenames(self):
-        """Create order list of coordinate names
+        """Create ordered list of coordinate names
         """
         validnames = ("direction", "spectral", "linear", "stokes", "tabular")
         self._names = [""] * len(validnames)

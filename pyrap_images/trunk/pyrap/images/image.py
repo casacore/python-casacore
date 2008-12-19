@@ -32,8 +32,77 @@ import numpy, numpy.core.ma
 from pyrap.images.coordinates import coordinatesystem
 
 class image(Image):
-    """
-        The Python interface to casacore images
+    """The Python interface to casacore images.
+
+    An image can be constructed in a variety of ways:
+
+    - Opening an existing image. The image format is determined automatically
+      and can be casacore, HDF5, FITS, or MIRIAD.
+      FITS and MIRIAD always have data type float, but casacore and HDF5 images
+      can have data type float, double, complex, or dcomplex.
+    - Open an image expression by giving a `LEL expression
+      <http://www.astron.nl/aips++/docs/note/223/223.html>`_ string.
+      Note that in an expression `$im` can be used similar to TaQL commands
+      (see function :func:`tables.taql`).
+    - Create a new temporary image from a shape or a numpy array.
+    - Virtually concatenate a number of images along a given axis. This can
+      be used to form a spectral line image cube from separate channel images.
+
+    The following arguments can be given:
+
+    `imagename`
+      | It can be given in several forms:
+      | If it is a tuple or list, the image is opened as the virtual
+        concatenation of the given image names or objects.
+      | Otherwise it should be a string giving the image name (or expression).
+        If argument `values` or `shape` is given, a new image with that name
+        is created using the values or shape. If the name is empty, a temporary
+        image is created which can be written later using :func:`saveas`.
+      | Otherwise it is tried to open an existing image with that name.
+      | If the open fails, it is opened as a LEL image expression.
+    `axis`
+      The axis number along which images have to be concatenated.
+    `maskname`
+      | The name of the mask to be used when opening an existing image. If not
+        given, the default image mask is used.
+      | If an image is created, a mask with this name is created.
+    `images`
+      Possible images objects to be used for $n arguments in an expression
+      string.
+    'values`
+      If given, the image will be created and these values will be stored in it.
+      It should be a numpy array or masked array. If it is a masked array,
+      its mask acts as the `mask` argument described below.
+      The data type of the image is derived from the array's data type.
+    `coordsys`
+      The coordinate system to be used when creating an image.
+      If not given, an appropriate default coordnate system will be used.
+    `overwrite`
+      If False, an exception is raised if the new image file already exists.
+      Default is True.
+    `ashdf5`
+      If True, the image is created in HDF5 format, otherwise in casacore
+      format. Default is casacore format.
+    `mask`
+      | An optional mask to be stored in the image when creating the image.
+        If a mask is given, but no maskname is given, the mask will get the
+        name `mask0`.
+      | Note that the mask can also be given in argument `values` (see above).
+    `shape`
+      If given, the image will be created. If `values` is also given, its
+      shape should match. If `values` is not given, an image with data type
+      double will be created.
+    `tileshape`
+      Advanced users can give the tile shape to be used. See the
+      :mod:`tables` module for more information about Tiled Storage Managers.
+
+    For example::
+
+      im = image('3c343.fits')          # open existing fits image
+      im = image('a.img1 - a.img2')     # open as expression
+      im = image(shape=(256,256))       # create temp image 
+      im = image('a', shape=(256,256))  # create image a
+
     """
 
     def __init__(self, imagename, axis=0, maskname="", images=(), values=None,
@@ -99,49 +168,263 @@ class image(Image):
                                     maskname, tileshape, 0)
 
     def __str__ (self):
-        return self.name();
+        """Get image name."""
+        return self._name();
 
     def __len__ (self):
-        return self.size();
+        """Get nr of pixels in the image."""
+        return self._size();
 
-    def coordinates(self):
-        return coordinatesystem(Image.coordinates(self))
+    def ispersistent(self):
+        """Test if the image is persistent, i.e. stored on disk."""
+        return self._ispersistent()
+
+    def name (self, strippath=False):
+        """Get image name."""
+        return self._name (strippath)
+
+    def shape (self):
+        """Get image shape."""
+        return self._shape()
+
+    def ndim (self):
+        """Get dimensionality of the image."""
+        return self._ndim()
+
+    def size (self):
+        """Get nr of pixels in the image."""
+        return self._size()
+
+    def datatype (self):
+        """Get data type of the image."""
+        return self._datatype()
 
     def getdata (self, blc=(), trc=(), inc=()):
+        """Get image data.
+
+        Using the arguments blc (bottom left corner), trc (top right corner),
+        and inc (stride) it is possible to get a data slice.
+
+        The data is returned as a numpy array. Its dimensionality is the same
+        as the dimensionality of the image, even if an axis has length 1.
+
+        """
         return self._getdata (blc, trc, inc);
 
     # Negate the mask; in numpy True means invalid.
     def getmask (self, blc=(), trc=(), inc=()):
+        """Get image mask.
+
+        Using the arguments blc (bottom left corner), trc (top right corner),
+        and inc (stride) it is possible to get a mask slice. Not all axes
+        need to be specified. Missing values default to begin, end, and 1.
+        
+        The mask is returned as a numpy array. Its dimensionality is the same
+        as the dimensionality of the image, even if an axis has length 1.
+        Note that the casacore images use the convention that a mask value
+        True means good and False means bad. However, numpy uses the opposite.
+        Therefore the mask will be negated, so it can be used directly in
+        numpy operations.
+
+        If the image has no mask, an array wiil be returned with all values
+        set to False.
+
+        """
         return -self._getmask (blc, trc, inc);
 
     # Get data and mask;
     def get (self, blc=(), trc=(), inc=()):
+        """Get image data and mask.
+
+        Get the image data and mask (see ::func:`getdata` and :func:`getmask`)
+        as a numpy masked array.
+
+        """
         return numpy.core.ma.masked_array (self.getdata(blc,trc,inc),
                                            self.getmask(blc,trc,inc))
 
     def putdata (self, value, blc=(), trc=(), inc=()):
+        """Put image data.
+
+        Using the arguments blc (bottom left corner), trc (top right corner),
+        and inc (stride) it is possible to put a data slice. Not all axes
+        need to be specified. Missing values default to begin, end, and 1.
+
+        The data should be a numpy array. Its dimensionality must be the same
+        as the dimensionality of the image.
+
+        """
         return self._putdata (value, blc, inc);
 
     def putmask (self, value, blc=(), trc=(), inc=()):
+        """Put image mask.
+
+        Using the arguments blc (bottom left corner), trc (top right corner),
+        and inc (stride) it is possible to put a data slice. Not all axes
+        need to be specified. Missing values default to begin, end, and 1.
+
+        The data should be a numpy array. Its dimensionality must be the same
+        as the dimensionality of the image.
+        Note that the casacore images use the convention that a mask value
+        True means good and False means bad. However, numpy uses the opposite.
+        Therefore the mask will be negated, so a numoy masked can be given
+        directly.
+
+        The mask is not written if the image has no mask and if it the entire
+        mask is False. In that case the mask most likely comes from a getmask
+        operation on an image without a mask.
+
+        """
         # casa and numpy have opposite flags
         return self._putmask (-value, blc, inc);
 
     def put (self, value, blc=(), trc=(), inc=()):
+        """Put image data and mask.
+
+        Put the image data and optionally the mask (see ::func:`getdata`
+        and :func:`getmask`).
+        If the `value` argument is a numpy masked array, but data and mask will
+        bw written. If it is a normal numpy array, only the data will be
+        written.
+
+        """
         if isinstance(value, numpy.core.ma.MaskedArray):
             self.putdata (value.data, blc, trc, inc);
             self.putmask (numpy.core.ma.getmaskarray(value), blc, trc, inc);
         else:
             self.putdata (value, blc, trc, inc);
 
+    def haslock (self, write=False):
+        """Test if the image holds a read or write lock.
+
+        | See `func:`tables.table.haslock` for more information.
+        | Locks are only used for images in casacore format. For other formats
+          (un)locking is a no-op, so this method always returns True.
+
+        """
+        return self._haslock (write)
+
+    def lock (self, write=False, nattempts=0):
+        """Acquire a read or write lock on the image.
+
+        | See `func:`tables.table.haslock` for more information.
+        | Locks are only used for images in casacore format. For other formats
+          (un)locking is a no-op, so this method always returns True.
+
+        Only advanced users should use locking. In normal operations
+        explicit locking and unlocking is not necessary.
+
+        """
+        return self._lock (write, nattempts)
+
+    def unlock (self):
+        """Release a lock on the image.
+
+        | See `func:`tables.table.haslock` for more information.
+        | Locks are only used for images in casacore format. For other formats
+          (un)locking is a no-op, so this method always returns True.
+
+        """
+        return self._unlock()
+
+    def subimage (self, blc=(), trc=(), inc=(), dropdegenerate=True):
+        """Form a subimage.
+
+        An image object containing a subset of an image is returned.
+        The arguments blc (bottom left corner), trc (top right corner),
+        and inc (stride) define the subset. Not all axes need to be specified.
+        Missing values default to begin, end, and 1.
+
+        By default axes with length 1 are left out.
+
+        A subimage is a so-called virtual image. It is not stored, but only
+        references the original image. It can be made persistent using the
+        :func:`saveas` method.
+
+        """
+        return image(self._subimage (blc, trc, inc, dropdegenerate))
+
+    def coordinates(self):
+        """Get the :class:`coordinatesystem` of the image."""
+        return coordinatesystem(self._coordinates())
+
+    def imageinfo (self):
+        """Get the standard image info."""
+        return self._imageinfo()
+
+    def miscinfo (self):
+        """Get the auxiliary image info."""
+        return self._miscinfo()
+
+    def unit (self):
+        """Get the pixel unit of the image."""
+        return self._unit()
+
+    def history (self):
+        """Get the image processing history."""
+        return self._history()
+
     def info (self):
-        return {'coordinates' : Image.coordinates(self),
-                'imageinfo'   : self.imageinfo(),
-                'miscinfo'    : self.miscinfo(),
-                'unit'        : self.unit()
+        """Get coordinates, image info, and unit"."""
+        return {'coordinates' : self._coordinates(),
+                'imageinfo'   : self._imageinfo(),
+                'miscinfo'    : self._miscinfo(),
+                'unit'        : self._unit()
                 }
+
+    def tofits (self, filename, overwrite=True, velocity=True,
+                optical=True, bitpix=-32, minpix=1, maxpix=-1):
+        """Write the image to a file in FITS format.
+
+        `filename`
+          FITS file name
+        `overwrite`
+          If False, an exception is raised if the new image file already exists.
+          Default is True.
+        `velocity`
+          By default a velocity primary spectral axis is written if possible.
+        `optical`
+          If writing a velocity, use the optical definition
+          (otherwise use radio).
+        `bitpix`
+          can be set to -32 (float) or 16 (short) only. When `bitpix` is
+          16 it will write BSCALE and BZERO into the FITS file. If minPix
+        `minpix` and `maxpix`
+          are used to determine BSCALE and BZERO if `bitpix=16`.
+          If `minpix` is greater than `maxpix` (which is the default),
+          the minimum and maximum pixel values will be determined from the ddta.
+          Oherwise the supplied values will be used and pixels outside that
+          range will be clipped to the minimum and maximum pixel values.
+          Note that this truncation does not occur for `bitpix=-32`.
+
+        """
+        return self._tofits (filename, overwrite, velocity, optical,
+                             bitpix, minpix, maxpix)
 
     def saveas (self, filename, overwrite=True, hdf5=False,
                 copymask=True, newmaskname="", newtileshape=()):
+        """Write the image to disk.
+
+        Note that the created disk file is a snapshot, so it is not updated
+        for possible later changes in the image object.
+
+        `overwrite`
+          If False, an exception is raised if the new image file already exists.
+          Default is True.
+        `ashdf5`
+          If True, the image is created in HDF5 format, otherwise in casacore
+          format. Default is casacore format.
+        `copymask`
+          By default the mask is written as well if the image has a mask.
+        'newmaskname`
+          If the mask is written, the name is the same the original or
+          `mask0` if the original mask has no name. Using this argument a
+          different mask name can be given.
+        `tileshape`
+          Advanced users can give a new tile shape. See the :mod:`tables`
+          module for more information about Tiled Storage Managers.
+
+        """
         self._saveas (filename, overwrite, hdf5,
                       copymask, newmaskname,
                       newtileshape)
@@ -171,6 +454,3 @@ class image(Image):
                                    outshape, coordsys.dict(),
                                    interpolation, decimate, replicate,
                                    refchange, forceregrid))
-
-    def subimage(self, blc=(), trc=(), inc=(), dropdegenerate=False):
-        return image(Image.subimage(self, blc, trc, inc, dropdegenerate))

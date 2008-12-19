@@ -30,8 +30,24 @@ from _tables import TableIter
 from table import table;
 
 class tableiter(TableIter):
-    """
-        The Python interface to AIPS++ table iterators
+    """The Python interface to Casacore table iterators
+
+    A `tableiter` allows iteration through a table based on the contents
+    of one or more columns. Each step in the iteration process forms
+    a subset of the table for which the specified columns have the same value.
+
+    It can easily be constructed using the :func:`table.iter` method as done
+    in the example below::
+
+      t = table('3c343.MS')
+      for ts in t.iter('ANTENNA1'):
+        print ts.nrows()
+
+    In this example `ts` will be a so-called reference table which can be
+    operated on like any other table object.
+
+    Multiple column names should be given in a sequence (tuple or list).
+
     """
 
     def __init__(self, table, columnnames, order='', sort=True):
@@ -50,3 +66,6 @@ class tableiter(TableIter):
         # next returns a Table object, so turn that into table.
         return table (self._next(), _oper=3);
             
+    def reset (self):
+        """Reset the iterator to the beginning."""
+        self._reset();
