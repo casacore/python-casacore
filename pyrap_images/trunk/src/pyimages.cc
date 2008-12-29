@@ -57,7 +57,7 @@ namespace casa { namespace pyrap {
 
       // Member functions.
       // Functions starting with un underscore are wrapped in image.py.
-      .def ("_ispersistent", &ImageProxy::isPersistent)
+      .def ("_ispersistent", &ImageProxy::isPersistent) 
       .def ("_name", &ImageProxy::name,
             (boost::python::arg("strippath")))
       .def ("_shape", &ImageProxy::shape)

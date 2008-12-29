@@ -209,7 +209,9 @@ class image(Image):
         as the dimensionality of the image, even if an axis has length 1.
 
         """
-        return self._getdata (blc, trc, inc);
+        return self._getdata (self._adjustBlc(blc),
+                              self._adjustTrc(trc),
+                              self._adjustInc(inc));
 
     # Negate the mask; in numpy True means invalid.
     def getmask (self, blc=(), trc=(), inc=()):
@@ -230,7 +232,9 @@ class image(Image):
         set to False.
 
         """
-        return -self._getmask (blc, trc, inc);
+        return -self._getmask (self._adjustBlc(blc),
+                               self._adjustTrc(trc),
+                               self._adjustInc(inc));
 
     # Get data and mask;
     def get (self, blc=(), trc=(), inc=()):
@@ -254,7 +258,8 @@ class image(Image):
         as the dimensionality of the image.
 
         """
-        return self._putdata (value, blc, inc);
+        return self._putdata (value, self._adjustBlc(blc),
+                              self._adjustInc(inc));
 
     def putmask (self, value, blc=(), trc=(), inc=()):
         """Put image mask.
@@ -276,7 +281,8 @@ class image(Image):
 
         """
         # casa and numpy have opposite flags
-        return self._putmask (-value, blc, inc);
+        return self._putmask (-value, self._adjustBlc(blc),
+                              self._adjustInc(inc));
 
     def put (self, value, blc=(), trc=(), inc=()):
         """Put image data and mask.
@@ -342,7 +348,10 @@ class image(Image):
         :func:`saveas` method.
 
         """
-        return image(self._subimage (blc, trc, inc, dropdegenerate))
+        return image(self._subimage (self._adjustBlc(blc),
+                                     self._adjustTrc(trc),
+                                     self._adjustInc(inc),
+                                     dropdegenerate))
 
     def coordinates(self):
         """Get the :class:`coordinatesystem` of the image."""
@@ -440,6 +449,29 @@ class image(Image):
         for i in range(len(axes),0,-1):
             axout += [n-axes[i-1]]
         return axout
+
+    def _adjust (self, val, defval):
+        retval = defval
+        if isinstance(val,tuple) or isinstance(val,list):
+            retval[0:len(val)] = val
+        else:
+            retval[0] = val
+        return retval
+
+    # Append blc with 0 if shorter than shape.
+    def _adjustBlc (self, blc):
+        shp = self._shape()
+        return self._adjust (blc, [0 for x in shp])
+
+    # Append trc with shape-1 if shorter than shape.
+    def _adjustTrc (self, trc):
+        shp = self._shape()
+        return self._adjust (trc, [x-1 for x in shp])
+
+    # Append inc with 1 if shorter than shape.
+    def _adjustInc (self, inc):
+        shp = self._shape()
+        return self._adjust (inc, [1 for x in shp])
 
     def statistics (self, axes=(), minMaxValues=(), exclude=False, robust=True):
         return self._statistics (self._adaptAxes(axes), "",
