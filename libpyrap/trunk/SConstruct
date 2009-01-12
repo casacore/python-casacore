@@ -23,12 +23,12 @@ def get_numpy_incdir():
 PACKAGE="pyrap"
 
 # general options
-opts = Options( 'options.cfg', ARGUMENTS )
-opts.Add(ListOption("build", "The build type", 
+opts = Variables( 'options.cfg', ARGUMENTS )
+opts.Add(ListVariable("build", "The build type", 
 		    "opt", ["opt", "dbg"]))
-opts.Add(ListOption("libtype", "The type of library to build",
+opts.Add(ListVariable("libtype", "The type of library to build",
 		    "shared", ["static", "shared"]))
-opts.Add(PathOption("casacoreroot", "The location of casacore",
+opts.Add(PathVariable("casacoreroot", "The location of casacore",
 		    "/usr/local"))
 opts.Add(("numpyincdir", "The include dir for numpy", 
 	  get_numpy_incdir()))
