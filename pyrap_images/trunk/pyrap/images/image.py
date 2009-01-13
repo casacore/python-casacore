@@ -27,7 +27,11 @@
 
 # Make interface to class ImageProxy available.
 from _images import Image
-import numpy, numpy.core.ma
+import numpy
+try:
+    import numpy.ma as nma
+except ImportError:
+    import numpy.core.ma as nma
 
 from pyrap.images.coordinates import coordinatesystem
 
@@ -149,9 +153,9 @@ class image(Image):
                         # Create an image from an array
                         # The values can be a masked array;
                         #  use the mask if no explicit mask is given
-                        if isinstance(values, numpy.core.ma.MaskedArray):
+                        if isinstance(values, nma.MaskedArray):
                             if len(mask) == 0:
-                                mask = numpy.core.ma.getmaskarray(values)
+                                mask = nma.getmaskarray(values)
                             values = values.data
                         if len(mask) > 0:
                             mask = -mask;  # casa and numpy have opposite flags
@@ -244,7 +248,7 @@ class image(Image):
         as a numpy masked array.
 
         """
-        return numpy.core.ma.masked_array (self.getdata(blc,trc,inc),
+        return nma.masked_array (self.getdata(blc,trc,inc),
                                            self.getmask(blc,trc,inc))
 
     def putdata (self, value, blc=(), trc=(), inc=()):
@@ -294,9 +298,9 @@ class image(Image):
         written.
 
         """
-        if isinstance(value, numpy.core.ma.MaskedArray):
+        if isinstance(value, nma.MaskedArray):
             self.putdata (value.data, blc, trc, inc);
-            self.putmask (numpy.core.ma.getmaskarray(value), blc, trc, inc);
+            self.putmask (nma.getmaskarray(value), blc, trc, inc);
         else:
             self.putdata (value, blc, trc, inc);
 
