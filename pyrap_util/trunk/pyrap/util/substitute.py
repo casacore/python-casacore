@@ -26,45 +26,9 @@
 # $Id$
 
 
-# This function tries to substitute $name by its value.
-# The following rules apply:
-# 1. A name must start with an underscore or alphabetic, followed
-#    by zero or more alphanumerics and underscores.
-# 2. Parts enclosed in single or double quotes are left untouched.
-#    Furthermore a $ can be escaped by a backslash, which is useful
-#    if an environment variable is used. Note that glish
-#    requires an extra backslash to escape the backslash.
-#    The output contains the quotes and backslashes.
-# 3. If name has a vector value, its substitution is enclosed in
-#    square brackets and separated by commas.
-# 4. A string value is enclosed in double quotes. If the value
-#    contains a double quote, that quote is enclosed in single quotes.
-# 5. If the name's value has a type mentioned in the objlist, it is
-#    substituted by $n (n is a sequence number) and its value is added to the
-#    objects of that type.
-# 6. If the name is unknown or has an unknown type, it is left untouched
-#    (thus the result contains $name).
-#
-# The objlist argument is a list of sequences where each sequence has
-# three fields:
-# 1. The first field is the object type (e.g. table)
-# 2. The second field is a prefix for the sequence number
-#    E.g. regions could have prefix 'r' resulting in $r1.
-# 3. The third field is a list of objects to be substituted. New objects
-#    get appended to it.
-
-# Furthermore it substitutes $(expression) by the expression result.
-# It correctly handles parentheses and quotes in the expression.
-# E.g.   $(a+b)
-#        $((a+b)*(a+b))
-#        $(len("ab cd( de"))
-# Similar escape rules as above apply.
-#
-# Substitution is NOT recursive. E.g. if a=1 and b="$a",
-# the result of substitute("$a") is "$a" and not 1.
 
 def getglobals():
-    """Get the global variables"""
+    """Get the global variables."""
     import inspect
     fr = inspect.currentframe()
     try:
@@ -77,6 +41,57 @@ def getglobals():
 
 
 def substitute (s, objlist=()):
+  """Substitute global python variables in a command string.
+
+  This function parses a string and tries to substitute parts like
+  `$name` by their value. It is uses by :mod:`image` and :mod:`table`
+  to handle image and table objects in a command, but also other
+  variables (integers, strings, etc.) can be substituted.
+  The following rules apply:
+
+  1. A name must start with an underscore or alphabetic, followed
+     by zero or more alphanumerics and underscores.
+  2. String parts enclosed in single or double quotes are literals and
+     are left untouched.
+     Furthermore a $ can be escaped by a backslash, which is useful
+     if an environment variable is used. Note that an extra backslash
+     is required in Python to escape the backslash.
+     The output contains the quotes and backslashes.
+  3. A variable is looked up in the global namespace; that is, in the
+     outermost namespace.
+  4. If the variable `name` has a vector value, its substitution is
+     enclosed in square brackets and separated by commas.
+  5. A string value is enclosed in double quotes. If the value
+     contains a double quote, that quote is enclosed in single quotes.
+  6. If the name's value has a type mentioned in the argument `objlist`,
+     it is substituted by `$n` (where n is a sequence number) and its
+     value is added to the objects of that type in `objlist`.
+  7. If the name is unknown or has an unknown type, it is left untouched.
+
+  The `objlist` argument is a list of tuples or lists where each tuple
+  or list has three fields:
+
+  1. The first field is the object type (e.g. `table`)
+  2. The second field is a prefix for the sequence number (usually empty).
+     E.g. regions could have prefix 'r' resulting in a substitution like `$r1`.
+  3. The third field is a list of objects to be substituted. New objects
+     get appended to it. Usually the list is initially empty.
+
+  Apart from substituting variables, it also substitutes `$(expression)`
+  by the expression result.
+  It correctly handles parentheses and quotes in the expression.
+  For example::
+
+    a=2
+    b=3
+    substitute('$(a+b)+$a')              # results in '5+2' (not '7')
+    substitute('$((a+b)*(a+b))')         # results in '25'
+    substitute('$(len("ab cd( de"))')    # results in '9'
+ 
+  Substitution is NOT recursive. E.g. if a=1 and b="$a",
+  the result of substitute("$b") is "$a" and not 1.
+
+  """
   # Get the symbols at the desired level.
   symcp = getglobals()
   # Split the string into its individual characters.

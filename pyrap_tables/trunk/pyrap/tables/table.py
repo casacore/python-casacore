@@ -69,8 +69,7 @@ def _remove_prefix (name):
 def taql (command, style='Python', tables=[]):
     """Execute a TaQL command and return a table object.
 
-    A `TaQL
-    <http:/www.astron.nl/aips++/docs/notes/199/199.html>`_
+    A `TaQL <../../casacore/doc/notes/199.html>`_
     command is an SQL-like command to do a selection of rows and/or
     columns in a table.
 
@@ -1235,8 +1234,8 @@ class table(Table):
                style='Python'):
         """Query the table and return the result as a reference table.
 
-        This method queries the table. It forms a `TaQL 
-        <http:/www.astron.nl/aips++/docs/notes/199/199.html>`_.
+        This method queries the table. It forms a
+        `TaQL <../../casacore/doc/notes/199.html>`_
         command from the given arguments and executes it using the
         :func:`taql` function.
         The result is returned in a so-called reference table which references

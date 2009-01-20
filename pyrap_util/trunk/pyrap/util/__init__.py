@@ -1,4 +1,4 @@
 """
 Utilities for pyrap modules.
 """
-from substitute import substitute
+from substitute import substitute, getglobals

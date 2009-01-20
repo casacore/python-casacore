@@ -44,7 +44,8 @@ class tablecolumn:
     convenient way to create a `tablecolumn` object.
 
     A `tablecolumn` can be indexed using Python's [] operator. Negative start,
-    end, and stride is possible. For example:
+    end, and stride is possible. For example::
+
       tc[0]               # get cell 0
       tc[:5]              # get cell 0,1,2,3,4
       tc[-5,-1,]          # get last 4 cells

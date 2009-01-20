@@ -9,6 +9,8 @@ Welcome to pyrap's documentation!
 `casacore <http://casacore.googlecode.com>`_ library.
 It consists of the following modules:
 
+:mod:`pyrap.util`
+  Common utility functions
 :mod:`pyrap.tables`
   Relational data base like table system supporting multi-dimensional arrays.
 :mod:`pyrap.images` and :mod:`pyrap.images.coordinates`
@@ -28,6 +30,7 @@ Contents:
 .. toctree::
    :maxdepth: 3
 
+   pyrap_util.rst
    pyrap_tables.rst
    pyrap_images.rst
    pyrap_functionals.rst

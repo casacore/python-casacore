@@ -41,11 +41,15 @@ class image(Image):
     An image can be constructed in a variety of ways:
 
     - Opening an existing image. The image format is determined automatically
-      and can be casacore, HDF5, FITS, or MIRIAD.
+      and can be
+      `casacore <http://casacore.googlecode.com>`_,
+      `HDF5 <http://www.hdfgroup.org/HDF5>`_,
+      `FITS <http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html>`_,
+      or `MIRIAD <http://www.atnf.csiro.au/computing/software/miriad>`_.
       FITS and MIRIAD always have data type float, but casacore and HDF5 images
       can have data type float, double, complex, or dcomplex.
     - Open an image expression by giving a `LEL expression
-      <http://www.astron.nl/aips++/docs/note/223/223.html>`_ string.
+      <../../casacore/doc/notes/223.html>`_ string.
       Note that in an expression `$im` can be used similar to TaQL commands
       (see function :func:`tables.taql`).
     - Create a new temporary image from a shape or a numpy array.

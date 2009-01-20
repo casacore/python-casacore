@@ -27,31 +27,30 @@
 
 """Python interface to the Casacore tables module.
 
-A `casacore table
-<http://www.astron.nl/casacore/doc/html/group__Tables__module.html>`_
+A `casacore table <../../casacore/doc/html/group__Tables__module.html>`_
 is similar to a relational data base table with the extension
 that table cells can contain n-dimensional arrays.
 It has a rich SQL-like query language
-(`TaQL <http://www.astron.nl/aips++/docs/notes/199/199.html>`_).
+(`TaQL <../../casacore/doc/notes/199.html>`_).
 
 A table consists of numbered rows and named columns. A column can hold
 scalar values or arrays of any dimensionality and shape. Furthermore the
 table and each column can hold a set of keywords (e.g. to define the units).
 It is nestable, thus the value of a keyword can be a keyword set in itself.
 
-The `tables` module consists of a few submodules:
+The `tables` module consists of a few classes:
 
-:mod:`table`
+:class:`table`
   main module to open, create, access, and query tables
-:mod:`tablecolumn`
+:class:`tablecolumn`
   access the contents of a column in an easier way
-:mod:`tablerow`
+:class:`tablerow`
   access the contents of table rows or parts of it
-:mod:`tableiter`
+:class:`tableiter`
   iterate through a table based on the contents of one or more columns
-:mod:`tableindex`
+:class:`tableindex`
   build and use an index on one or more table columns
-:mod:`tableutil`
+submodule `tableutil <#utility-functions>`_
   utility functions (e.g. to create a table description)
 
 """

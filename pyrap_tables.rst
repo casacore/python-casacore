@@ -3,12 +3,6 @@ Module :mod:`tables`
 ====================
 
 .. automodule:: pyrap.tables
-   :members: maketabdesc, makescacoldesc, makearrcoldesc,
-             tabledefinehypercolumn,
-             tableexists, tableiswritable, tablecopy,
-             tabledelete, tablerename,
-             tableinfo, tablesummary
-   :undoc-members:
 
 Utility functions
 -----------------

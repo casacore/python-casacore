@@ -27,19 +27,18 @@
 
 """Python interface to the Casacore images module.
 
-A `casacore image
-<http://www.astron.nl/casacore/doc/html/group__Images__module.html>`_
+A `casacore image <../../casacore/doc/html/group__Images__module.html>`_
 represents an astronomical image of arbitrary dimensionality.
 Several image formats are recognized:
 
-`casacore`
+`casacore <../../casacore/doc/html/classcasa_1_1PagedImage.html>`_
   is the native casacore image format stored in a casacore table.
-`HDF5`
-  is the `HDF5 <http://www.hdf5group.org>`_ format used by many other packages.
-`FITS`
-  is the well-known FITS format
-`miriad`
-  is the format used by the MIRIAD package
+`HDF5 <http://www.hdfgroup.org/HDF5>`_
+  is the HDF5 format often used in the earth science community.
+`FITS <http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html>`_
+  is the well-known astronomical FITS format
+`miriad <http://www.atnf.csiro.au/computing/software/miriad>`_
+  is the format used by the radio-astronomical MIRIAD package.
 
 The following functionality exists:
 
