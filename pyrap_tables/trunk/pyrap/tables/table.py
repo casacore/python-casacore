@@ -1285,17 +1285,63 @@ class table(Table):
         """
         return tablecommand('calc from $1 calc ' + expr, style, [self]);
                             
-    def browse (self):
-        """ Browse a table using a simple wxwidget based browser."""
-        try:
-            import wxPython
-        except ImportError:
-            print 'wx not available'
-            return
-        from wxPython.wx import wxPySimpleApp
-        import sys
-        app = wxPySimpleApp()
-        from wxtablebrowser import CasaTestFrame
-        frame = CasaTestFrame(None, sys.stdout, self)
-        frame.Show(True)
-        app.MainLoop()
+    def browse (self, wait=False, tempname=""):
+        """ Browse a table using casabrowser or a simple wxwidget based browser.
+
+        By default the casabrowser is used if it can be found (in your PATH).
+        Otherwise the wxwidget one is used if wx can be loaded.
+
+        The casabrowser can only browse tables that are persistent on disk.
+        This gives problems for tables resulting from a query because they are
+        held in memory only (unless an output table name was given).
+
+        To make browsing of such tables possible, the argument `tempname` can
+        be used to specify a table name that will be used to form a persistent
+        table that can be browsed. Note that such a table is very small as it
+        does no contain data, but only references data in the original table.
+
+        The table can be deleted using the :func:`tabledelete` function.
+
+        If `wait=False`, the casabrowser is started in the background.
+        The wxwidget browser is always in the foreground.
+
+        """
+        import os
+        # Test if casabrowser can be found.
+        # On OS-X 'which' always returns 0, so use test on top of it.
+        if os.system('test -x `which casabrowser` > /dev/null 2>&1') == 0:
+            waitstr = " &";
+            if wait:
+                waitstr = ""
+            if self.iswritable():
+                print "Flushing data and starting casabrowser in the background ..."
+            else:
+                print "Starting casabrowser in the background ..."
+            self.flush()
+            self.unlock()
+            if os.system('test -e ' + self.name() + '/table.dat') == 0:
+                os.system ('casabrowser ' + self.name() + waitstr)
+            elif len(tempname) > 0:
+                print "First making a persistent copy in table " + tempname
+                tx = self.copy (tempname);
+                tx = 0;
+                os.system ('casabrowser ' + tempname + waitstr)
+            else:
+                print "Cannot browse because the table is in memory only."
+                print "You can browse a (shallow) persistent copy of the table like:"
+                print "   t.browse('/tmp/tab1')"
+                print "After browsing you should delete that copy using e.g."
+                print "   tabledelete('/tmp/tab')"
+        else:
+            try:
+                import wxPython
+            except ImportError:
+                print 'casabrowser nor wx available'
+                return
+            from wxPython.wx import wxPySimpleApp
+            import sys
+            app = wxPySimpleApp()
+            from wxtablebrowser import CasaTestFrame
+            frame = CasaTestFrame(None, sys.stdout, self)
+            frame.Show(True)
+            app.MainLoop()
