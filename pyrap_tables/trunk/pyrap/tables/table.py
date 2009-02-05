@@ -1285,7 +1285,7 @@ class table(Table):
         """
         return tablecommand('calc from $1 calc ' + expr, style, [self]);
                             
-    def browse (self, wait=False, tempname=""):
+    def browse (self, wait=True, tempname="/tmp/seltable"):
         """ Browse a table using casabrowser or a simple wxwidget based browser.
 
         By default the casabrowser is used if it can be found (in your PATH).
@@ -1299,33 +1299,45 @@ class table(Table):
         be used to specify a table name that will be used to form a persistent
         table that can be browsed. Note that such a table is very small as it
         does no contain data, but only references data in the original table.
+        The default for `tempname` is '/tmp/seltable'.
 
-        The table can be deleted using the :func:`tabledelete` function.
+        If needed, the table can be deleted using the :func:`tabledelete`
+        function.
 
         If `wait=False`, the casabrowser is started in the background.
-        The wxwidget browser is always in the foreground.
+        In that case the user should delete a possibly created copy of a 
+        temporary table.
 
         """
         import os
         # Test if casabrowser can be found.
         # On OS-X 'which' always returns 0, so use test on top of it.
         if os.system('test -x `which casabrowser` > /dev/null 2>&1') == 0:
-            waitstr = " &";
-            if wait:
-                waitstr = ""
+            waitstr1 = ""
+            waitstr2 = "foreground ..."
+            if not wait:
+                waitstr1 = " &";
+                waitstr2 = "background ...";
             if self.iswritable():
-                print "Flushing data and starting casabrowser in the background ..."
+                print "Flushing data and starting casabrowser in the " + waitstr2
             else:
-                print "Starting casabrowser in the background ..."
+                print "Starting casabrowser in the " + waitstr2
             self.flush()
             self.unlock()
             if os.system('test -e ' + self.name() + '/table.dat') == 0:
-                os.system ('casabrowser ' + self.name() + waitstr)
+                os.system ('casabrowser ' + self.name() + waitstr1)
             elif len(tempname) > 0:
-                print "First making a persistent copy in table " + tempname
+                print "  making a persistent copy in table " + tempname
                 tx = self.copy (tempname);
                 tx = 0;
-                os.system ('casabrowser ' + tempname + waitstr)
+                os.system ('casabrowser ' + tempname + waitstr1)
+                if wait:
+                    from pyrap.tables import tabledelete
+                    print "  finished browsing"
+                    tabledelete (tempname);
+
+                else:
+                    print "  after browsing use tabledelete('" + tempname + "') to delete the copy"
             else:
                 print "Cannot browse because the table is in memory only."
                 print "You can browse a (shallow) persistent copy of the table like:"
