@@ -266,42 +266,6 @@
     return arr;
   }
 
-  template <typename T>
-  boost::python::object makePyArrayObject (casa::Array<T> const& arr)
-  {
-    // Load the API if needed.
-    if (!PyArray_API) loadAPI();
-    // Swap axes, because AIPS++ has row minor and Python row major order.
-    // A Python array needs at least 1 dimension, otherwise it's a scalar.
-    int nd = arr.ndim();
-    IPosition newshp(1, 0);
-    if (nd == 0) {
-      nd = 1;
-    } else {
-      newshp.resize (nd);
-      const IPosition& shp = arr.shape();
-      for (int i=0; i<nd; i++) {
-	newshp[i] = shp[nd-i-1];
-      }
-    }
-    // Create the array from the shape.
-    PyArrayObject* po = (PyArrayObject*)PyArray_FromDims
-      (nd, const_cast<Int*>(newshp.storage()), TypeConvTraits<T>::pyType());
-    if (po == 0) {
-      throw AipsError ("PycArray: failed to allocate python array-object");
-    }
-    // Copy the data to numarray.
-    if (arr.size() > 0) {
-      casa::Bool deleteIt;
-      const T* src = arr.getStorage(deleteIt);
-      ArrayCopy<T>::toPy (po->data, src, arr.size());
-      arr.freeStorage(src, deleteIt);
-    }
-    // Return the python array.
-    return boost::python::object(boost::python::handle<>((PyObject*)po));
-  }
-
-
   ValueHolder makeArray (PyObject* obj_ptr, Bool copyData)
   {
     if (! PycArrayCheck(obj_ptr)) {
