@@ -253,7 +253,7 @@ class image(Image):
 
         """
         return nma.masked_array (self.getdata(blc,trc,inc),
-                                           self.getmask(blc,trc,inc))
+                                 self.getmask(blc,trc,inc))
 
     def putdata (self, value, blc=(), trc=(), inc=()):
         """Put image data.
@@ -446,6 +446,72 @@ class image(Image):
                       copymask, newmaskname,
                       newtileshape)
 
+    def statistics (self, axes=(), minmaxvalues=(), exclude=False, robust=True):
+        """Calculate statistics for the image.
+
+        Statistics are returned in a dict for the given axes.
+        E.g. if axes [0,1] is given in a 3-dim image, the statistics are
+        calculated for each plane along the 3rd axis. By default statistics
+        are calculated for the entire image.
+        
+        `minmaxvalues` can be given to include or exclude pixels
+        with values in the given range. If only one value is given,
+        min=-abs(val) and max=abs(val).
+
+        By default robust statistics (Median, MedAbsDevMed, and Quartile) are
+        calculated too.
+        """
+        return self._statistics (self._adaptAxes(axes), "",
+                                 minmaxvalues, exclude, robust)
+
+    def regrid (self, axes, coordsys, outname="", overwrite=True,
+                outshape=(), interpolation="linear",
+                decimate=10, replicate=False,
+                refchange=True, forceregrid=False):
+        """Regrid the image to a new image object.
+
+         Regrid the image on the given axes to the given coordinate system.
+         The output is stored in the given file; it no file name is given a
+         temporary image is made.
+         If the output shape is empty, the old shape is used.
+         `replicate=True` means replication rather than regridding.
+
+        """
+        return image(self._regrid (self._adaptAxes(axes),
+                                   outname, overwrite,
+                                   outshape, coordsys.dict(),
+                                   interpolation, decimate, replicate,
+                                   refchange, forceregrid))
+
+    def view (self, tempname='/tmp/tempimage'):
+        """Display the image using casaviewer.
+
+        If the image is not persistent, a copy will be made that the user
+        has to delete once viewing has finished. The name of the copy can be
+        given in argument `tempname`. Default is '/tmp/tempimage'.
+
+        """
+        import os
+        # Test if casaviewer can be found.
+        # On OS-X 'which' always returns 0, so use test on top of it.
+        if os.system('test -x `which casaviewer` > /dev/null 2>&1') == 0:
+            print "Starting casaviewer in the background ..."
+            self.unlock()
+            if self.ispersistent():
+                os.system ('casaviewer ' + self.name() + ' &')
+            elif len(tempname) > 0:
+                print "  making a persistent copy in " + tempname
+                print "  which should be deleted after the viewer has ended"
+                self.saveas (tempname);
+                os.system ('casaviewer ' + tempname + ' &')
+            else:
+                print "Cannot view because the image is in memory only."
+                print "You can browse a persistent copy of the image like:"
+                print "   t.view('/tmp/tempimage')"
+        else:
+            print 'casaviewer cannot be found'
+
+
     def _adaptAxes (self, axes):
         # If axes is a single integer value, turn it into a list.
         if isinstance(axes, int):
@@ -480,17 +546,3 @@ class image(Image):
     def _adjustInc (self, inc):
         shp = self._shape()
         return self._adjust (inc, [1 for x in shp])
-
-    def statistics (self, axes=(), minMaxValues=(), exclude=False, robust=True):
-        return self._statistics (self._adaptAxes(axes), "",
-                                 minMaxValues, exclude, robust)
-
-    def regrid (self, axes, coordsys, outname="", overwrite=True,
-                outshape=(), interpolation="linear",
-                decimate=10, replicate=False,
-                refchange=True, forceregrid=False):
-        return image(self._regrid (self._adaptAxes(axes),
-                                   outname, overwrite,
-                                   outshape, coordsys.dict(),
-                                   interpolation, decimate, replicate,
-                                   refchange, forceregrid))

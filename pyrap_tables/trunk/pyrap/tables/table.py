@@ -1341,9 +1341,7 @@ class table(Table):
             else:
                 print "Cannot browse because the table is in memory only."
                 print "You can browse a (shallow) persistent copy of the table like:"
-                print "   t.browse('/tmp/tab1')"
-                print "After browsing you should delete that copy using e.g."
-                print "   tabledelete('/tmp/tab')"
+                print "   t.browse(True, '/tmp/tab1')"
         else:
             try:
                 import wxPython
@@ -1357,3 +1355,77 @@ class table(Table):
             frame = CasaTestFrame(None, sys.stdout, self)
             frame.Show(True)
             app.MainLoop()
+
+    def view (self, wait=True, tempname="/tmp/seltable"):
+        """ View a table using casaviewer, casabrowser, or wxwidget based browser.
+
+        The table is viewed depending on the type:
+
+        MeasurementSet
+          is viewed using casaviewer.
+        Image
+          is viewed using casaviewer.
+        other
+          are browsed using the :func:`browse` function.
+
+        If the casaviewer cannot be found, all tables are browsed.
+
+        The casaviewer can only display tables that are persistent on disk.
+        This gives problems for tables resulting from a query because they are
+        held in memory only (unless an output table name was given).
+
+        To make viewing of such tables possible, the argument `tempname` can
+        be used to specify a table name that will be used to form a persistent
+        table that can be browsed. Note that such a table is very small as it
+        does no contain data, but only references data in the original table.
+        The default for `tempname` is '/tmp/seltable'.
+
+        If needed, the table can be deleted using the :func:`tabledelete`
+        function.
+
+        If `wait=False`, the casaviewer is started in the background.
+        In that case the user should delete a possibly created copy of a 
+        temporary table.
+
+        """
+        import os
+        # Determine the table type.
+        # Test if casaviewer can be found.
+        # On OS-X 'which' always returns 0, so use test on top of it.
+        viewed = False
+        type = self.info()["type"]
+        if type == "Measurement Set" or type == "Image":
+            if os.system('test -x `which casaviewer` > /dev/null 2>&1') == 0:
+                waitstr1 = ""
+                waitstr2 = "foreground ..."
+                if not wait:
+                    waitstr1 = " &";
+                    waitstr2 = "background ...";
+                if self.iswritable():
+                    print "Flushing data and starting casaviewer in the " + waitstr2
+                else:
+                    print "Starting casaviewer in the " + waitstr2
+                self.flush()
+                self.unlock()
+                if os.system('test -e ' + self.name() + '/table.dat') == 0:
+                    os.system ('casaviewer ' + self.name() + waitstr1)
+                    viewed = True
+                elif len(tempname) > 0:
+                    print "  making a persistent copy in table " + tempname
+                    tx = self.copy (tempname);
+                    tx = 0;
+                    os.system ('casaviewer ' + tempname + waitstr1)
+                    viewed = True
+                    if wait:
+                        from pyrap.tables import tabledelete
+                        print "  finished viewing"
+                        tabledelete (tempname);
+                    else:
+                        print "  after viewing use tabledelete('" + tempname + "') to delete the copy"
+                else:
+                    print "Cannot browse because the table is in memory only."
+                    print "You can browse a (shallow) persistent copy of the table like:"
+                    print "   t.view(True, '/tmp/tab1')"
+        # Could not view the table, so browse it.
+        if not viewed:
+            self.browse (wait, tempname)
