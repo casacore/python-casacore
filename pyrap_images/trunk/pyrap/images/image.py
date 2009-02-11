@@ -170,7 +170,7 @@ class image(Image):
                     # Create an image from a shape (values gives the data type)
                     # default type is float.
                     if values is None:
-                        values = float(0)
+                        values = numpy.array([0],dtype='float32')[0]
                     Image.__init__ (self, shape, values, coord,
                                     imagename, overwrite, ashdf5,
                                     maskname, tileshape, 0)
@@ -236,7 +236,7 @@ class image(Image):
         Therefore the mask will be negated, so it can be used directly in
         numpy operations.
 
-        If the image has no mask, an array wiil be returned with all values
+        If the image has no mask, an array will be returned with all values
         set to False.
 
         """
