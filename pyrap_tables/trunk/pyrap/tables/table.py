@@ -478,7 +478,7 @@ class table(Table):
         For example::
 
           t  = table('3c343.MS')
-          t1 = t.query('ANTENNA1 != ANTENNA2')   # do selection
+          t1 = t.query('ANTENNA1 != ANTENNA2')   # do row selection
           t2 = t1.copy ('3c343.sel', True)       # make deep copy
           t2 = t.copy ('new.tab', True, True)    # reorganize storage
 
@@ -1252,10 +1252,11 @@ class table(Table):
           The name of the reference table if it is to be made persistent.
         `sortlist`
           The ORDEREDBY part of a TaQL command. It is a single string in which
-          commas have to be used to separate sort keys..
-        `column`
+          commas have to be used to separate sort keys.
+        `columns`
           The columns to be selected (projection in data base terms). It is a
-          single string in which commas have to be used to separate column names.
+          single string in which commas have to be used to separate column 
+          names. Apart from column names, expressions can be given as well.
         """
         if not query and not sortlist and not columns:
             raise ValueError('No selection done (arguments query, sortlist, and columns are empty)');
@@ -1267,6 +1268,59 @@ class table(Table):
             command += ' where ' + query;
         if sortlist:
                command += ' orderby ' + sortlist;
+        if name:
+            command += ' giving ' + name;
+        return tablecommand(command, style, [self]);
+
+    def sort (self, sortlist, name='', style='Python'):
+        """Sort the table and return the result as a reference table.
+
+        This method sorts the table. It forms a
+        `TaQL <../../casacore/doc/notes/199.html>`_
+        command from the given arguments and executes it using the
+        :func:`taql` function.
+        The result is returned in a so-called reference table which references
+        the columns and rows in the original table. Usually a reference
+        table is temporary, but it can be made persistent by giving it a name.
+        Note that a reference table is handled as any table, thus can be
+        queried again.
+
+        `sortlist`
+          The ORDEREDBY part of a TaQL command. It is a single string in which
+          commas have to be used to separate sort keys. A sort key can be the
+          name of a column, but it can be an expression as well.
+        `name`
+          The name of the reference table if it is to be made persistent.
+
+        """
+        command = 'select from $1 orderby ' + sortlist;
+        if name:
+            command += ' giving ' + name;
+        return tablecommand(command, style, [self]);
+
+    def select (self, columns, name='', style='Python'):
+        """Select columns and return the result as a reference table.
+
+        This method represents the SELECT part of a TaQL command using the
+        given columns (or column expressions). It forms a
+        `TaQL <../../casacore/doc/notes/199.html>`_
+        command from the given arguments and executes it using the
+        :func:`taql` function.
+        The result is returned in a so-called reference table which references
+        the columns and rows in the original table. Usually a reference
+        table is temporary, but it can be made persistent by giving it a name.
+        Note that a reference table is handled as any table, thus can be
+        queried again.
+
+        `columns`
+          The columns to be selected (projection in data base terms). It is a
+          single string in which commas have to be used to separate column 
+          names. Apart from column names, expressions can be given as well.
+        `name`
+          The name of the reference table if it is to be made persistent.
+
+        """
+        command = 'select ' + columns + ' from $1'
         if name:
             command += ' giving ' + name;
         return tablecommand(command, style, [self]);
