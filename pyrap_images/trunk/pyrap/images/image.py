@@ -147,8 +147,8 @@ class image(Image):
                             imgs += [img]
                         try:
                             # Substitute possible $ arguments
-                            from pyrap.util import substitute
-                            imagename = substitute(imagename, [(image, '', imgs)])
+                            import pyrap.util
+                            imagename = pyrap.util.substitute(imagename, [(image, '', imgs)], locals=pyrap.util.getlocals(3))
                         except:
                             print "Probably could not import pyrap.util"
                             pass

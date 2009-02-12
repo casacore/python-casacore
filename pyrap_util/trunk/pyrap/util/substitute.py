@@ -27,20 +27,34 @@
 
 
 
-def getglobals():
-    """Get the global variables."""
+def getlocals(back=2):
+    """Get the local variables some levels back (-1 is top)."""
     import inspect
     fr = inspect.currentframe()
     try:
-        while fr:
+        while fr  and  back!=0:
             fr1 = fr;
             fr  = fr.f_back
+            back -= 1
     except:
         pass
     return fr1.f_locals
 
+def getvariable(name):
+    """Get the value of a local variable somewhere in the call stack"""
+    import inspect
+    fr = inspect.currentframe()
+    try:
+        while fr:
+            fr  = fr.f_back
+            vars = fr.f_locals
+            if vars.has_key(name):
+                return vars[name]
+    except:
+        pass
+    return None
 
-def substitute (s, objlist=()):
+def substitute (s, objlist=(), globals={}, locals={}):
   """Substitute global python variables in a command string.
 
   This function parses a string and tries to substitute parts like
@@ -92,8 +106,6 @@ def substitute (s, objlist=()):
   the result of substitute("$b") is "$a" and not 1.
 
   """
-  # Get the symbols at the desired level.
-  symcp = getglobals()
   # Split the string into its individual characters.
   # Initialize some variables.
   backslash = False
@@ -127,7 +139,7 @@ def substitute (s, objlist=()):
           else:
 # End of name found. Try to substitute.
             dollar = False
-            out += substitutename(name, objlist, symcp)
+            out += substitutename(name, objlist, globals, locals)
 
     if tmp != '':
 # Handle possible single or double quotes.
@@ -149,7 +161,7 @@ def substitute (s, objlist=()):
                   if nparen == 0:
 # The last closing parenthese is found.
 # Evaluate the subexpression and if successful put the result in the output.
-                    out += substituteexpr(evalstr, symcp)
+                    out += substituteexpr(evalstr, globals, locals)
                     tmp = ''
             else:
 # Set a switch if we have a dollar (outside quoted and eval strings)
@@ -171,7 +183,7 @@ def substitute (s, objlist=()):
 # Substitute a possible last name.
 # Insert a possible incomplete eval string as such.
   if dollar:
-    out += substitutename(name, objlist, symcp)
+    out += substitutename(name, objlist, globals, locals)
   else:
     if nparen > 0:
       out += '$(' + evalstr
@@ -182,7 +194,7 @@ def substitute (s, objlist=()):
 
 # This function tries to substitute the given name using
 # the rules described in the description of function substitute.
-def substitutename (name, objlist, symcp):
+def substitutename (name, objlist, globals, locals):
 
 # If the name is empty, return a single dollar.
   if len(name) == 0:
@@ -190,7 +202,8 @@ def substitutename (name, objlist, symcp):
 
 # If the name is undefined, return the original.
   try:
-    v = eval(name, symcp, symcp)
+    v = eval(name, globals, locals)
+#    v = getvariable (name)
   except NameError:
     return '$' + name
 
@@ -211,9 +224,9 @@ def substitutename (name, objlist, symcp):
 
 # This function tries to substitute the given name using
 # the rules described in the description of function substitute.
-def substituteexpr (expr, symcp={}):
+def substituteexpr (expr, globals={}, locals={}):
   try:
-    res = eval(expr, symcp, symcp)
+    res = eval(expr, globals, locals)
     v = substitutevar(res)
   except:
 # If the expr is undefined, return the original.

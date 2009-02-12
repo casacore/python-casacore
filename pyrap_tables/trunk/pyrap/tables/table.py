@@ -66,7 +66,7 @@ def _remove_prefix (name):
 
 
 # Execute a TaQL command on a table.
-def taql (command, style='Python', tables=[]):
+def taql (command, style='Python', tables=[], globals={}, locals={}):
     """Execute a TaQL command and return a table object.
 
     A `TaQL <../../casacore/doc/notes/199.html>`_
@@ -93,6 +93,12 @@ def taql (command, style='Python', tables=[]):
 
     The :func:`query` command makes use of this feature.
 
+    The arguments `globals` and `locals` can be used to pass in a dict
+    containing the possible variables used in the TaQL command. They can
+    be obtained with the python functions locals() and globals().
+    If `locals` is empty, the local variables in the calling function will
+    be used, so normally one does not need to use these arguments.
+
     """
     # Substitute possible tables given as $name.
     cmd = command;
@@ -101,8 +107,11 @@ def taql (command, style='Python', tables=[]):
     for tab in tables:
         tabs += [tab]
     try:
-        from pyrap.util import substitute
-        cmd = substitute(cmd, [(table, '', tabs)])
+        import pyrap.util
+        if len(locals) == 0:
+            # local variables in caller are 3 levels up from getlocals
+            locals = pyrap.util.getlocals(3)
+        cmd = pyrap.util.substitute(cmd, [(table, '', tabs)], globals, locals)
     except:
         pass
     if style:
