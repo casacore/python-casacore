@@ -60,6 +60,13 @@ namespace casa { namespace pyrap {
             (boost::python::arg("recursive")))
       .def ("_resync", &TableProxy::resync)
       .def ("_close", &TableProxy::close)
+      .def ("_toascii", &TableProxy::toAscii,
+ 	    (boost::python::arg("asciifile"),
+ 	     boost::python::arg("headerfile"),
+ 	     boost::python::arg("columnnames"),
+ 	     boost::python::arg("sep"),
+ 	     boost::python::arg("precision"),
+ 	     boost::python::arg("usebrackets")))
       .def ("_copy", &TableProxy::copy,
  	    (boost::python::arg("newtablename"),
  	     boost::python::arg("memorytable"),

@@ -454,6 +454,53 @@ class table(Table):
         """Flush and close the table which invalidates the table object."""
         self.close();
 
+    def toascii (self, asciifile, headerfile='', columnnames=(), sep=' ',
+                 precision=(), usebrackets=True):
+        """Write the table in ASCII format.
+
+        It is approximately the inverse of the from-ASCII-contructor.
+
+        `asciifile`
+          The name of the resulting ASCII file.
+        `headerfile`
+          The name of an optional file containing the header info. If not
+          given or if equal to argument `asciifile`, the headers are written
+          at the beginning of the ASCII file.
+        `columnnames`
+          The names of the columns to be written. If not given or if the first
+          name is empty, all columns are written.
+        `sep`
+          The separator to be used between values. Only the first character
+          of a string is used. If not given or mepty, a blank is used.
+        `precision`
+          For each column the precision can be given. It is only used for
+          columns containing floating point numbers. A value <=0 means using
+          the default which is 9 for single and 18 for double precision.
+        `usebrackets`
+          If True, arrays and records are written enclosed in [].
+          Multi-dimensional arrays have [] per dimension. In this way variable
+          shaped array can be read back correctly. However, it is not supported
+          by :func:`tablefromascii`.
+          If False, records are not written and arrays are written linearly
+          with the shape defined in the header as supported byI
+          :func:`tablefromascii`.
+
+        Note that columns containing records or variable shaped arrays are
+        ignored, because they cannot be written to ASCII. It is told which
+        columns are ignored.
+
+        For example::
+
+          t  = table('3c343.MS')
+          t1 = t.query('ANTENNA1 != ANTENNA2')   # do row selection
+          t1.toascii ('3c343.txt')               # write selection as ASCII
+
+        """
+        msg = self._toascii (asciifile, headerfile, columnnames, sep,
+                             precision, usebrackets)
+        if len(msg) > 0:
+            print msg
+
     def copy (self, newtablename, deep=False, valuecopy=False, dminfo={},
               endian='aipsrc', memorytable=False, copynorows=False):
         """Copy the table and return a table object for the copy.
