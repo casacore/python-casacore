@@ -277,13 +277,14 @@ def makescacoldesc (columnname, value,
     explained in more detail in the `casacore Tables
     <../../casacore/doc/html/group__Tables__module.html>`_ documentation.
 
-    It returns a dict which can thereafter be used to build a table description
-    using function :func:`maketabdesc`.
+    It returns a dict with fields `name` and `desc` which can thereafter be used
+    to build a table description using function :func:`maketabdesc`.
 
     `columname`
       Name of column
     `value`
       Example data value used to determine the column's data type.
+      It is only used if argument `valuetype` is not given.
     `datamanagertype`
       Type of data manager which can be one of StandardStMan (default)
       or IncrementalStMan. The latter one can save disk space if many subsequent
@@ -297,12 +298,16 @@ def makescacoldesc (columnname, value,
       Default 0 means unlimited.
     `comment`
       Comment: informational for user.
+    `valuetype`
+      A string giving the column's data type. Possible data types are
+      bool (or boolean), uchar (or byte), short, int (or integer), uint,
+      float, double, complex, dcomplex, and string.
 
     For example::
 
       scd1 = makescacoldesc("col2", ""));
       scd2 = makescacoldesc("col1", 1, "IncrementalStMan");
-      td = maketabdesc(scd1, scd1);
+      td = maketabdesc(scd1, scd2);
 
     This creates a table description consisting of an integer column `col1`,
     and a string column `col2`. `col1` uses the IncrementalStMan storage manager,
@@ -342,13 +347,14 @@ def makearrcoldesc (columnname, value, ndim=0,
     explained in more detail in the `casacore Tables
     <../../casacore/doc/html/group__Tables__module.html>`_ documentation.
 
-    It returns a dict which can thereafter be used to build a table description
-    using function :func:`maketabdesc`.
+    It returns a dict with fields `name` and `desc` which can thereafter be used
+    to build a table description using function :func:`maketabdesc`.
 
     `name`
       The name of the column.
     `value`
       A data value, which is only used to determine the data type of the column.
+      It is only used if argument `valuetype` is not given.
     `ndim`
       Optionally the number of dimensions. A value > 0 means that all
       arrays in the column must have that dimensionality. Note that the
@@ -388,6 +394,10 @@ def makearrcoldesc (columnname, value, ndim=0,
       Default 0 means unlimited.
     `comment`
       Comment: informational for user.
+    `valuetype`
+      A string giving the column's data type. Possible data types are
+      bool (or boolean), uchar (or byte), short, int (or integer), uint,
+      float, double, complex, dcomplex, and string.
 
     For example::
 
@@ -415,6 +425,34 @@ def makearrcoldesc (columnname, value, ndim=0,
             'comment' : comment}
     return {'name' : columnname,
             'desc' : rec2}
+
+# Create a description of a scalar column
+def makecoldesc (columnname, desc):
+    """Create column description using the description of another column.
+
+    The other description can be obtained from a table using function
+    :func:`getcoldesc` or from another column description dict using
+    `otherdesc['desc']`.
+
+    It returns a dict with fields `name` and `desc` which can thereafter be used
+    to build a table description using function :func:`maketabdesc`.
+
+    `columname`
+      Name of column
+    `desc`
+      Description of the column
+
+    For example::
+
+      cd1 = makecoldesc("col2", t.getcoldesc('othercol'));
+      td = maketabdesc(cd1);
+
+    This creates a table description consisting of a column `col2` having
+    the same description as column `othercol`.
+
+    """
+    return {'name' : columnname,
+            'desc' : desc}
 
 # Create a table description from a set of column descriptions
 def maketabdesc (descs=[]):
@@ -525,15 +563,15 @@ def tabledelete (tablename, checksubtables=False, ack=True):
     the table first.
 
     """
-    tabname = _remove_prefix(tablename);
-    t = table(tabname, ack=False);
+    tabname = _remove_prefix(tablename)
+    t = table(tabname, ack=False)
     if t.ismultiused(checksubtables):
-        print 'Table', tabname, 'cannot be deleted; it is still in use';
+        print 'Table', tabname, 'cannot be deleted; it is still in use'
     else:
-        t = 0;
-        table(tabname, readonly=False, _delete=True, ack=False);
+        t = 0
+        table(tabname, readonly=False, _delete=True, ack=False)
         if ack:
-            print 'Table', tabname, 'has been deleted';
+            print 'Table', tabname, 'has been deleted'
 
 def tableexists(tablename):
     """Test if a table exists."""
@@ -593,3 +631,83 @@ def tablesummary(tablename):
     """
     t = table(tablename, ack=False)
     t.summary()
+
+def addImagingColumns(msname, ack=True):
+    """ Add the columns to an MS needed for the casa imager.
+
+    It adds the columns MODEL_WEIGHT, CORRECTED_WEIGHT, and IMAGING_WEIGHT.
+    It also sets the CHANNEL_SELECTION keyword needed for the older casa imagers.
+
+    It fails if one of the columns already exists.
+
+    """
+
+    # numpy is needed
+    import numpy as np
+    # Open the MS
+    t = table (msname, readonly=False, ack=False)
+    # Check if the columns do not already exist.
+    cnames = t.colnames()
+    for col in ['MODEL_DATA', 'CORRECTED_DATA', 'IMAGING_WEIGHT'] :
+        if col in cnames:
+            raise ValueError("Column MODEL_DATA, CORRECTED_DATA, or IMAGING_WEIGHT already exists")
+    # Get the description of the DATA column.
+    try:
+        cdesc = t.getcoldesc('DATA')
+    except:
+        raise ValueError('Column DATA does not exist')
+    # Add the columns using the DATA storage specification (if tiled).
+    hasTiled = False
+    try:
+        dminfo = t.getdminfo("DATA")
+        if dminfo['TYPE'][:5] == 'Tiled':
+            hasTiled = True
+    except:
+        hasTiled = False
+    # Use TiledShapeStMan if needed.
+    if not hasTiled:
+        dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE':[4,32,128]}}
+    # Add the columns. Use the description of the DATA column.
+    dminfo['NAME'] = 'modeldata'
+    cdesc['comment'] = 'The model data column'
+    t.addcols (maketabdesc(makecoldesc('MODEL_DATA', cdesc)), dminfo)
+    if ack:
+        print 'added column MODEL_DATA'
+    dminfo['NAME'] = 'correcteddata'
+    cdesc['comment'] = 'The corrected data column'
+    t.addcols (maketabdesc(makecoldesc('CORRECTED_DATA', cdesc)), dminfo)
+    if ack:
+        print 'added column CORRECTED_DATA'
+    # Add IMAGING_WEIGHT which is 1-dim and has type float.
+    shp = cdesc['shape']
+    if len(shp) > 0:
+        shp = [shp[0]]     # use nchan
+    cd = makearrcoldesc ('IMAGING_WEIGHT', 0, ndim=1, shape=shp, valuetype='float')
+    dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE':[32,128]}}
+    dminfo['NAME'] = 'imagingweight'
+    t.addcols (maketabdesc(cd), dminfo)
+    if ack:
+        print 'added column IMAGING_WEIGHT'
+    # Finally define the CHANNEL_SELECTION keyword containing the channels of
+    # all spectral windows.
+    tspw = table(t.getkeyword('SPECTRAL_WINDOW'), ack=False)
+    nchans = tspw.getcol('NUM_CHAN')
+    chans = [[0,nch] for nch in nchans]
+    t.putcolkeyword ('MODEL_DATA', 'CHANNEL_SELECT', np.array(chans))
+    if ack:
+        print 'defined keyword CHANNEL_SELECTION in column MODEL_DATA'
+    # Flush the table to make sure it is written.
+    t.flush()
+
+def removeImagingColumns (msname):
+    # Open the MS
+    t = table (msname, readonly=False, ack=False)
+    # Remove if the column exists.
+    cnames = t.colnames()
+    removeNames = []
+    for col in ['MODEL_DATA', 'CORRECTED_DATA', 'IMAGING_WEIGHT']:
+        if col in cnames:
+            removeNames.append (col)
+    if len(removeNames) > 0:
+        t.removecols (removeNames)
+        t.flush()
