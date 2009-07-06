@@ -67,6 +67,8 @@ namespace casa { namespace pyrap {
  	     boost::python::arg("sep"),
  	     boost::python::arg("precision"),
  	     boost::python::arg("usebrackets")))
+      .def ("_rename", &TableProxy::rename,
+ 	    (boost::python::arg("newtablename")))
       .def ("_copy", &TableProxy::copy,
  	    (boost::python::arg("newtablename"),
  	     boost::python::arg("memorytable"),

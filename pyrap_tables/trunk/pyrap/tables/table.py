@@ -501,6 +501,14 @@ class table(Table):
         if len(msg) > 0:
             print msg
 
+    def rename (self, newtablename):
+        """Rename the table.
+
+        It renames the table and, if needed, adjusts the names of its subtables.
+
+        """
+        self._rename (newtablename);
+    
     def copy (self, newtablename, deep=False, valuecopy=False, dminfo={},
               endian='aipsrc', memorytable=False, copynorows=False):
         """Copy the table and return a table object for the copy.
