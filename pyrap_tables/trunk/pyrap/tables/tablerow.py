@@ -95,7 +95,7 @@ class _tablerow(TableRow):
     def checkkey (self, key, nrows):
         if not isinstance(key, slice):
             if key < 0:
-                key += self._table.nrows();
+                key += nrows;
             if key < 0  or  key >= nrows:
                 raise IndexError("tablerow index out of range");
             return [key];
