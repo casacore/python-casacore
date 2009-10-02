@@ -24,7 +24,6 @@ def add_ldpath(env):
     outpth  = []
     for pth in envvar:
         spth = str(pth)
-        print spth
         if os.path.isabs(spth):
             outpth.append(spth)
         else:
@@ -39,7 +38,6 @@ def add_ldpath(env):
         if len(ldpth) > 0:
             outvar += os.path.pathsep + ldpth
         env["ENV"][ldvar] = outvar 
-        print env["ENV"]
     
 def assayAux(target, source, env):
     infile = str(source[0].srcnode().path)
@@ -153,8 +151,8 @@ def generate(env):
         action = [env.Action(assayAux, auxString),
                   env.Action(assayAction, assayActionString)],
         suffix='.passed')
-    env["ASSAYCOM"] = os.path.join(env["casacore_root"], "share",
-                                   "casacore", "casacore_assay")
+    env["ASSAYCOM"] = os.path.join(env["casacore_root"], "bin",
+                                   "casacore_assay")
     env.AddMethod(addAssayTest)
 
 def exists(env):
