@@ -16,6 +16,17 @@ env.SConsignFile()
 # Auto configure
 if not env.GetOption('clean') and not env.GetOption('help'):
     conf = Configure(env)
+
+    # DL
+    if not conf.env.get("disable_dl"):
+        pkgname = "dl"
+        libname = env.get(pkgname+"_lib")
+        conf.env.AddCustomPackage(pkgname)
+        if conf.CheckLib(libname, autoadd=0):
+            env.AppendUnique(LIBS=[libname])
+        else:
+            env.Exit(1)
+
     conf.env.AppendUnique(CPPPATH=[env["numpy_incdir"]])
     # numpy1.0 uses config.h; numpy 1.1 uses numpyconfig.h
     if conf.CheckHeader("numpy/config.h") or conf.CheckHeader("numpy/numpyconfig.h"):
@@ -43,10 +54,19 @@ if not env.GetOption('clean') and not env.GetOption('help'):
 	Exit(1)
     conf.env.PrependUnique(LIBS=[env["boost_lib"]])
 
+
+    if conf.env.get('enable_hdf5'):
+        pkgname = "hdf5"
+        libname = conf.env.get(pkgname+"_lib")
+        conf.env.AddCustomPackage(pkgname)
+        if conf.CheckLib(libname, autoadd=0):
+            env.PrependUnique(LIBS=[libname])
+        else:
+            env.Exit(1)
+
     conf.env.AddCustomPackage('casacore', incdirext='casacore')
     if not conf.CheckLibWithHeader(conf.env["casacore_lib"], 'casa/aips.h', language='c++'):
 	Exit(1)	
-
 
     env = conf.Finish()
 
