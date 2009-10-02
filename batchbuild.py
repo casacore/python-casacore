@@ -11,10 +11,11 @@ import subprocess
 
 def darwin_sdk(archlist=None):
     if not archlist:
-        archlist = 'i386,ppc'
+        archlist = 'i386'
     import platform        
     devpath = { "4" : "/Developer/SDKs/MacOSX10.4u.sdk",
-                "5" : "/Developer/SDKs/MacOSX10.5.sdk" }
+                "5" : "/Developer/SDKs/MacOSX10.5.sdk",
+                "6" : "/Developer/SDKs/MacOSX10.6.sdk" }
     version = platform.mac_ver()[0].split(".")
     if version[0] != '10' or int(version[1]) < 4:
         print "Only Mac OS X >= 10.4 is supported"
@@ -35,17 +36,17 @@ parser.add_option('--test', dest='test',
                   default=False, action='store_true',
                   help="Run assay tests")
 
-parser.add_option('--boostroot', dest='boost',
+parser.add_option('--boost-root', dest='boost',
                   default="",
                   type="string",
                   help="Root directory of boost python (default is /usr)")
 
-parser.add_option('--boostlib', dest='boostlib',
+parser.add_option('--boost-lib', dest='boostlib',
                   default=None,
                   type="string",
                   help="Name of the boost_python library (boost_python)")
 
-parser.add_option('--casacoreroot', dest='casacore',
+parser.add_option('--casacore-root', dest='casacore',
                   default=None,
                   type="string",
                   help="Root directory of casacore (default is /usr/local)")
@@ -54,27 +55,27 @@ parser.add_option('--enable-hdf5', dest='enable_hdf5',
                   default=False, action='store_true',
                   help="Enable the optional hdf5 support")
 
-parser.add_option('--hdf5root', dest='hdf5',
+parser.add_option('--hdf5-root', dest='hdf5',
                   default=None,
                   type="string",
                   help="Root directory of hdf5 (default is /usr/local)")
 
-parser.add_option('--hdf5lib', dest='hdf5lib',
+parser.add_option('--hdf5-lib', dest='hdf5lib',
                   default=None,
                   type="string",
                   help="Name of the hdf5 library (hdf5)")
 
-parser.add_option('--cfitsioroot', dest='cfitsio',
+parser.add_option('--cfitsio-root', dest='cfitsio',
                   default=None,
                   type="string",
                   help="Root directory of cfitsio (default is /usr/local)")
 
-parser.add_option('--wcsroot', dest='wcs',
+parser.add_option('--wcs-root', dest='wcs',
                   default=None,
                   type="string",
                   help="Root directory of wcs (default is /usr/local)")
 
-parser.add_option('--f2clib', dest='f2clib',
+parser.add_option('--f2c-lib', dest='f2clib',
                   default=None,
                   type="string",
                   help="Fortran to c library (default is gfortran)")
@@ -82,11 +83,11 @@ parser.add_option('--f2c', dest='f2c',
                   default=None,
                   type="string",
                   help="Root directory of Fortran to c library (default is /usr)")
-parser.add_option('--lapacklib', dest='lapacklib',
+parser.add_option('--lapack-lib', dest='lapacklib',
                   default=None,
                   type="string",
                   help="The name(s) of the lapack/blas libraries")
-parser.add_option('--lapackroot', dest='lapack',
+parser.add_option('--lapack-root', dest='lapack',
                   default=None,
                   type="string",
                   help="Root directory of the lapack/blas libraries")
@@ -101,15 +102,17 @@ parser.add_option('--python-prefix', dest='pyprefix',
                   type="string",
                   help="Install location for python modules (default is the system python's site-packages)")
 
-parser.add_option('--universal', dest='universal',
-                  default=None,
-                  type="string",
-                  help="i386, ppc, x86_64 and/or ppc64")
+if  sys.platform == "darwin":
+    parser.add_option('--universal', dest='universal',
+                      default=None,
+                      type="string",
+                      help="i386, ppc, x86_64 and/or ppc64")
 
-parser.add_option('--numpyincdir', dest='numpyincdir',
+parser.add_option('--numpy-incdir', dest='numpyincdir',
                   default=None,
                   type="string",
                   help="Location of numpy include directory (default is to autodetect)")
+
 parser.add_option('-r', '--release', dest='release', type="choice",
                   choices=["current", "trunk"], 
                   default="current",
@@ -197,7 +200,7 @@ def run_python(pkg, args):
         vers, sdk = darwin_sdk(args.universal)
         os.environ["MACOSX_DEPLOYMENT_TARGET"] = vers
         os.environ["CFLAGS"] = sdk
-
+        os.environ["LDSHARED"] = 'g++ -g -bundle -undefined dynamic_lookup'
 
     try:
         # don't build extension if the package doesn't have extensions
@@ -239,23 +242,23 @@ def run_scons(target, args):
     pfx = None
     tests = False
     if args.casacore:
-        command += " casacoreroot=%s" %  args.casacore
+        command += " --casacore-root=%s" %  args.casacore
     if args.numpyincdir:
-        command += " numpyincdir=%s" %  args.numpyincdir
+        command += " --numpy-incdir=%s" %  args.numpyincdir
     if args.boost:
-        command += " boostroot=%s" %  args.boost
+        command += " --boost-root=%s" %  args.boost
     if args.boostlib:
-        command += " boostlib=%s" %  args.boostlib
+        command += " --boost-lib=%s" %  args.boostlib
     if args.prefix:
-        command += " prefix=%s" %  args.prefix
+        command += " --prefix=%s" %  args.prefix
     if args.universal:
-        command += " universal=%s" %  args.universal
+        command += " --universal=%s" %  args.universal
     if args.clean:
         command += " --clean"
     elif args.test:
         command += " test -Q"
     else:
-        command += " shared install"
+        command += " install"
     failed = False
     try:
         print "EXECUTING:", command
@@ -268,13 +271,13 @@ def run_scons(target, args):
     #some extra tidying
     if args.clean:
         toclean = glob.glob(".scon*")
+        toclean.append('options.cache')
         for dir in toclean:
             if os.path.exists(dir):
                 if os.path.isdir(dir):
                     shutil.rmtree(dir)
                 else:
                     os.remove(dir)
-
                 print "Removed", dir
     os.chdir(cwd)
 
