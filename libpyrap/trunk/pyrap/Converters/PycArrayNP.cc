@@ -243,6 +243,8 @@ namespace casa { namespace pyrap { namespace numpy {
     array_scalar_from_python<uShort>();
     array_scalar_from_python<Int>();
     array_scalar_from_python<uInt>();
+    array_scalar_from_python<Int64>();
+    array_scalar_from_python<uInt64>();
     array_scalar_from_python<Float>();
     array_scalar_from_python<Double>();
     array_scalar_from_python<Complex>();
