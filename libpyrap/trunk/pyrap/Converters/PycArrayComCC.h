@@ -38,10 +38,9 @@
   Bool isImported()
   {
     using namespace boost::python;
-    // PySys_GetObject uses char* instead of const char*, so gcc-4.3 gives
-    // a deprecated warning when passing in a string constant directly.
-    char modStr[] = "modules";
-    PyObject* mods = PySys_GetObject(modStr);
+    // PySys_GetObject uses char* instead of const char*, so use a cast.
+    const char* modStr = "modules";
+    PyObject* mods = PySys_GetObject(const_cast<char*>(modStr));
     dict d =  extract<dict>(mods)();
     return d.has_key(PYC_USE_PYARRAY);
   }
