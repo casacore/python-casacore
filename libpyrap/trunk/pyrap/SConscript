@@ -2,7 +2,7 @@ import os
 Import('env')
 lenv =env.Clone()
 # to find package based includes
-lenv.AppendUnique(CPPPATH=['#'])
+lenv.PrependUnique(CPPPATH=['#'])
 lenv.AppendUnique(CPPFLAGS=["-W", "-Wall", "-Woverloaded-virtual"])
 buildtype = lenv.get('build_type')
 if buildtype == "dbg":

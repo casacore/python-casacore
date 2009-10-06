@@ -12,7 +12,6 @@ env = Environment(ENV = { 'PATH' : os.environ[ 'PATH' ],
 # keep a local sconsign database, rather than in very directory
 env.SConsignFile()
 
-
 # Auto configure
 if not env.GetOption('clean') and not env.GetOption('help'):
     conf = Configure(env)
@@ -71,7 +70,7 @@ if not env.GetOption('clean') and not env.GetOption('help'):
     env = conf.Finish()
 
 # to find package based includes
-env.Append(CPPPATH='#')
+env.PrependUnique(CPPPATH='#')
 
 env["BUILDDIR"] = Dir("#/build_%s/%s" % (env.PlatformIdent(), env['build_type']))
 env.SConscript(["pyrap/SConscript"], 
