@@ -251,8 +251,9 @@ def run_scons(target, args):
         command += " --boost-lib=%s" %  args.boostlib
     if args.prefix:
         command += " --prefix=%s" %  args.prefix
-    if args.universal:
-        command += " --universal=%s" %  args.universal
+    if sys.platform == "darwin":
+        if args.universal:
+            command += " --universal=%s" %  args.universal
     if args.clean:
         command += " --clean"
     elif args.test:
