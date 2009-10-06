@@ -45,7 +45,7 @@ namespace casa { namespace pyrap {
       {cout << "bool " << in << endl; return in;}
     Int testint (Int in)
       {cout << "Int " << in << endl; return in;}
-    Int testssize (::size_t in)
+    Int testssize (::ssize_t in)
       {cout << "ssize " << in << endl; return in;}
     Double testfloat (Double in)
       {cout << "Float " << in << endl; return in;}
