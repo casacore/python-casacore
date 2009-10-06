@@ -236,6 +236,8 @@ namespace casa { namespace pyrap { namespace numpy {
 
   void register_convert_arrayscalars()
   {
+    // Register as casa types.
+    // A type like ssize_t maps to Int or Long (depending on machine).
     array_scalar_from_python<Bool>();
     array_scalar_from_python<Char>();
     array_scalar_from_python<uChar>();
@@ -243,6 +245,8 @@ namespace casa { namespace pyrap { namespace numpy {
     array_scalar_from_python<uShort>();
     array_scalar_from_python<Int>();
     array_scalar_from_python<uInt>();
+    array_scalar_from_python<Long>();
+    array_scalar_from_python<uLong>();
     array_scalar_from_python<Int64>();
     array_scalar_from_python<uInt64>();
     array_scalar_from_python<Float>();

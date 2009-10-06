@@ -84,6 +84,10 @@ namespace casa { namespace pyrap { namespace numpy {
         { return vh.asInt(); }
       template<> inline uInt     getScalar (const ValueHolder& vh)
         { return vh.asuInt(); }
+      template<> inline Long     getScalar (const ValueHolder& vh)
+        { return vh.asInt(); }
+      template<> inline uLong    getScalar (const ValueHolder& vh)
+        { return vh.asuInt(); }
       template<> inline Int64    getScalar (const ValueHolder& vh)
         { return vh.asInt(); }
       template<> inline uInt64   getScalar (const ValueHolder& vh)

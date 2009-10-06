@@ -492,8 +492,9 @@ namespace casa { namespace pyrap {
           boost::type<ContainerType>(), obj_size)) return false;
 	// All elements in a range and array have the same type, so
 	// need to check the first element only.
-        bool is_same = PyRange_Check(obj_ptr) || (PySequence_Check(obj_ptr)
-			&& !PyTuple_Check(obj_ptr) && !PyList_Check(obj_ptr));
+        bool is_same = PyRange_Check(obj_ptr) ||
+	              (PySequence_Check(obj_ptr)
+		       && !PyTuple_Check(obj_ptr) && !PyList_Check(obj_ptr));
 	int i = 0;
         for (;;i++) {
           handle<> py_elem_hdl(allow_null(PyIter_Next(obj_iter.get())));

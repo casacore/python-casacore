@@ -92,13 +92,13 @@
     typedef npy_uint32   python_type;
     static PyArray_TYPES pyType() { return NPY_UINT32; }
   };
-  template <> struct TypeConvTraits<casa::Long> {
-    typedef casa::Long   casa_type;
+  template <> struct TypeConvTraits<casa::Int64> {
+    typedef casa::Int64  casa_type;
     typedef npy_int64    python_type;
     static PyArray_TYPES pyType() { return NPY_INT64; }
   };
-  template <> struct TypeConvTraits<casa::uLong> {
-    typedef casa::uLong  casa_type;
+  template <> struct TypeConvTraits<casa::uInt64> {
+    typedef casa::uInt64 casa_type;
     typedef npy_uint64   python_type;
     static PyArray_TYPES pyType() { return NPY_UINT64; }
   };
@@ -324,26 +324,18 @@
     case NPY_OBJECT:
       return ValueHolder (ArrayCopy<String>::toArray(shp, po->data, docopy));
     default:
-      // NPY_INT and LONG are the same on 32-bit machines, so LONG
-      // cannot be used in the switch (compiler complains).
-      // Similarly for BYTE and SBYTE which can equal to BOOL in numarray.
+      // Some types can be the same as other types, so they cannot
+      // be used in the switch (compiler complains).
+      // This is true for BYTE and SBYTE which can equal to BOOL in numarray.
       // Similarly for STRING which exists for numpy and is set to
       // INT for numarray.
       if (po->descr->type_num == NPY_INT64) {
-	if (sizeof(Long) != sizeof(Int)) docopy = False;
-	Array<Long> arr = ArrayCopy<Long>::toArray(shp, po->data, docopy);
-	if (sizeof(Long) == sizeof(Int)) {
-	  return ValueHolder((Array<Int>&)arr);
-	}
+	Array<Int64> arr = ArrayCopy<Int64>::toArray(shp, po->data, False);
 	Array<Int> res(arr.shape());
 	convertArray (res, arr);
 	return ValueHolder(res);
       } else if (po->descr->type_num == NPY_UINT64) {
-	if (sizeof(uLong) != sizeof(uInt)) docopy = False;
-	Array<uLong> arr = ArrayCopy<uLong>::toArray(shp, po->data, docopy);
-	if (sizeof(uLong) == sizeof(uInt)) {
-	  return ValueHolder((Array<uInt>&)arr);
-	}
+	Array<uInt64> arr = ArrayCopy<uInt64>::toArray(shp, po->data, False);
 	Array<uInt> res(arr.shape());
 	convertArray (res, arr);
 	return ValueHolder(res);
@@ -379,8 +371,8 @@
   template struct ArrayCopy<uShort>;
   template struct ArrayCopy<Int>;
   template struct ArrayCopy<uInt>;
-  template struct ArrayCopy<Long>;
-  template struct ArrayCopy<uLong>;
+  template struct ArrayCopy<Int64>;
+  template struct ArrayCopy<uInt64>;
   template struct ArrayCopy<Float>;
   template struct ArrayCopy<Double>;
 

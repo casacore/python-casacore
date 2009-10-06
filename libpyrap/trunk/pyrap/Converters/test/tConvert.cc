@@ -45,6 +45,8 @@ namespace casa { namespace pyrap {
       {cout << "bool " << in << endl; return in;}
     Int testint (Int in)
       {cout << "Int " << in << endl; return in;}
+    Int testssize (::size_t in)
+      {cout << "ssize " << in << endl; return in;}
     Double testfloat (Double in)
       {cout << "Float " << in << endl; return in;}
     DComplex testcomplex (const DComplex& in)
@@ -75,6 +77,7 @@ namespace casa { namespace pyrap {
     class_<TConvert> ("tConvert", init<>())
       .def ("testbool",       &TConvert::testbool)
       .def ("testint",        &TConvert::testint)
+      .def ("testssize",      &TConvert::testssize)
       .def ("testfloat",      &TConvert::testfloat)
       .def ("testcomplex",    &TConvert::testcomplex)
       .def ("teststring",     &TConvert::teststring)

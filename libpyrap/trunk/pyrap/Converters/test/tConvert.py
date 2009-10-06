@@ -9,6 +9,8 @@ def dotest(t):
     print t.testbool (False);
     print t.testint (-1);
     print t.testint (10);
+    print t.testssize (-2);
+    print t.testssize (11);
     print t.testfloat (3.14);
     print t.testfloat (12);
     print t.teststring ("this is a string");
@@ -92,6 +94,7 @@ def testarrb(arr):
 def testarri(arr):
     testarrvh(arr);
     print t.testint(arr[0]);
+    print t.testssize(arr[0]);
     print t.testfloat(arr[0]);
     print t.testcomplex(arr[0]);
 
