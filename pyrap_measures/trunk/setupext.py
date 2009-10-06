@@ -132,8 +132,9 @@ class assay(Command):
             print "No tests found"
             return
         os.chdir(tdir)
-        comm = os.path.join(self.casacore, "bin", 
-                            "casacore_assay")
+        pth = os.path.join(self.casacore, "bin")
+        comm = os.path.join(pth, "casacore_assay")
+        os.environ["PATH"] = os.path.pathsep.join([pth, os.environ["PATH"]])
         if not os.path.exists(comm):
             print "casacore_assay not found"
             return
