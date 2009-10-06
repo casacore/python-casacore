@@ -33,21 +33,67 @@ if os.environ.has_key("MEASURESDATA"):
     if not os.environ.has_key("AIPSPATH"):
         os.environ["AIPSPATH"] = "%s dummy dummy" %  os.environ["MEASURESDATA"]
 
-def is_measure( v):
+def is_measure(v):
+    """
+    Return if this is a true measures dictionary
+
+    `v` 
+      The value to check
+    """
     if isinstance(v, dict) and v.has_key("type") and  v.has_key("m0"):
         return True
     return False
 
 class measures(_measures):
+    """The measures server object. This should be used to set frame 
+    information and create the various measures and do conversion on them.
+
+    The measures types are:
+    
+    * :func:`measures.direction`
+    
+    * :func:`measures.position`
+    
+    * :func:`measures.epoch`
+
+    * :func:`measures.frequency`
+
+    * :func:`measures.doppler`
+
+    * :func:`measures.baseline`    
+
+    Typical usage::
+    
+      dm = measures() # create measures server instance
+      dirmeas = dm.direction()
+      
+    """
     def __init__(self):
         _measures.__init__(self)
         self._framestack = {}
 
     def set_data_path(self, pth):
+        """Set the location of the measures data directory
+        `pth`
+          The absolute path to the datat directory.
+        """
         if os.path.exists(pth):
             os.environ["AIPSPATH"] = "%s dummy dummy" % pth
 
     def measure(self, v, rf, off=False):
+        """Create/convert a measure using the frame state set on the measures 
+        server instance.
+        
+        `v`
+          The measure to convert
+
+        `rf`
+          The frame reference to convert to
+        
+        `off`
+          The optional offset for the measure
+
+        """
         if not off: off = {}
         keys = ["m0", "m1", "m2"]
         for key in keys:
@@ -154,11 +200,11 @@ class measures(_measures):
 
     def tofrequency(self, rf, v0, rfq):
         if is_measure(rfq) and rfq['type'] == 'frequency':
-            rfq = dq.from_dict(rfq['m0'])
+            rfq = dq.quantity(rfq['m0'])
         if is_measure(v0) and  v0['type'] == 'doppler' \
-               and  isinstance(rfq, dq._quanta.Quantity) \
+               and  dq.is_quantity(rfq) \
                and  rfq.conforms(dq.quantity('Hz')):
-            return self.doptofreq(v0, rf, dq.to_dict(rfq))
+            return self.doptofreq(v0, rf, rfq.to_dict())
         else:
             raise TypeError('Illegal Doppler or rest frequency specified')
 
@@ -172,13 +218,13 @@ class measures(_measures):
 
     def todoppler(self, rf, v0, rfq=False):
         if is_measure(rfq) and rfq['type'] == 'frequency':
-            rfq = dq.from_dict(rfq['m0'])
+            rfq = dq.quantity(rfq['m0'])
         if is_measure(v0):
             if v0['type'] == 'radialvelocity':
-                return self.todop(v0, dq.to_dict(dq.quantity(1.,'Hz')))
-            elif v0['type'] == 'frequency' and  isinstance(rfq, dq._quanta.Quantity) \
-                     and rfq.conforms(dq.quantity('Hz')):
-                return self.todop(v0, dq.to_dict(rfq))
+                return self.todop(v0, dq.quantity(1.,'Hz'))
+            elif v0['type'] == 'frequency' and  dq.is_quantity(rfq) \
+                    and rfq.conforms(dq.quantity('Hz')):
+                return self.todop(v0, rfq)
             else:
                 raise TypeError('Illegal Doppler or rest frequency specified')
         else:

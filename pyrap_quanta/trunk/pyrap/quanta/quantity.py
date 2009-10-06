@@ -23,6 +23,15 @@ QuantVec.__repr__ = to_string
 Quantity.__repr__ = to_string
 
 def quantity(*args):
+    """Create a quantity. This can be from a scalar or vector.
+
+    Example::
+      
+      q1 = quantity(1.0, "km/s")
+      q2 = quantity("1km/s")
+      q1 = quantity([1.0,2.0], "km/s")
+
+    """
     if len(args) == 1:
         if isinstance(args[0], str):
             # use copy constructor to create quantity from string
