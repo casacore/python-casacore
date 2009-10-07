@@ -34,7 +34,7 @@ print imex.getmask()
 imex.saveas ('timage.py_tmp.img2', copymask=True)
 imex2 = image('timage.py_tmp.img2', mask='mask0')
 print imex2.getmask()
-imex2.put (imex2.get() + 10)
+imex2.put (imex2.getdata() + 10)
 print imex2.getdata()
 print imex2.statistics()     # takes mask into account!
 imex2.tofits('timage.py_tmp.fits')
