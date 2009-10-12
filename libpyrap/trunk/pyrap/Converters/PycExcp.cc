@@ -27,6 +27,11 @@
 
 #include <pyrap/Converters/PycExcp.h>
 #include <casa/Containers/IterError.h>
+//# The following include is necessary to work around a Boost-Python problem.
+#ifndef PYRAP_NO_BOOSTPYTHON_FIX
+# include <boost/type_traits/add_reference.hpp>
+#endif
+#include <boost/python/exception_translator.hpp>
 
 namespace casa { namespace pyrap {
 

@@ -28,7 +28,6 @@
 #ifndef PYRAP_PYCEXCP_H
 #define PYRAP_PYCEXCP_H
 
-#include <boost/python/exception_translator.hpp>
 #include <casa/Containers/IterError.h>
 
 namespace casa { namespace pyrap {
