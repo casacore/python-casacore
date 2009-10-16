@@ -6,6 +6,10 @@ import platform
 from  SCons.Variables import Variables
 from SCons.Script import AddOption, GetOption
 
+ARCHLIBDIR='lib'
+if platform.architecture()[0].startswith("64"):
+    ARCHLIBDIR += '64'
+
 # try to autodetect numpy
 def get_numpy_incdir():
     try:
@@ -103,7 +107,7 @@ def generate(env):
         if path is None or not os.path.exists(path):
             env.Exit(1)
         env.PrependUnique(CPPPATH = [os.path.join(path, "include")])
-        env.PrependUnique(LIBPATH = [os.path.join(path, "lib")])
+        env.PrependUnique(LIBPATH = [os.path.join(path, ARCHLIBDIR)])
     env.AddCustomPath = AddCustomPath
 
     def AddCustomPackage(pkgname=None, incdirext=None):
@@ -115,11 +119,13 @@ def generate(env):
         pkglibd = env.get("%s_libdir" % pkgname)
 	incd = None
 	libd = None
+        if pkgroot == "/usr":
+            return
 	if pkgroot is not None:
 	    incd = os.path.join(pkgroot, "include")
             if incdirext:
                 incd = os.path.join(incd, incdirext)
-	    libd = os.path.join(pkgroot, "lib")
+	    libd = os.path.join(pkgroot, ARCHLIBDIR)
 	else:	    
 	    if pkgincd is not None:
 		incd = pkgincd
@@ -153,7 +159,7 @@ def generate(env):
             hier = os.path.expandvars(os.path.expanduser(hier))
             incdir = os.path.join(hier, 'include')
             env.MergeFlags("-I"+incdir)
-            libdir = os.path.join(hier, 'lib')
+            libdir = os.path.join(hier, ARCHLIBDIR)
             ldname = sys.platform == "darwin" and "DYLD_LIBRARY_PATH" or \
                 "LD_LIBRARY_PATH"
             env.PrependENVPath(ldname, [libdir])
@@ -218,11 +224,11 @@ def generate(env):
                   type="string", default=defdir, 
                   help="The installation prefix (default: %s)" % defdir)
         env.CLOptions.add_option("--"+LIBDIR, dest=LIBDIR,
-                  type="string", default=None, 
-                  help="The installation lib directory (default: %s/lib)" % defdir)
+                                 type="string", default=None, 
+                                 help="The installation lib directory (default: %s/%s)" % (defdir, ARCHLIBDIR))
         env.CLOptions.add_option("--"+INCLUDEDIR, dest=INCLUDEDIR,
-                  type="string", default=None, 
-                  help="The installation include directory (default: %s/include)" % defdir)
+                                 type="string", default=None, 
+                                 help="The installation include directory (default: %s/include)" % defdir)
 
         env.CLOptions.update()
     AddOptions()

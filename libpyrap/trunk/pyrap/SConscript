@@ -1,4 +1,6 @@
 import os
+import platform
+
 Import('env')
 lenv =env.Clone()
 # to find package based includes
@@ -22,7 +24,10 @@ libdir =  lenv.get('libdir')
 if not incdir:
     incdir = os.path.join(prefix, 'include')
 if not libdir:
-    libdir = os.path.join(prefix, 'lib')
+    ARCHLIBDIR = 'lib'
+    if platform.architecture()[0].startswith('64'):
+        ARCHLIBDIR += '64'
+    libdir = os.path.join(prefix, ARCHLIBDIR)
 lenv.Alias('install', incdir)
 lenv.Alias('install', libdir)
 
