@@ -155,7 +155,7 @@ def generate(env):
     def AddFlags():
         # add extra Hierachy
         hier = env.get("extra_root", None)
-        if hier is not None:
+        if hier is not None and hier != "/usr":
             hier = os.path.expandvars(os.path.expanduser(hier))
             incdir = os.path.join(hier, 'include')
             env.MergeFlags("-I"+incdir)
