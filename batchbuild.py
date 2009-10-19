@@ -251,6 +251,12 @@ def run_scons(target, args):
         command += " --boost-lib=%s" %  args.boostlib
     if args.prefix:
         command += " --prefix=%s" %  args.prefix
+    if args.enable_hdf5:
+        command += " --enable-hdf5"
+    if args.hdf5:
+        command += " --hdf5-root=%s" %  args.hdf5
+    if args.hdf5lib:
+        buildargs += " --hdf5-lib=%s" %  args.hdf5lib
     if sys.platform == "darwin":
         if args.universal:
             command += " --universal=%s" %  args.universal
