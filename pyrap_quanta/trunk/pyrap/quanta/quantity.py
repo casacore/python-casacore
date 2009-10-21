@@ -3,6 +3,7 @@ from _quanta import QuantVec
 from _quanta import from_string, from_dict, from_dict_v
 
 def is_quantity(q):
+    """Indicate whether the object is a valid quantity"""
     return isinstance(q, QuantVec) or isinstance(q, Quantity)
 
 # Quantity returns new Quantities, so we need to insert these
