@@ -170,10 +170,10 @@ def run_python(pkg, args):
         buildargs += " --casacore=%s" %  args.casacore
     if args.enable_hdf5:
         buildargs += " --enable-hdf5"
-    if args.hdf5:
-        buildargs += " --hdf5=%s" %  args.hdf5
-    if args.hdf5lib:
-        buildargs += " --hdf5lib=%s" %  args.hdf5lib
+        if args.hdf5:
+            buildargs += " --hdf5=%s" %  args.hdf5
+        if args.hdf5lib:
+            buildargs += " --hdf5lib=%s" %  args.hdf5lib
     if args.cfitsio:
         buildargs += " --cfitsio=%s" %  args.cfitsio
     if args.wcs:
