@@ -56,8 +56,8 @@ if not env.GetOption('clean') and not env.GetOption('help'):
 
     if conf.env.get('enable_hdf5'):
         pkgname = "hdf5"
-        libname = conf.env.get(pkgname+"_lib")
         conf.env.AddCustomPackage(pkgname)
+        libname = conf.env.get(pkgname+"_lib")
         if conf.CheckLib(libname, autoadd=0):
             env.PrependUnique(LIBS=[libname])
         else:

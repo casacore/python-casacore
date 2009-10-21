@@ -2,6 +2,11 @@ import os, sys, platform
 from distutils.command import build_ext
 from setuptools import Command
 
+ARCHLIBDIR='lib'
+if sys.platform.startswith("linux") \
+        and platform.architecture()[0].startswith("64"):
+    ARCHLIBDIR += '64'
+
 class casacorebuild_ext(build_ext.build_ext):
     """
     """
@@ -13,7 +18,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	     ('f2c=', None, 'Prefix for f2clib installation location'),
 	     ('f2clib=', None, 'Name of the fortran to c library'),
              # can't do autoconf so have to enable explictly
-             ('enable-hdf5=', None, 'Enable hdf5'),
+             ('enable-hdf5', None, 'Enable hdf5'),
              ('hdf5=', None, 'Prefix for hdf5 installation location'),
 	     ('hdf5lib=', None, 'Name of the hdf5 library'),
 	     ('cfitsio=', None, 'Prefix for cfitsio installation location'),
@@ -56,14 +61,14 @@ class casacorebuild_ext(build_ext.build_ext):
 	"""
         build_ext.build_ext.finalize_options(self)
 
-	cclibdir = os.path.join(self.casacore, 'lib')
-	prlibdir = os.path.join(self.pyrap, 'lib')
-	boostlibdir = os.path.join(self.boost, 'lib')
-	f2clibdir = os.path.join(self.f2c, 'lib')
-	cfitsiolibdir = os.path.join(self.cfitsio, 'lib')
-	wcslibdir = os.path.join(self.wcs, 'lib')
-	lapacklibdir = os.path.join(self.lapack, 'lib')
-        hdf5libdir = os.path.join(self.hdf5, 'lib')
+	cclibdir = os.path.join(self.casacore, ARCHLIBDIR)
+	prlibdir = os.path.join(self.pyrap, ARCHLIBDIR)
+	boostlibdir = os.path.join(self.boost, ARCHLIBDIR)
+	f2clibdir = os.path.join(self.f2c, ARCHLIBDIR)
+	cfitsiolibdir = os.path.join(self.cfitsio, ARCHLIBDIR)
+	wcslibdir = os.path.join(self.wcs, ARCHLIBDIR)
+	lapacklibdir = os.path.join(self.lapack, ARCHLIBDIR)
+        hdf5libdir = os.path.join(self.hdf5, ARCHLIBDIR)
         
 	ccincdir = os.path.join(self.casacore, 'include', 'casacore')
 	princdir = os.path.join(self.pyrap, 'include')
@@ -115,6 +120,16 @@ class casacorebuild_ext(build_ext.build_ext):
             if hdf5incdir not in self.include_dirs:
                 self.include_dirs += [hdf5incdir]
             self.libraries += [self.hdf5lib]
+
+        sysdir = '/usr/include'
+        if sysdir in self.include_dirs:
+            self.include_dirs.remove(sysdir)
+        sysdir = os.path.join('/usr', ARCHLIBDIR)
+        for dir in self.library_dirs:
+            if dir.startswith(sysdir):
+                sysdir = dir
+                self.library_dirs.remove(sysdir)        
+                break
             
 class assay(Command):
     """Command to run casacore_assay"""
