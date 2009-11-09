@@ -646,17 +646,13 @@ def addImagingColumns(msname, ack=True):
     import numpy as np
     # Open the MS
     t = table (msname, readonly=False, ack=False)
-    # Check if the columns do not already exist.
     cnames = t.colnames()
-    for col in ['MODEL_DATA', 'CORRECTED_DATA', 'IMAGING_WEIGHT'] :
-        if col in cnames:
-            raise ValueError("Column MODEL_DATA, CORRECTED_DATA, or IMAGING_WEIGHT already exists")
     # Get the description of the DATA column.
     try:
         cdesc = t.getcoldesc('DATA')
     except:
         raise ValueError('Column DATA does not exist')
-    # Add the columns using the DATA storage specification (if tiled).
+    # Determine of the DATA storage specification is tiled.
     hasTiled = False
     try:
         dminfo = t.getdminfo("DATA")
@@ -667,33 +663,45 @@ def addImagingColumns(msname, ack=True):
     # Use TiledShapeStMan if needed.
     if not hasTiled:
         dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE':[4,32,128]}}
-    # Add the columns. Use the description of the DATA column.
-    dminfo['NAME'] = 'modeldata'
-    cdesc['comment'] = 'The model data column'
-    t.addcols (maketabdesc(makecoldesc('MODEL_DATA', cdesc)), dminfo)
-    if ack:
-        print 'added column MODEL_DATA'
-    dminfo['NAME'] = 'correcteddata'
-    cdesc['comment'] = 'The corrected data column'
-    t.addcols (maketabdesc(makecoldesc('CORRECTED_DATA', cdesc)), dminfo)
-    if ack:
-        print 'added column CORRECTED_DATA'
-    # Add IMAGING_WEIGHT which is 1-dim and has type float.
-    shp = cdesc['shape']
-    if len(shp) > 0:
-        shp = [shp[0]]     # use nchan
-    cd = makearrcoldesc ('IMAGING_WEIGHT', 0, ndim=1, shape=shp, valuetype='float')
-    dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE':[32,128]}}
-    dminfo['NAME'] = 'imagingweight'
-    t.addcols (maketabdesc(cd), dminfo)
-    if ack:
-        print 'added column IMAGING_WEIGHT'
-    # Finally define the CHANNEL_SELECTION keyword containing the channels of
+    # Add the columns (if not existing). Use the description of the DATA column.
+    if 'MODEL_DATA' in cnames:
+        print 'Column MODEL_DATA not added; it already exists'
+    else:
+        dminfo['NAME'] = 'modeldata'
+        cdesc['comment'] = 'The model data column'
+        t.addcols (maketabdesc(makecoldesc('MODEL_DATA', cdesc)), dminfo)
+        if ack:
+            print 'added column MODEL_DATA'
+    if 'CORRECTED_DATA' in cnames:
+        print 'Column CORRECTED_DATA not added; it already exists'
+    else:
+        dminfo['NAME'] = 'correcteddata'
+        cdesc['comment'] = 'The corrected data column'
+        t.addcols (maketabdesc(makecoldesc('CORRECTED_DATA', cdesc)), dminfo)
+        if ack:
+            print 'added column CORRECTED_DATA'
+    if 'IMAGING_WEIGHT' in cnames:
+        print 'Column IMAGING_WEIGHT not added; it already exists'
+    else:
+        # Add IMAGING_WEIGHT which is 1-dim and has type float.
+        shp = cdesc['shape']
+        if len(shp) > 0:
+            shp = [shp[0]]     # use nchan
+        cd = makearrcoldesc ('IMAGING_WEIGHT', 0, ndim=1, shape=shp, valuetype='float')
+        dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE':[32,128]}}
+        dminfo['NAME'] = 'imagingweight'
+        t.addcols (maketabdesc(cd), dminfo)
+        if ack:
+            print 'added column IMAGING_WEIGHT'
+    # Add or overwrite keyword CHANNEL_SELECTION.
+    if 'CHANNEL_SELECTION' in t.colkeywordnames('MODEL_DATA'):
+        t.removecolkeyword ('MODEL_DATA', 'CHANNEL_SELECTION');
+    # Define the CHANNEL_SELECTION keyword containing the channels of
     # all spectral windows.
     tspw = table(t.getkeyword('SPECTRAL_WINDOW'), ack=False)
     nchans = tspw.getcol('NUM_CHAN')
     chans = [[0,nch] for nch in nchans]
-    t.putcolkeyword ('MODEL_DATA', 'CHANNEL_SELECT', np.array(chans))
+    t.putcolkeyword ('MODEL_DATA', 'CHANNEL_SELECTION', np.array(chans))
     if ack:
         print 'defined keyword CHANNEL_SELECTION in column MODEL_DATA'
     # Flush the table to make sure it is written.
