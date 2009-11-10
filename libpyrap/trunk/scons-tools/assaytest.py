@@ -125,7 +125,7 @@ def addAssayTest(env, target=None, source=None, *args, **kwargs):
     if source is None:
         source = target
         target = None
-    env.AppendUnique(CPPPATH=[os.path.split(source)[0]])
+    env.PrependUnique(CPPPATH=[os.path.split(source)[0]])
     if source.endswith(".py"):
         srcbase = source.replace(".py","")
         modelem = os.path.split(srcbase)
