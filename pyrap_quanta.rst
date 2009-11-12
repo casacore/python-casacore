@@ -7,26 +7,55 @@ Module :mod:`pyrap.quanta`
 Python bindings for casacore's casa::Quantum value-unit objects.
 It transparently handles Quantity and Quantum<Vector<Double> >.
 
-On top of the listed method, it also supports all mathematical operators like:
+Introduction
+============
 
-    * \*, \*=, +, +=, -, -=, /, /=
-    * abs, pow, root, srqt, cels, floor, sin, cos, asin, acos, atan, atan2
-      log, log10, exp
-    * near and nearabs
+A quantity is a value with a unit. For example, '5km/s', or '20Jy/pc2'. This 
+module enables you to create and manipulate such quantities. The types of 
+functionality provided are:
 
-Examples::
+    * Conversion Conversion of quantities to different units
+    * Calculation Calculations with quantities
 
-    q = quantity('1km/s')	
-    print q*2
-    >>> 2.0 km/s
-    print 2*q
-    >>> 2.0 km/s
-    q /= 2
-    print q
-    >>> 0.5 km/s
-    q2 = quantity('0rad') 
-    print dq.cos(q)
-    >>> 1.0
+Constants, time and angle formatting
+------------------------------------
+
+If you would like to see all the possible constants known to the Quanta tool you can issue the command dq.map('const'). You can get the value of any constant in that list with a command such as::
+
+    >>> boltzmann = dq.constants('k')
+    >>> print 'Boltzmann constant is ', boltzmann
+    Boltzmann constant is 1.3806578e-23 J/K
+
+There are some extra handy ways you can manipulate strings when you are dealing with times or angles. The following list shows special strings and string formats which you can input to the quantity function. Something in square brackets is optional. There are examples after the list.
+
+    * time: [+-]hh:mm:ss.t... - This is the preferred time format (trailing fields can be omitted)
+    * time: [+-]hhHmmMss.t..[S] - This is an alternative time format (HMS case insensitive, trailing second fields can be omitted)
+    * angle: [+-]dd.mm.ss.t.. - This is the preferred angle format (trailing fields after second priod can be omitted; dd.. is valid)
+    * angle: [+-]ddDmmMss.t...[S] - This is an alternative angle format (DMS case insensitive, trailing fields can be omitted after M)
+
+    * today - The special string "today" gives the UTC time at the instant the command was issued.
+    * today/time - The special string "today" plus the specified time string gives the UTC time at the specified instant
+    * yyyy/mm/dd[/time] - gives the UTC time at the specified instant
+    * dd[-]mmm[-][cc]yy[/time] - gives the UTC time at the specified instant in calendat style notation (23-jun-1999)
+
+Note that the standard unit for degrees is 'deg', and for days 'd'. Formatting is done in such a way that it interprets a 'd' as degrees if preceded by a value without a period and if any value following it is terminated with an 'm'. In other cases 'days' are assumed. Here are some examples::
+
+    >>> print quantity('today')
+    50611.2108 d 
+    >>> print quantity('5jul1998')
+    50999 unit=d
+    print quantity('5jul1998/12:')
+    50999.5 d
+    >>> print quantity('-30.12.2')
+    30.2005556 deg
+    >>> print quantity('2:2:10')
+    30.5416667 deg
+    print quantity('23h3m2.2s')  
+    345.759167 deg
+
+
+API
+===
 
 .. function:: pyrap.quanta.is_quantity(q)
 
@@ -53,30 +82,38 @@ Examples::
 
     A unit-value based physical quantity.
 
+    .. method:: set_value(val)
+
+        Set the value of the quantity
+
+        :param val: The new value to change to (in current units)
+
     .. method:: get(unit=None)
 
         Return the quantity as another (conformant) one.
 
         :param unit: an optional conformant unit to convert the quantity to.
                      If the unit isn't specified the canonical unit is used.
+	:rtype: :class:`pyrap.quanta.Quantity`
 
         Example::
 
-            q = quantity('1km/s')
-	    print q.get('m/s')
-	    >>> 1000.0 m/s
+            >>> q = quantity('1km/s')
+	    >>> print q.get('m/s')
+	    1000.0 m/s
 
     .. method:: get_value(unit)
 
         Get the value of the quantity suing the optiona unit
 
         :param unit: a conformant unit to convert the quantity to.
+	:rtype: `float` ot `list` of `float`
 
         Example::
 
-            q = quantity('1km/s')
-	    print q.get_value()
-	    >>> 1.0
+            >>> q = quantity('1km/s')
+	    >>> print q.get_value()
+	    1.0
 
     .. method:: get_unit()
 
@@ -90,16 +127,59 @@ Examples::
 
         :param other: an :class:`pyrap.quanta.Quantity` object to compare to
 
-   .. method:: convert(other=None)
+    .. method:: convert(other=None)
 
-        Convert the quantity using the given `Quantity` or unit string.
+        Convert the quantity using the given :class:`Quantity` or unit string.
 
-        :param other: an optional conformant `Quantity` to convert to.
+        :param other: an optional conformant :class:`Quantity` to convert to.
                       If other isn't specified the canonical unit is used.
 
         Example::
 
-            q = quantity('1km/s')
-	    q.convert()
-	    print q
-	    >>> 1000.0 m/s
+            >>> q = quantity('1km/s')
+	    >>> q.convert()
+	    >>> print q
+	    1000.0 m/s
+
+    .. method:: to_dict()
+
+        Return self as a python :class:`dict` with `value` and `unit` keys.
+	
+	:rtype: :class:`dict`
+
+    .. method:: to_time()
+
+        Convert to a time Quantity (e.g. hour angle).
+	This will only work if it conforms to time
+	
+	:rtype: :class:`pyrap.quanta.Quantity`
+
+    .. method:: to_unix_time()
+
+        Convert to a unix time value (in seconds).
+	This can be used to create python :class:`datetime.datetime` objects
+	
+	:rtype: float
+
+On top of the listed method, it also supports all mathematical operators and
+functions like:
+
+    * \*, \*=, +, +=, -, -=, /, /=
+    * <, <=, >, >=, ==, !=
+    * abs, pow, root, srqt, cels, floor, sin, cos, asin, acos, atan, atan2
+      log, log10, exp
+    * near and nearabs
+
+Examples::
+
+    >>> q = quantity("1km/s")	
+    >>> print q*2
+    2.0 km/s
+    >>> print 2*q
+    2.0 km/s
+    >>> q /= 2
+    >>> print q
+    0.5 km/s
+    >>> q2 = quantity("0rad") 
+    >>> print dq.cos(q)
+    1.0

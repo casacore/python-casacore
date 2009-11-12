@@ -35,10 +35,34 @@ using namespace boost::python;
 namespace casa { 
   namespace pyrap {
 
+    dict constants() {
+      dict d;
+      const uInt N = 20;
+      static String types[N] = {
+	"pi", "ee", "c", "G", "h", "HI", "R", "NA", "e", "mp",
+	"mp_me", "mu0", "epsilon0", "k", "F", "me", "re", "a0",
+	"R0", "k2"
+      };
+      static Quantity res[N] = {
+	Quantity(C::pi,""), Quantity(C::e,""),
+	QC::c, QC::G, QC::h, QC::HI, QC::R, QC::NA, QC::e, QC::mp,
+	QC::mp_me, QC::mu0, QC::epsilon0, QC::k, QC::F, QC::me, QC::re, QC::a0,
+	QC::R0, QC::k2
+      };
+      for (int i=0; i<20;++i) {
+	d[types[i]] = res[i];
+      }
+      return d;
+    }
+
+
     typedef Quantum<Vector<Double> > QProxy; 
     typedef Vector<Double> VD; 
     void quantamath()
     {
+      // misc
+      def ("constants", &constants);
+
       // Quantum<Vector<Double> > functions
 
       def ("nearabs", (Bool ( * )( const QProxy&, const QProxy&,
