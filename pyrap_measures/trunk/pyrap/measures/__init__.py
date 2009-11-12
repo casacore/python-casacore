@@ -44,6 +44,11 @@ def is_measure(v):
         return True
     return False
 
+def _check_valid_offset(self, mtype):
+    if not off['type'] == mtype:
+        raise TypeError('Illegal offset type specified.')        
+    
+
 class measures(_measures):
     """The measures server object. This should be used to set frame 
     information and create the various measures and do conversion on them.
@@ -73,9 +78,8 @@ class measures(_measures):
         self._framestack = {}
 
     def set_data_path(self, pth):
-        """Set the location of the measures data directory
-        `pth`
-          The absolute path to the datat directory.
+        """Set the location of the measures data 
+        :param pth: The absolute path to the data directory.
         """
         if os.path.exists(pth):
             os.environ["AIPSPATH"] = "%s dummy dummy" % pth
@@ -84,25 +88,21 @@ class measures(_measures):
         """Create/convert a measure using the frame state set on the measures 
         server instance.
         
-        `v`
-          The measure to convert
+        :param v: The measure to convert
 
-        `rf`
-          The frame reference to convert to
+        :param rf: The frame reference to convert to
         
-        `off`
-          The optional offset for the measure
+        :param off: The optional offset for the measure
 
         """
         if not off: off = {}
         keys = ["m0", "m1", "m2"]
         for key in keys:
-            if v.has_key(key):
+            if key in v:
                 if isinstance(v[key], dq._quanta.Quantity):
                     v[key] = v[key].to_dict()
         return _measures.measure(self, v, rf, off)
 
-    
     def direction(self, rf='', v0='0..', v1='90..', off=False):
         loc = { 'type': 'direction' , 'refer':  rf}
         loc['m0'] = dq.quantity(v0)
@@ -214,7 +214,7 @@ class measures(_measures):
             return self.torest(v0, d0)
         else:
             raise TypeError('Illegal Doppler or rest frequency specified')
-       
+    to_restfrequency = torestfrequency
 
     def todoppler(self, rf, v0, rfq=False):
         if is_measure(rfq) and rfq['type'] == 'frequency':
@@ -229,19 +229,22 @@ class measures(_measures):
                 raise TypeError('Illegal Doppler or rest frequency specified')
         else:
             raise TypeError('Illegal Frequency specified')
-                
+    to_doppler = todoppler
+   
     def toradialvelocity(self, rf, v0):
         if is_measure(v0) and v0['type'] == 'doppler':
             return self.doptorv(rf, v0)
         else:
             raise TypeError('Illegal Doppler specified')
+    to_radialvelocity = toradialvelocity
 
     def touvw(self, v):
         if is_measure(v) and v['type'] == 'baseline':
            return _measures.uvw(self, v)
         else:
             raise TypeError('Illegal Baseline specified')
-
+    to_uvm = touvw
+        
     def expand(self, v):
         if not is_measure(v) and \
                (v['type'] == 'baseline' or  v['type'] == 'uvw' or \
@@ -263,6 +266,7 @@ class measures(_measures):
             loc['type'] = 'baseline'
             return self.measure(loc, 'j2000')
         return pos
+    as_baseline = asbaseline
                 
     def getvalue(self, v):
         if  not is_measure(v):
@@ -275,6 +279,7 @@ class measures(_measures):
             if re.match(rx, key):
                 out.append(dq.quantity(v.get(key)))
         return out
+    get_value = getvalue
 
     def doframe(self, v):
         if not is_measure(v):
@@ -284,6 +289,7 @@ class measures(_measures):
             self._framestack[v["type"]] = v
             return True
         return False
+    do_frame = doframe
     
     def _fillnow(self):
         if not self._framestack.has_key("epoch") \
@@ -298,6 +304,7 @@ class measures(_measures):
     
     def framenow(self):
         self.doframe(self.epoch("UTC", "today"))
+    frame_now = framenow
     
     def rise(self, crd, ev='5deg'):
         if  not is_measure(crd):
@@ -307,24 +314,21 @@ class measures(_measures):
         hd = self.measure(crd, "hadec")
         c = self.measure(crd, "app")
         evq = dq.quantity(ev)
-        hdm1 = dq.from_dict(hd["m1"])
-        psm1 = dq.from_dict(ps["m1"])
-        ct = (dq.quantity(ev) - dq.sin(hdm1) * dq.sin(psm1)) / (dq.cos(hdm1) * dq.cos(psm1))
+        hdm1 = dq.quantity(hd["m1"])
+        psm1 = dq.quantity(ps["m1"])
+        ct = (dq.sin(dq.quantity(ev)) - (dq.sin(hdm1) * dq.sin(psm1))) / (dq.cos(hdm1) * dq.cos(psm1))
 
         if ct.get_value() >= 1:
-            return "below below"
+            return {'rise': 'below', 'set': 'below'}
         if ct.get_value() <= -1:
-            return "above above"
+            return {'rise': 'above', 'set': 'above'}
         a = dq.acos(ct)
-        return { "rise": dq.norm(dq.quantity(c["m0"]), 0) - a,
-                 "set" : dq.norm(dq.quantity(c["m0"]), 0) + a
-                 }
-    
+        return dict(rise=dq.quantity(c["m0"]).norm(0) - a,
+                    set=dq.quantity(c["m0"]).norm(0) + a)
     
     def riseset(self, crd, ev="5deg"):
         a = self.rise(crd, ev)
-        if isinstance(a, str):
-            a = a.split()
+        if isinstance(a['rise'], str):
             return { "rise": { "last": a[0], "utc": a[0] },
                      "set" : { "last": a[1], "utc": a[1] },
                      "solved": False }
@@ -332,17 +336,22 @@ class measures(_measures):
         if not is_measure(ofe):
             ofe = self.epoch('utc', 'today')
         x = a.copy()
-        for k in x.keys():
-            x[k] = self.measure(self.epoch("last", dq.totime(a[k]),
-                                           off=self.epoch("r_utc",
-                                                          (dq.quantity(ofe["m0"]) + dq.quantity("0.5d")))),
-                                "utc")
+        for k in x:
+            x[k] = self.measure(
+                      self.epoch("last", 
+                                 a[k].totime(),
+                                 off=self.epoch("r_utc",
+                                                (dq.quantity(ofe["m0"]) 
+                                                 + dq.quantity("0.5d")
+                                                 ))
+                                 ),
+                      "utc")
         return { "rise": { "last": self.epoch("last",
-                                              dq.totime(a["rise"])),
+                                              a["rise"].totime()),
                            "utc": x["rise"] },
                  
                  "set": { "last": self.epoch("last",
-                                             dq.totime(a["set"])),
+                                             a["set"].totime()),
                            "utc": x["set"] },
                  "solved" : True
                  }
