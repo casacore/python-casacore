@@ -29,21 +29,25 @@
 #include <casa/Quanta/QLogical.h>
 
 #include <boost/python.hpp>
-using namespace boost::python;
 
+using namespace boost::python;
 
 namespace casa { 
   namespace pyrap {
+
     typedef Quantum<Vector<Double> > QProxy; 
     typedef Vector<Double> VD; 
     void quantamath()
     {
+      // Quantum<Vector<Double> > functions
+
       def ("nearabs", (Bool ( * )( const QProxy&, const QProxy&,
 				   Double ) )(&nearAbs));
       def ("nearabs", (Bool ( * )( const VD&, const QProxy&,
 				   Double ) )(&nearAbs));
       def ("nearabs", (Bool ( * )( const QProxy&, const VD&,
 				   Double ) )(&nearAbs));
+
       def ("near", (Bool ( * )( const QProxy&, const QProxy&,
 				Double ) )(&near));
       def ("near", (Bool ( * )( const VD&, const QProxy&,
@@ -71,8 +75,49 @@ namespace casa {
       def ("log", (QProxy ( * )( const QProxy&) )(&log));
       def ("log10", (QProxy ( * )( const QProxy&) )(&log10));
       def ("exp", (QProxy ( * )( const QProxy&) )(&exp));      
-      def ("abs", (Quantity ( * )( const Quantity&) )(&abs));      
 
+
+      // Quantity functions
+
+      def ("nearabs", (Bool ( * )( const Quantity&, 
+				   const Quantity&) )(&nearAbs));
+      def ("nearabs", (Bool ( * )( const Quantity&, const Quantity&,
+				   Double ) )(&nearAbs));
+      def ("nearabs", (Bool ( * )( const Double&, const Quantity&,
+				   Double ) )(&nearAbs));
+      def ("nearabs", (Bool ( * )( const Quantity&, const Double&,
+				   Double ) )(&nearAbs));
+      def ("near", (Bool ( * )( const Quantity&, const Quantity&) )(&near));
+      
+      def ("near", (Bool ( * )( const Quantity&, const Quantity&,
+				Double ) )(&near));
+      def ("near", (Bool ( * )( const Double&, const Quantity&,
+				Double ) )(&near));
+      def ("near", (Bool ( * )( const Quantity&, const Double&,
+				Double ) )(&near));
+      def ("abs", (Quantity ( * )( const Quantity&) )(&abs));      
+      def ("pow", (Quantity ( * )( const Quantity&, Int) )(&pow));
+      def ("root", (Quantity ( * )( const Quantity&, Int) )(&root));
+      def ("sqrt", (Quantity ( * )( const Quantity&) )(&sqrt));
+      def ("ceil", (Quantity ( * )( const Quantity&) )(&ceil));
+      def ("floor", (Quantity ( * )( const Quantity&) )(&floor));
+      
+      def ("sin", (Quantity ( * )( const Quantity&) )(&sin));
+      def ("cos", (Quantity ( * )( const Quantity&) )(&cos));
+      def ("tan", (Quantity ( * )( const Quantity&) )(&tan));
+      def ("asin", (Quantity ( * )( const Quantity&) )(&asin));
+      def ("acos", (Quantity ( * )( const Quantity&) )(&acos));
+      def ("atan", (Quantity ( * )( const Quantity&) )(&atan));
+      def ("atan2", (Quantity ( * )( const Quantity&, 
+				     const Quantity&) )(&atan2));
+      def ("atan2", (Quantity ( * )( const Quantity&, 
+				     const Double&) )(&atan2));
+      def ("atan2", (Quantity ( * )( const Double&, 
+				     const Quantity&) )(&atan2));
+      
+      def ("log", (Quantity ( * )( const Quantity&) )(&log));
+      def ("log10", (Quantity ( * )( const Quantity&) )(&log10));
+      def ("exp", (Quantity ( * )( const Quantity&) )(&exp));      
     }
   }
 }

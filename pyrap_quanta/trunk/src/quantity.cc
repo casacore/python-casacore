@@ -29,6 +29,7 @@
 #include <casa/Quanta/QLogical.h>
 #include <casa/Quanta/QuantumHolder.h>
 #include <casa/Quanta/MVTime.h>
+#include <casa/Quanta/MVAngle.h>
 
 #include <casa/Containers/Record.h>
 #include <casa/Exceptions/Error.h>
@@ -36,11 +37,13 @@
 #include <casa/BasicSL/String.h>
 
 #include <boost/python.hpp>
-//#include <boost/python/args.hpp>
+#include <boost/python/args.hpp>
+
 using namespace boost::python;
 
 
 namespace casa {
+  namespace pyrap {
 
   Quantity fromString(const String& str) {
     QuantumHolder qh;
@@ -99,8 +102,20 @@ namespace casa {
       return q0;
     }    
   }
+  
+    Double toUnixTime(const Quantity& q) {
+      // MJD = JD - 2400000.5
+      // unix = (JD - 2440587.5) * 86400.0
+      const Double mjdsecToUnixsec = (2400000.5 - 2440587.5) * 86400.0;
+      Quantity qt = toTime(q);
+      return qt.get().getValue() + mjdsecToUnixsec;
+    }
 
-}
+    Quantity norm(const Quantity& self, Double a) {
+      return Quantity(MVAngle(self)(a).degree(), "deg");
+    }
+
+}}
 
 namespace casa { namespace pyrap {
   void quantity()
@@ -125,7 +140,10 @@ namespace casa { namespace pyrap {
       .def ("get", &getWithUnit)
       .def ("conforms", &conforms)
       .def ("totime", &toTime)
+      .def ("to_time", &toTime)
+      .def ("to_unix_time", &toUnixTime)
       .def ("to_dict", &toRecord)
+      .def ("norm", &norm,  (boost::python::arg("self"), boost::python::arg("a")=-0.5))
       .def (-self)
       .def (self - self)
       .def (self -= self)
@@ -155,7 +173,6 @@ namespace casa { namespace pyrap {
       .def (self != Double())
       .def (Double() != self)
 
-      
       .def (self < self)
       .def (self < Double())
       .def (Double() < self)
@@ -168,8 +185,7 @@ namespace casa { namespace pyrap {
       .def (Double() > self)
       .def (self >= self)
       .def (self >= Double())
-      .def (Double() >= self)
-      
+      .def (Double() >= self)     
       ;
     def ("from_string", &fromString);
     def ("from_dict", &fromRecord);

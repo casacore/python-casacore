@@ -29,6 +29,7 @@
 #include <casa/Quanta/QLogical.h>
 #include <casa/Quanta/QuantumHolder.h>
 #include <casa/Quanta/MVTime.h>
+#include <casa/Quanta/MVAngle.h>
 
 #include <casa/Containers/Record.h>
 #include <casa/Exceptions/Error.h>
@@ -36,11 +37,13 @@
 #include <casa/BasicSL/String.h>
 
 #include <boost/python.hpp>
-//#include <boost/python/args.hpp>
+#include <boost/python/args.hpp>
+
 using namespace boost::python;
 
-
 namespace casa {
+  namespace pyrap {
+
   typedef Quantum<Vector<Double> > QProxy;
   typedef Vector<Double> VD;
 
@@ -107,9 +110,19 @@ namespace casa {
     
   }
 
-}
+    QProxy norm(const QProxy& self, Double a) {
+      VD val = self.get().getValue();
+      VD outval(val.nelements());
+      for (uInt i=0; i< val.nelements(); ++i) {
+	outval(i) = MVAngle(val[i])(a).degree();
+      }
+      return QProxy(outval, "deg");
+    }
+
+}}
 
 namespace casa { namespace pyrap {
+
   void quantvec()
   {
     class_<QProxy> ("QuantVec")
@@ -128,9 +141,11 @@ namespace casa { namespace pyrap {
       .def ("set_value", &QProxy::setValue)
       .def ("get", (QProxy ( QProxy::* )( ) const)(&QProxy::get))
       .def ("canonical", (QProxy ( QProxy::* )( ) const)(&QProxy::get))
-      .def ("get", (QProxy ( QProxy::* )( const QProxy& ) const)(&QProxy::get))
+      .def ("get", 
+	    (QProxy ( QProxy::* )( const QProxy& ) const)(&QProxy::get))
       .def ("get", &qpgetWithUnit)
       .def ("conforms", &qpconforms)
+      .def ("norm", &norm, (boost::python::arg("self"), boost::python::arg("a")=-0.5))
       .def ("totime", &qptoTime)
       .def ("to_dict", &qptoRecord)
       .def (-self)
