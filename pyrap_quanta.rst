@@ -20,9 +20,10 @@ functionality provided are:
 Constants, time and angle formatting
 ------------------------------------
 
-If you would like to see all the possible constants known to the Quanta tool you can issue the command dq.map('const'). You can get the value of any constant in that list with a command such as::
+If you would like to see all the possible constants known to quanta you can issue the command pyrap.quanta.constants.keys(). You can get the value of any constant in that dictionary with a command such as::
 
-    >>> boltzmann = dq.constants('k')
+    >>> from pyrap import quanta
+    >>> boltzmann = quanta.constants['k']
     >>> print 'Boltzmann constant is ', boltzmann
     Boltzmann constant is 1.3806578e-23 J/K
 
@@ -40,6 +41,7 @@ There are some extra handy ways you can manipulate strings when you are dealing 
 
 Note that the standard unit for degrees is 'deg', and for days 'd'. Formatting is done in such a way that it interprets a 'd' as degrees if preceded by a value without a period and if any value following it is terminated with an 'm'. In other cases 'days' are assumed. Here are some examples::
 
+    >>> from pyrap.quanta import quantity
     >>> print quantity('today')
     50611.2108 d 
     >>> print quantity('5jul1998')
