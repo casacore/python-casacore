@@ -32,7 +32,7 @@ if not env.GetOption('clean') and not env.GetOption('help'):
         conf.env.Append(CPPDEFINES=["-DAIPS_USENUMPY"])
         hasnums = True
     else:
-	con.env.Exit(1)
+	conf.env.Exit(1)
     conf.env.Append(CPPPATH=[distutils.sysconfig.get_python_inc()])
     if not conf.CheckHeader("Python.h", language='c'):
         Exit(1)
