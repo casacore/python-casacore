@@ -2,11 +2,15 @@ import os, sys, platform
 from distutils.command import build_ext
 from setuptools import Command
 
-ARCHLIBDIR='lib'
-if sys.platform.startswith("linux") \
-        and platform.architecture()[0].startswith("64"):
-    ARCHLIBDIR += '64'
- 
+def get_libdir():
+    if not platform.architecture()[0].startswith("64"):
+        return "lib"
+    dist = platform.dist()[0].lower()
+    distdict = dict(suse='lib64', redhat='lib64')   
+    return distdict.get(dist, 'lib')
+
+ARCHLIBDIR = get_libdir()
+
 class casacorebuild_ext(build_ext.build_ext):
     """
     """

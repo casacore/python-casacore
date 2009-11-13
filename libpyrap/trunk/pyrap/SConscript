@@ -1,5 +1,4 @@
 import os
-import platform
 
 Import('env')
 lenv =env.Clone()
@@ -24,10 +23,7 @@ libdir =  lenv.get('libdir')
 if not incdir:
     incdir = os.path.join(prefix, 'include')
 if not libdir:
-    ARCHLIBDIR = 'lib'
-    if platform.architecture()[0].startswith('64'):
-        ARCHLIBDIR += '64'
-    libdir = os.path.join(prefix, ARCHLIBDIR)
+    libdir = os.path.join(prefix, env["ARCHLIBDIR"])
 lenv.Alias('install', incdir)
 lenv.Alias('install', libdir)
 

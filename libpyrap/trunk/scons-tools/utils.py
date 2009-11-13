@@ -6,9 +6,14 @@ import platform
 from  SCons.Variables import Variables
 from SCons.Script import AddOption, GetOption
 
-ARCHLIBDIR='lib'
-if platform.architecture()[0].startswith("64"):
-    ARCHLIBDIR += '64'
+def get_libdir():
+    if not platform.architecture()[0].startswith("64"):
+        return "lib"
+    dist = platform.dist()[0].lower()
+    distdict = dict(suse='lib64', redhat='lib64')
+    return distdict.get(dist, 'lib')
+
+ARCHLIBDIR = get_libdir()
 
 # try to autodetect numpy
 def get_numpy_incdir():
@@ -81,6 +86,7 @@ class CLOptions(object):
 
 def generate(env):
 
+    env["ARCHLIBDIR"] = ARCHLIBDIR
     def SGlob(pattern, excludedirs=[], recursive=False):
 	# always exclude .svn
 	excludedirs.append(".svn")
