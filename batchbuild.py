@@ -194,7 +194,7 @@ def run_python(pkg, args):
         buildargs += " --pyrap=%s" %  args.prefix
     if args.pyprefix:
         os.environ["PYTHONPATH"] = args.pyprefix
-        installdir = " --install-dir=%s" % args.pyprefix
+        installdir = " --install-lib=%s" % args.pyprefix
 
     if sys.platform == "darwin":
         vers, sdk = darwin_sdk(args.universal)
@@ -221,8 +221,9 @@ def run_python(pkg, args):
                                   shell=True)
             if err:
                 sys.exit(1)
-            print "** EXECUTING: easy_install %s ." % (installdir)
-            err = subprocess.call("easy_install %s ." % (installdir), 
+#            err = subprocess.call("easy_install %s ." % (installdir), 
+            err = subprocess.call("python %s install %s" % (setupscript,
+                                                            installdir), 
                                   shell=True)
             if err:
                 sys.exit(1)
