@@ -52,18 +52,18 @@ Note that the standard unit for degrees is 'deg', and for days 'd'. Formatting i
     30.2005556 deg
     >>> print quantity('2:2:10')
     30.5416667 deg
-    print quantity('23h3m2.2s')  
+    >>> print quantity('23h3m2.2s')  
     345.759167 deg
 
 
 API
 ===
 
-.. function:: pyrap.quanta.is_quantity(q)
+.. function:: is_quantity(q)
 
     :param q: the object to check.
 
-.. function:: pyrap.quanta.quantity(*args)
+.. function:: quantity(*args)
 
    A Factory function to create a :class:`pyrap.quanta.Quantity` instance.
    This can be from a scalar or vector and a unit.
@@ -80,7 +80,7 @@ API
       q3 = quantity([1.0,2.0], "km/s")
 	  
 
-.. class:: pyrap.quanta.Quantity
+.. class:: Quantity
 
     A unit-value based physical quantity.
 
