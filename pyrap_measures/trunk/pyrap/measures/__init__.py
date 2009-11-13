@@ -282,10 +282,16 @@ class measures(_measures):
         return (outm, xyz)
 
     def asbaseline(self, pos):
+        """Convert a position measure into a baseline measure. No actual 
+        baseline is calculated, since operations can be done on positions, 
+        with subtractions to obtain baselines at a later stage.
         
-        if not is_measure(pos) or (pos['type'] != 'position' and \
-                                   pos['type'] != 'baseline'):
-            raise TypeError('Non-position type for asbaseline input')
+        :param pos: a position measure
+        :returns: a baseline measure
+
+        """
+        if not is_measure(pos) or pos['type'] not in ['position', 'baseline']:
+            raise TypeError('Argument is not a position/baseline measure')
         if pos['type'] == 'position':
             loc = self.measure(pos, 'itrf')
             loc['type'] = 'baseline'
@@ -427,16 +433,16 @@ class measures(_measures):
         if not is_measure(v):
             raise TypeError('Argument is not a measure')
         if (v["type"] == "frequency" and v["refer"].lower() == "rest") \
-               or _measures.doframe(self, v):
+               or _measures.do_frame(self, v):
             self._framestack[v["type"]] = v
             return True
         return False
     do_frame = doframe
     
     def _fillnow(self):
-        if not self._framestack.has_key("epoch") \
+        if not "epoch" in self._framestack \
                or not is_measure(self._framestack["epoch"]):
-            self.framenow()
+            self.frame_now()
             
     def _getwhere(self):
         if not self._framestack.has_key("position") \
@@ -529,7 +535,7 @@ class measures(_measures):
         :param name: the name of the observatory
         :returns: a position measure
         """
-        return _measure.observatory(self, name.upper())
+        return _measures.observatory(self, name.upper())
 
     def get_observatories(self):
         """Return a list of known observatory names, whci can be used as input
