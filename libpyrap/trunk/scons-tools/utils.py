@@ -54,8 +54,10 @@ class CLOptions(object):
             self.opts[key] = value
 
     def update(self, fname='options.cache'):
-        if os.path.exists(fname) and not GetOption("silent") and not GetOption("help"):
-            print "Restoring previous command-line options from '%s'" % fname
+        if os.path.exists(fname) and not GetOption("silent") and\
+                not GetOption("help"):
+            print """Note: Restoring previous command-line options from '%s'.
+      Please delete this file when trying to start from scratch."""% fname
         vars = Variables(fname, self.opts)
         vars.AddVariables(*self.variables)
         vars.Update(self.env)
@@ -199,6 +201,23 @@ def generate(env):
     env.CLOptions = CLOptions(env)
 
     def AddOptions():
+        options = [("extra-cppflags", None, "Extra pre-processor flags"),
+                   ("extra-cxxflags", None, "Extra c++ compiler falgs"),
+                   ("extra-linkflags", None, "Extra linker flags"),
+                   ("extra-includedir", None, "Extra 'include' dir(s)"),
+                   ("extra-librarydir", None, "Extra 'lib' dir(s)"),
+                   ("extra-ldlibrarypath", None, "Extra (DY)LD_LIBRARY_PATH"),
+                   ("extra-libs", None, "Extra libraries for linker"),
+                   ("extra-path", None, "Extra PATH (bin) to search"),
+                   ("extra-root", None, "Extra hierachy root to search")]
+        for opt in options:
+            env.CLOptions.add_str_option(*opt)
+        options = [("CC", None, "The c compiler"),
+                   ("CXX", None, "The c++ compiler"),]
+#                   ("LD", None, "The linker")]
+        for opt in options:
+            env.CLOptions.add_comp_option(*opt)
+
         env.CLOptions.add_option("--build-type", dest="build_type", default="opt",
                           action="store", type="string",
                           help="Build optimized 'opt' (default) or debug 'dbg'")
@@ -211,10 +230,10 @@ def generate(env):
         env.CLOptions.add_option("--enable-hdf5", dest="enable_hdf5",
                                  action="store_true", default=False,
                                  help="Enable the HDF5 library")
-
-        env.CLOptions.add_option("--numpy-incdir", dest="numpy_incdir", default=get_numpy_incdir(),
-                          action="store", type="string",
-                          help="The directory of the numpy header files")
+        env.CLOptions.add_option("--numpy-incdir", dest="numpy_incdir", 
+                                 default=get_numpy_incdir(),
+                                 action="store", type="string",
+                                 help="The directory of the numpy header files")
 
         env.CLOptions.add_pkg_option("hdf5")
         env.CLOptions.add_pkg_option("dl")

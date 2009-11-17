@@ -71,7 +71,6 @@ if not env.GetOption('clean') and not env.GetOption('help'):
 
 # to find package based includes
 env.PrependUnique(CPPPATH='#')
-
 env["BUILDDIR"] = Dir("#/build_%s/%s" % (env.PlatformIdent(), env['build_type']))
 env.SConscript(["pyrap/SConscript"], 
 		   build_dir= env["BUILDDIR"],
