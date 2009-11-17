@@ -193,6 +193,8 @@ def run_python(pkg, args):
     if args.prefix:
         buildargs += " --pyrap=%s" %  args.prefix
     if args.pyprefix:
+        if not os.path.exists(args.pyprefix):
+            os.makedirs(args.pyprefix)
         os.environ["PYTHONPATH"] = args.pyprefix
         installdir = " --install-lib=%s" % args.pyprefix
 
