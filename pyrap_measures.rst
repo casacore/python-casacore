@@ -16,7 +16,6 @@ To access the measures do the following. We will uses `dm` as the measures insta
    >>> from pyrap.measures import measures
    >>> dm = measures()
 
-
 Measures
 --------
 
@@ -87,8 +86,12 @@ Since you would normally work from a fixed position, the position frame element 
 
 measures.default.observatory:	atca
 
+API
+---
 
-.. automodule:: pyrap.measures
+.. autoclass:: pyrap.measures.measures
    :members:
    :undoc-members:
+
+.. autofunction:: pyrap.measures.is_measure
 

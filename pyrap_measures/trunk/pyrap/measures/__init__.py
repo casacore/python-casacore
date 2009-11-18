@@ -277,7 +277,7 @@ class measures(_measures):
             m['dot'] = dq.quantity(m['dot'])
         else:
             raise TypeError('Illegal Baseline specified')
-    to_uvm = touvw
+    to_uvw = touvw
         
     def expand(self, v):
         """Calculates the differences between a series of given measure values:
@@ -527,11 +527,12 @@ class measures(_measures):
         :param crd: a direction measure
         :param ev: the elevation limit as a quantity or string
         :returns: The returned value is a `dict` with a 
+                  'solved' key, which is `False` if the source is always 
+                  below or above the horizon. In that case the rise and set
+                  fields will all have a string value. The `dict` also returns 
+                  a rise and set `dict`, with  'last'  and 'utc' keys showing
+                  the rise and set times as epochs.
 
-        'solved' key, which is `False` if the source is always below or above 
-        the horizon. In that case the rise and set fields will all have a 
-        string value. The `dict` also returns a rise and set `dict`, with 
-        'last'  and 'utc' keys showing the rise and set times as epochs.
         """
 
         a = self.rise(crd, ev)
