@@ -433,7 +433,7 @@ class measures(_measures):
         if not is_measure(v):
             raise TypeError('Argument is not a measure')
         if (v["type"] == "frequency" and v["refer"].lower() == "rest") \
-               or _measures.do_frame(self, v):
+               or _measures.doframe(self, v):
             self._framestack[v["type"]] = v
             return True
         return False
