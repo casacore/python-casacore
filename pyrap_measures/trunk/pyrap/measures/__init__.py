@@ -240,9 +240,42 @@ class measures(_measures):
     to_radialvelocity = toradialvelocity
 
     def touvw(self, v):
+        """Calculates a uvw measure from a baseline. The baseline can consist 
+        of a vector of actual baseline positions. Note that the baseline does 
+        not have to be a proper baseline, but can be a series of positions 
+        (to  call positions baselines see :meth:`asbaseline` ) for speed 
+        reasons: operations are linear and can be done on positions, which 
+        are converted to baseline values at the end (with :meth:`expand` ).
+
+        Whatever the reference code of the baseline, the returned uvw will be 
+        given in J2000. If the dot argument is given, that variable will be 
+        filled with a quantity array consisting of the time derivative of the 
+        uvw (note that only the sidereal rate is taken into account; not 
+        precession, earth tides and similar variations, which are much 
+        smaller). If the xyz variable is given, it will be filled with the 
+        quantity values of the uvw measure.
+
+        The values of the input baselines can be given as a quantity 
+        vector per x, y or z value.
+
+        uvw coordinates are calculated for a certain direction in the sky; 
+        hence the frame has to contain the direction for the calculation to 
+        work. Since the baseline and the sky rotate with respect of each 
+        other, the time should be specified as well.
+
+        Example::
+
+            >>> dm.doframe(dm.observatory('atca'))
+            >>> dm.doframe(dm.source('1934-638'))
+            >>> dm.doframe(dm.epoch('utc', 'today'))
+            >>> b = dm.baseline('itrf', '10m', '20m', '30m')
+
+        """
         if is_measure(v) and v['type'] == 'baseline':
-           return _measures.uvw(self, v)
-        else:
+            m = _measures.uvw(self, v)
+            m['xyz'] = dq.quantity(m['xyz'])
+            m['dot'] = dq.quantity(m['dot'])
+       else:
             raise TypeError('Illegal Baseline specified')
     to_uvm = touvw
         
@@ -251,8 +284,9 @@ class measures(_measures):
         it calculates baseline values from position values. 
 
         :params v: a measure (of type 'baseline', 'position' or 'uvw')
-        :returns: a tuple with the first element being a measure
-                  and the second a quantity containing the differences.
+        :returns: a `dict` with the value for key `measures` being a measure
+                  and the value for key `xyz` a quantity containing the 
+                  differences.
         
         Example::
             
@@ -261,8 +295,8 @@ class measures(_measures):
             >>> y = quantity([20,100],'m')
             >>> z = quantity([30,150],'m')
             >>> sb = dm.baseline('itrf', x, y, z)
-            >>> (sbex, xyz) = dm.expand(sb)
-            >>> print xyz
+            >>> out = dm.expand(sb)
+            >>> print out['xyz']
             [40.000000000000014, 80.0, 120.0] m
 
         """ 
@@ -276,7 +310,7 @@ class measures(_measures):
         xyz = None
         if 'xyz' in out:
             xyz = dq.quantity(out.pop('xyz'))
-        outm = out.pop('r0')        
+        outm = out.pop('measure')        
         outm['type'] = v['type']
         outm['refer'] = v['refer']
         return (outm, xyz)
