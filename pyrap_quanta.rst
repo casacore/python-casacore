@@ -37,6 +37,7 @@ There are some extra handy ways you can manipulate strings when you are dealing 
     * today - The special string "today" gives the UTC time at the instant the command was issued.
     * today/time - The special string "today" plus the specified time string gives the UTC time at the specified instant
     * yyyy/mm/dd[/time] - gives the UTC time at the specified instant
+    * yyyy-mm-dd[Ttime[+-hh[:mm]]] - gives the UTC time from ISO 8601 format with timezone offset
     * dd[-]mmm[-][cc]yy[/time] - gives the UTC time at the specified instant in calendat style notation (23-jun-1999)
 
 Note that the standard unit for degrees is 'deg', and for days 'd'. Formatting is done in such a way that it interprets a 'd' as degrees if preceded by a value without a period and if any value following it is terminated with an 'm'. In other cases 'days' are assumed. Here are some examples::
@@ -55,6 +56,11 @@ Note that the standard unit for degrees is 'deg', and for days 'd'. Formatting i
     >>> print quantity('23h3m2.2s')  
     345.759167 deg
 
+Python :mod:`datetime` to quantity::
+
+    >>> import datetime
+    >>> utcnow = datetime.datetime.utcnow()
+    >>> q = quantity(utcnow.isoformat())
 
 API
 ===
