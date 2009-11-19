@@ -55,19 +55,20 @@ class measures(_measures):
 
     The measures types are:
     
-    * :func:`measures.direction`
+    * :meth:`direction`
     
-    * :func:`measures.position`
+    * :meth:`position`
     
-    * :func:`measures.epoch`
+    * :meth:`epoch`
 
-    * :func:`measures.frequency`
+    * :meth:`frequency`
 
-    * :func:`measures.doppler`
+    * :meth:`doppler`
 
-    * :func:`measures.baseline`    
+    * :meth:`baseline`    
 
     Typical usage::
+
         from pyrap.measures import measures
         dm = measures() # create measures server instance
         dirmeas = dm.direction()
@@ -105,6 +106,34 @@ class measures(_measures):
         return _measures.measure(self, v, rf, off)
 
     def direction(self, rf='', v0='0..', v1='90..', off=None):
+        """Defines a direction measure. It has to specify a reference code,
+        direction quantity values (see introduction for the action on a 
+        scalar quantity with either a vector or scalar value, and when a 
+        vector of quantities is given), and optionally it can specify an 
+        offset, which in itself has to be a direction. 
+        
+        :param rf: reference code string; allowable reference codes are: 
+                   J2000 JMEAN  JTRUE APP B1950 BMEAN BTRUE GALACTIC HADEC 
+                   AZEL SUPERGAL ECLIPTIC MECLIPTIC TECLIPTIC MERCURY VENUS
+                   MARS JUPITER SATURN URANUS NEPTUNE PLUTO MOON SUN COMET.
+                   Note that additional ones may become available. Check with::
+
+                       dm.list_codes(dm.direction())
+
+        :param v0, v1: Direction quantity values should be 
+                       longitude (angle) and latitude (angle) or strings
+                       parsable by :func:`~pyrap.quanta.quantity`.
+                       None are needed for planets: the frame epoch defines 
+                       coordinates. See :func:`~pyrap.quanta.quantity` for 
+                       possible angle formats.
+        :param off: an optional offset measure of same type
+
+        Example::
+
+            >>> dm.direction('j2000','30deg','40deg')
+            >>> dm.direction('mars')
+        
+        """
         loc = { 'type': 'direction' , 'refer':  rf}
         loc['m0'] = dq.quantity(v0)
         loc['m1'] = dq.quantity(v1)
@@ -115,6 +144,33 @@ class measures(_measures):
         return self.measure(loc, rf)
         
     def position(self, rf='', v0='0..', v1='90..', v2='0m', off=None):
+        """Defines a position measure. It has to specify a reference code, 
+        position quantity values (see introduction for the action on a 
+        scalar quantity with either a vector or scalar value, and when a 
+        vector of quantities is given), and optionally it can specify an 
+        offset, which in itself has to be a position. 
+        Note that additional ones may become available. Check with::
+            
+            dm.listcodes(dm.position())
+            
+        The position quantity values should be either longitude (angle), 
+        latitude(angle) and height(length); or x,y,z (length). See 
+        :func:`~pyrap.quanta.quantity` for possible angle formats.
+
+        :param rf: reference code string; Allowable reference 
+                   codes are: *WGS84* *ITRF* (World Geodetic System and 
+                   International Terrestrial Reference Frame)
+        :param v0: longitude or x as quantity or string
+        :param v1: latitude or y as quantity or string
+        :param v2: height or z as quantity or string
+        :param off: an optional offset measure of same type
+
+        Example::
+
+            dm.position('wgs84','30deg','40deg','10m')
+            dm.observatory('ATCA')
+
+        """
         loc = { 'type': 'position' , 'refer':  rf}
         loc['m0'] = dq.quantity(v0)
         loc['m1'] = dq.quantity(v1)
@@ -126,6 +182,13 @@ class measures(_measures):
         return self.measure(loc, rf)
 
     def epoch(self, rf='', v0='0.0d', off=None):
+        """
+        :param rf: reference code string; Allowable reference 
+                   codes are: 
+        :param v0: time as quantity or string
+        :param off: an optional offset measure of same type
+
+        """
         loc = { 'type': 'epoch' , 'refer':  rf}
         loc['m0'] = dq.quantity(v0)
         if is_measure(off):
@@ -135,6 +198,33 @@ class measures(_measures):
         return self.measure(loc, rf)
 
     def frequency(self, rf='', v0='0Hz', off=None):
+        """Defines a frequency measure. It has to specify a reference code, 
+        frequency quantity value (see introduction for the action on a scalar 
+        quantity with either a vector or scalar value, and when a vector of 
+        quantities is given), and optionally it can specify an offset, which 
+        in itself has to be a frequency. 
+
+        :param rf: reference code string; Allowable reference 
+                   codes are: *REST LSRK LSRD BARY GEO TOPO GALACTO*
+                   Note that additional ones may become available. Check with::
+
+                       dm.listcodes(dm.frequency())
+
+        :param v0: frequency value as quantity or string. The frequency 
+                   quantity values should be in one of the recognised units 
+                   (examples all give same frequency):
+
+                   * value with time units: a period (0.5s)
+                   * value as frequency: 2Hz
+                   * value in angular frequency: 720deg/s
+                   * value as length: 149896km
+                   * value as wave number: 4.19169e-8m-1
+                   * value as enery (h.nu): 8.27134e-9ueV
+                   * value as momentum: 4.42044e-42kg.m 
+
+        :param off: an optional offset measure of same type
+
+        """
         loc = { 'type': "frequency",
                 'refer': rf,
                 'm0': dq.quantity(v0) }
@@ -144,7 +234,35 @@ class measures(_measures):
             loc["offset"] = off
         return self.measure(loc, rf)
 
-    def doppler(self, rf='', v0='0', off=None):
+    def doppler(self, rf='', v0=0.0, off=None):
+        """Defines a doppler measure. It has to specify a reference code, 
+        doppler quantity value (see introduction for the action on a scalar 
+        quantity with either a vector or scalar value, and when a vector of 
+        quantities is given), and optionally it can specify an offset, which 
+        in itself has to be a doppler.  
+
+        :param rf: reference code string; Allowable reference 
+                   codes are: *RADIO OPTICAL Z RATIO RELATIVISTIC BETA GAMMA*.
+                   Note that additional ones may become available. Check with::
+                   
+                       dm.listcodes(dm.doppler())
+                   
+        :param v0: doppler ratio as quantity, string or float value. It 
+                   should be either non-dimensioned to specify a ratio of 
+                   the light velocity, or in velocity. (examples all give 
+                   same doppler): 
+        :param off: an optional offset measure of same type
+
+        Example::
+
+            >>> from pyrap import quanta
+            >>> dm.doppler('radio', 0.4)
+            >>> dm.doppler('radio', '0.4')
+            >>> dm.doppler('RADIO', quanta.constants['c']*0.4))
+
+        """
+        if isinstance(v0, float):
+            v0 = str(v0)
         loc = { 'type': "doppler",
                 'refer': rf,
                 'm0': dq.quantity(v0) }
@@ -155,6 +273,13 @@ class measures(_measures):
         return self.measure(loc, rf)
 
     def radialvelocity(self, rf='', v0='0m/s', off=None):
+        """
+        :param rf: reference code string; Allowable reference 
+                   codes are: 
+        :param v0: longitude or x as quantity or string
+        :param off: an optional offset measure of same type
+
+        """
         loc = { 'type': "radialvelocity",
                 'refer': rf,
                 'm0': dq.quantity(v0) }
@@ -165,7 +290,15 @@ class measures(_measures):
         return self.measure(loc, rf)
 
     def baseline(self, rf='', v0='0..', v1='', v2='', off=None):
-        
+        """
+        :param rf: reference code string; Allowable reference 
+                   codes are: 
+        :param v0: longitude or x as quantity or string
+        :param v1: latitude or y as quantity or string
+        :param v2: height or z as quantity or string
+        :param off: an optional offset measure of same type
+
+        """        
         loc = { 'type': "baseline", 'refer': rf }
         loc['m0'] = dq.quantity(v0)
         loc['m1'] = dq.quantity(v1)
@@ -177,6 +310,15 @@ class measures(_measures):
         return self.measure(loc, rf)
 
     def uvw(self, rf='', v0='0..', v1='', v2='', off=None):
+        """
+        :param rf: reference code string; Allowable reference 
+                   codes are: 
+        :param v0: longitude or x as quantity or string
+        :param v1: latitude or y as quantity or string
+        :param v2: height or z as quantity or string
+        :param off: an optional offset measure of same type
+
+        """
         loc = { 'type': "uvw", 'refer': rf }
         loc['m0'] = dq.quantity(v0)
         loc['m1'] = dq.quantity(v1)
@@ -188,6 +330,15 @@ class measures(_measures):
         return self.measure(loc, rf)
        
     def earthmagnetic(self, rf='', v0='0G', v1='0..', v2='90..', off=None):
+        """
+        :param rf: reference code string; Allowable reference 
+                   codes are: 
+        :param v0: longitude or x as quantity or string
+        :param v1: latitude or y as quantity or string
+        :param v2: height or z as quantity or string
+        :param off: an optional offset measure of same type
+
+        """
         loc = { 'type': "earthmagnetic", 'refer': rf }
         loc['m0'] = dq.quantity(v0)
         loc['m1'] = dq.quantity(v1)
@@ -200,6 +351,7 @@ class measures(_measures):
        
 
     def tofrequency(self, rf, v0, rfq):
+        """ NEDS DOC    """
         if is_measure(rfq) and rfq['type'] == 'frequency':
             rfq = dq.quantity(rfq['m0'])
         if is_measure(v0) and  v0['type'] == 'doppler' \
@@ -208,8 +360,10 @@ class measures(_measures):
             return self.doptofreq(v0, rf, rfq.to_dict())
         else:
             raise TypeError('Illegal Doppler or rest frequency specified')
+    to_frequency = tofrequency
 
     def torestfrequency(self, v0, d0):
+        """ NEEDS DOC!!! """
         if is_measure(v0) and  v0['type'] == 'frequency' \
                and is_measure(d0) and d0['type'] == 'doppler':
             return self.torest(v0, d0)
@@ -218,6 +372,7 @@ class measures(_measures):
     to_restfrequency = torestfrequency
 
     def todoppler(self, rf, v0, rfq=False):
+        """ NEEDS DOC!!! """
         if is_measure(rfq) and rfq['type'] == 'frequency':
             rfq = dq.quantity(rfq['m0'])
         if is_measure(v0):
@@ -233,6 +388,7 @@ class measures(_measures):
     to_doppler = todoppler
    
     def toradialvelocity(self, rf, v0):
+        """ NEEDS DOC!!! """
         if is_measure(v0) and v0['type'] == 'doppler':
             return self.doptorv(rf, v0)
         else:
@@ -265,9 +421,9 @@ class measures(_measures):
 
         Example::
 
-            >>> dm.doframe(dm.observatory('atca'))
-            >>> dm.doframe(dm.source('1934-638'))
-            >>> dm.doframe(dm.epoch('utc', 'today'))
+            >>> dm.do_frame(dm.observatory('atca'))
+            >>> dm.do_frame(dm.source('1934-638'))
+            >>> dm.do_frame(dm.epoch('utc', 'today'))
             >>> b = dm.baseline('itrf', '10m', '20m', '30m')
 
         """
@@ -306,14 +462,11 @@ class measures(_measures):
         vw = v.copy()
         vw['type'] = "uvw"
         vw['refer'] = "J2000"
-        out = _measures.expand(self, vw)
-        xyz = None
-        if 'xyz' in out:
-            xyz = dq.quantity(out.pop('xyz'))
-        outm = out.pop('measure')        
-        outm['type'] = v['type']
-        outm['refer'] = v['refer']
-        return (outm, xyz)
+        outm = _measures.expand(self, vw)
+        outm['xyz'] = dq.quantity(outm['xyz'])
+        outm['measure']['type'] = v['type']
+        outm['measure']['refer'] = v['refer']
+        return outm
 
     def asbaseline(self, pos):
         """Convert a position measure into a baseline measure. No actual 
@@ -485,6 +638,7 @@ class measures(_measures):
         return self._framestack["position"]
     
     def framenow(self):
+        """ NEEDS DOC!!! """
         """Set the time (epoch) frame to the current time and day."""
         self.do_frame(self.epoch("UTC", "today"))
     frame_now = framenow
@@ -565,9 +719,12 @@ class measures(_measures):
                  }
 
     def observatory(self, name):
-        """Get a (position) measure for the given obervatory
-        
-        :param name: the name of the observatory
+        """Get a (position) measure for the given obervatory. 
+
+        :param name: the name of the observatory. At the time of 
+                     writing the following observatories are recognised (but 
+                     check :meth:`get_observatories`): *ALMA ATCA BIMA CLRO 
+                     DRAO DWL GB JCMT MOPRA NRAO12M PKS VLA WSRT*
         :returns: a position measure
         """
         return _measures.observatory(self, name.upper())

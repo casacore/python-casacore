@@ -2,13 +2,19 @@
 Module :mod:`pyrap.measures`
 ============================
 
+.. module:: pyrap.measures
+
 Introduction
 ============
 
-A measure is a quantity with a specified reference frame (e.g. UTC, J2000, mars). The measures module provides an interface to the handling of measures. The basic functionality provided is:
+A measure is a quantity with a specified reference frame (e.g. *UTC*, *J2000*, 
+*mars*). The measures module provides an interface to the handling of 
+measures. The basic functionality provided is:
 
-    * Conversion Conversion of measures, especially between different frames (e.g. UTC to LAST)
-    * Calculation Calculation of e.g. a rest frequency from a velocity and a frequency. 
+    * Conversion Conversion of measures, especially between different frames 
+      (e.g. *UTC* to *LAST*)
+    * Calculation Calculation of e.g. a rest frequency from a velocity and a 
+      frequency. 
 
 
 To access the measures do the following. We will uses `dm` as the measures instance throught all examples::
@@ -19,16 +25,28 @@ To access the measures do the following. We will uses `dm` as the measures insta
 Measures
 --------
 
-Measures are e.g. an epoch or coordinates which have in addition to values - :class:`pyrap.quanta.Quantity` - also a reference specification and possibly an offset. They are represented as records with fields describing the various entities embodied in the measure. These entities can be obtained by the access methods:
+Measures are e.g. an epoch or coordinates which have in addition to values - 
+:class:`pyrap.quanta.Quantity` - also a reference specification and possibly 
+an offset. They are represented as records with fields describing the various 
+entities embodied in the measure. These entities can be obtained by the access 
+methods:
 
 * :meth:`~pyrap.measures.measures.get_type`
 * :meth:`~pyrap.measures.measures.get_ref`
 * :meth:`~pyrap.measures.measures.get_offset`
 * :meth:`~pyrap.measures.measures.get_value`.
 
-Each measure has its own list of reference codes (see the individual methods for creating them, like direction). If an empty or no code reference code is given, the default code for that type of measure will be used (e.g. it is J2000 for a direction). If an unknown code is given, this default is also returned, but with a warning message.
+Each measure has its own list of reference codes (see the individual methods 
+for creating them, like :meth:`~pyrap.measures.measures.direction`). If an 
+empty or no code reference code is  given, the default code for that type of 
+measure will be used (e.g. it is *J2000* for a 
+:meth:`~pyrap.measures.measures.direction`). If an unknown code is given, 
+this default is also returned, but with a warning message.
 
-The values of a measure (like the right-ascension for a direction) are given as quantities. Each of them can be either a scalar quantity with a scalar or vector for its actual value (see the following example). Fro example a vector of length 2 of quanta will be seen in a direction constructor as a longitude and a latitude::
+The values of a measure (like the right-ascension for a 
+:meth:`~pyrap.measures.measures.direction`) are given as 
+:func:`pyrap.quanta.quantity`. Each of them can be either a scalar quantity 
+with a scalar or vector for its actual value (see the following example)::
 
     >>> from pyrap.quanta import quantity
     >>> dm.epoch('utc','today')	# note that your value will be different
@@ -68,30 +86,43 @@ The values of a measure (like the right-ascension for a direction) are given as 
 
 Known measures are:
 
-    * epoch: an instance in time (internally expressed as MJD or MGSD)
-    * direction: a direction towards an astronomical object (including planets, sun, moon)
-    * position: a position on Earth
-    * frequency: electromagnetic wave energy
-    * radialvelocity: radial velocity of astronomical object
-    * doppler: doppler shift (i.e. radial velocity in non-velocity units like 'Optical', 'Radio'. The radialvelocity GUI caters for Doppler coding as well)
-    * baseline: interferometer baseline
-    * uvw: UVW coordinates
-    * earthmagnetic: Earth' magnetic field 
+    * :meth:`~pyrap.measures.measures.epoch`: an instance in time (internally 
+      expressed as MJD or MGSD)
+    * :meth:`~pyrap.measures.measures.direction`: a direction towards an 
+      astronomical object (including planets, sun, moon)
+    * :meth:`~pyrap.measures.measures.position`: a position on Earth
+    * :meth:`~pyrap.measures.measures.frequency`: electromagnetic wave energy
+    * :meth:`~pyrap.measures.measures.radialvelocity`: radial velocity of 
+      astronomical object
+    * :meth:`~pyrap.measures.measures.doppler`: doppler shift (i.e. radial 
+      velocity in non-velocity units like *Optical*, *Radio*.
+    * :meth:`~pyrap.measures.measures.baseline`: interferometer baseline
+    * :meth:`~pyrap.measures.measures.uvw`: UVW coordinates
+    * :meth:`~pyrap.measures.measures.earthmagnetic`: Earth' magnetic field 
 
-In addition to the reference code (like J2000), a measure needs sometimes more information to be convertable to another reference code (e.g. a time and position to convert it to an azimuth/elevation). This additional information is called the reference frame, and can specify one or more of 'where am i', 'when is it', 'what direction", 'how fast'.
+In addition to the reference code (like *J2000*), a measure needs sometimes 
+more information to be convertable to another reference code (e.g. a time 
+and position to convert it to an azimuth/elevation). This additional 
+information is called the reference frame, and can specify one or more of 
+'where am i', 'when is it', 'what direction", 'how fast'.
 
 The frame values can be set using the method :meth:`measures.do_frame`.
 
-Since you would normally work from a fixed position, the position frame element ('where you are'), can be specified in your .aipsrc if its name is in the Observatory list (obslist) tool function. You can set your preferred position by adding to your .casarc file:
+Since you would normally work from a fixed position, the position frame 
+element ('where you are'), can be specified in your .aipsrc if its name is in 
+the Observatory list (obslist) tool function. You can set your preferred 
+position by adding to your *.casarc* file::
 
-measures.default.observatory:	atca
+    measures.default.observatory:	atca
 
 API
 ---
 
 .. autoclass:: pyrap.measures.measures
-   :members:
-   :undoc-members:
+   :members: 
+   :exclude-members: asbaseline, doframe, framenow, getvalue, todop, todoppler,
+                     torestfrequency, torest, touvw, tofrequency, 
+		     toradialvelocity
 
 .. autofunction:: pyrap.measures.is_measure
 
