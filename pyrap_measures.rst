@@ -118,11 +118,11 @@ position by adding to your *.casarc* file::
 API
 ---
 
+.. autofunction:: pyrap.measures.is_measure
+
 .. autoclass:: pyrap.measures.measures
    :members: 
    :exclude-members: asbaseline, doframe, framenow, getvalue, todop, todoppler,
                      torestfrequency, torest, touvw, tofrequency, 
 		     toradialvelocity
-
-.. autofunction:: pyrap.measures.is_measure
 

@@ -313,7 +313,7 @@ class measures(_measures):
         """
         :param rf: reference code string; Allowable reference 
                    codes are: 
-        :param v0: longitude or x as quantity or string
+        :param v0: u  as quantity or string
         :param v1: latitude or y as quantity or string
         :param v2: height or z as quantity or string
         :param off: an optional offset measure of same type
@@ -730,13 +730,60 @@ class measures(_measures):
         return _measures.observatory(self, name.upper())
 
     def get_observatories(self):
-        """Return a list of known observatory names, whci can be used as input
-        for :meth:`~pyrap.measures.measures.observatory`
+        """Return a list of known observatory names, which can be used as input
+        to :meth:`observatory`.
     
         :rtype: list of strings
         """
         return self.obslist()
 
+    def line(self, name):
+        """Get a (frequency) measure for the given spectral line name. 
+
+        :param name: the name of the spectral line. Minimum match applies.
+                     At the time of writing the following are recognised (but 
+                     check :meth:`get_lines`): *C109A CI CII166A DI H107A 
+                     H110A H138B H166A H240A H272A H2CO HE110A HE138B HI 
+                     OH1612 OH1665 OH1667 OH1720 CO115271 H2O22235 SiO86847 
+                     CO230538*
+        :returns: a frequency measure
+        """
+        return _measures.line(self, name)
+
+    def get_lines(self):
+        """Return a list of known spectral line names, which can be used as 
+        input to :meth:`line`.
+    
+        :rtype: list of strings
+        """
+        return self.linelist()
+
+    def source(self, name):
+        """Get a (direction) measure for the given atsronomical source. 
+
+        :param name: the name of the source. Minimum match applies.
+                     Check :meth:`get_sources` for the list of known sources
+        :returns: a frequency measure
+
+        Example::
+            
+            >>> print dm.source('1936-6')
+            {'m0': {'unit': 'rad', 'value': -1.1285176426372401},
+             'm1': {'unit': 'rad', 'value': -1.0854059868642842},
+             'refer': 'ICRS',
+             'type': 'direction'}
+
+        """
+        return _measures.source(self, name)
+
+    def get_sources(self):
+        """Return a list of known sources names, which can be used as 
+        input to :meth:`source`.
+    
+        :rtype: list of strings
+        """
+        return self.srclist()
+        
     #alias
     def list_codes(self, m):
         """Get the known reference codes for a specified measure type. It 
