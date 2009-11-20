@@ -59,7 +59,7 @@ class functional(_functional):
         return self.npar()
 
     def __getitem__(self, i):
-        return self.parameters()[i]
+        return self.get_parameters()[i]
 
     def __setitem__(self, i, v):
         return self.set_parameter(i, v)
@@ -76,7 +76,7 @@ class functional(_functional):
         else:
             return _functional._setparc(self, idx, val)
 
-    def parameters(self):
+    def get_parameters(self):
         if self._dtype == 0:
             return _functional._parameters(self)
         else:
@@ -145,6 +145,18 @@ class functional(_functional):
         else:
             _functional._addc(self, other)
 
+    def set_mask(self, i, msk):
+        _functional._setmask(self, i, msk)
+
+    def set_masks(self, msk):
+        _functional._setmasks(self, msk)
+
+    def get_masks(self):
+        return _functional._masks(self)
+
+    def todict(self):
+        return _functional.todict(self)
+
 class gaussian1d(functional):
     """Create a 1-dimensional Gaussian with the specified height, width and 
     center.
@@ -180,13 +192,13 @@ class poly(functional):
     :param dtype: the optional data type. Default is float, but will be 
                   auto-detected from `params`. Can be set to 'complex'.
     """
-    def __init__(self, order=None, params=None, dtype=0):
+    def __init__(self, order, params=None, dtype=0):
         functional.__init__(self, name="poly",
                             order=order,
                             params= params,
                             dtype=dtype)
         if params is None:
-            self.set_parameters([v+1. for v in self.parameters()])
+            self.set_parameters([v+1. for v in self.get_parameters()])
 
 class oddpoly(functional):
     """Create an odd polynomial of specified degree.
@@ -197,13 +209,13 @@ class oddpoly(functional):
                   auto-detected from `params`. Can be set to 'complex'.
 
     """
-    def __init__(self, order=None, params=None, dtype=0):
+    def __init__(self, order, params=None, dtype=0):
         functional.__init__(self, name="oddpoly",
                             order=order,
                             params= params,
                             dtype=dtype)
         if params is None:
-            self.set_parameters([v+1. for v in self.parameters()])
+            self.set_parameters([v+1. for v in self.get_parameters()])
 
 class evenpoly(functional):
     """Create an even polynomial of specified degree.
@@ -214,16 +226,16 @@ class evenpoly(functional):
                   auto-detected from `params`. Can be set to 'complex'.
 
     """
-    def __init__(self, order=None, params=None, dtype=0):
+    def __init__(self, order, params=None, dtype=0):
         functional.__init__(self, name="evenpoly",
                             order=order,
                             params= params,
                             dtype=dtype)
         if params is None:
-            self.set_parameters([v+1. for v in self.parameters()])
+            self.set_parameters([v+1. for v in self.get_parameters()])
 
 class chebyshev(functional):
-    def __init__(self, order=None, params=None,
+    def __init__(self, order, params=None,
                  xmin=-1., xmax=1., ooimode='constant',
                  dtype=0):
         modes = "constant zeroth extrapolate cyclic edge".split()
@@ -237,7 +249,7 @@ class chebyshev(functional):
                             mode=mode,
                             dtype=dtype)
         if params is None:
-            self.set_parameters([v+1. for v in self.parameters()])
+            self.set_parameters([v+1. for v in self.get_parameters()])
 
 class compound(functional):
     def __init__(self, dtype=0):

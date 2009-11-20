@@ -55,9 +55,9 @@ namespace casa { namespace pyrap {
       .def ("_setparc", &FunctionalProxy::setparc)
       .def ("_parameters", &FunctionalProxy::parameters)
       .def ("_parametersc", &FunctionalProxy::parametersc)
-      .def ("setmasks", &FunctionalProxy::setmasks)
-      .def ("masks", &FunctionalProxy::masks)
-      .def ("setmask", &FunctionalProxy::setmask)
+      .def ("_setmasks", &FunctionalProxy::setmasks)
+      .def ("_masks", &FunctionalProxy::masks)
+      .def ("_setmask", &FunctionalProxy::setmask)
       ;
   }
 } }
