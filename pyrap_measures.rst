@@ -11,13 +11,13 @@ A measure is a quantity with a specified reference frame (e.g. *UTC*, *J2000*,
 *mars*). The measures module provides an interface to the handling of 
 measures. The basic functionality provided is:
 
-    * Conversion Conversion of measures, especially between different frames 
+    * Conversion of measures, especially between different frames 
       (e.g. *UTC* to *LAST*)
-    * Calculation Calculation of e.g. a rest frequency from a velocity and a 
+    * Calculation of e.g. a rest frequency from a velocity and a 
       frequency. 
 
 
-To access the measures do the following. We will uses `dm` as the measures instance throught all examples::
+To access the measures do the following. We will use `dm` as the measures instance through all examples::
 
    >>> from pyrap.measures import measures
    >>> dm = measures()

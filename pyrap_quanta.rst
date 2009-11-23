@@ -14,8 +14,8 @@ A quantity is a value with a unit. For example, '5km/s', or '20Jy/pc2'. This
 module enables you to create and manipulate such quantities. The types of 
 functionality provided are:
 
-    * Conversion Conversion of quantities to different units
-    * Calculation Calculations with quantities
+    * Conversion of quantities to different units
+    * Calculations with quantities
 
 Constants, time and angle formatting
 ------------------------------------
