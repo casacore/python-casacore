@@ -1416,7 +1416,7 @@ class table(Table):
         To make browsing of such tables possible, the argument `tempname` can
         be used to specify a table name that will be used to form a persistent
         table that can be browsed. Note that such a table is very small as it
-        does no contain data, but only references data in the original table.
+        does not contain data, but only references to rows in the original table.
         The default for `tempname` is '/tmp/seltable'.
 
         If needed, the table can be deleted using the :func:`tabledelete`
@@ -1495,7 +1495,7 @@ class table(Table):
         To make viewing of such tables possible, the argument `tempname` can
         be used to specify a table name that will be used to form a persistent
         table that can be browsed. Note that such a table is very small as it
-        does no contain data, but only references data in the original table.
+        does not contain data, but only references to rows in the original table.
         The default for `tempname` is '/tmp/seltable'.
 
         If needed, the table can be deleted using the :func:`tabledelete`
