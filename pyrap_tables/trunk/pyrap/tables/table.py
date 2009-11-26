@@ -335,7 +335,7 @@ class table(Table):
     def _makerow (self):
         """Internal method to make its tablerow object."""
         from tablerow import _tablerow;
-        self._row = _tablerow (self, self.colnames());
+        self._row = _tablerow (self, []);
     
     def __str__ (self):
         """Return the table name."""
@@ -369,7 +369,7 @@ class table(Table):
         from tablecolumn import tablecolumn;
         return tablecolumn (self, columnname);
 
-    def row (self, columnnames, exclude=False):
+    def row (self, columnnames=[], exclude=False):
         """Return a tablerow object which includes (or excludes) the given columns.
 
         :class:`tablerow` makes it possible to get/put values in one or

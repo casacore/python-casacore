@@ -134,6 +134,8 @@ class tablerow(_tablerow):
     A table row is a record (dict) containing the values of a single row for
     one or more columns in a table. In constructing the `tablerow` object, one
     can specify which columns are to be included or excluded.
+    By default all columns will be used, but if the table is writable,
+    only writable columns will be used.
 
     A `tablerow` object can easily be constructed using :func:`table.row`.
 
@@ -154,7 +156,7 @@ class tablerow(_tablerow):
     it work.
 
     """
-    def __init__(self, table, columnnames, exclude=False):
+    def __init__(self, table, columnnames=[], exclude=False):
         _tablerow.__init__ (self, table, columnnames, exclude);
         self._table = table;
 
