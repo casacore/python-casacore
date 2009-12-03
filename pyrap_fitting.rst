@@ -1,11 +1,12 @@
-=====================
+===========================
 Module :mod:`fitting`
-=====================
+===========================
 
 .. automodule:: pyrap.fitting
 
-Class :class:`fitting.fitserver`
---------------------------------
+API
+---
+
 .. autoclass:: pyrap.fitting.fitserver
    :members:
    :undoc-members:
