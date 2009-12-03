@@ -113,8 +113,6 @@ parser.add_option('--numpy-incdir', dest='numpyincdir',
                   type="string",
                   help="Location of numpy include directory (default is to autodetect)")
 
-RELEASE = 'current'
-
 # parse command line options
 (opts, args) = parser.parse_args()
 
@@ -148,7 +146,7 @@ def get_libs(pkg, version='trunk'):
 
 def run_python(pkg, args):
     cwd = os.getcwd()
-    os.chdir(os.path.join(pkg, RELEASE))
+    os.chdir(os.path.join(pkg, "trunk"))
     print "** Entering", os.path.abspath(os.curdir)
     if args.clean:
         print "** EXECUTING: Cleaning python build"
@@ -230,7 +228,7 @@ def run_python(pkg, args):
 
 def run_scons(target, args):
     cwd = os.getcwd()
-    os.chdir(os.path.join(target, RELEASE))
+    os.chdir(os.path.join(target, "trunk"))
     print "** Entering", os.path.abspath(os.curdir)
     if os.path.exists("options.cfg"):
         os.remove("options.cfg")
