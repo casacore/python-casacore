@@ -3,15 +3,16 @@ Module :mod:`pyrap.quanta`
 ==========================
 
 .. module:: pyrap.quanta
-   
-Python bindings for casacore's casa::Quantum value-unit objects.
+
+Python bindings for
+`casacore Quantum objects <../../casacore/doc/html/classcasa_1_1Quantum.html>`_
 It transparently handles Quantity and Quantum<Vector<Double> >.
 
 Introduction
 ============
 
-A quantity is a value with a unit. For example, '5km/s', or '20Jy/pc2'. This 
-module enables you to create and manipulate such quantities. The types of 
+A quantity is a value with a unit. For example, '5km/s', or '20Jy/pc2'. This
+module enables you to create and manipulate such quantities. The types of
 functionality provided are:
 
     * Conversion of quantities to different units
@@ -20,31 +21,49 @@ functionality provided are:
 Constants, time and angle formatting
 ------------------------------------
 
-If you would like to see all the possible constants known to quanta you can issue the command pyrap.quanta.constants.keys(). You can get the value of any constant in that dictionary with a command such as::
+If you would like to see all the possible constants known to quanta you can
+execute the function :func:`pyrap.quanta.constants.keys()`. You can get the
+value of any constant in that dictionary with a command such as::
 
     >>> from pyrap import quanta
     >>> boltzmann = quanta.constants['k']
     >>> print 'Boltzmann constant is ', boltzmann
     Boltzmann constant is 1.3806578e-23 J/K
 
-There are some extra handy ways you can manipulate strings when you are dealing with times or angles. The following list shows special strings and string formats which you can input to the quantity function. Something in square brackets is optional. There are examples after the list.
+There are some extra handy ways you can manipulate strings when you are
+dealing with times or angles. The following list shows special strings and
+string formats which you can input to the quantity function. Something in
+square brackets is optional. There are examples after the list.
 
-    * time: [+-]hh:mm:ss.t... - This is the preferred time format (trailing fields can be omitted)
-    * time: [+-]hhHmmMss.t..[S] - This is an alternative time format (HMS case insensitive, trailing second fields can be omitted)
-    * angle: [+-]dd.mm.ss.t.. - This is the preferred angle format (trailing fields after second priod can be omitted; dd.. is valid)
-    * angle: [+-]ddDmmMss.t...[S] - This is an alternative angle format (DMS case insensitive, trailing fields can be omitted after M)
-
-    * today - The special string "today" gives the UTC time at the instant the command was issued.
-    * today/time - The special string "today" plus the specified time string gives the UTC time at the specified instant
+    * time: [+-]hh:mm:ss.t... - This is the preferred time format (trailing
+                                fields can be omitted)
+    * time: [+-]hhHmmMss.t..[S] - This is an alternative time format (HMS case
+                                  insensitive, trailing second fields can be
+                                  omitted)
+    * angle: [+-]dd.mm.ss.t.. - This is the preferred angle format (trailing
+                                fields after second priod can be omitted; dd..
+                                is valid)
+    * angle: [+-]ddDmmMss.t...[S] - This is an alternative angle format (DMS
+                                    case insensitive, trailing fields can be
+                                    omitted after M)
+    * today - The special string "today" gives the UTC time at the instant
+              the command was issued.
+    * today/time - The special string "today" plus the specified time
+                   string gives the UTC time at the specified instant
     * yyyy/mm/dd[/time] - gives the UTC time at the specified instant
-    * yyyy-mm-dd[Ttime[+-hh[:mm]]] - gives the UTC time from ISO 8601 format with timezone offset
-    * dd[-]mmm[-][cc]yy[/time] - gives the UTC time at the specified instant in calendat style notation (23-jun-1999)
+    * yyyy-mm-dd[Ttime[+-hh[:mm]]] - gives the UTC time from ISO 8601 format
+                                     with timezone offset
+    * dd[-]mmm[-][cc]yy[/time] - gives the UTC time at the specified instant
+                                 in calendat style notation (23-jun-1999)
 
-Note that the standard unit for degrees is 'deg', and for days 'd'. Formatting is done in such a way that it interprets a 'd' as degrees if preceded by a value without a period and if any value following it is terminated with an 'm'. In other cases 'days' are assumed. Here are some examples::
+Note that the standard unit for degrees is 'deg', and for days 'd'. Formatting
+is done in such a way that it interprets a 'd' as degrees if preceded by a
+value without a period and if any value following it is terminated with an 'm'.
+In other cases 'days' are assumed. Here are some examples::
 
     >>> from pyrap.quanta import quantity
     >>> print quantity('today')
-    50611.2108 d 
+    50611.2108 d
     >>> print quantity('5jul1998')
     50999 unit=d
     print quantity('5jul1998/12:')
@@ -53,7 +72,7 @@ Note that the standard unit for degrees is 'deg', and for days 'd'. Formatting i
     30.2005556 deg
     >>> print quantity('2:2:10')
     30.5416667 deg
-    >>> print quantity('23h3m2.2s')  
+    >>> print quantity('23h3m2.2s')
     345.759167 deg
 
 Python :mod:`datetime` to quantity::
@@ -74,17 +93,17 @@ API
    A Factory function to create a :class:`pyrap.quanta.Quantity` instance.
    This can be from a scalar or vector and a unit.
 
-   :param args: 
+   :param args:
    	  * A string will be parsed into a :class:`pyrap.quanta.Quantity`
 	  * A `dict` with the keys `value` and `unit`
 	  * two arguments representing `value` and `unit`
-	  
+
     Examples::
-      
+
       q1 = quantity(1.0, "km/s")
       q2 = quantity("1km/s")
       q3 = quantity([1.0,2.0], "km/s")
-	  
+
 
 .. class:: Quantity
 
@@ -126,11 +145,11 @@ API
     .. method:: get_unit()
 
         Retrieve the unit
-	
+
 	:rtype: string
 
     .. method:: conforms(other)
-        
+
 	Check if another :class:`pyrap.quanta.Quantity` conforms to self.
 
         :param other: an :class:`pyrap.quanta.Quantity` object to compare to
@@ -152,21 +171,21 @@ API
     .. method:: to_dict()
 
         Return self as a python :class:`dict` with `value` and `unit` keys.
-	
+
 	:rtype: :class:`dict`
 
     .. method:: to_time()
 
         Convert to a time Quantity (e.g. hour angle).
 	This will only work if it conforms to time
-	
+
 	:rtype: :class:`pyrap.quanta.Quantity`
 
     .. method:: to_unix_time()
 
         Convert to a unix time value (in seconds).
 	This can be used to create python :class:`datetime.datetime` objects
-	
+
 	:rtype: float
 
 On top of the listed method, it also supports all mathematical operators and
@@ -180,7 +199,7 @@ functions like:
 
 Examples::
 
-    >>> q = quantity("1km/s")	
+    >>> q = quantity("1km/s")
     >>> print q*2
     2.0 km/s
     >>> print 2*q
@@ -188,6 +207,6 @@ Examples::
     >>> q /= 2
     >>> print q
     0.5 km/s
-    >>> q2 = quantity("0rad") 
+    >>> q2 = quantity("0rad")
     >>> print dq.cos(q)
     1.0
