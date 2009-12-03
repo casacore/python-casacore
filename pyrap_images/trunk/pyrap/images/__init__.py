@@ -31,7 +31,7 @@ A `casacore image <../../casacore/doc/html/group__Images__module.html>`_
 represents an astronomical image of arbitrary dimensionality.
 Several image formats are recognized:
 
-`casacore <../../casacore/doc/html/classcasa_1_1PagedImage.html>`_
+`casacore paged image <../../casacore/doc/html/classcasa_1_1PagedImage.html>`_
   is the native casacore image format stored in a casacore table.
 `HDF5 <http://www.hdfgroup.org/HDF5>`_
   is the HDF5 format often used in the earth science community.
