@@ -28,4 +28,5 @@ This is a python module to access the casacore c++ measures package
       zip_safe = 0,
       license = 'GPL',
       ext_modules =[ casaextension ],
+      install_requires = ['pyrap.quanta'],
       cmdclass={'build_ext': casacorebuild_ext, 'test': assay})
