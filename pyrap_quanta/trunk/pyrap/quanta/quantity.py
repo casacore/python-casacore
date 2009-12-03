@@ -11,13 +11,21 @@ def is_quantity(q):
 def new_get_value(quant, *args):
     val = QuantVec._get_value(quant, *args)
     if len(val) == 1:
-	return val[0]
+        return val[0]
     else:
-	return val
+        return val
 QuantVec.get_value = new_get_value
 
-def to_string(quant):
-    return "%s %s" % (str(quant.get_value()), quant.get_unit())
+def to_string(quant, fmt="%0.5f"):
+    val = quant.get_value()
+    if hasattr(val, "__len__"):
+        fmt  = "["+", ".join([fmt % i for i in val])+"] %s"
+        return fmt % quant.get_unit()
+    fmt += " %s"
+    return fmt % (val, quant.get_unit())
+
+QuantVec.to_string = to_string
+Quantity.to_string = to_string
 QuantVec.__str__ = to_string
 Quantity.__str__ = to_string
 QuantVec.__repr__ = to_string
@@ -27,7 +35,7 @@ def quantity(*args):
     """Create a quantity. This can be from a scalar or vector.
 
     Example::
-      
+
       q1 = quantity(1.0, "km/s")
       q2 = quantity("1km/s")
       q1 = quantity([1.0,2.0], "km/s")
@@ -51,4 +59,3 @@ def quantity(*args):
             return QuantVec(*args)
         else:
             return Quantity(*args)
-
