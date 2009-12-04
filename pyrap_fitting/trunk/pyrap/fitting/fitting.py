@@ -177,7 +177,8 @@ class fitserver(object):
             raise TypeError("No or illegal functional")
         if not self.set(n=kw["fnct"].npar(), fid=fid):
             raise ValueError("Illegal fit id")
-        kw["fnct"] = kw["fnct"].todict()
+        fnct = kw["fnct"]
+        kw["fnct"] = fnct.todict()
         self.reset(fid)
         x = self._as_array(kw["x"])
         if x.ndim > 1 and fnct.ndim() == x.ndim:
