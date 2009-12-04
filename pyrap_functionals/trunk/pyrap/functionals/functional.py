@@ -24,6 +24,7 @@ class functional(_functional):
             d['mode'] = mode
         _functional.__init__(self, d, self._dtype)
         if hasattr(params, "__len__"):
+            params = self._flatten(params)
             if len(params) == 0:
                 pass
             elif len(params) == self.npar():
@@ -33,6 +34,12 @@ class functional(_functional):
                                  "specified in functional")
     def __repr__(self):
         return str(self.todict())
+
+    def _flatten(self, x):
+        if (isinstance(x, numpy.ndarray) and x.ndim > 1
+            and x.ndim == self.ndim()):
+            return x.flatten()
+        return x
 
     def ndim(self):
         """Return the dimensionality of the functional
@@ -66,6 +73,7 @@ class functional(_functional):
 #        return self.set_parameter(i, v)
 
     def set_parameters(self, params):
+        params = self._flatten(params)
         if self._dtype == 0:
             return _functional._setparameters(self, params)
         else:
@@ -97,16 +105,17 @@ class functional(_functional):
             a(0.0)
 
         """
+        x = self._flatten(x)
         if self._dtype == 0:
-            return _functional._f(self, x)
+            return numpy.array(_functional._f(self, x))
         else:
-            return _functional._fc(self, x)
+            return numpy.array(_functional._fc(self, x))
 
     def __call__(self, x, derivatives=False):
         if derivatives:
-            return self.fdf(x)
+            return numpy.array(self.fdf(x))
         else:
-            return self.f(x)
+            return numpy.array(self.f(x))
 
     def fdf(self, x):
         """Calculate the value of the functional for the specified arguments,
@@ -123,6 +132,7 @@ class functional(_functional):
             a(0.0, derivative=True)
 
         """
+        x = self._flatten(x)
         n = 1
         if hasattr(x, "__len__"):
             n = len(x)
@@ -286,17 +296,17 @@ class compiled(functional):
         >>> import math
         >>> a = compiled('sin(pi(0.5) ) +pi');  # an example
         >>> print a(0)
-        [4.1415926535897931]
+        array([ 4.1415926535897931])
         >>> b = compiled('p*exp(-(x/p[2])^2)')
         >>> print b.get_parameters()
         [0.0, 0.0]
         >>> b.set_parameters([10, 1]) # change to height 10 and  halfwidth 1
         >>> print b([-1,-0.5,0,.5,1])
-        [3.6787944117144233,
+        array([ 3.6787944117144233,
          7.788007830714049,
          10.0,
          7.788007830714049,
-         3.6787944117144233]
+         3.6787944117144233])
         # the next one is sync(x), catering for x=0
         # using the fact that comparisons deliver values. Note
         # the extensive calculation to make sure no divison by 0

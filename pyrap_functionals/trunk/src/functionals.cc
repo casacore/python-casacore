@@ -31,6 +31,7 @@
 
 #include <pyrap/Converters/PycExcp.h>
 #include <pyrap/Converters/PycBasicData.h>
+#include <pyrap/Converters/PycArray.h>
 #include <pyrap/Converters/PycRecord.h>
 
 BOOST_PYTHON_MODULE(_functionals)

@@ -180,7 +180,11 @@ class fitserver(object):
         kw["fnct"] = kw["fnct"].todict()
         self.reset(fid)
         x = self._as_array(kw["x"])
+        if x.ndim > 1 and fnct.ndim() == x.ndim:
+            x = x.flatten()
         y = self._as_array(kw["y"])
+        if y.ndim > 1 and fnct.ndim() == y.ndim:
+            x = y.flatten()
         wt = self._as_array(kw["wt"])
         if sd is not None:
             sd = self._as_array(sd)
@@ -212,8 +216,30 @@ class fitserver(object):
     def functional(self, fnct, x, y, sd=None, wt=1.0, mxit=50, fid=0):
         self._fit(fitfunc="functional", fnct=fnct, x=x, y=y, sd=sd, wt=wt,
                   mxit=mxit, fid=fid)
+    nonlinear = functional
 
     def linear(self, fnct, x, y, sd=None, wt=1.0, fid=0):
+        """Makes a linear least squares solution for the points through the
+        ordinates at the x values, using the specified fnct. The x can be of
+        any dimension, depending on the number of arguments needed in the
+        functional evaluation. The values should be given in the order:
+        x0[1], x0[2], ..., x1[1], ..., xn[m] if there are n observations,
+        and m arguments. x should be a vector of m*n length; y (the
+        observations) a vector of length n.
+
+        :param fnct: the functional to fit
+        :param x: the abscissa values
+        :param x: the ordinate values
+        :param sd: standard deviation of equations (one or more values used
+                   cyclically)
+        :param wt: an optional alternate for `sd`
+        :param fid: the id of the sub-fitter (numerical)
+
+        Example::
+
+            #
+
+        """
         self._fit(fitfunc="linear", fnct=fnct, x=x, y=y, sd=sd, wt=wt, fid=fid)
 
     def _getval(self, valname, fid):
