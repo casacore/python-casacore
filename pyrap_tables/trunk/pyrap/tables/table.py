@@ -1295,7 +1295,7 @@ class table(Table):
         return table(t, _oper=3);
 
     def query (self, query='', name='', sortlist='', columns='',
-               style='Python'):
+               limit=0, offset=0, style='Python'):
         """Query the table and return the result as a reference table.
 
         This method queries the table. It forms a
@@ -1308,19 +1308,30 @@ class table(Table):
         Note that a reference table is handled as any table, thus can be
         queried again.
 
-        All arguments are optional strings, but at least one should be used.
+        All arguments are optional, but at least one of `query`, `name`,
+        `sortlist`, and `columns` should be used.
+        See the `TaQL note <../../casacore/doc/notes/199.html>`_ for the
+        detailed description of the the arguments representing the various
+        parts of a TaQL command.
 
         `query`
           The WHERE part of a TaQL command.
         `name`
           The name of the reference table if it is to be made persistent.
         `sortlist`
-          The ORDEREDBY part of a TaQL command. It is a single string in which
+          The ORDERBY part of a TaQL command. It is a single string in which
           commas have to be used to separate sort keys.
         `columns`
           The columns to be selected (projection in data base terms). It is a
           single string in which commas have to be used to separate column 
           names. Apart from column names, expressions can be given as well.
+        `limit`
+          If > 0, maximum number of rows to be selected.
+        `offset`
+          If > 0, ignore the first N matches.
+        `style`
+          The TaQL syntax style to be used (defaults to Python).
+
         """
         if not query and not sortlist and not columns:
             raise ValueError('No selection done (arguments query, sortlist, and columns are empty)');
@@ -1331,12 +1342,17 @@ class table(Table):
         if query:
             command += ' where ' + query;
         if sortlist:
-               command += ' orderby ' + sortlist;
+            command += ' orderby ' + sortlist;
+        if limit > 0:
+            command += ' limit %d' % limit
+        if offset > 0:
+            command += ' offset %d' % offset
         if name:
             command += ' giving ' + name;
         return tablecommand(command, style, [self]);
 
-    def sort (self, sortlist, name='', style='Python'):
+    def sort (self, sortlist, name='',
+              limit=0, offset=0, style='Python'):
         """Sort the table and return the result as a reference table.
 
         This method sorts the table. It forms a
@@ -1350,14 +1366,25 @@ class table(Table):
         queried again.
 
         `sortlist`
-          The ORDEREDBY part of a TaQL command. It is a single string in which
+          The ORDERBY part of a TaQL command. It is a single string in which
           commas have to be used to separate sort keys. A sort key can be the
           name of a column, but it can be an expression as well.
         `name`
           The name of the reference table if it is to be made persistent.
+        `limit`
+          If > 0, maximum number of rows to be selected after the sort step.
+          It can, for instance, be used to select the N highest values.
+        `offset`
+          If > 0, ignore the first `offset` matches after the sort step.
+        `style`
+          The TaQL syntax style to be used (defaults to Python).
 
         """
         command = 'select from $1 orderby ' + sortlist;
+        if limit > 0:
+            command += ' limit %d' % limit
+        if offset > 0:
+            command += ' offset %d' % offset
         if name:
             command += ' giving ' + name;
         return tablecommand(command, style, [self]);
@@ -1382,6 +1409,8 @@ class table(Table):
           names. Apart from column names, expressions can be given as well.
         `name`
           The name of the reference table if it is to be made persistent.
+        `style`
+          The TaQL syntax style to be used (defaults to Python).
 
         """
         command = 'select ' + columns + ' from $1'
@@ -1399,6 +1428,11 @@ class table(Table):
 
           t = table('',{})
           t.calc ('(1 \in)cm')
+
+        `expr`
+          The CALC expression
+        `style`
+          The TaQL syntax style to be used (defaults to Python).
 
         """
         return tablecommand('calc from $1 calc ' + expr, style, [self]);
