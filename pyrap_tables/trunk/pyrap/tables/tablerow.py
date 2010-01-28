@@ -107,18 +107,18 @@ class _tablerow(TableRow):
         strow  = 0;
         endrow = nrows;
         if incr < 0:
-            strow  = nrows;
-            endrow = 0;
+            strow  = nrows-1;
+            endrow = -1;
         if key.start != None:
             strow = key.start;
             if strow < 0:
                 strow += nrows;
-            strow = min(max(strow,0), nrows);
+            strow = min(max(strow,0), nrows-1);
         if key.stop != None:
             endrow = key.stop;
             if endrow < 0:
                 endrow += nrows;
-            endrow = min(max(endrow,0), nrows);
+            endrow = min(max(endrow,-1), nrows);
         if incr > 0:
             nrow = int((endrow - strow + incr - 1) / incr);
         else:
