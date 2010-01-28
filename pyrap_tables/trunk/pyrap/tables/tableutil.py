@@ -684,7 +684,9 @@ def addImagingColumns(msname, ack=True):
         print 'Column IMAGING_WEIGHT not added; it already exists'
     else:
         # Add IMAGING_WEIGHT which is 1-dim and has type float.
-        shp = cdesc['shape']
+        shp = []
+        if cdesc.has_key('shape'):
+            shp = cdesc['shape']
         if len(shp) > 0:
             shp = [shp[0]]     # use nchan
         cd = makearrcoldesc ('IMAGING_WEIGHT', 0, ndim=1, shape=shp, valuetype='float')
