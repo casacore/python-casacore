@@ -9,6 +9,10 @@ import string
 import optparse
 import subprocess
 
+print """The 'current' release is broken until the next full release of pyrap.
+Please use batchbuild-trunk.py (to use trunk) for now"""
+sys.exit(1)
+
 def darwin_sdk(archlist=None):
     if not archlist:
         archlist = 'i386'
