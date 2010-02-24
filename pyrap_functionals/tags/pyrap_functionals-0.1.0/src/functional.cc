@@ -38,7 +38,7 @@ namespace casa { namespace pyrap {
   {
     class_<FunctionalProxy> ("_functional")
     .def ( init< const Record&, int>())
-      .def ("names", &FunctionalProxy::names)
+      //      .def ("names", &FunctionalProxy::names)
       .def ("f", &FunctionalProxy::f)
       .def ("fdf", &FunctionalProxy::fdf)
       .def ("add", &FunctionalProxy::add)
