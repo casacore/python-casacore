@@ -635,7 +635,7 @@ def tablesummary(tablename):
 def addImagingColumns(msname, ack=True):
     """ Add the columns to an MS needed for the casa imager.
 
-    It adds the columns MODEL_WEIGHT, CORRECTED_WEIGHT, and IMAGING_WEIGHT.
+    It adds the columns MODEL_DATA, CORRECTED_DATA, and IMAGING_WEIGHT.
     It also sets the CHANNEL_SELECTION keyword needed for the older casa imagers.
 
     It fails if one of the columns already exists.
@@ -684,12 +684,16 @@ def addImagingColumns(msname, ack=True):
         print 'Column IMAGING_WEIGHT not added; it already exists'
     else:
         # Add IMAGING_WEIGHT which is 1-dim and has type float.
+        # It needs a shape, otherwise the CASA imager complains.
         shp = []
         if cdesc.has_key('shape'):
             shp = cdesc['shape']
         if len(shp) > 0:
-            shp = [shp[0]]     # use nchan
-        cd = makearrcoldesc ('IMAGING_WEIGHT', 0, ndim=1, shape=shp, valuetype='float')
+            shp = [shp[0]]                        # use nchan from shape
+        else:
+            shp = [t.getcell('DATA',0).shape[0]]  # use nchan from actual data
+        cd = makearrcoldesc ('IMAGING_WEIGHT', 0, ndim=1, shape=shp,
+                             valuetype='float')
         dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE':[32,128]}}
         dminfo['NAME'] = 'imagingweight'
         t.addcols (maketabdesc(cd), dminfo)
