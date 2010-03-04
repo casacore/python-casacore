@@ -202,6 +202,8 @@ def run_python(pkg, args):
         os.environ["MACOSX_DEPLOYMENT_TARGET"] = vers
         os.environ["CFLAGS"] = sdk
         os.environ["LDSHARED"] = 'g++ -g -bundle -undefined dynamic_lookup'
+        if args.enable_rpath:
+            os.environ["LDSHARED"] += ' -Wl,-rpath,%s/lib' %  args.prefix
 
     try:
         # don't build extension if the package doesn't have extensions
@@ -259,6 +261,9 @@ def run_scons(target, args):
         command += " --hdf5-root=%s" %  args.hdf5
     if args.hdf5lib:
         command += " --hdf5-lib=%s" %  args.hdf5lib
+    if args.enable_rpath:
+        command += " --enable-rpath"
+
     if sys.platform == "darwin":
         if args.universal:
             command += " --universal=%s" %  args.universal

@@ -33,6 +33,9 @@ if lenv.get("enable_static"):
     lenv.Install(libdir, slib)
 
 if not lenv.get("disable_shared"):
+    if lenv.get("enable_rpath") and lenv["PLATFORM"] == "darwin":
+        name = os.path.join(libdir, '$TARGET.file')
+        lenv.PrependUnique(SHLINKFLAGS=["-Wl,-install_name,%s" % name])
     dlib =  lenv.SharedLibrary(target = lib, source = [cpps])
     lenv.Alias(target, dlib)
     lenv.Install(libdir, dlib)

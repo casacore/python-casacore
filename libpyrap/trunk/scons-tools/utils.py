@@ -218,9 +218,11 @@ def generate(env):
         for opt in options:
             env.CLOptions.add_comp_option(*opt)
 
-        env.CLOptions.add_option("--build-type", dest="build_type", default="opt",
-                          action="store", type="string",
-                          help="Build optimized 'opt' (default) or debug 'dbg'")
+
+        env.CLOptions.add_option("--build-type", dest="build_type", 
+                                 default="opt", action="store", type="string",
+                                 help="Build optimized 'opt' (default) or "
+                                      "debug 'dbg'")
         env.CLOptions.add_option("--enable-static", dest="enable_static",
                                  action="store_true", default=False,
                                  help="Enable building static library")
@@ -234,6 +236,12 @@ def generate(env):
                                  default=get_numpy_incdir(),
                                  action="store", type="string",
                                  help="The directory of the numpy header files")
+        env.CLOptions.add_option("--enable-rpath", dest="enable_rpath",
+                                 action="store_true", default=False,
+                                 help="OS X only. If an external library wants "
+                                      "to set rpath to libpyrap.dylib "
+                                      "-install_name needs to be set to an "
+                                      "absolute path.")
 
         env.CLOptions.add_pkg_option("hdf5")
         env.CLOptions.add_pkg_option("dl")
@@ -250,10 +258,13 @@ def generate(env):
                   help="The installation prefix (default: %s)" % defdir)
         env.CLOptions.add_option("--"+LIBDIR, dest=LIBDIR,
                                  type="string", default=None, 
-                                 help="The installation lib directory (default: %s/%s)" % (defdir, ARCHLIBDIR))
+                                 help="The installation lib directory "
+                                      "(default: %s/%s)" % (defdir, 
+                                                            ARCHLIBDIR))
         env.CLOptions.add_option("--"+INCLUDEDIR, dest=INCLUDEDIR,
                                  type="string", default=None, 
-                                 help="The installation include directory (default: %s/include)" % defdir)
+                                 help="The installation include directory "
+                                      "(default: %s/include)" % defdir)
 
         env.CLOptions.update()
     AddOptions()
