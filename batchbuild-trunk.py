@@ -51,6 +51,10 @@ parser.add_option('--casacore-root', dest='casacore',
                   type="string",
                   help="Root directory of casacore (default is /usr/local)")
 
+parser.add_option('--enable-rpath', dest='enable_rpath',
+                  default=False, action='store_true',
+                  help="Enable using rpath for linking python modules against libpyrap")
+
 parser.add_option('--enable-hdf5', dest='enable_hdf5',
                   default=False, action='store_true',
                   help="Enable the optional hdf5 support")
@@ -185,6 +189,8 @@ def run_python(pkg, args):
         buildargs += " --lapack=%s" %  args.lapack
     if args.prefix:
         buildargs += " --pyrap=%s" %  args.prefix
+        if args.enable_rpath:
+            buildargs += " --rpath=%s/lib" %  args.prefix
     if args.pyprefix:
         if not os.path.exists(args.pyprefix):
             os.makedirs(args.pyprefix)
