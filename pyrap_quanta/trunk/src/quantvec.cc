@@ -47,23 +47,13 @@ namespace casa {
   typedef Quantum<Vector<Double> > QProxy;
   typedef Vector<Double> VD;
 
-  /*
-  QProxy qpfromString(const String& str) {
-    QuantumHolder qh;
-    String err;
-    if ( !qh.fromString(err, str) ) {
-      throw(AipsError(err));
-    }
-    return qh.asQuantumVectorDouble();
-  }
-  */
-
+    /*
   String qpprintQuantum(const QProxy& q) {
     ostringstream oss;
     q.print(oss);
     return String(oss);
   }
-
+    */
   // these functions take Unit as argument, enable outside access through
   // strings
   QProxy qpgetWithUnit(const QProxy& q, const String& u)  {
@@ -102,13 +92,39 @@ namespace casa {
     if (q.check(UnitVal::TIME)) {
       return q;
     } else {
-      QuantumHolder qh(q);
-      Quantity q0 = MVTime(qh.asQuantity()).get();
-      QuantumHolder qh2(q0);
-      return qh2.asQuantumVectorDouble();
+      VD values = q.getValue();
+      Unit u = q.getUnit();
+      Unit outu;
+      VD outvals(values.nelements());
+      for (uInt i=0; i < values.nelements(); ++i) {
+	Quantity q0 = MVTime(Quantity(values[i], u)).get();
+	outu = q0.getUnit();
+	cout << q0 << endl;
+	outvals[i] = q0.getValue();
+      }
+      return QProxy(outvals, outu);
+    }
+  }
+
+  QProxy qptoAngle(const QProxy& q) {
+    if (q.check(UnitVal::ANGLE)) {
+      return q;
+    } else {
+      VD values = q.getValue();
+      Unit u = q.getUnit();
+      Unit outu;
+      VD outvals(values.nelements());
+      for (uInt i=0; i < values.nelements(); ++i) {
+	Quantity q0 = MVAngle(Quantity(values[i], u)).get();
+	outu = q0.getUnit();
+	cout << q0 << endl;
+	outvals[i] = q0.getValue();
+      }
+      return QProxy(outvals, outu);
     }
     
   }
+
 
     QProxy norm(const QProxy& self, Double a) {
       VD val = self.get().getValue();
@@ -118,6 +134,59 @@ namespace casa {
       }
       return QProxy(outval, "deg");
     }
+
+  String printTime(const QProxy& q, const String& fmt) {
+    ostringstream oss;
+    VD val = q.get().getValue();
+    size_t n = val.nelements();
+    Unit u = q.get().getUnit(); 
+    oss << "[";
+    for (size_t i=0; i < n; ++i) {
+      MVTime mvt(Quantity(val[i], u));
+      if (fmt =="") {
+	oss << mvt.string();
+      } else {
+	oss <<  mvt.string(MVTime::giveMe(fmt));
+      }
+      if ( i < n-1 ) {
+	oss << ", ";
+      }
+    }
+    oss << "]";
+    return String(oss);
+  }
+  
+  String printAngle(const QProxy& q, const String& fmt) {
+    ostringstream oss;
+    VD val = q.get().getValue();
+    size_t n = val.nelements();
+    Unit u = q.get().getUnit(); 
+    oss << "[";
+    for (size_t i=0; i < n; ++i) {
+      MVAngle mva(Quantity(val[i], u));
+      if (fmt =="") {
+	oss << mva.string();
+      } else {
+	oss <<  mva.string(MVAngle::giveMe(fmt));
+      }
+      if ( i < n-1 ) {
+	oss << ", ";
+      }
+    }
+    oss << "]";
+    return String(oss);
+  }
+  
+  String qpprintQuantum(const QProxy& q,  const String& fmt) {
+    if (q.get().getFullUnit() == Unit("s")) {
+      return printTime(q, fmt);
+      } else if  (q.get().getFullUnit() == Unit("rad")) {
+      return printAngle(q, fmt);      
+    }
+    ostringstream oss;
+    q.print(oss);
+    return String(oss);
+  }
 
 }}
 
@@ -129,7 +198,8 @@ namespace casa { namespace pyrap {
       .def (init< >())
       .def (init< const QProxy& > ())
       .def (init< const VD&, const String& >())
-      //      .def ("__str__", &printQuantum)
+      .def ("__repr__", &qpprintQuantum, (boost::python::arg("self"),
+					boost::python::arg("fmt")=""))
       .def ("_get_value", (const VD& ( QProxy::* )( ) const)(&QProxy::getValue),
 	    return_value_policy < copy_const_reference> ()
 	    )
@@ -147,7 +217,10 @@ namespace casa { namespace pyrap {
       .def ("conforms", &qpconforms)
       .def ("norm", &norm, (boost::python::arg("self"), boost::python::arg("a")=-0.5))
       .def ("totime", &qptoTime)
-      .def ("to_dict", &qptoRecord)
+      .def ("to_time", &qptoTime)
+      .def ("toangle", &qptoAngle)
+      .def ("to_angle", &qptoAngle)
+       .def ("to_dict", &qptoRecord)
       .def (-self)
       .def (self - self)
       .def (self -= self)
@@ -191,9 +264,8 @@ namespace casa { namespace pyrap {
       .def (self >= self)
       .def (self >= VD())
       .def (VD() >= self)
-      
+      .def ("formatted", &qpprintQuantum)
       ;
-    //def ("from_string", &qpfromString);
     def ("from_dict_v", &qpfromRecord);
       
   }

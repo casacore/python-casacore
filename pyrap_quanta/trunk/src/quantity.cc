@@ -53,8 +53,30 @@ namespace casa {
     }
     return qh.asQuantity();
   }
-  
-  String printQuantum(const Quantity& q) {
+   
+
+  String printTime(const Quantity& q, const String& fmt) {
+    MVTime mvt(q);
+    if (fmt == "") {
+      return mvt.string();
+    }
+    return mvt.string(MVTime::giveMe(fmt));
+  }
+
+  String printAngle(const Quantity& q, const String& fmt) {
+    MVAngle mva(q);
+    if (fmt ==  "") {
+      return mva.string();
+    }
+    return mva.string(MVAngle::giveMe(fmt));
+  }
+
+  String printQuantum(const Quantity& q,  const String& fmt) {
+    if (q.get().getFullUnit() == Unit("s")) {
+      return printTime(q, fmt);
+    } else if  (q.get().getFullUnit() == Unit("rad")) {
+      return printAngle(q, fmt);      
+    }
     ostringstream oss;
     q.print(oss);
     return String(oss);
@@ -102,7 +124,16 @@ namespace casa {
       return q0;
     }    
   }
-  
+
+  Quantity toAngle(const Quantity& q) {
+    if (q.check(UnitVal::ANGLE)) {
+      return q;
+    } else {
+      Quantity q0 = MVAngle(q).get();
+      return q0;
+    }    
+  }
+    
     Double toUnixTime(const Quantity& q) {
       // MJD = JD - 2400000.5
       // unix = (JD - 2440587.5) * 86400.0
@@ -124,7 +155,8 @@ namespace casa { namespace pyrap {
       .def (init< >())
       .def (init< const Quantity& > ())
       .def (init< Double, const String& >())
-      //      .def ("__str__", &printQuantum)
+      .def ("__repr__", &printQuantum, (boost::python::arg("self"),
+					boost::python::arg("fmt")=""))
       .def ("get_value", (const Double& ( Quantity::* )( ) const)(&Quantity::getValue),
 	    return_value_policy < copy_const_reference> ()
 	    )
@@ -141,6 +173,8 @@ namespace casa { namespace pyrap {
       .def ("conforms", &conforms)
       .def ("totime", &toTime)
       .def ("to_time", &toTime)
+      .def ("toangle", &toAngle)
+      .def ("to_angle", &toAngle)
       .def ("to_unix_time", &toUnixTime)
       .def ("to_dict", &toRecord)
       .def ("norm", &norm,  (boost::python::arg("self"), boost::python::arg("a")=-0.5))
@@ -186,6 +220,7 @@ namespace casa { namespace pyrap {
       .def (self >= self)
       .def (self >= Double())
       .def (Double() >= self)     
+      .def ("formatted", &printQuantum)
       ;
     def ("from_string", &fromString);
     def ("from_dict", &fromRecord);

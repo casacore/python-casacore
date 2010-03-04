@@ -81,6 +81,24 @@ Python :mod:`datetime` to quantity::
     >>> utcnow = datetime.datetime.utcnow()
     >>> q = quantity(utcnow.isoformat())
 
+The (string) output of quantities can be controlled in different ways:
+
+Standard output:
+
+    >>> q = quantity('23h3m2.2s')
+    >>> print q
+    345.75917 deg
+
+Angel/time quantity formatting:
+
+    >>> print q.formatted("ANGLE")
+    +345.45.33
+
+Precision formatting:
+
+    >>> print q.to_string("%0.2f")
+    345.76 deg
+
 API
 ===
 
@@ -174,6 +192,13 @@ API
 
 	:rtype: :class:`dict`
 
+    .. method:: to_angle()
+
+        Convert to an angle Quantity.
+	This will only work if it conforms to angle
+
+	:rtype: :class:`pyrap.quanta.Quantity`
+
     .. method:: to_time()
 
         Convert to a time Quantity (e.g. hour angle).
@@ -187,6 +212,21 @@ API
 	This can be used to create python :class:`datetime.datetime` objects
 
 	:rtype: float
+
+    .. method:: to_string(fmt="%0.5f")
+       
+       Return a string with the Quantity values' precision formatted with `fmt`.
+
+       :param fmt: the printf type formatting string.
+       :rtype: string
+
+    .. method:: formatted(fmt)
+
+       Return a formatted string representation of the Quantity.
+       
+       :param fmt: the format code for angle or time formatting as per
+       	      	   `casacore angle format <../../casacore/doc/html/classcasa_1_1MVAngle.html#ef9ddd9c3fe111aef61b066b2745ced4>`_ and `casacore time format <../../casacore/doc/html/classcasa_1_1MVTime.html#906c0740cdae7a50ef933d6c3e2ac5ab>`_
+       :rtype: string
 
 On top of the listed method, it also supports all mathematical operators and
 functions like:
