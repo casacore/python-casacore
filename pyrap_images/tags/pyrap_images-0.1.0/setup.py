@@ -20,7 +20,7 @@ from setuptools import Command
 
 
 setup(name = PKGNAME,
-      version = 'trunk',
+      version = '0.1.0',
       description = 'Python bindings to casacore Images',
       author = 'Malte Marquarding',
       author_email = 'Malte.Marquarding@csiro.au',

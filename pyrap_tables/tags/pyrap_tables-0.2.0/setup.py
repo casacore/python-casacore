@@ -14,7 +14,7 @@ casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME),
 			libraries= casalibs)
 
 setup(name = PKGNAME,
-      version = 'trunk',
+      version = '0.2.0',
       description = 'Python bindings to casacore Tables',
       author = 'Ger van Diepen',
       author_email = 'diepen@astron.nl',
