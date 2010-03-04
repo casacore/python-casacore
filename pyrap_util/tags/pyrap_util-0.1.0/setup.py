@@ -6,7 +6,7 @@ from setupext import assay
 PKGNAME = "pyrap.util"
 
 setup(name = PKGNAME,
-      version = 'trunk',
+      version = '0.1.0',
       description = 'Utilities for the pyrap module',
       author = 'Malte Marquarding',
       author_email = 'Malte.Marquarding@csiro.au',
