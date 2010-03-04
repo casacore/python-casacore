@@ -443,10 +443,6 @@ class fitserver(object):
 
         :param fid: the id of the sub-fitter (numerical)
 
-
-        Example::
-
-
         """
         c = self._getval("constr", fid)
         if n < 0 or n > self.deficiency(fid):
