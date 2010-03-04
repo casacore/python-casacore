@@ -1,0 +1,2 @@
+include README.txt *.py
+recursive-include src *.cc *.h
