@@ -9,10 +9,6 @@ import string
 import optparse
 import subprocess
 
-print """The 'current' release is broken until the next full release of pyrap.
-Please use batchbuild-trunk.py (to use trunk) for now"""
-sys.exit(1)
-
 def darwin_sdk(archlist=None):
     if not archlist:
         archlist = 'i386'
@@ -54,6 +50,10 @@ parser.add_option('--casacore-root', dest='casacore',
                   default=None,
                   type="string",
                   help="Root directory of casacore (default is /usr/local)")
+
+parser.add_option('--enable-rpath', dest='enable_rpath',
+                  default=False, action='store_true',
+                  help="Enable using rpath for linking python modules against libpyrap")
 
 parser.add_option('--enable-hdf5', dest='enable_hdf5',
                   default=False, action='store_true',
@@ -117,8 +117,6 @@ parser.add_option('--numpy-incdir', dest='numpyincdir',
                   type="string",
                   help="Location of numpy include directory (default is to autodetect)")
 
-RELEASE = 'current'
-
 # parse command line options
 (opts, args) = parser.parse_args()
 
@@ -131,7 +129,7 @@ deps = { 'pyrap_util' : None,
          'pyrap_images': ['pyrap_util']
          }
 
-def get_libs(pkg, version='trunk'):
+def get_libs(pkg, version='current'):
     validver = ['current', 'trunk']
     if pkg not in deps.keys():
 	return
@@ -152,7 +150,7 @@ def get_libs(pkg, version='trunk'):
 
 def run_python(pkg, args):
     cwd = os.getcwd()
-    os.chdir(os.path.join(pkg, RELEASE))
+    os.chdir(os.path.join(pkg, "current"))
     print "** Entering", os.path.abspath(os.curdir)
     if args.clean:
         print "** EXECUTING: Cleaning python build"
@@ -191,6 +189,8 @@ def run_python(pkg, args):
         buildargs += " --lapack=%s" %  args.lapack
     if args.prefix:
         buildargs += " --pyrap=%s" %  args.prefix
+        if args.enable_rpath:
+            buildargs += " --rpath=%s/lib" %  args.prefix
     if args.pyprefix:
         if not os.path.exists(args.pyprefix):
             os.makedirs(args.pyprefix)
@@ -202,6 +202,8 @@ def run_python(pkg, args):
         os.environ["MACOSX_DEPLOYMENT_TARGET"] = vers
         os.environ["CFLAGS"] = sdk
         os.environ["LDSHARED"] = 'g++ -g -bundle -undefined dynamic_lookup'
+        if args.enable_rpath:
+            os.environ["LDSHARED"] += ' -Wl,-rpath,%s/lib' %  args.prefix
 
     try:
         # don't build extension if the package doesn't have extensions
@@ -234,7 +236,7 @@ def run_python(pkg, args):
 
 def run_scons(target, args):
     cwd = os.getcwd()
-    os.chdir(os.path.join(target, RELEASE))
+    os.chdir(os.path.join(target, "current"))
     print "** Entering", os.path.abspath(os.curdir)
     if os.path.exists("options.cfg"):
         os.remove("options.cfg")
