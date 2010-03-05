@@ -87,14 +87,23 @@ parser.add_option('--f2c', dest='f2c',
                   default=None,
                   type="string",
                   help="Root directory of Fortran to c library (default is /usr)")
+parser.add_option('--blas-lib', dest='blaslib',
+                  default=None,
+                  type="string",
+                  help="The name(s) of the blas libraries")
+parser.add_option('--blas-root', dest='blas',
+                  default=None,
+                  type="string",
+                  help="Root directory of the blas libraries")
+
 parser.add_option('--lapack-lib', dest='lapacklib',
                   default=None,
                   type="string",
-                  help="The name(s) of the lapack/blas libraries")
+                  help="The name(s) of the lapack libraries")
 parser.add_option('--lapack-root', dest='lapack',
                   default=None,
                   type="string",
-                  help="Root directory of the lapack/blas libraries")
+                  help="Root directory of the lapack libraries")
 
 parser.add_option('--prefix', dest='prefix',
                   default=None,
@@ -183,6 +192,10 @@ def run_python(pkg, args):
         buildargs += " --f2clib=%s" %  args.f2clib
     if args.f2c:
         buildargs += " --f2c=%s" %  args.f2c
+    if args.blaslib:
+        buildargs += " --blaslib=%s" % args.blaslib
+    if args.blas:
+        buildargs += " --blas=%s" %  args.blas
     if args.lapacklib:
         buildargs += " --lapacklib=%s" % args.lapacklib
     if args.lapack:

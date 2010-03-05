@@ -29,6 +29,8 @@ class casacorebuild_ext(build_ext.build_ext):
 	     ('cfitsiolib=', None, 'Name of the cfitsio library'),
 	     ('wcs=', None, 'Prefix for wcslib installation location'),
 	     ('wcslib=', None, 'Name of the wcs library'),
+	     ('blas=', None, 'Prefix for blas installation location'),
+	     ('blaslib=', None, 'Name of the blas library'),
 	     ('lapack=', None, 'Prefix for lapack installation location'),
 	     ('lapacklib=', None, 'Name of the lapack library'),
 	     ]
@@ -55,8 +57,10 @@ class casacorebuild_ext(build_ext.build_ext):
         self.cfitsiolib = 'cfitsio'
 	self.wcs = '/usr/local'
 	self.wcslib = 'wcs'
+        self.blas = '/usr'
+        self.blaslib = 'blas'
         self.lapack = '/usr'
-        self.lapacklib = 'lapack,blas'
+        self.lapacklib = 'lapack'
 	    
     def finalize_options(self):
         """
@@ -72,6 +76,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	cfitsiolibdir = os.path.join(self.cfitsio, ARCHLIBDIR)
 	wcslibdir = os.path.join(self.wcs, ARCHLIBDIR)
 	lapacklibdir = os.path.join(self.lapack, ARCHLIBDIR)
+	blaslibdir = os.path.join(self.blas, ARCHLIBDIR)
         hdf5libdir = os.path.join(self.hdf5, ARCHLIBDIR)
         
 	ccincdir = os.path.join(self.casacore, 'include', 'casacore')
@@ -98,6 +103,8 @@ class casacorebuild_ext(build_ext.build_ext):
 	    self.library_dirs += [cfitsiolibdir]
 	if wcslibdir not in self.library_dirs:
 	    self.library_dirs += [wcslibdir]
+	if blaslibdir not in self.library_dirs:
+	    self.library_dirs += [blaslibdir]
 	if lapacklibdir not in self.library_dirs:
 	    self.library_dirs += [lapacklibdir]
 
@@ -115,6 +122,7 @@ class casacorebuild_ext(build_ext.build_ext):
 	self.libraries += [self.boostlib]
 	self.libraries += [self.wcslib]
 	self.libraries += [self.cfitsiolib]
+	self.libraries += self.blaslib.split(",")
 	self.libraries += self.lapacklib.split(",")
 	self.libraries += [self.f2clib]
 
