@@ -844,6 +844,15 @@ class table(Table):
         rows (default all), and row stride (default 1).
 
         """
+#        try:     # trial code to read using a vector of rownrs
+#            nr = len(startrow)
+#            if nrow < 0:
+#                nrow = nr
+#            if nrow == 0:
+#                return numpy.array()
+#            for inx in range(nrow):
+#                i = inx*
+#        except:
         return self._getcol (columnname, startrow, nrow, rowincr)
 
     def getvarcol (self, columnname, startrow=0, nrow=-1, rowincr=1):
@@ -946,7 +955,7 @@ class table(Table):
         self._putcolslice (columnname, value, blc, trc, inc,
                            startrow, nrow, rowincr);
 
-    def addcols (self, desc, dminfo={}):
+    def addcols (self, desc, dminfo={}, addtoparent=True):
         """Add one or more columns.
 
         Columns can be added to a normal table, but NOT to a reference table.
@@ -960,6 +969,10 @@ class table(Table):
           can be used to provide detailed data manager info to tell how the
           column(s) have to be stored. The dminfo of an existing column can be
           obtained using method :func:`getdminfo`.
+        `addtoparent`
+          defines if the column should also be added to the parent table in
+          case the current table is a reference table (result of selection).
+          If True, it will be added to the parent if it does not exists yet.
 
         For example, add a column using the same data manager type as another
         column::
@@ -971,6 +984,7 @@ class table(Table):
 
         """
         self._addcols (desc, dminfo)
+#        self._addcols (desc, dminfo, addtoparent)
         self._makerow()
 
     def renamecol (self, oldname, newname):
@@ -1333,8 +1347,8 @@ class table(Table):
           The TaQL syntax style to be used (defaults to Python).
 
         """
-        if not query and not sortlist and not columns:
-            raise ValueError('No selection done (arguments query, sortlist, and columns are empty)');
+        if not query and not sortlist and not columns and limit<=0 and offset<=0:
+            raise ValueError('No selection done (arguments query, sortlist, columns, limit, and offset are empty)');
         command = 'select ';
         if columns:
             command += columns;
