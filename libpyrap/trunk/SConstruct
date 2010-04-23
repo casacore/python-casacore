@@ -27,8 +27,9 @@ if not env.GetOption('clean') and not env.GetOption('help'):
             env.Exit(1)
 
     conf.env.AppendUnique(CPPPATH=[env["numpy_incdir"]])
-    # numpy1.0 uses config.h; numpy 1.1 uses numpyconfig.h
-    if conf.CheckHeader("numpy/config.h") or conf.CheckHeader("numpy/numpyconfig.h"):
+    # numpy 1.0 uses config.h; numpy >= 1.1 uses numpyconfig.h
+    if conf.CheckHeader("numpy/config.h") or \
+            conf.CheckHeader("numpy/numpyconfig.h"):
         conf.env.Append(CPPDEFINES=["-DAIPS_USENUMPY"])
         hasnums = True
     else:
@@ -39,11 +40,15 @@ if not env.GetOption('clean') and not env.GetOption('help'):
     pylib = 'python'+distutils.sysconfig.get_python_version()
     if env['PLATFORM'] == "darwin":
         print "Platform darwin - using python framework"
+        fwpth = env.get("framework_path")
+        if fwpth:
+            conf.env.AppendUnique(FRAMEWORKPATH=[fwpth])            
         conf.env.Append(FRAMEWORKS=["Python"])
     else:
         # just in case libpython is in some non-default location 
-        conf.env.PrependUnique(LIBPATH=[os.path.join(distutils.sysconfig.PREFIX,
-                                               'lib')])
+        conf.env.PrependUnique(LIBPATH=\
+                                   [os.path.join(distutils.sysconfig.PREFIX,
+                                                 'lib')])
 	if not conf.CheckLib(library=pylib, language='c', autoadd=0): Exit(1)
         conf.env.PrependUnique(LIBS=[pylib])
 
@@ -64,14 +69,16 @@ if not env.GetOption('clean') and not env.GetOption('help'):
             env.Exit(1)
 
     conf.env.AddCustomPackage('casacore', incdirext='casacore')
-    if not conf.CheckLibWithHeader(conf.env["casacore_lib"], 'casa/aips.h', language='c++'):
+    if not conf.CheckLibWithHeader(conf.env["casacore_lib"], 
+                                   'casa/aips.h', language='c++'):
 	Exit(1)	
 
     env = conf.Finish()
 
 # to find package based includes
 env.PrependUnique(CPPPATH='#')
-env["BUILDDIR"] = Dir("#/build_%s/%s" % (env.PlatformIdent(), env['build_type']))
+env["BUILDDIR"] = Dir("#/build_%s/%s" % (env.PlatformIdent(), 
+                                         env['build_type']))
 env.SConscript(["pyrap/SConscript"], 
 		   build_dir= env["BUILDDIR"],
 		   duplicate=0, exports=["env"]) 
