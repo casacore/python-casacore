@@ -33,6 +33,9 @@ class casacorebuild_ext(build_ext.build_ext):
 	     ('wcslib=', None, 'Name of the wcs library'),
 	     ('lapack=', None, 'Prefix for lapack installation location'),
 	     ('lapacklib=', None, 'Name of the lapack library'),
+             ('extra-root=', None, 
+              'Extra root directory where muiltple packages could be found,'
+              ' e.g. $HOME, to add $HOME/lib etc to the build.'),
 	     ]
 
     def initialize_options(self):
@@ -44,6 +47,7 @@ class casacorebuild_ext(build_ext.build_ext):
         # command line option
 	self.libraries = ['pyrap', 'casa_casa']
 	self.boostlib = 'boost_python'
+        self.extra_root = None
 	self.pyrap = '/usr/local'
 	self.casacore = '/usr/local'
 	self.boost = '/usr'
@@ -66,6 +70,14 @@ class casacorebuild_ext(build_ext.build_ext):
         include file and library linking options
 	"""
         build_ext.build_ext.finalize_options(self)
+
+        if self.extra_root:
+            ldir = os.path.join(self.extra_root, ARCHLIBDIR)
+            if ldir not in self.library_dirs:
+                self.library_dirs += [ldir]
+            idir = os.path.join(self.extra_root, 'include')
+            if idir not in self.include_dirs:
+                self.include_dirs += [idir]
 
 	cclibdir = os.path.join(self.casacore, ARCHLIBDIR)
 	prlibdir = os.path.join(self.pyrap, ARCHLIBDIR)

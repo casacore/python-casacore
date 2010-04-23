@@ -36,6 +36,11 @@ parser.add_option('--test', dest='test',
                   default=False, action='store_true',
                   help="Run assay tests")
 
+parser.add_option('--extra-root', dest='extra',
+                  default="",
+                  type="string",
+                  help="Root directory for multiple packages")
+
 parser.add_option('--boost-root', dest='boost',
                   default="",
                   type="string",
@@ -172,6 +177,8 @@ def run_python(pkg, args):
     setupscript = "setup.py"
     buildargs = ""
     installdir = ""
+    if args.extra:
+        buildargs += " --extra-root=%s" %  args.extra
     if args.casacore:
         buildargs += " --casacore=%s" %  args.casacore
     if args.enable_hdf5:
@@ -258,6 +265,8 @@ def run_scons(target, args):
     # copy the command line args into the new command
     pfx = None
     tests = False
+    if args.extra:
+        command += " --extra-root=%s" %  args.extra
     if args.casacore:
         command += " --casacore-root=%s" %  args.casacore
     if args.numpyincdir:

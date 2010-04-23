@@ -33,6 +33,9 @@ class casacorebuild_ext(build_ext.build_ext):
 	     ('wcslib=', None, 'Name of the wcs library'),
 	     ('lapack=', None, 'Prefix for lapack installation location'),
 	     ('lapacklib=', None, 'Name of the lapack library'),
+             ('extra-root=', None, 
+              'Extra root directory where muiltple packages could be found,'
+              ' e.g. $HOME, to add $HOME/lib etc to the build.'),
 	     ]
 
     def initialize_options(self):
@@ -59,6 +62,7 @@ class casacorebuild_ext(build_ext.build_ext):
         self.cfitsiolib = None
         self.wcs = None
         self.wcslib = None
+        self.extra_root = None
 	    
     def finalize_options(self):
         """
