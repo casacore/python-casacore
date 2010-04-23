@@ -151,8 +151,11 @@ def generate(env):
         action = [env.Action(assayAux, auxString),
                   env.Action(assayAction, assayActionString)],
         suffix='.passed')
-    env["ASSAYCOM"] = os.path.join(env["casacore_root"], "bin",
-                                   "casacore_assay")
+    cr = env.get("casacore_root")
+    apth = ["casacore_assay"]
+    if cr:
+        apth = [cr, "bin"] + apth
+    env["ASSAYCOM"] = os.path.join(*apth)
     env.AddMethod(addAssayTest)
 
 def exists(env):

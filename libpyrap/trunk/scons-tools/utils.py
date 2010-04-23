@@ -128,6 +128,9 @@ def generate(env):
 	incd = None
 	libd = None
         if pkgroot == "/usr":
+            if incdirext is not None:
+                incd = os.path.join(pkgroot, "include", incdirext)
+                env.PrependUnique(CPPPATH = [incd])
             return
 	if pkgroot is not None:
 	    incd = os.path.join(pkgroot, "include")
@@ -160,6 +163,14 @@ def generate(env):
 	return p + "_" + platform.machine()
     env.PlatformIdent = PlatformIdent
 
+    def DefaultCasacoreRoot():
+        hier = env.get("extra_root", None)
+        if not env.get("casacore_root"):
+            if hier:
+                env["casacore_root"] = hier
+            else:
+                env["casacore_root"] = os.path.join("/usr", "local")
+                            
     def AddFlags():
         # add extra Hierachy
         hier = env.get("extra_root", None)
@@ -196,7 +207,6 @@ def generate(env):
         if xf:
             env.PrependENVPath("PATH", _to_list(xf))
     # set the extra flags where available
-    AddFlags()
 
     env.CLOptions = CLOptions(env)
 
@@ -209,7 +219,12 @@ def generate(env):
                    ("extra-ldlibrarypath", None, "Extra (DY)LD_LIBRARY_PATH"),
                    ("extra-libs", None, "Extra libraries for linker"),
                    ("extra-path", None, "Extra PATH (bin) to search"),
-                   ("extra-root", None, "Extra hierachy root to search")]
+                   ("extra-root", None, "Extra hierachy root to search"),
+                   ]
+        if env["PLATFORM"] == "darwin":
+            options.append(("framework-path", None, 
+                            "Alternate FRAMEWORKPATH"))
+
         for opt in options:
             env.CLOptions.add_str_option(*opt)
         options = [("CC", None, "The c compiler"),
@@ -268,6 +283,8 @@ def generate(env):
 
         env.CLOptions.update()
     AddOptions()
- 
+    AddFlags()
+    DefaultCasacoreRoot()
+
 def exists(env):
     return 1
