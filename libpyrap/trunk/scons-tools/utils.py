@@ -38,6 +38,7 @@ def _to_list(xf):
     return xf.split()
 
 
+
 class CLOptions(object):
     def __init__(self, env):
         self.opts = {}
@@ -87,6 +88,18 @@ class CLOptions(object):
 
 
 def generate(env):
+
+    def DarwinDevSdk():
+        import platform        
+        devpath = { "4" : "/Developer/SDKs/MacOSX10.4u.sdk",
+                    "5" : "/Developer/SDKs/MacOSX10.5.sdk",
+                    "6" : "/Developer/SDKs/MacOSX10.6.sdk" }
+        version = platform.mac_ver()[0].split(".")
+        if version[0] != '10' or int(version[1]) < 4:
+            print "Only Mac OS X >= 10.4 is supported"
+            env.Exit(1)
+        return devpath[version[1]]
+    env.DarwinDevSdk = DarwinDevSdk
 
     env["ARCHLIBDIR"] = ARCHLIBDIR
     def SGlob(pattern, excludedirs=[], recursive=False):
@@ -206,6 +219,19 @@ def generate(env):
         xf=env.get("extra_path", None)
         if xf:
             env.PrependENVPath("PATH", _to_list(xf))
+        if env["PLATFORM"] == 'darwin':
+            uniarch = env.get("universal", False)
+            flags = []
+            if uniarch:
+                for i in uniarch.split(','):            
+                    flags += ['-arch', i]
+                ppflags =  flags + ['-isysroot' , env.DarwinDevSdk() ]
+                linkflags = flags + ['-Wl,-syslibroot,%s'\
+                                         %  env.DarwinDevSdk()]
+                env.Append(CPPFLAGS=ppflags)
+                env.Append(SHLINKFLAGS=linkflags)
+                env.Append(LINKFLAGS=linkflags)
+
     # set the extra flags where available
 
     env.CLOptions = CLOptions(env)
@@ -224,6 +250,9 @@ def generate(env):
         if env["PLATFORM"] == "darwin":
             options.append(("framework-path", None, 
                             "Alternate FRAMEWORKPATH"))
+            options.append(("universal", None, 
+                            "Create universal build using any of: "
+                            "ppc,i386,ppc64,x86_64"))
 
         for opt in options:
             env.CLOptions.add_str_option(*opt)
@@ -253,8 +282,8 @@ def generate(env):
                                  help="The directory of the numpy header files")
         env.CLOptions.add_option("--enable-rpath", dest="enable_rpath",
                                  action="store_true", default=False,
-                                 help="OS X only. If an external library wants "
-                                      "to set rpath to libpyrap.dylib "
+                                 help="OS X only. If an external library wants"
+                                      " to set rpath to libpyrap.dylib "
                                       "-install_name needs to be set to an "
                                       "absolute path.")
 

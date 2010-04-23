@@ -126,23 +126,28 @@ def addAssayTest(env, target=None, source=None, *args, **kwargs):
         source = target
         target = None
     env.PrependUnique(CPPPATH=[os.path.split(source)[0]])
+    aliases = ['test', 'check']
+    mod = None
     if source.endswith(".py"):
         srcbase = source.replace(".py","")
         modelem = os.path.split(srcbase)
-        mod = env.LoadableModule(os.path.join(modelem[0], "_"+modelem[1]+".so"),
+        mod = env.LoadableModule(os.path.join(modelem[0], 
+                                              "_"+modelem[1]+".so"),
                                  srcbase+".cc")
+#        env.Alias(aliases, mod)
         env["ENV"]["PYTHONPATH"] = os.path.split(mod[0].abspath)[0]
         program = [env.File(srcbase+".py")]
         env.Depends(program, mod)
     else:
         program = env.Program(target, source, *args, **kwargs)
     utest = env.Assay(program)
-    # add alias to run all unit tests.
-    env.Alias(['test', 'check'], utest)
     # make an alias to run the test in isolation from the rest of the tests.
-    env.Alias(str(program[0]), utest)
-    # and now an alias just for the app name itself, path stripped
-    env.Alias(os.path.basename(os.path.normpath(str(program[0]))), utest)
+    aliases.append(str(program[0]))
+    # and now an alias just for the app name itself, path stripped    
+    aliases.append((os.path.basename(os.path.normpath(str(program[0])))))
+    if mod:
+        env.Alias(aliases, mod)
+    env.Alias(aliases, utest)    
     return utest
 
 
