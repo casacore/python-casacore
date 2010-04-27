@@ -27,12 +27,17 @@ class casacorebuild_ext(build_ext.build_ext):
 	     ('f2clib=', None, 'Name of the fortran to c library'),
 	     ('lapack=', None, 'Prefix for lapack installation location'),
 	     ('lapacklib=', None, 'Name of the lapack library'),
+	     ('blas=', None, 'Prefix for blas installation location'),
+	     ('blaslib=', None, 'Name of the blas library'),
 
              # catch the rest to suppress errors
 	     ('cfitsio=', None, 'Prefix for cfitsio installation location'),
 	     ('cfitsiolib=', None, 'Name of the cfitsio library'),
 	     ('wcs=', None, 'Prefix for wcslib installation location'),
 	     ('wcslib=', None, 'Name of the wcs library'),
+             ('extra-root=', None, 
+              'Extra root directory where muiltple packages could be found,'
+              ' e.g. $HOME, to add $HOME/lib etc to the build.'),
 	     ]
 
     def initialize_options(self):
@@ -44,6 +49,7 @@ class casacorebuild_ext(build_ext.build_ext):
         # command line option
 	self.libraries = ['pyrap', 'casa_casa']
 	self.boostlib = 'boost_python'
+        self.extra_root = None
 	self.pyrap = '/usr/local'
 	self.casacore = '/usr/local'
 	self.boost = '/usr'
@@ -53,7 +59,9 @@ class casacorebuild_ext(build_ext.build_ext):
         self.f2c = '/usr'
         self.f2clib ='gfortran'
         self.lapack = '/usr'
-        self.lapacklib = 'lapack,blas'
+        self.lapacklib = 'lapack'
+        self.blas = '/usr'
+        self.blaslib = 'blas'
         # not used here - disable
         self.cfitsio = None
         self.cfitsiolib = None
@@ -67,11 +75,20 @@ class casacorebuild_ext(build_ext.build_ext):
 	"""
         build_ext.build_ext.finalize_options(self)
 
+        if self.extra_root:
+            ldir = os.path.join(self.extra_root, ARCHLIBDIR)
+            if ldir not in self.library_dirs:
+                self.library_dirs += [ldir]
+            idir = os.path.join(self.extra_root, 'include')
+            if idir not in self.include_dirs:
+                self.include_dirs += [idir]
+
 	cclibdir = os.path.join(self.casacore, ARCHLIBDIR)
 	prlibdir = os.path.join(self.pyrap, ARCHLIBDIR)
 	boostlibdir = os.path.join(self.boost, ARCHLIBDIR)
         f2clibdir = os.path.join(self.f2c, ARCHLIBDIR)
-        lapacklibdir = os.path.join(self.lapack, ARCHLIBDIR)
+	lapacklibdir = os.path.join(self.lapack, ARCHLIBDIR)
+	blaslibdir = os.path.join(self.blas, ARCHLIBDIR)
         
 	ccincdir = os.path.join(self.casacore, 'include', 'casacore')
 	princdir = os.path.join(self.pyrap, 'include')
@@ -87,6 +104,8 @@ class casacorebuild_ext(build_ext.build_ext):
 	    self.library_dirs += [boostlibdir]
         if f2clibdir not in self.library_dirs:
 	    self.library_dirs += [f2clibdir]
+	if blaslibdir not in self.library_dirs:
+	    self.library_dirs += [blaslibdir]
 	if lapacklibdir not in self.library_dirs:
 	    self.library_dirs += [lapacklibdir]
 
@@ -98,11 +117,10 @@ class casacorebuild_ext(build_ext.build_ext):
 	    self.include_dirs += [boostincdir]
         if f2clibdir not in self.include_dirs:
 	    self.include_dirs += [f2clibdir]
-	if lapacklibdir not in self.include_dirs:
-	    self.include_dirs += [lapacklibdir]
 
 	self.libraries += [self.boostlib]
-        self.libraries += self.lapacklib.split(",")
+	self.libraries += self.blaslib.split(",")
+	self.libraries += self.lapacklib.split(",")
         self.libraries += [self.f2clib]
 
         if self.enable_hdf5:
