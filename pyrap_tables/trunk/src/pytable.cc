@@ -119,9 +119,8 @@ namespace casa { namespace pyrap {
       .def ("_nrows", &TableProxy::nrows)
       .def ("_addcols", &TableProxy::addColumns,
 	    (boost::python::arg("desc"),
-             boost::python::arg("dminfo")))
-             ///	     boost::python::arg("dminfo"),
-             ///             boost::python::arg("addtoparent")))
+             boost::python::arg("dminfo"),
+             boost::python::arg("addtoparent")))
       .def ("_renamecol", &TableProxy::renameColumn,
 	    (boost::python::arg("oldname"),
 	     boost::python::arg("newname")))

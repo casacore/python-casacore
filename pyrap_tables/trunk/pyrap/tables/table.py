@@ -983,8 +983,7 @@ class table(Table):
                      coldmi)
 
         """
-        self._addcols (desc, dminfo)
-#        self._addcols (desc, dminfo, addtoparent)
+        self._addcols (desc, dminfo, addtoparent)
         self._makerow()
 
     def renamecol (self, oldname, newname):
