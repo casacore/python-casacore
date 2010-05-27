@@ -9,6 +9,8 @@ import string
 import optparse
 import subprocess
 
+RELEASE = 'current'
+
 def darwin_sdk(archlist=None):
     if not archlist:
         archlist = 'i386'
@@ -35,6 +37,11 @@ parser.add_option('--clean', dest='clean',
 parser.add_option('--test', dest='test',
                   default=False, action='store_true',
                   help="Run assay tests")
+
+parser.add_option('--extra-root', dest='extra',
+                  default="",
+                  type="string",
+                  help="Root directory for multiple packages")
 
 parser.add_option('--boost-root', dest='boost',
                   default="",
@@ -113,7 +120,8 @@ parser.add_option('--prefix', dest='prefix',
 parser.add_option('--python-prefix', dest='pyprefix',
                   default=None,
                   type="string",
-                  help="Install location for python modules (default is the system python's site-packages)")
+                  help="Install location for python modules (default is the"
+                       " system python's site directory)")
 
 if  sys.platform == "darwin":
     parser.add_option('--universal', dest='universal',
@@ -138,7 +146,7 @@ deps = { 'pyrap_util' : None,
          'pyrap_images': ['pyrap_util']
          }
 
-def get_libs(pkg, version='current'):
+def get_libs(pkg, version=RELEASE):
     validver = ['current', 'trunk']
     if pkg not in deps.keys():
 	return
@@ -159,7 +167,7 @@ def get_libs(pkg, version='current'):
 
 def run_python(pkg, args):
     cwd = os.getcwd()
-    os.chdir(os.path.join(pkg, "current"))
+    os.chdir(os.path.join(pkg, RELEASE))
     print "** Entering", os.path.abspath(os.curdir)
     if args.clean:
         print "** EXECUTING: Cleaning python build"
@@ -172,6 +180,8 @@ def run_python(pkg, args):
     setupscript = "setup.py"
     buildargs = ""
     installdir = ""
+    if args.extra:
+        buildargs += " --extra-root=%s" %  args.extra
     if args.casacore:
         buildargs += " --casacore=%s" %  args.casacore
     if args.enable_hdf5:
@@ -249,7 +259,7 @@ def run_python(pkg, args):
 
 def run_scons(target, args):
     cwd = os.getcwd()
-    os.chdir(os.path.join(target, "current"))
+    os.chdir(os.path.join(target, RELEASE))
     print "** Entering", os.path.abspath(os.curdir)
     if os.path.exists("options.cfg"):
         os.remove("options.cfg")
@@ -258,6 +268,8 @@ def run_scons(target, args):
     # copy the command line args into the new command
     pfx = None
     tests = False
+    if args.extra:
+        command += " --extra-root=%s" %  args.extra
     if args.casacore:
         command += " --casacore-root=%s" %  args.casacore
     if args.numpyincdir:

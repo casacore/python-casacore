@@ -1,0 +1,55 @@
+import os
+
+Import('env')
+lenv =env.Clone()
+# to find package based includes
+lenv.PrependUnique(CPPPATH=['#'])
+lenv.AppendUnique(CPPFLAGS=["-W", "-Wall", "-Woverloaded-virtual"])
+buildtype = lenv.get('build_type')
+if buildtype == "dbg":
+    lenv.AppendUnique(CPPFLAGS=["-g"])
+elif buildtype == "opt":
+    lenv.AppendUnique(CPPFLAGS=["-O2"])
+
+cpps = lenv.Glob('*/*.cc')
+headers = lenv.Glob('*.h')+lenv.Glob('*/*.h')+lenv.Glob('*/*.tcc')
+
+target = 'pyrap'
+lib = os.path.join(str(lenv['BUILDDIR']), target)
+
+prefix = lenv.get('prefix')
+incdir =  lenv.get('incdir')
+libdir =  lenv.get('libdir')
+if not incdir:
+    incdir = os.path.join(prefix, 'include')
+if not libdir:
+    libdir = os.path.join(prefix, env["ARCHLIBDIR"])
+lenv.Alias('install', incdir)
+lenv.Alias('install', libdir)
+
+if lenv.get("enable_static"):
+    slib =  lenv.StaticLibrary(target = lib, source = [cpps])
+    lenv.Alias(target, slib)
+    lenv.Install(libdir, slib)
+
+if not lenv.get("disable_shared"):
+    if lenv.get("enable_rpath") and lenv["PLATFORM"] == "darwin":
+        name = os.path.join(libdir, '$TARGET.file')
+        lenv.PrependUnique(SHLINKFLAGS=["-Wl,-install_name,%s" % name])
+    dlib =  lenv.SharedLibrary(target = lib, source = [cpps])
+    lenv.Alias(target, dlib)
+    lenv.Install(libdir, dlib)
+
+for h in headers:
+    lenv.InstallAs(os.path.join(incdir, h.srcnode().path), h)
+
+lenv.Default(target)
+
+testenv = lenv.Clone()
+testenv.PrependUnique(LIBPATH=[lenv['BUILDDIR']])
+# gather test files
+tests = testenv.Glob("*/test/*.py", strings=True)
+# allow either linking against shared or static, static if both present
+testenv.PrependUnique(LIBS=[target])
+for t in tests:
+    testenv.addAssayTest(t, alias='test_'+target)

@@ -9,6 +9,8 @@ import string
 import optparse
 import subprocess
 
+RELEASE = 'trunk' 
+
 def darwin_sdk(archlist=None):
     if not archlist:
         archlist = 'i386'
@@ -144,7 +146,7 @@ deps = { 'pyrap_util' : None,
          'pyrap_images': ['pyrap_util']
          }
 
-def get_libs(pkg, version='trunk'):
+def get_libs(pkg, version=RELEASE):
     validver = ['current', 'trunk']
     if pkg not in deps.keys():
 	return
@@ -165,7 +167,7 @@ def get_libs(pkg, version='trunk'):
 
 def run_python(pkg, args):
     cwd = os.getcwd()
-    os.chdir(os.path.join(pkg, "trunk"))
+    os.chdir(os.path.join(pkg, RELEASE))
     print "** Entering", os.path.abspath(os.curdir)
     if args.clean:
         print "** EXECUTING: Cleaning python build"
@@ -257,7 +259,7 @@ def run_python(pkg, args):
 
 def run_scons(target, args):
     cwd = os.getcwd()
-    os.chdir(os.path.join(target, "trunk"))
+    os.chdir(os.path.join(target, RELEASE))
     print "** Entering", os.path.abspath(os.curdir)
     if os.path.exists("options.cfg"):
         os.remove("options.cfg")
