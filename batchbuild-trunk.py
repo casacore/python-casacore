@@ -118,7 +118,8 @@ parser.add_option('--prefix', dest='prefix',
 parser.add_option('--python-prefix', dest='pyprefix',
                   default=None,
                   type="string",
-                  help="Install location for python modules (default is the system python's site-packages)")
+                  help="Install location for python modules (default is the"
+                       " system python's site directory)")
 
 if  sys.platform == "darwin":
     parser.add_option('--universal', dest='universal',
