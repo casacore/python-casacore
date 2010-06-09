@@ -313,6 +313,8 @@
       return ValueHolder (ArrayCopy<Int>::toArray(shp, po->data, docopy));
     case NPY_UINT32:
       return ValueHolder (ArrayCopy<uInt>::toArray(shp, po->data, docopy));
+    case NPY_INT64:
+      return ValueHolder (ArrayCopy<Int64>::toArray(shp, po->data, docopy));
     case NPY_FLOAT32:
       return ValueHolder (ArrayCopy<Float>::toArray(shp, po->data, docopy));
     case NPY_FLOAT64:
@@ -329,14 +331,9 @@
       // This is true for BYTE and SBYTE which can equal to BOOL in numarray.
       // Similarly for STRING which exists for numpy and is set to
       // INT for numarray.
-      if (po->descr->type_num == NPY_INT64) {
-	Array<Int64> arr = ArrayCopy<Int64>::toArray(shp, po->data, False);
-	Array<Int> res(arr.shape());
-	convertArray (res, arr);
-	return ValueHolder(res);
-      } else if (po->descr->type_num == NPY_UINT64) {
+      if (po->descr->type_num == NPY_UINT64) {
 	Array<uInt64> arr = ArrayCopy<uInt64>::toArray(shp, po->data, False);
-	Array<uInt> res(arr.shape());
+	Array<Int64> res(arr.shape());
 	convertArray (res, arr);
 	return ValueHolder(res);
       } else if (po->descr->type_num == NPY_INT8) {
@@ -388,6 +385,8 @@
     (casa::Array<Int> const& arr);
   template boost::python::object makePyArrayObject
     (casa::Array<uInt> const& arr);
+  template boost::python::object makePyArrayObject
+    (casa::Array<Int64> const& arr);
   template boost::python::object makePyArrayObject
     (casa::Array<Float> const& arr);
   template boost::python::object makePyArrayObject

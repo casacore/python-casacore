@@ -152,9 +152,10 @@ namespace casa { namespace pyrap { namespace numpy {
     case NPY_UINT16:
     case NPY_INT32:
     case NPY_UINT32:
+      return TpInt;
     case NPY_INT64:
     case NPY_UINT64:
-      return TpInt;
+      return TpInt64;
     case NPY_FLOAT32:
     case NPY_FLOAT64:
       return TpDouble;
@@ -217,9 +218,9 @@ namespace casa { namespace pyrap { namespace numpy {
     case NPY_UINT32:
       return ValueHolder(uint(*(::npy_uint32*)buffer));
     case NPY_INT64:
-      return ValueHolder(int(*(::npy_int64*)buffer));
+      return ValueHolder(Int64(*(::npy_int64*)buffer));
     case NPY_UINT64:
-      return ValueHolder(uint(*(::npy_uint64*)buffer));
+      return ValueHolder(Int64(*(::npy_uint64*)buffer));
     case NPY_FLOAT32:
       return ValueHolder(float(*(::npy_float32*)buffer));
     case NPY_FLOAT64:

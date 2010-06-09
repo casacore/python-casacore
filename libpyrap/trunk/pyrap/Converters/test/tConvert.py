@@ -8,7 +8,9 @@ def dotest(t):
     print t.testbool (True);
     print t.testbool (False);
     print t.testint (-1);
-    print t.testint (10);
+    print t.testint (10L);
+    print t.testint64 (-123456789013L);
+    print t.testint64 (123456789014L);
     print t.testssize (-2);
     print t.testssize (11);
     print t.testfloat (3.14);
@@ -33,6 +35,7 @@ def dotest(t):
 
     print t.testvh (True);
     print t.testvh (2);
+    print t.testvh (1234567890123L);
     print t.testvh (1.3);
     print t.testvh (10-11j);
     print t.testvh ("str");
@@ -76,6 +79,8 @@ def dotest(t):
     res = t.testvh (NUM.array([[]]));
     print '<<<';
     print res.shape;
+
+    print t.testrecord({"int":1, "int64":123456789012L, "str":"bc"})
     print 'end dotest'
     print ''
 
@@ -94,6 +99,7 @@ def testarrb(arr):
 def testarri(arr):
     testarrvh(arr);
     print t.testint(arr[0]);
+    print t.testint64(arr[0]);
     print t.testssize(arr[0]);
     print t.testfloat(arr[0]);
     print t.testcomplex(arr[0]);

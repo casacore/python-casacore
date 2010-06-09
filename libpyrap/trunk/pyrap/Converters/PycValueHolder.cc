@@ -47,6 +47,8 @@ namespace casa { namespace pyrap {
     case TpShort:
     case TpInt:
       return boost::python::object(vh.asInt());
+    case TpInt64:
+      return boost::python::object(vh.asInt64());
     case TpFloat:
     case TpDouble:
       return boost::python::object(vh.asDouble());
@@ -65,6 +67,8 @@ namespace casa { namespace pyrap {
       return casa_array_to_python<Int>::makeobject (vh.asArrayInt());
     case TpArrayUInt:
       return casa_array_to_python<uInt>::makeobject (vh.asArrayuInt());
+    case TpArrayInt64:
+      return casa_array_to_python<Int64>::makeobject (vh.asArrayInt64());
     case TpArrayFloat:
       return casa_array_to_python<Float>::makeobject (vh.asArrayFloat());
     case TpArrayDouble:
@@ -87,6 +91,7 @@ namespace casa { namespace pyrap {
   {
     if (! (PyBool_Check(obj_ptr)
 	   || PyInt_Check(obj_ptr)
+	   || PyLong_Check(obj_ptr)
 	   || PyFloat_Check(obj_ptr)
 	   || PyComplex_Check(obj_ptr)
 	   || PyString_Check(obj_ptr)
@@ -132,6 +137,8 @@ namespace casa { namespace pyrap {
       return ValueHolder(extract<bool>(obj_ptr)());
     } else if (PyInt_Check(obj_ptr)) {
       return ValueHolder(extract<int>(obj_ptr)());
+    } else if (PyLong_Check(obj_ptr)) {
+      return ValueHolder(extract<Int64>(obj_ptr)());
     } else if (PyFloat_Check(obj_ptr)) {
       return ValueHolder(extract<double>(obj_ptr)());
     } else if (PyComplex_Check(obj_ptr)) {
@@ -163,6 +170,8 @@ namespace casa { namespace pyrap {
       return ValueHolder(from_python_sequence< Vector<Bool>, casa_variable_capacity_policy >::make_container (obj_ptr)); 
     case TpInt:
       return ValueHolder(from_python_sequence< Vector<Int>, casa_variable_capacity_policy >::make_container (obj_ptr)); 
+    case TpInt64:
+      return ValueHolder(from_python_sequence< Vector<Int64>, casa_variable_capacity_policy >::make_container (obj_ptr)); 
     case TpDouble:
       return ValueHolder(from_python_sequence< Vector<Double>, casa_variable_capacity_policy >::make_container (obj_ptr)); 
     case TpDComplex:
@@ -210,6 +219,8 @@ namespace casa { namespace pyrap {
 	dt = TpBool;
       } else if (PyInt_Check (py_elem_obj.ptr())) {
 	dt = TpInt;
+      } else if (PyLong_Check (py_elem_obj.ptr())) {
+	dt = TpInt64;
       } else if (PyFloat_Check (py_elem_obj.ptr())) {
 	dt = TpDouble;
       } else if (PyComplex_Check (py_elem_obj.ptr())) {
@@ -222,15 +233,21 @@ namespace casa { namespace pyrap {
       if (result == TpOther) {
 	result = dt;         // first time
       } else if (dt != result) {
+        // bool, string, and numeric cannot be mixed.
 	if (result == TpBool  ||  result == TpString
 	    || dt == TpBool  ||  dt == TpString) {
 	  throw AipsError ("PycValueHolder: incompatible types in sequence");
 	}
+        // Use the 'highest' type.
 	if (result != TpDComplex) {
 	  if (dt == TpDComplex) {
 	    result = dt;
 	  } else if (result != TpDouble) {
-	    result = dt;
+            if (dt == TpDouble) {
+              result = dt;
+            } else if (result != TpInt64) {
+              result = dt;
+            }
 	  }
 	}
       }

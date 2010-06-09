@@ -122,6 +122,8 @@ namespace casa { namespace pyrap {
   template boost::python::object makePyArrayObject
     (casa::Array<uInt> const& arr);
   template boost::python::object makePyArrayObject
+    (casa::Array<Int64> const& arr);
+  template boost::python::object makePyArrayObject
     (casa::Array<Float> const& arr);
   template boost::python::object makePyArrayObject
     (casa::Array<Double> const& arr);

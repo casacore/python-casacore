@@ -45,6 +45,8 @@ namespace casa { namespace pyrap {
       {cout << "bool " << in << endl; return in;}
     Int testint (Int in)
       {cout << "Int " << in << endl; return in;}
+    Int64 testint64 (Int64 in)
+      {cout << "Int64 " << in << endl; return in;}
     Int testssize (::ssize_t in)
       {cout << "ssize " << in << endl; return in;}
     Double testfloat (Double in)
@@ -54,7 +56,7 @@ namespace casa { namespace pyrap {
     String teststring (const String& in)
       {cout << "String " << in << endl; String out=in; return out;}
     Record testrecord (const Record& in)
-      {cout << "Record " << in.nfields() << endl; return in;}
+      {cout << "Record "; in.print(cout); cout << endl; return in;}
     ValueHolder testvh (const ValueHolder& in)
       {cout << "VH " << in.dataType() << endl; return in;}
     Vector<Int> testvecint (const Vector<int>& in)
@@ -77,6 +79,7 @@ namespace casa { namespace pyrap {
     class_<TConvert> ("tConvert", init<>())
       .def ("testbool",       &TConvert::testbool)
       .def ("testint",        &TConvert::testint)
+      .def ("testint64",      &TConvert::testint64)
       .def ("testssize",      &TConvert::testssize)
       .def ("testfloat",      &TConvert::testfloat)
       .def ("testcomplex",    &TConvert::testcomplex)
