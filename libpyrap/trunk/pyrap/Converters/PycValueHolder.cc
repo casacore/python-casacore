@@ -133,7 +133,12 @@ namespace casa { namespace pyrap {
     if (obj_ptr == Py_None) {
       return ValueHolder(0, True);
     }
-    if (PyBool_Check(obj_ptr)) {
+    // First do array scalar check, otherwise PyInt_Check or so might
+    // match depending on the machine type (32 or 64 bit).
+    // In such a case an np.int64 is treated as Int instead of Int64.
+    if (PycArrayScalarCheck(obj_ptr)) {
+      return casa_array_from_python::makeScalar (obj_ptr);
+    } else if (PyBool_Check(obj_ptr)) {
       return ValueHolder(extract<bool>(obj_ptr)());
     } else if (PyInt_Check(obj_ptr)) {
       return ValueHolder(extract<int>(obj_ptr)());
@@ -153,8 +158,6 @@ namespace casa { namespace pyrap {
       return ValueHolder(casa_record_from_python::makeRecord (obj_ptr));
     } else if (PycArrayCheck(obj_ptr)) {
       return casa_array_from_python::makeArray (obj_ptr);
-    } else if (PycArrayScalarCheck(obj_ptr)) {
-      return casa_array_from_python::makeScalar (obj_ptr);
     } else {
       return toVector (obj_ptr);
     }
@@ -215,7 +218,9 @@ namespace casa { namespace pyrap {
       if (!py_elem_hdl.get()) break;         // end of iteration
       object py_elem_obj(py_elem_hdl);
       DataType dt;
-      if (PyBool_Check (py_elem_obj.ptr())) {
+      if (PycArrayScalarCheck (py_elem_obj.ptr())) {
+        dt = PycArrayScalarType (py_elem_obj.ptr());
+      } else if (PyBool_Check (py_elem_obj.ptr())) {
 	dt = TpBool;
       } else if (PyInt_Check (py_elem_obj.ptr())) {
 	dt = TpInt;
@@ -228,7 +233,7 @@ namespace casa { namespace pyrap {
       } else if (PyString_Check (py_elem_obj.ptr())) {
 	dt = TpString;
       } else {
-	dt = PycArrayScalarType (py_elem_obj.ptr());
+        throw AipsError ("PycValueHolder: unknown data type");
       }
       if (result == TpOther) {
 	result = dt;         // first time

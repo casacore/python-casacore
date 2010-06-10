@@ -332,8 +332,12 @@ VH Array<double>
 Record int: Int 1
 int64: Int64 123456789012
 str: String "bc"
+vecint: Int array with shape [3]
+  [1, 2, 3]
 
-{'int': 1, 'int64': 123456789012L, 'str': 'bc'}
+>>>
+{'int': 1, 'int64': 123456789012L, 'str': 'bc', 'vecint': array([1, 2, 3], dtype=int32)}
+<<<
 end dotest
 
 
@@ -671,7 +675,11 @@ VH Array<double>
 Record int: Int 1
 int64: Int64 123456789012
 str: String "bc"
+vecint: Int array with shape [3]
+  [1, 2, 3]
 
-{'int': 1, 'int64': 123456789012L, 'str': 'bc'}
+>>>
+{'int': 1, 'int64': 123456789012L, 'str': 'bc', 'vecint': array([1, 2, 3], dtype=int32)}
+<<<
 end dotest
 

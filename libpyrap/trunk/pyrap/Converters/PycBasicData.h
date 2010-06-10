@@ -383,6 +383,7 @@ namespace casa { namespace pyrap {
       // Accept single values.
       if (PyBool_Check(obj_ptr)
 	  || PyInt_Check(obj_ptr)
+	  || PyLong_Check(obj_ptr)
 	  || PyFloat_Check(obj_ptr)
 	  || PyComplex_Check(obj_ptr)
 	  || PyString_Check(obj_ptr)) {
@@ -428,6 +429,7 @@ namespace casa { namespace pyrap {
       ContainerType& result = *((ContainerType*)storage);
       if (PyBool_Check(obj_ptr)
 	  || PyInt_Check(obj_ptr)
+	  || PyLong_Check(obj_ptr)
 	  || PyFloat_Check(obj_ptr)
 	  || PyComplex_Check(obj_ptr)
 	  || PyString_Check(obj_ptr)

@@ -707,7 +707,7 @@ def addImagingColumns(msname, ack=True):
     tspw = table(t.getkeyword('SPECTRAL_WINDOW'), ack=False)
     nchans = tspw.getcol('NUM_CHAN')
     chans = [[0,nch] for nch in nchans]
-    t.putcolkeyword ('MODEL_DATA', 'CHANNEL_SELECTION', np.array(chans))
+    t.putcolkeyword ('MODEL_DATA', 'CHANNEL_SELECTION', np.int32(chans))
     if ack:
         print 'defined keyword CHANNEL_SELECTION in column MODEL_DATA'
     # Flush the table to make sure it is written.

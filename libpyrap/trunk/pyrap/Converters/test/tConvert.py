@@ -54,11 +54,11 @@ def dotest(t):
     print a.shape;
     print t.testvh (a);
 
-    b  =  NUM.array([[2,3],[4,5]]);
+    b  =  NUM.int32([[2,3],[4,5]]);
     print b;
     print t.testvh (b);
 
-    b  =  NUM.array([1,2,3,4,5,6,7,8,9,10]);
+    b  =  NUM.int32([1,2,3,4,5,6,7,8,9,10]);
     print b[2:9:2];
     print t.testvh (b[2:9:2]);
 
@@ -80,7 +80,12 @@ def dotest(t):
     print '<<<';
     print res.shape;
 
-    print t.testrecord({"int":1, "int64":123456789012L, "str":"bc"})
+    # On 64-bit machines the output also contains 'dtype=int32'
+    # So leave it out.
+    a = t.testrecord({"int":1, "int64":123456789012L, "str":"bc", 'vecint':[1,2,3]})
+    print '>>>'
+    print a
+    print '<<<'
     print 'end dotest'
     print ''
 
