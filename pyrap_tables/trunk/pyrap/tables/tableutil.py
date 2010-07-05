@@ -216,25 +216,25 @@ def tablefromascii (tablename, asciifile,
 
     """
     import os.path
-    filename = os.path.expandvars(asciifile);
-    filename = os.path.expanduser(filename);
+    filename = os.path.expandvars(asciifile)
+    filename = os.path.expanduser(filename)
     if not os.path.exists(filename):
         s = "File '%s' not found" % (filename)
         raise IOError(s)
     if headerfile != '':
-        filename = os.path.expandvars(headerfile);
-        filename = os.path.expanduser(filename);
+        filename = os.path.expandvars(headerfile)
+        filename = os.path.expanduser(filename)
         if not os.path.exists(filename):
             s = "File '%s' not found" % (filename)
             raise IOError(s)
     tab = table(asciifile, headerfile, tablename, autoheader, autoshape,
                 sep, commentmarker, firstline, lastline,
-                _columnnames=columnnames, _datatypes=datatypes, _oper=1);
-    print 'Input format: [' + tab._getasciiformat() +']';
+                _columnnames=columnnames, _datatypes=datatypes, _oper=1)
+    print 'Input format: [' + tab._getasciiformat() +']'
     # Close table and reopen it in correct way.
-    tab = 0;
+    tab = 0
     return table(tablename, readonly=readonly, lockoptions=lockoptions,
-                 ack=ack);
+                 ack=ack)
 
 
 
@@ -262,7 +262,7 @@ def makescacoldesc (columnname, value,
                     datamanagertype='', 
                     datamanagergroup='',
                     options=0, maxlen=0, comment='',
-                    valuetype=''):
+                    valuetype='', keywords={}):
     """Create description of a scalar column.
 
     A description for a scalar column can be created from a name for
@@ -302,12 +302,14 @@ def makescacoldesc (columnname, value,
       A string giving the column's data type. Possible data types are
       bool (or boolean), uchar (or byte), short, int (or integer), uint,
       float, double, complex, dcomplex, and string.
+    'keywords'
+      A dict defining initial keywords for the column.
 
     For example::
 
-      scd1 = makescacoldesc("col2", ""));
-      scd2 = makescacoldesc("col1", 1, "IncrementalStMan");
-      td = maketabdesc(scd1, scd2);
+      scd1 = makescacoldesc("col2", ""))
+      scd2 = makescacoldesc("col1", 1, "IncrementalStMan")
+      td = maketabdesc([scd1, scd2])
 
     This creates a table description consisting of an integer column `col1`,
     and a string column `col2`. `col1` uses the IncrementalStMan storage manager,
@@ -322,7 +324,8 @@ def makescacoldesc (columnname, value,
             'dataManagerGroup' : datamanagergroup,
             'option' : options,
             'maxlen' : maxlen,
-            'comment' : comment}
+            'comment' : comment,
+            'keywords' : keywords}
     return {'name' : columnname,
             'desc' : rec2}
 
@@ -331,7 +334,7 @@ def makearrcoldesc (columnname, value, ndim=0,
                     shape=[], datamanagertype='',
                     datamanagergroup='', 
                     options=0, maxlen=0, comment='',
-                    valuetype=''):
+                    valuetype='', keywords={}):
     """Create description of an array column.
 
     A description for a scalar column can be created from a name for
@@ -398,11 +401,13 @@ def makearrcoldesc (columnname, value, ndim=0,
       A string giving the column's data type. Possible data types are
       bool (or boolean), uchar (or byte), short, int (or integer), uint,
       float, double, complex, dcomplex, and string.
+    'keywords'
+      A dict defining initial keywords for the column.
 
     For example::
 
-      acd1= makescacoldesc("arr1", 1., 0, [2,3,4]);
-      td = maketabdesc(acd1);
+      acd1= makescacoldesc("arr1", 1., 0, [2,3,4])
+      td = maketabdesc(acd1)
 
     This creates a table description consisting of an array column `arr1`
     containing 3-dim arrays of doubles with shape [2,3,4].
@@ -413,7 +418,7 @@ def makearrcoldesc (columnname, value, ndim=0,
         vtype = value_type_name(value)
     if len(shape) > 0:
         if ndim <= 0:
-            ndim = len(shape);
+            ndim = len(shape)
     rec2 = {'valueType' : vtype,
             'dataManagerType' : datamanagertype,
             'dataManagerGroup' : datamanagergroup,
@@ -422,7 +427,8 @@ def makearrcoldesc (columnname, value, ndim=0,
             '_c_order' : True,
             'option' : options,
             'maxlen' : maxlen,
-            'comment' : comment}
+            'comment' : comment,
+            'keywords' : keywords}
     return {'name' : columnname,
             'desc' : rec2}
 
@@ -444,8 +450,8 @@ def makecoldesc (columnname, desc):
 
     For example::
 
-      cd1 = makecoldesc("col2", t.getcoldesc('othercol'));
-      td = maketabdesc(cd1);
+      cd1 = makecoldesc("col2", t.getcoldesc('othercol'))
+      td = maketabdesc(cd1)
 
     This creates a table description consisting of a column `col2` having
     the same description as column `othercol`.
@@ -488,7 +494,7 @@ def maketabdesc (descs=[]):
         if rec.has_key(colname):
             raise ValueError('Column name ' + colname + ' multiply used in table description')
         rec[colname] = desc['desc']
-    return rec;
+    return rec
 
 # Create the old glish names for them.
 tablecreatescalarcoldesc = makescacoldesc
@@ -638,7 +644,7 @@ def addImagingColumns(msname, ack=True):
     It adds the columns MODEL_DATA, CORRECTED_DATA, and IMAGING_WEIGHT.
     It also sets the CHANNEL_SELECTION keyword needed for the older casa imagers.
 
-    It fails if one of the columns already exists.
+    A column is not added if already existing.
 
     """
 
@@ -701,7 +707,7 @@ def addImagingColumns(msname, ack=True):
             print 'added column IMAGING_WEIGHT'
     # Add or overwrite keyword CHANNEL_SELECTION.
     if 'CHANNEL_SELECTION' in t.colkeywordnames('MODEL_DATA'):
-        t.removecolkeyword ('MODEL_DATA', 'CHANNEL_SELECTION');
+        t.removecolkeyword ('MODEL_DATA', 'CHANNEL_SELECTION')
     # Define the CHANNEL_SELECTION keyword containing the channels of
     # all spectral windows.
     tspw = table(t.getkeyword('SPECTRAL_WINDOW'), ack=False)
@@ -725,3 +731,69 @@ def removeImagingColumns (msname):
     if len(removeNames) > 0:
         t.removecols (removeNames)
         t.flush()
+
+def addDerivedMSCal(msname):
+    """ Add the derived columns like HA to an MS or CalTable
+
+    It adds the columns HA, HA1, HA2, PA1, PA2, LAST, LAST1, LAST2, AZEL1,
+    AZEL2, and UVW_J2000.
+    They are all bound to the DerivedMSCal virtual data manager.
+
+    It fails if one of the columns already exists.
+
+    """
+
+    # Open the MS
+    t = table (msname, readonly=False, ack=False)
+    colnames = t.colnames()
+    # Check that the columns needed by DerivedMSCal are present.
+    # Note that ANTENNA2 and FEED2 are not required.
+    for col in ["TIME", "ANTENNA1", "FIELD_ID", "FEED1"]:
+        if not col in colnames:
+            raise ValueError("Columns " + colnames +
+                             " should be present in table " + msname)
+    scols1 = ['HA', 'HA1', 'HA2', 'PA1', 'PA2']
+    scols2 = ['LAST', 'LAST1', 'LAST2']
+    acols1 = ['AZEL1', 'AZEL2']
+    acols2 = ['UVW_J2000']
+    descs = []
+    # Define the columns and their units.
+    for col in scols1:
+        descs.append (makescacoldesc(col, 0.,
+                                     keywords={"QuantumUnits": ["rad"]}))
+    for col in scols2:
+        descs.append (makescacoldesc(col, 0.,
+                                     keywords={"QuantumUnits": ["d"]}))
+    for col in acols1:
+        descs.append (makearrcoldesc(col, 0.,
+                                     keywords={"QuantumUnits": ["rad","rad"]}))
+    for col in acols2:
+        descs.append (makearrcoldesc(col, 0.,
+                                     keywords={"QuantumUnits": ["m","m","m"],
+                                               "MEASINFO": {"Ref": "J2000",
+                                                            "type": "uvw"}}))
+    # Add all columns using DerivedMSCal as data manager.
+    dminfo = {"TYPE": "DerivedMSCal", "NAME": "", "SPEC": {}}
+    t.addcols (maketabdesc(descs), dminfo)
+    # Flush the table to make sure it is written.
+    t.flush()
+
+def removeDerivedMSCal (msname):
+    """ Remove the derived columns like HA from an MS or CalTable
+
+    It removes the columns using the data manager DerivedMSCal.
+    Such columns are HA, HA1, HA2, PA1, PA2, LAST, LAST1, LAST2, AZEL1,
+    AZEL2, and UVW_J2000.
+
+    It fails if one of the columns already exists.
+
+    """
+
+    # Open the MS
+    t = table (msname, readonly=False, ack=False)
+    # Remove the columns stored as DerivedMSCal.
+    dmi = t.getdminfo()
+    for x in dmi.itervalues():
+        if x['TYPE'] == 'DerivedMSCal':
+            t.removecols (x['COLUMNS'])
+    t.flush()
