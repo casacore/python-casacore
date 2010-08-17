@@ -958,13 +958,21 @@ class table(Table):
     def addcols (self, desc, dminfo={}, addtoparent=True):
         """Add one or more columns.
 
-        Columns can be added to a normal table, but NOT to a reference table.
+        Columns can always be added to a normal table.
+        They can also be added to a reference table and optionally to its
+        parent table.
 
         `desc`
-          contains a description of the columns to be added.
-          It can be created with :func:`maketabdesc`.
-          A description can be obtained using method :func:`getdesc` or
-          :func:`getcoldesc`.
+          contains a description of the column(s) to be added. It can be given
+          in three ways:
+
+          - a dict created by :func:`maketabdesc`. In this way multiple
+            columns can be added.
+          - a dict created by :func:`makescacoldesc`, :func:`makearrcoldesc`,
+            or :func:`makecoldesc`. In this way a single column can be added.
+          - a dict created by :func:`getcoldesc`. The key 'name' containing
+            the column name has to be defined in such a dict.
+
         `dminfo`
           can be used to provide detailed data manager info to tell how the
           column(s) have to be stored. The dminfo of an existing column can be
@@ -972,7 +980,7 @@ class table(Table):
         `addtoparent`
           defines if the column should also be added to the parent table in
           case the current table is a reference table (result of selection).
-          If True, it will be added to the parent if it does not exists yet.
+          If True, it will be added to the parent if it does not exist yet.
 
         For example, add a column using the same data manager type as another
         column::
@@ -983,7 +991,18 @@ class table(Table):
                      coldmi)
 
         """
-        self._addcols (desc, dminfo, addtoparent)
+        tdesc = desc
+        # Create a tabdesc if only a coldesc is given.
+        if desc.has_key('name'):
+            import pyrap.tables.tableutil
+            if len(desc)==2 and desc.has_key('desc'):
+                # Given as output from makecoldesc
+                tdesc = pyrap.tables.tableutil.maketabdesc(desc);
+            elif desc.has_key('valueType'):
+            # Given as output of getcoldesc (with a name field added)
+                cd = pyrap.tables.tableutil.makecoldesc (desc['name'], desc)
+                tdesc = pyrap.tables.tableutil.maketabdesc(cd)
+        self._addcols (tdesc, dminfo, addtoparent)
         self._makerow()
 
     def renamecol (self, oldname, newname):

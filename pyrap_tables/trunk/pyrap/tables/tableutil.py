@@ -432,7 +432,7 @@ def makearrcoldesc (columnname, value, ndim=0,
     return {'name' : columnname,
             'desc' : rec2}
 
-# Create a description of a scalar column
+# Create a description of a column
 def makecoldesc (columnname, desc):
     """Create column description using the description of another column.
 

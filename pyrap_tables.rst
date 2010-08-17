@@ -38,6 +38,7 @@ Utility functions
 .. autofunction:: pyrap.tables.maketabdesc
 .. autofunction:: pyrap.tables.makescacoldesc
 .. autofunction:: pyrap.tables.makearrcoldesc
+.. autofunction:: pyrap.tables.makecoldesc
 .. autofunction:: pyrap.tables.tabledefinehypercolumn
 .. autofunction:: pyrap.tables.tableexists
 .. autofunction:: pyrap.tables.tableiswritable
