@@ -16,6 +16,8 @@ Utility functions
   Create description of column holding scalars
 :func:`makearrcoldesc` or `tablecreatearraycoldesc`
   Create description of column holding arrays
+:func:`makecoldesc`
+  Create description of any column
 :func:`tabledefinehypercolumn`
   Advanced definition of hypercolumn for tiled storage managers
 :func:`tableexists`
@@ -32,6 +34,14 @@ Utility functions
   Get the type info of a table
 :func:`tablesummary`
   Get a summary of the table
+:func:`addImagingColumns`
+  Add columns needed for the CASA imager
+:func:`removeImagingColumns`
+  Add columns CORRECTED_DATA, MODEL_DATA, and IMAGING_WEIGHT
+:func:`addDerivedMSCal`
+  Add the DerivedMSCal virtual columns like PA1, HA1 to a MeasurementSet
+:func:`removeDerivedMSCal`
+  Remove the DerivedMSCal virtual columns like PA1, HA1 from a MeasurementSet
 
 .. autofunction:: pyrap.tables.taql
 .. autofunction:: pyrap.tables.tablefromascii
@@ -47,6 +57,10 @@ Utility functions
 .. autofunction:: pyrap.tables.tablerename
 .. autofunction:: pyrap.tables.tableinfo
 .. autofunction:: pyrap.tables.tablesummary
+.. autofunction:: pyrap.tables.addImagingColumns
+.. autofunction:: pyrap.tables.removeImagingColumns
+.. autofunction:: pyrap.tables.addDerivedMSCal
+.. autofunction:: pyrap.tables.removeDerivedMSCal
 
 Class :class:`tables.table`
 ---------------------------

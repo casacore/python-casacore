@@ -365,6 +365,15 @@ class image(Image):
         """Get the :class:`coordinatesystem` of the image."""
         return coordinatesystem(self._coordinates())
 
+    def toworld(self, pixel):
+        """Convert pixel coordinates to world coordinates.
+
+        The coordinates must be given with the slowest varying axis first.
+        Thus normally like frequency,Dec,Ra.
+
+        """
+        return self._toworld (pixel, True);
+    
     def imageinfo (self):
         """Get the standard image info."""
         return self._imageinfo()
