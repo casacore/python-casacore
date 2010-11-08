@@ -83,6 +83,9 @@ namespace casa { namespace pyrap {
       .def ("_toworld", &ImageProxy::toWorld,
             (boost::python::arg("pixel"),
              boost::python::arg("reverseAxes")))
+      .def ("_topixel", &ImageProxy::toPixel,
+            (boost::python::arg("world"),
+             boost::python::arg("reverseAxes")))
       .def ("_imageinfo", &ImageProxy::imageInfo)
       .def ("_miscinfo", &ImageProxy::miscInfo)
       .def ("_unit", &ImageProxy::unit)
