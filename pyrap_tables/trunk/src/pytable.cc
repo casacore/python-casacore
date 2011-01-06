@@ -222,6 +222,13 @@ namespace casa { namespace pyrap {
 	     boost::python::arg("keyword"),
 	     boost::python::arg("keywordindex")))
       .def ("_getdminfo", &TableProxy::getDataManagerInfo)
+      .def ("_getdmprop", &TableProxy::getProperties,
+	    (boost::python::arg("name"),
+	     boost::python::arg("bycolumn")))
+      .def ("_setdmprop", &TableProxy::setProperties,
+	    (boost::python::arg("name"),
+             boost::python::arg("properties"),
+	     boost::python::arg("bycolumn")))
       .def ("_getdesc", &TableProxy::getTableDescription,
 	    (boost::python::arg("actual"),
 	     boost::python::arg("_cOrder")=true))
@@ -229,6 +236,11 @@ namespace casa { namespace pyrap {
 	    (boost::python::arg("columnname"),
  	     boost::python::arg("actual"),
 	     boost::python::arg("_cOrder")=true))
+      .def ("_showstructure", &TableProxy::showStructure,
+	    (boost::python::arg("dataman"),
+ 	     boost::python::arg("column"),
+ 	     boost::python::arg("subtable"),
+	     boost::python::arg("sort")))
       .def ("_getasciiformat", &TableProxy::getAsciiFormat)
       .def ("_getcalcresult", &TableProxy::getCalcResult)
       ;

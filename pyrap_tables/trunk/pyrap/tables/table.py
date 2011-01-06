@@ -1266,6 +1266,8 @@ class table(Table):
 
         - NAME telling the (unique) name of the data manager
         - TYPE telling the type of data manager (e.g. TiledShapeStMan)
+        - SEQNR telling the sequence number of the data manager
+          (is ''i'' in table.f<i> for storage managers)
         - SPEC is a dict holding the data manager specification
         - COLUMNS is a list giving the columns stored by this data manager
 
@@ -1287,6 +1289,66 @@ class table(Table):
                 del fldc['COLUMNS']     # remove COLUMNS field
                 return fldc
         raise KeyError("Column " + columnname + " does not exist")
+
+    def getdmprop (self, name, bycolumn=True):
+        """Get properties of a data manager.
+
+        Each column in a table is stored using a data manager. A storage manager
+        is a data manager storing the physically in a file. A virtual column
+        engine is a data manager that does not store data but calculates it on
+        the fly (e.g. scaling floats to short to reduce storage).
+
+        Some data managers have properties that can be changed on the fly
+        (e.g. cachesize for a tiled storage manager). The properties of
+        a given data manager are returned as a dict; function :func:`setdmprop`
+        can be used to change the properties. Note the properties are also part
+        of the data manager info returned by :func:`getdminfo`.
+
+        The data manager can be specified in two ways: by data manager name
+        or by the name of a column using the data manager. The argument
+        `bycolumn` defines which way is used (default is by column name).
+
+        """
+        return self._getdmprop (name, bycolumn)
+
+    def setdmprop (self, name, properties, bycolumn=True):
+        """Set properties of a data manager.
+
+        Properties (e.g. cachesize) of a data manager can be changed by
+        defining them appropriately in the properties argument (a dict).
+        Current values can be obtained using function :func:`getdmprop` which
+        also serves as a template. The dict can contain more fields; only
+        the fields with the names as returned by getdmprop are handled.
+
+        The data manager can be specified in two ways: by data manager name
+        or by the name of a column using the data manager. The argument
+        `bycolumn` defines which way is used (default is by column name).
+
+        """
+        return self._setdmprop (name, properties, bycolumn)
+
+    def showstructure (self, dataman=True, column=True, subtable=False,
+                       sort=False):
+        """Show table structure in a formatted string.
+
+        The structure of this table and optionally its subtables is shown.
+        It shows the data manager info and column descriptions.
+        Optionally the columns are sorted in alphabetical order.
+
+        `dataman`
+          Show data manager info? If False, only column info is shown.
+          If True, data manager info and columns per data manager are shown.
+        `column`
+          Show column description per data manager? Only takes effect if
+          dataman=True.
+        `subtable`
+          Show the structure of all subtables (recursively).
+          The names of subtables are always shown.
+        'sort'
+          Sort the columns in alphabetical order?
+
+        """
+        return self._showstructure (dataman, column, subtable, sort)
 
     def summary (self, recurse=False):
         """Print a summary of the table.
