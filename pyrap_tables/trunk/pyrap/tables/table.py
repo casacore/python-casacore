@@ -1135,6 +1135,17 @@ class table(Table):
         """
         return self._getkeywords (columnname);
 
+    def getsubtables (self):
+        """Get the names of all subtables."""
+
+        keyset = self.getkeywords()
+        names = []
+        for key in keyset:
+            value = keyset[key]
+            if isinstance(value, str)  and  value.find('Table: ') == 0:
+                names.append (_do_remove_prefix(value))
+        return names
+
     def putkeyword (self, keyword, value, makesubrecord=False):
         """Put the value of a table keyword.
 

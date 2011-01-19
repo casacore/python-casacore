@@ -4,8 +4,8 @@ Module :mod:`tables`
 
 .. automodule:: pyrap.tables
 
-Utility functions
------------------
+Table utility functions
+-----------------------
 :func:`taql` or `tablecommand()`
   Execute TaQL query command
 :func:`tablefromascii`
@@ -34,15 +34,23 @@ Utility functions
   Get the type info of a table
 :func:`tablesummary`
   Get a summary of the table
+
+MeasurementSet utility functions
+--------------------------------
 :func:`addImagingColumns`
-  Add columns needed for the CASA imager
+  Add MeasurementSet columns needed for the CASA imager
 :func:`removeImagingColumns`
-  Add columns CORRECTED_DATA, MODEL_DATA, and IMAGING_WEIGHT
+  Remove CASA imager columns CORRECTED_DATA, MODEL_DATA, and
+  IMAGING_WEIGHT
 :func:`addDerivedMSCal`
   Add the DerivedMSCal virtual columns like PA1, HA1 to a MeasurementSet
 :func:`removeDerivedMSCal`
   Remove the DerivedMSCal virtual columns like PA1, HA1 from a MeasurementSet
+:func:`concatBands`
+  Concatenate spectral windows in different MSs to a single MS (in a virtual way)
 
+Utility functions details
+-------------------------
 .. autofunction:: pyrap.tables.taql
 .. autofunction:: pyrap.tables.tablefromascii
 .. autofunction:: pyrap.tables.maketabdesc
@@ -61,6 +69,7 @@ Utility functions
 .. autofunction:: pyrap.tables.removeImagingColumns
 .. autofunction:: pyrap.tables.addDerivedMSCal
 .. autofunction:: pyrap.tables.removeDerivedMSCal
+.. autofunction:: pyrap.tables.concatBands
 
 Class :class:`tables.table`
 ---------------------------
@@ -98,3 +107,4 @@ Class :class:`tables.tableindex`
    :inherited-members:
 
 .. automodule:: pyrap.tables.tableutil
+.. automodule:: pyrap.tables.msutil

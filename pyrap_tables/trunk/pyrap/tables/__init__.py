@@ -50,8 +50,10 @@ The `tables` module consists of a few classes:
   iterate through a table based on the contents of one or more columns
 :class:`tableindex`
   build and use an index on one or more table columns
-submodule `tableutil <#utility-functions>`_
-  utility functions (e.g. to create a table description)
+submodule `tableutil <#table-utility-functions>`_
+  table utility functions (e.g. to create a table description)
+submodule `msutil <#measurementset-utility-functions>`_
+  MeasuementSet utility functions (e.g. to concat MSs)
 
 """
 
@@ -63,3 +65,4 @@ from tableindex import tableindex
 from tablecolumn import tablecolumn
 from tablerow import tablerow
 from tableutil import *
+from msutil import *
