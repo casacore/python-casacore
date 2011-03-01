@@ -217,7 +217,7 @@ def run_python(pkg, args):
     if args.pyprefix:
         if not os.path.exists(args.pyprefix):
             os.makedirs(args.pyprefix)
-        os.environ["PYTHONPATH"] = args.pyprefix
+        os.environ["PYTHONPATH"] = os.environ["PYTHONPATH"] + ':' + args.pyprefix
         installdir = " --install-lib=%s" % args.pyprefix
 
     if sys.platform == "darwin":
