@@ -278,6 +278,9 @@ class stokescoordinate(coordinate):
     def __init__(self, rec):
         coordinate.__init__(self, rec)
 
+    def get_stokes(self):
+        return self._coord["stokes"]
+
 class tabularcoordinate(coordinate):
     def __init__(self, rec):
         coordinate.__init__(self, rec)
