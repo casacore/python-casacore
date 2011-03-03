@@ -49,7 +49,7 @@ def addImagingColumns(msname, ack=True):
         cdesc = t.getcoldesc('DATA')
     except:
         raise ValueError('Column DATA does not exist')
-    # Determine of the DATA storage specification is tiled.
+    # Determine if the DATA storage specification is tiled.
     hasTiled = False
     try:
         dminfo = t.getdminfo("DATA")

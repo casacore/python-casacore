@@ -98,6 +98,8 @@ namespace casa { namespace pyrap {
       .def ("_ismultiused", &TableProxy::isMultiUsed,
  	    (boost::python::arg("checksubtables")))
       .def ("_name", &TableProxy::tableName)
+      .def ("_partnames", &TableProxy::getPartNames,
+ 	    (boost::python::arg("recursive")))
       .def ("_info", &TableProxy::tableInfo)
       .def ("_putinfo", &TableProxy::putTableInfo,
  	    (boost::python::arg("value")))

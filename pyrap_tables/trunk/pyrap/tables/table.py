@@ -644,8 +644,22 @@ class table(Table):
         return self._ismultiused(checksubtables)
 
     def name (self):
-        """Teturn the table name."""
+        """Return the table name."""
         return self._name()
+
+    def partnames (self, recursive=False):
+        """Return the names of the tables this table consists of.
+
+        A table can be a reference to another table (e.g. for a selection) or
+        a concatenation of other tables. This function returns the names of
+        such table parts.
+        For a plain table it simply returns the name of that table.
+
+        In its turn a table part can be a reference or concatenated table.
+        `recursive=True` means that it follows table parts until the end.
+
+        """
+        return self._partnames (recursive)
 
     def info (self):
         """Return the table info (table type, subtype, and readme lines)."""
