@@ -26,6 +26,7 @@
 # $Id$
 __all__ = ['getlocals', 'getvariable', 'substitute']
 
+import numpy as np
 
 def getlocals(back=2):
     """Get the local variables some levels back (-1 is top)."""
@@ -240,7 +241,7 @@ def substituteexpr(expr, globals={}, locals={}):
 # Substitute a value.
 def substitutevar(v):
     out=''
-    if isinstance (v, tuple) or isinstance (v, list):
+    if isinstance (v, tuple) or isinstance (v, list) or isinstance(v, np.ndarray):
         out = '['
         first = True
         for tmp in v:

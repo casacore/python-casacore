@@ -25,7 +25,7 @@
 #
 # $Id$
 
-from table import table
+from table import table,taql
 from tableutil import makescacoldesc,makearrcoldesc,makecoldesc,maketabdesc
 import numpy as np
 
@@ -322,3 +322,71 @@ def msconcat (names, newname, concatTime=False):
     #   concatenate it instead of making a copy (just like the main table).
     # Flush the table and subtables.
     tnew.flush(True)
+
+def msregularize (msname, newname):
+    """ Regularize an MS
+
+    The output MS will be such that it has the same number of baselines
+    for each time stamp. Where needed fully flagged rows are added.
+
+    Possibly missing rows are written into a separate MS <newname>-add.
+    It is concatenated with the original MS and sorted in order of TIME,
+    DATADESC_ID, ANTENNA1,ANTENNA2 to form a new regular MS. Note that
+    the new MS references the input MS (it does not copy the data).
+    It means that changes made in the new MS are also made in the input MS.
+
+    If no rows were missing, the new MS is still created referencing the
+    input MS.
+    """
+
+    # Find out all baselines.
+    t = table(msname)
+    t1 = t.sort('unique ANTENNA1,ANTENNA2')
+    nadded = 0
+    # Now iterate in time,band over the MS.
+    for tsub in t.iter(['TIME','DATA_DESC_ID']):
+        nmissing = t1.nrows() - tsub.nrows()
+        if nmissing < 0:
+            raise ValueError("A time/band chunk has too many rows")
+        if nmissing > 0:
+            # Rows needs to be added for the missing baselines.
+            ant1 = str(t1.getcol('ANTENNA1')).replace(' ', ',')
+            ant2 = str(t1.getcol('ANTENNA2')).replace(' ', ',')
+            ant1 = tsub.getcol('ANTENNA1')
+            ant2 = tsub.getcol('ANTENNA2')
+            t2 = taql('select from $t1 where !any(ANTENNA1 == $ant1 && ANTENNA2 == $ant2)')
+            print nmissing,t1.nrows(),tsub.nrows(),t2.nrows()
+            if t2.nrows() != nmissing:
+                raise ValueError("A time/band chunk behaves strangely")
+            # If nothing added yet, create a new table.
+            # (which has to be reopened for read/write).
+            # Otherwise append to that new table.
+            if nadded == 0:
+                tnew = t2.copy (newname+"_add", deep=True)
+                tnew = table(newname+"_add", readonly=False)
+            else:
+                t2.copyrows (tnew)
+            # Set the correct time and band in the new rows.
+            tnew.putcell ('TIME',
+                          range(nadded, nadded+nmissing),
+                          tsub.getcell('TIME',0))
+            tnew.putcell ('DATA_DESC_ID',
+                          range(nadded, nadded+nmissing),
+                          tsub.getcell('DATA_DESC_ID',0))
+            nadded += nmissing
+    # Combine the existing table and new table.
+    if nadded > 0:
+        # First initialize data and flags in the added rows.
+        taql ('update $tnew set DATA=0+0i')
+        taql ('update $tnew set FLAG=True')
+        tcomb = table([t,tnew])
+        tcomb.rename (newname+'_adds')
+        tcombs = tcomb.sort('TIME,DATA_DESC_ID,ANTENNA1,ANTENNA2')
+    else:
+        tcombs = t.query(offset=0)
+    tcombs.rename (newname)
+    print newname, 'has been created; it references the original MS'
+    if nadded > 0:
+        print '  and', newname+'_adds', 'containing', nadded, 'new rows'
+    else:
+        print '  no rows needed to be added'
