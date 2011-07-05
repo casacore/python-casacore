@@ -40,7 +40,9 @@ namespace casa { namespace pyrap {
   {
     // Note that all constructors must have a different number of arguments.
     class_<TableProxy> ("Table",
-            init<TableProxy>())
+            init<>())
+	    //  1 arg: copy constructor
+      .def (init<TableProxy>())
 	    //  2 arg: table query command
       .def (init<String, std::vector<TableProxy> >())
 	    //  3 arg: open single table
