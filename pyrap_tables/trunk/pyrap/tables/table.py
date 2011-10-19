@@ -1278,6 +1278,15 @@ class table(Table):
         """
         return self._getcoldesc (columnname, actual, True);
 
+    def coldesc (self, columnname, actual=True):
+        """Make the description of a column.
+
+        Make the description object of the given column like :func:`makecoldesc`
+        is doing with the description given by :func:`getcoldesc`.
+
+        """
+        return pt.makecoldesc (columnname, self.getcoldesc (columnname, actual))
+
     def getdminfo (self, columnname=None):
         """Get data manager info.
 
