@@ -128,6 +128,7 @@ def addAssayTest(env, target=None, source=None, *args, **kwargs):
     env.PrependUnique(CPPPATH=[os.path.split(source)[0]])
     aliases = ['test', 'check']
     mod = None
+    env["SHLIBPREFIX"] = ""
     if source.endswith(".py"):
         srcbase = source.replace(".py","")
         modelem = os.path.split(srcbase)
