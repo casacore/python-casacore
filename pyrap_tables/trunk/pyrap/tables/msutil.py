@@ -231,9 +231,16 @@ def msconcat (names, newname, concatTime=False):
 
     """
 
+    if len(names) == 0:
+        raise ValueError('No input MSs given')
     # Concatenation in time is straightforward.
     if concatTime:
-        tn = table(names, concatsubtables='SYSCAL')
+        t = table(names[0])
+        if 'SYSCAL' in t.fieldnames():
+            tn = table(names, concatsubtables='SYSCAL')
+        else:
+            tn = table(names)
+        t.close()
         tn.rename (newname)
         return
     # First concatenate the given tables as another table.
