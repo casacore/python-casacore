@@ -417,7 +417,7 @@ class table(Table):
 
           t = table('3c343.MS')
           tinx = t.index('ANTENNA1')
-          print tinx.rownrs(0)           # print rownrs containing ANTENNA1=0
+          print tinx.rownumbers(0)       # print rownrs containing ANTENNA1=0
 
         """
         from tableindex import tableindex;
