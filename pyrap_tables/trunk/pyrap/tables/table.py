@@ -172,7 +172,11 @@ class table(Table):
       (using tableutil.maketabdesc).
       If `memorytable=True`, the table is created in memory.
     `table('tablename', readonly=False)`
-      opens an existing table for read/write. Default is for readonly.
+      | opens an existing table for read/write. Default is for readonly.
+      | In general it is a bad idea to open a subtable using a path like
+        'my.ms/ANTENNA', because it will fail if 'my.ms' is a selection instead
+        of a plain table. Therefore a double colon can be used like
+        'my.ms::ANTENNA' making the table system handle it in a correct way.
     `table(['table1','table2',...])`
       opens a virtual table as the concatenation of the given tables.
       The tables have to have the same columns.

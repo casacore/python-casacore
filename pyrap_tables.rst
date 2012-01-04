@@ -46,7 +46,7 @@ MeasurementSet utility functions
   Add the DerivedMSCal virtual columns like PA1, HA1 to a MeasurementSet
 :func:`removeDerivedMSCal`
   Remove the DerivedMSCal virtual columns like PA1, HA1 from a MeasurementSet
-:func:`concatBands`
+:func:`msconcat`
   Concatenate spectral windows in different MSs to a single MS (in a virtual way)
 
 Utility functions details
@@ -69,7 +69,7 @@ Utility functions details
 .. autofunction:: pyrap.tables.removeImagingColumns
 .. autofunction:: pyrap.tables.addDerivedMSCal
 .. autofunction:: pyrap.tables.removeDerivedMSCal
-.. autofunction:: pyrap.tables.concatBands
+.. autofunction:: pyrap.tables.msconcat
 
 Class :class:`tables.table`
 ---------------------------
