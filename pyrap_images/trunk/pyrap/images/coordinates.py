@@ -30,11 +30,14 @@ import numpy
 
 class coordinatesystem(object):
     """
-    A thin wrapper for casacore coordinate systems. It disects the 
-    coordinatesystem record return from casacore images.
+    A thin wrapper for casacore coordinate systems. It dissects the 
+    coordinatesystem record returned from casacore images.
     This only handles one instance of each coordinate type.
+    The possible types are ''direction'', ''spectral'', ''stokes'',
+    ''linear'' and ''tabular''.
+
     It uses reference semantics for the individual coordinates,
-    e.g. following will work::
+    e.g. the following will work::
     
       cs = im.coordinates()
       cs["direction"].set_referencepixel([0.0,0.0])
@@ -155,7 +158,11 @@ class coordinate(object):
                                      + " " + str(self.get_unit()))
         return out
 
-    # ALL list/array values have to be reversed as the coordsys dict holds 
+    def dict(self):
+        """Get the coordinate info as a dict"""
+        return self._coord;
+
+     # ALL list/array values have to be reversed as the coordsys dict holds 
     # everything in fortran order.
 
     def get_referencepixel(self):
