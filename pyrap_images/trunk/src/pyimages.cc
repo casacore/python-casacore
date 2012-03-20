@@ -64,6 +64,7 @@ namespace casa { namespace pyrap {
       .def ("_ndim", &ImageProxy::ndim)
       .def ("_size", &ImageProxy::size)
       .def ("_datatype", &ImageProxy::dataType)
+      .def ("_imagetype", &ImageProxy::imageType)
       .def ("_getdata", &ImageProxy::getData)
       .def ("_getmask", &ImageProxy::getMask)
       .def ("_putdata", &ImageProxy::putData)
@@ -74,6 +75,24 @@ namespace casa { namespace pyrap {
  	    (boost::python::arg("write"),
  	     boost::python::arg("nattempts")))
       .def ("_unlock", &ImageProxy::unlock)
+      .def ("_attrgroupnames", &ImageProxy::attrGroupNames)
+      .def ("_createattrgroup", &ImageProxy::createAttrGroup,
+            (boost::python::arg("groupname")))
+      .def ("_getattr", &ImageProxy::getAttr,
+            (boost::python::arg("groupname"),
+             boost::python::arg("attrname")))
+      .def ("_getattrunit", &ImageProxy::getAttrUnit,
+            (boost::python::arg("groupname"),
+             boost::python::arg("attrname")))
+      .def ("_getattrmeas", &ImageProxy::getAttrMeas,
+            (boost::python::arg("groupname"),
+             boost::python::arg("attrname")))
+      .def ("_putattr", &ImageProxy::putAttr,
+            (boost::python::arg("groupname"),
+             boost::python::arg("attrname"),
+             boost::python::arg("value"),
+             boost::python::arg("unit"),
+             boost::python::arg("meas")))
       .def ("_subimage", &ImageProxy::subImage,
             (boost::python::arg("blc"),
              boost::python::arg("trc"),

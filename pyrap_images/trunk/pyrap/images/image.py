@@ -207,6 +207,38 @@ class image(Image):
         """Get data type of the image."""
         return self._datatype()
 
+    def imagetype (self):
+        """Get image type of the image (PagedImage, HDF5Image, etc.)."""
+        return self._imagetype()
+
+    def attrgroupnames (self):
+        """Get the names of all attribute groups."""
+        return self._attrgroupnames()
+
+    def createattrgroup (self, groupname):
+        """Create a new attribute group."""
+        self._creategroup (groupname)
+
+    def attrnames (self, groupname):
+        """Get the names of all attributes in this group."""
+        return self._attrnames (groupname)
+
+    def getattr (self, groupname, attrname):
+        """Get the value of an attribute in a group."""
+        return self._getattr (groupname, attrname)
+
+    def getattrunit (self, groupname, attrname):
+        """Get the unit(s) of an attribute in a group."""
+        return self._getattrunit (groupname, attrname)
+
+    def getattrmeas (self, groupname, attrname):
+        """Get the measinfo (type, frame) of an attribute in a group."""
+        return self._getattrmeas (groupname, attrname)
+
+    def putattr (self, groupname, attrname, value, unit, meas):
+        """Put the value and optionally unit and measinfo of an attribute in a group."""
+        return self._getattr (groupname, attrname, value, unit, meas)
+
     def getdata (self, blc=(), trc=(), inc=()):
         """Get image data.
 
