@@ -1,0 +1,84 @@
+import os
+import sys
+import distutils.sysconfig
+
+
+env = Environment(ENV = { 'PATH' : os.environ[ 'PATH' ],
+			  'HOME' : os.environ[ 'HOME' ] 
+			  },
+                  tools = ['default', 'utils', 'assaytest'],
+                  toolpath = ['scons-tools']
+		  )
+# keep a local sconsign database, rather than in very directory
+env.SConsignFile()
+
+# Auto configure
+if not env.GetOption('clean') and not env.GetOption('help'):
+    conf = Configure(env)
+
+    # DL
+    if not conf.env.get("disable_dl"):
+        pkgname = "dl"
+        libname = env.get(pkgname+"_lib")
+        conf.env.AddCustomPackage(pkgname)
+        if conf.CheckLib(libname, autoadd=0):
+            env.AppendUnique(LIBS=[libname])
+        else:
+            env.Exit(1)
+
+    conf.env.AppendUnique(CPPPATH=[env["numpy_incdir"]])
+    # numpy 1.0 uses config.h; numpy >= 1.1 uses numpyconfig.h
+    if conf.CheckHeader("numpy/config.h") or \
+            conf.CheckHeader("numpy/numpyconfig.h"):
+        conf.env.Append(CPPDEFINES=["-DAIPS_USENUMPY"])
+        hasnums = True
+    else:
+	conf.env.Exit(1)
+    conf.env.Append(CPPPATH=[distutils.sysconfig.get_python_inc()])
+    if not conf.CheckHeader("Python.h", language='c'):
+        Exit(1)
+    pylib = 'python'+distutils.sysconfig.get_python_version()
+    if env['PLATFORM'] == "darwin":
+        print "Platform darwin - using python framework"
+        fwpth = env.get("framework_path")
+        if fwpth:
+            conf.env.AppendUnique(FRAMEWORKPATH=[fwpth])            
+        conf.env.Append(FRAMEWORKS=["Python"])
+    else:
+        # just in case libpython is in some non-default location 
+        conf.env.PrependUnique(LIBPATH=\
+                                   [os.path.join(distutils.sysconfig.PREFIX,
+                                                 'lib')])
+	if not conf.CheckLib(library=pylib, language='c', autoadd=0): Exit(1)
+        conf.env.PrependUnique(LIBS=[pylib])
+
+    conf.env.AddCustomPackage('boost')
+    if not conf.CheckLibWithHeader(env["boost_lib"], 
+				   'boost/python.hpp', 'c++', autoadd=0): 
+	Exit(1)
+    conf.env.PrependUnique(LIBS=[env["boost_lib"]])
+
+
+    if conf.env.get('enable_hdf5'):
+        pkgname = "hdf5"
+        conf.env.AddCustomPackage(pkgname)
+        libname = conf.env.get(pkgname+"_lib")
+        if conf.CheckLib(libname, autoadd=0):
+            env.PrependUnique(LIBS=[libname])
+        else:
+            env.Exit(1)
+
+    conf.env.AddCustomPackage('casacore', incdirext='casacore')
+    if not conf.CheckLibWithHeader(conf.env["casacore_lib"], 
+                                   'casa/aips.h', language='c++'):
+	Exit(1)	
+
+    env = conf.Finish()
+
+# to find package based includes
+env.PrependUnique(CPPPATH='#')
+env["BUILDDIR"] = Dir("#/build_%s/%s" % (env.PlatformIdent(), 
+                                         env['build_type']))
+env.SConscript(["pyrap/SConscript"], 
+		   build_dir= env["BUILDDIR"],
+		   duplicate=0, exports=["env"]) 
