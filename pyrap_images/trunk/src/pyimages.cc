@@ -78,6 +78,8 @@ namespace casa { namespace pyrap {
       .def ("_attrgroupnames", &ImageProxy::attrGroupNames)
       .def ("_createattrgroup", &ImageProxy::createAttrGroup,
             (boost::python::arg("groupname")))
+      .def ("_attrnames", &ImageProxy::attrNames,
+            (boost::python::arg("groupname")))
       .def ("_getattr", &ImageProxy::getAttr,
             (boost::python::arg("groupname"),
              boost::python::arg("attrname")))

@@ -80,6 +80,11 @@ class coordinatesystem(object):
         if len(self._names) == 0:
             raise LookupError("Coordinate record doesn't contain valid coordinates")
 
+    def get_names(self):
+        """Get the coordinate names
+        """
+        return self._names
+
     def __getitem__(self, name):
         # reverse index back to fortran order as the record is using this
         i = self._names[::-1].index(name)
@@ -161,6 +166,26 @@ class coordinate(object):
     def dict(self):
         """Get the coordinate info as a dict"""
         return self._coord;
+
+    def get_axis_size(self, axis=0):
+        """Get the length of the given axis in this coordinate
+
+        -1 is returned if unknown.
+        """
+        try:
+            return self._coord["_axes_sizes"][axis]
+        except:
+            return -1
+
+    def get_image_axis(self, axis=0):
+        """Get the image axis number of the given axis in this coordinate
+
+        -1 is returned if unknown.
+        """
+        try:
+            return self._coord["_image_axes"][axis]
+        except:
+            return -1
 
      # ALL list/array values have to be reversed as the coordsys dict holds 
     # everything in fortran order.
