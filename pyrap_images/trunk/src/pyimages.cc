@@ -76,22 +76,29 @@ namespace casa { namespace pyrap {
  	     boost::python::arg("nattempts")))
       .def ("_unlock", &ImageProxy::unlock)
       .def ("_attrgroupnames", &ImageProxy::attrGroupNames)
-      .def ("_createattrgroup", &ImageProxy::createAttrGroup,
+      .def ("_attrcreategroup", &ImageProxy::createAttrGroup,
             (boost::python::arg("groupname")))
       .def ("_attrnames", &ImageProxy::attrNames,
             (boost::python::arg("groupname")))
-      .def ("_getattr", &ImageProxy::getAttr,
-            (boost::python::arg("groupname"),
-             boost::python::arg("attrname")))
-      .def ("_getattrunit", &ImageProxy::getAttrUnit,
-            (boost::python::arg("groupname"),
-             boost::python::arg("attrname")))
-      .def ("_getattrmeas", &ImageProxy::getAttrMeas,
-            (boost::python::arg("groupname"),
-             boost::python::arg("attrname")))
-      .def ("_putattr", &ImageProxy::putAttr,
+      .def ("_attrnrows", &ImageProxy::attrNrows,
+            (boost::python::arg("groupname")))
+      .def ("_attrget", &ImageProxy::getAttr,
             (boost::python::arg("groupname"),
              boost::python::arg("attrname"),
+             boost::python::arg("rownr")))
+      .def ("_attrgetrow", &ImageProxy::getAttrRow,
+            (boost::python::arg("groupname"),
+             boost::python::arg("rownr")))
+      .def ("_attrgetunit", &ImageProxy::getAttrUnit,
+            (boost::python::arg("groupname"),
+             boost::python::arg("attrname")))
+      .def ("_attrgetmeas", &ImageProxy::getAttrMeas,
+            (boost::python::arg("groupname"),
+             boost::python::arg("attrname")))
+      .def ("_attrput", &ImageProxy::putAttr,
+            (boost::python::arg("groupname"),
+             boost::python::arg("attrname"),
+             boost::python::arg("rownr"),
              boost::python::arg("value"),
              boost::python::arg("unit"),
              boost::python::arg("meas")))

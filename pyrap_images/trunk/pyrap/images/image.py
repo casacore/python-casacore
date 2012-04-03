@@ -215,29 +215,71 @@ class image(Image):
         """Get the names of all attribute groups."""
         return self._attrgroupnames()
 
-    def createattrgroup (self, groupname):
+    def attrcreategroup (self, groupname):
         """Create a new attribute group."""
-        self._creategroup (groupname)
+        self._attrcreategroup (groupname)
 
     def attrnames (self, groupname):
         """Get the names of all attributes in this group."""
         return self._attrnames (groupname)
 
-    def getattr (self, groupname, attrname):
-        """Get the value of an attribute in a group."""
-        return self._getattr (groupname, attrname)
+    def attrnrows (self, groupname):
+        """Get the number of rows in this attribute group."""
+        return self._attrnrows (groupname)
 
-    def getattrunit (self, groupname, attrname):
+    def attrget (self, groupname, attrname, rownr):
+        """Get the value of an attribute in the given row in a group."""
+        return self._attrget (groupname, attrname, rownr)
+
+    def attrgetcol (self, groupname, attrname):
+        """Get the value of an attribute for all rows in a group."""
+        values = []
+        for rownr in range(self.attrnrows(groupname)):
+            values.append (self.attrget (groupname, attrname, rownr))
+        return values
+
+    def attrfindrows (self, groupname, attrname, value):
+        """Get the row numbers of all rows where the attribute matches the given value."""
+        values = self.attrgetcol(groupname, attrname)
+        return [i for i in range(len(values)) if values[i] == value]
+
+    def attrgetrow (self, groupname, key, value=None):
+        """Get the values of all attributes of a row in a group.
+
+        If the key is an integer, it gives the row number for which
+        the attribute values have to be returned.
+
+        Otherwise the key has to be a string and it defines the name of an
+        attribute. The attribute values of the row where the key amtches the
+        given value is returned.
+        It can only be used for unique attribute keys. An IndexError exception
+        is raised if no or multiple matches are found.
+        """
+        if not isinstance(key, str):
+            return self._attrgetrow (groupname, key)
+        # The key is an attribute name whose value has to be found.
+        rownrs = self.attrfindrows (groupname, key, value)
+        if len(rownrs) == 0:
+            raise IndexError("Image attribute " + key + " in group " +
+                             groupname + " has no matches for value " +
+                             str(value))
+        if len(rownrs) > 1:
+            raise IndexError("Image attribute " + key + " in group " +
+                             groupname + " has multiple matches for value " +
+                             str(value))
+        return self._attrgetrow (groupname, rownrs[0])
+
+    def attrgetunit (self, groupname, attrname):
         """Get the unit(s) of an attribute in a group."""
-        return self._getattrunit (groupname, attrname)
+        return self._attrgetunit (groupname, attrname)
 
-    def getattrmeas (self, groupname, attrname):
+    def attrgetmeas (self, groupname, attrname):
         """Get the measinfo (type, frame) of an attribute in a group."""
-        return self._getattrmeas (groupname, attrname)
+        return self._attrgetmeas (groupname, attrname)
 
-    def putattr (self, groupname, attrname, value, unit, meas):
-        """Put the value and optionally unit and measinfo of an attribute in a group."""
-        return self._getattr (groupname, attrname, value, unit, meas)
+    def attrput (self, groupname, attrname, rownr, value, unit=[], meas=[]):
+        """Put the value and optionally unit and measinfo of an attribute in a row in a group."""
+        return self._attrput (groupname, attrname, rownr, value, unit, meas)
 
     def getdata (self, blc=(), trc=(), inc=()):
         """Get image data.
