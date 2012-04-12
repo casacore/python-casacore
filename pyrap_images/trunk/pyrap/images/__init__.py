@@ -45,6 +45,7 @@ The following functionality exists:
 - get and put data (slices)
 - get or put a mask
 - get meta data like coordinates and history
+- get, put, or search optional image attributes (as used for LOFAR)
 - get statistics
 - form a subimage
 - form an image expression which is treated as an ordinary image

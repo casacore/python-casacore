@@ -246,12 +246,12 @@ class image(Image):
     def attrgetrow (self, groupname, key, value=None):
         """Get the values of all attributes of a row in a group.
 
-        If the key is an integer, it gives the row number for which
+        If the key is an integer, the key is the row number for which
         the attribute values have to be returned.
 
         Otherwise the key has to be a string and it defines the name of an
-        attribute. The attribute values of the row where the key amtches the
-        given value is returned.
+        attribute. The attribute values of the row for which the key matches
+        the given value is returned.
         It can only be used for unique attribute keys. An IndexError exception
         is raised if no or multiple matches are found.
         """
