@@ -32,6 +32,14 @@ def dotest(t):
     print t.testvecstr (["a1","a2","b1","b2"])
     print t.testvecstr (())
     print t.testvecstr ("sc1")
+    print t.teststdvecuint ([1,2,4])
+    print t.teststdvecuint (())
+    print t.teststdvecuint (10)
+    print t.teststdvecvecuint ([[1,2,4]])
+    print t.teststdvecvecuint ((()))
+    print t.teststdvecvecuint (())
+    print t.teststdvecvecuint ([1,2,4])
+    print t.teststdvecvecuint (20)
 
     print t.testvh (True);
     print t.testvh (2);

@@ -1,4 +1,4 @@
-//# pycasatable.cc: python module for AIPS++ table system
+//# tConvert.cc: Test program for libpyrap's C++/Python converters
 //# Copyright (C) 2006
 //# Associated Universities, Inc. Washington DC, USA.
 //#
@@ -38,6 +38,18 @@ using namespace boost::python;
 
 namespace casa { namespace pyrap {
 
+  template<typename T>
+  std::ostream& operator<< (std::ostream& os, const std::vector<T>& vec)
+  {
+    os << '[';
+    for (uInt i=0; i<vec.size(); ++i) {
+      if (i > 0) os << ", ";
+      os << "vecuInt " << vec[i];
+    }
+    os << ']';
+    return os;
+  }
+
   struct TConvert
   {
     TConvert() {}
@@ -65,6 +77,11 @@ namespace casa { namespace pyrap {
       {cout << "VecComplex " << in << endl; return in;}
     Vector<String> testvecstr (const Vector<String>& in)
       {cout << "VecStr " << in << endl; return in;}
+    std::vector<uInt> teststdvecuint (const std::vector<uInt>& in)
+      {cout << "vecuInt " << in << endl; return in;}
+    std::vector<std::vector<uInt> > teststdvecvecuint
+    (const std::vector<std::vector<uInt> >& in)
+      {cout << "vecvecuInt " << in << endl; return in;}
     IPosition testipos (const IPosition& in)
       {cout << "IPos " << in << endl; return in;}
     Bool canusenumpy()
@@ -89,6 +106,8 @@ namespace casa { namespace pyrap {
       .def ("testvecint",     &TConvert::testvecint)
       .def ("testveccomplex", &TConvert::testveccomplex)
       .def ("testvecstr",     &TConvert::testvecstr)
+      .def ("teststdvecuint", &TConvert::teststdvecuint)
+      .def ("teststdvecvecuint", &TConvert::teststdvecvecuint)
       .def ("testipos",       &TConvert::testipos)
       .def ("canusenumpy",    &TConvert::canusenumpy)
       .def ("canusenumarray", &TConvert::canusenumarray)
@@ -100,10 +119,14 @@ namespace casa { namespace pyrap {
 
 BOOST_PYTHON_MODULE(_tConvert)
 {
+  // Register the required converters.
   casa::pyrap::register_convert_excp();
   casa::pyrap::register_convert_basicdata();
   casa::pyrap::register_convert_casa_valueholder();
   casa::pyrap::register_convert_casa_record();
+  casa::pyrap::register_convert_std_vector<casa::uInt>();
+  casa::pyrap::register_convert_std_vector<std::vector<casa::uInt> >();
 
+  // Execute the test.
   casa::pyrap::testConvert();
 }
