@@ -13,7 +13,7 @@ RELEASE = 'trunk'
 
 def darwin_sdk(archlist=None):
     if not archlist:
-        archlist = 'i386'
+        archlist = 'x86_64'
     import platform        
     devpath = { "4" : "/Developer/SDKs/MacOSX10.4u.sdk",
                 "5" : "/Developer/SDKs/MacOSX10.5.sdk",
@@ -23,7 +23,8 @@ def darwin_sdk(archlist=None):
         print "Only Mac OS X >= 10.4 is supported"
         sys.exit(1)
     sdk = string.join([""]+archlist.split(","), " -arch ")
-    sdk += " -isysroot %s" % devpath[version[1]]
+    if int(version[1]) < 7:
+        sdk += " -isysroot %s" % devpath[version[1]]
     return (string.join(version[:2],"."), sdk)
 
 
