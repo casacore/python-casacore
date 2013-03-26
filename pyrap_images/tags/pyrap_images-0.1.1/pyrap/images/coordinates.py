@@ -193,25 +193,27 @@ class directioncoordinate(coordinate):
         out = coordinate.__str__(self)
         out += self._template % ("Frame", str(self.get_frame()))
         out += self._template % ("Projection", str(self.get_projection()))
+        out += self._template % ("Parameters", 
+                                 str(self.get_projection_parameters()))
         return out
 
     def get_projection(self):
         return self._coord.get("projection", None)
 
-    def set_projection(self, val):
-        knownproj = ["SIN", "ZEA", "TAN", "NCP", "AIT", "ZEA"] # etc
+    def get_projection_parameters(self):
+        return self._coord.get("projection_parameters", [])
+
+    def set_projection(self, val, params=None):
+        if params is None:
+            params = []
         assert val.upper() in knownproj
         self._coord["projection"] = val.upper()
-
+        self._coord["projection_parameters"] = params 
 
     def get_frame(self):
        return self._coord.get("system", None)
 
     def set_frame(self, val):
-        # maybe uses measures here
-        #dm = measures();knonwframes = dm.listcodes(dm.direction())["normal"]
-        knownframes = ["GALACTIC", "J2000", "B1950", "SUPERGAL"] # etc
-        assert val.upper() in knownframes
         self._coord["system"] = val.upper()
 
 
