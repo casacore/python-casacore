@@ -17,7 +17,10 @@ def darwin_sdk(archlist=None):
     import platform        
     devpath = { "4" : "/Developer/SDKs/MacOSX10.4u.sdk",
                 "5" : "/Developer/SDKs/MacOSX10.5.sdk",
-                "6" : "/Developer/SDKs/MacOSX10.6.sdk" }
+                "6" : "/Developer/SDKs/MacOSX10.6.sdk",
+                "7" : "/Developer/SDKs/MacOSX10.7.sdk",
+                "8" : "/Developer/SDKs/MacOSX10.8.sdk",
+                "9" : "/Developer/SDKs/MacOSX10.9.sdk" }
     version = platform.mac_ver()[0].split(".")
     if version[0] != '10' or int(version[1]) < 4:
         print "Only Mac OS X >= 10.4 is supported"
@@ -60,7 +63,7 @@ parser.add_option('--casacore-root', dest='casacore',
                   help="Root directory of casacore (default is /usr/local)")
 
 parser.add_option('--enable-rpath', dest='enable_rpath',
-                  default=False, action='store_true',
+                  default=True, action='store_true',
                   help="Enable using rpath for linking python modules against libpyrap")
 
 parser.add_option('--enable-hdf5', dest='enable_hdf5',
