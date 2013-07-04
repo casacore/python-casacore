@@ -549,6 +549,7 @@ class measures(_measures):
             m = _measures.uvw(self, v)
             m['xyz'] = dq.quantity(m['xyz'])
             m['dot'] = dq.quantity(m['dot'])
+            return m
         else:
             raise TypeError('Illegal Baseline specified')
     to_uvw = touvw
