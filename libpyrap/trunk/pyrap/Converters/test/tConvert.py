@@ -15,7 +15,23 @@ def dotest(t):
     print t.testssize (11);
     print t.testfloat (3.14);
     print t.testfloat (12);
+    print t.testdouble (3.14);
+    print t.testdouble (12);
     print t.teststring ("this is a string");
+
+    arr = NUM.array([2,3], NUM.int32)
+    print t.testint (arr[0])
+    print t.testint64 (arr[0])
+    print t.testfloat (arr[0])
+    print t.testdouble (arr[0])
+    arr = NUM.array([2.2,3.2], NUM.float32)
+    print t.testint (arr[0])
+    print t.testfloat (arr[0])
+    print t.testdouble (arr[0])
+    arr = NUM.array([2.4,3.4], NUM.float64)
+    print t.testint (arr[0])
+    print t.testfloat (arr[0])
+    print t.testdouble (arr[0])
 
     print t.testipos ([2,3,4]);
     print t.testipos (1);

@@ -61,9 +61,13 @@ namespace casa { namespace pyrap {
       {cout << "Int64 " << in << endl; return in;}
     Int testssize (::ssize_t in)
       {cout << "ssize " << in << endl; return in;}
-    Double testfloat (Double in)
+    Float testfloat (Float in)
       {cout << "Float " << in << endl; return in;}
-    DComplex testcomplex (const DComplex& in)
+    Double testdouble (Double in)
+      {cout << "Double " << in << endl; return in;}
+    Complex testcomplex (const Complex& in)
+      {cout << "Complex " << in << endl; return in;}
+    DComplex testdcomplex (const DComplex& in)
       {cout << "DComplex " << in << endl; return in;}
     String teststring (const String& in)
       {cout << "String " << in << endl; String out=in; return out;}
@@ -99,7 +103,9 @@ namespace casa { namespace pyrap {
       .def ("testint64",      &TConvert::testint64)
       .def ("testssize",      &TConvert::testssize)
       .def ("testfloat",      &TConvert::testfloat)
+      .def ("testdouble",     &TConvert::testdouble)
       .def ("testcomplex",    &TConvert::testcomplex)
+      .def ("testdcomplex",   &TConvert::testdcomplex)
       .def ("teststring",     &TConvert::teststring)
       .def ("testrecord",     &TConvert::testrecord)
       .def ("testvh",         &TConvert::testvh)

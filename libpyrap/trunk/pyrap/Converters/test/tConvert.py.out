@@ -37,7 +37,7 @@ ssize -6
 -6
 Float -6
 -6.0
-DComplex (-6,0)
+Complex (-6,0)
 (-6+0j)
     testarrvh
 VH Array<Short>
@@ -56,7 +56,7 @@ ssize 5
 5
 Float 5
 5.0
-DComplex (5,0)
+Complex (5,0)
 (5+0j)
     testarrvh
 VH Array<Short>
@@ -75,7 +75,7 @@ ssize -16
 -16
 Float -16
 -16.0
-DComplex (-16,0)
+Complex (-16,0)
 (-16+0j)
     testarrvh
 VH Array<Int>
@@ -94,7 +94,7 @@ ssize 15
 15
 Float 15
 15.0
-DComplex (15,0)
+Complex (15,0)
 (15+0j)
     testarrvh
 VH Array<Int>
@@ -113,7 +113,7 @@ ssize -26
 -26
 Float -26
 -26.0
-DComplex (-26,0)
+Complex (-26,0)
 (-26+0j)
     testarrvh
 VH Array<Int>
@@ -132,7 +132,7 @@ ssize 25
 25
 Float 25
 25.0
-DComplex (25,0)
+Complex (25,0)
 (25+0j)
     testarrvh
 VH Array<Int64>
@@ -151,7 +151,7 @@ ssize -36
 -36
 Float -36
 -36.0
-DComplex (-36,0)
+Complex (-36,0)
 (-36+0j)
     testarrvh
 VH Array<Int64>
@@ -170,7 +170,7 @@ ssize 35
 35
 Float 35
 35.0
-DComplex (35,0)
+Complex (35,0)
 (35+0j)
     testarrvh
 VH Array<float>
@@ -183,7 +183,7 @@ VH Array<double>
 [-46. -47.]
 Float -46
 -46.0
-DComplex (-46,0)
+Complex (-46,0)
 (-46+0j)
     testarrvh
 VH Array<double>
@@ -196,7 +196,7 @@ VH Array<double>
 [ 45.  46.]
 Float 45
 45.0
-DComplex (45,0)
+Complex (45,0)
 (45+0j)
     testarrvh
 VH Array<Complex>
@@ -207,7 +207,7 @@ VH Array<DComplex>
 [-56.-66.j]
 VH Array<DComplex>
 [-56.-66.j -57.-67.j]
-DComplex (-56,-66)
+Complex (-56,-66)
 (-56-66j)
     testarrvh
 VH Array<DComplex>
@@ -218,7 +218,7 @@ VH Array<DComplex>
 [-76.-86.j]
 VH Array<DComplex>
 [-76.-86.j -77.-87.j]
-DComplex (-76,-86)
+Complex (-76,-86)
 (-76-86j)
 
 begin dotest
@@ -239,11 +239,35 @@ ssize -2
 ssize 11
 11
 Float 3.14
-3.14
+3.1400001049
 Float 12
+12.0
+Double 3.14
+3.14
+Double 12
 12.0
 String this is a string
 this is a string
+Int 2
+2
+Int64 2
+2
+Float 2
+2.0
+Double 2
+2.0
+Int 2
+2
+Float 2.2
+2.20000004768
+Double 2.2
+2.20000004768
+Int 2
+2
+Float 2.4
+2.40000009537
+Double 2.4
+2.4
 IPos [4, 3, 2]
 [2, 3, 4]
 IPos [1]
@@ -396,7 +420,7 @@ ssize -6
 -6
 Float -6
 -6.0
-DComplex (-6,0)
+Complex (-6,0)
 (-6+0j)
     testarrvh
 VH Array<Short>
@@ -415,7 +439,7 @@ ssize 5
 5
 Float 5
 5.0
-DComplex (5,0)
+Complex (5,0)
 (5+0j)
     testarrvh
 VH Array<Short>
@@ -434,7 +458,7 @@ ssize -16
 -16
 Float -16
 -16.0
-DComplex (-16,0)
+Complex (-16,0)
 (-16+0j)
     testarrvh
 VH Array<Int>
@@ -453,7 +477,7 @@ ssize 15
 15
 Float 15
 15.0
-DComplex (15,0)
+Complex (15,0)
 (15+0j)
     testarrvh
 VH Array<Int>
@@ -472,7 +496,7 @@ ssize -26
 -26
 Float -26
 -26.0
-DComplex (-26,0)
+Complex (-26,0)
 (-26+0j)
     testarrvh
 VH Array<Int>
@@ -491,7 +515,7 @@ ssize 25
 25
 Float 25
 25.0
-DComplex (25,0)
+Complex (25,0)
 (25+0j)
     testarrvh
 VH Array<Int64>
@@ -510,7 +534,7 @@ ssize -36
 -36
 Float -36
 -36.0
-DComplex (-36,0)
+Complex (-36,0)
 (-36+0j)
     testarrvh
 VH Array<Int64>
@@ -529,7 +553,7 @@ ssize 35
 35
 Float 35
 35.0
-DComplex (35,0)
+Complex (35,0)
 (35+0j)
     testarrvh
 VH Array<float>
@@ -542,7 +566,7 @@ VH Array<double>
 [-46. -47.]
 Float -46
 -46.0
-DComplex (-46,0)
+Complex (-46,0)
 (-46+0j)
     testarrvh
 VH Array<double>
@@ -555,7 +579,7 @@ VH Array<double>
 [ 45.  46.]
 Float 45
 45.0
-DComplex (45,0)
+Complex (45,0)
 (45+0j)
     testarrvh
 VH Array<Complex>
@@ -566,7 +590,7 @@ VH Array<DComplex>
 [-56.-66.j]
 VH Array<DComplex>
 [-56.-66.j -57.-67.j]
-DComplex (-56,-66)
+Complex (-56,-66)
 (-56-66j)
     testarrvh
 VH Array<DComplex>
@@ -577,7 +601,7 @@ VH Array<DComplex>
 [-76.-86.j]
 VH Array<DComplex>
 [-76.-86.j -77.-87.j]
-DComplex (-76,-86)
+Complex (-76,-86)
 (-76-86j)
 
 begin dotest
@@ -598,11 +622,35 @@ ssize -2
 ssize 11
 11
 Float 3.14
-3.14
+3.1400001049
 Float 12
+12.0
+Double 3.14
+3.14
+Double 12
 12.0
 String this is a string
 this is a string
+Int 2
+2
+Int64 2
+2
+Float 2
+2.0
+Double 2
+2.0
+Int 2
+2
+Float 2.2
+2.20000004768
+Double 2.2
+2.20000004768
+Int 2
+2
+Float 2.4
+2.40000009537
+Double 2.4
+2.4
 IPos [4, 3, 2]
 [2, 3, 4]
 IPos [1]
