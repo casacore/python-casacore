@@ -47,7 +47,7 @@
  [ 14.  15.  16.  18.  20.  22.]
  [ 18.  19.  20.  26.  28.  30.]
  [ 20.  21.  22.  30.  32.  34.]]
-{'rms': array([ 22.0608654]), 'medabsdevmed': array([ 4.]), 'minpos': array([2, 0]), 'min': array([ 14.]), 'max': array([ 34.]), 'sum': array([ 467.]), 'quartile': array([ 6.]), 'sumsq': array([ 10707.]), 'median': array([ 20.]), 'npts': array([ 22.]), 'maxpos': array([5, 3]), 'sigma': array([ 6.14841689]), 'mean': array([ 21.22727273])}
+{'rms': array([ 22.0608654]), 'medabsdevmed': array([ 4.]), 'minpos': array([2, 0], dtype=int32), 'min': array([ 14.]), 'max': array([ 34.]), 'sum': array([ 467.]), 'quartile': array([ 6.]), 'sumsq': array([ 10707.]), 'median': array([ 20.]), 'npts': array([ 22.]), 'maxpos': array([5, 3], dtype=int32), 'sigma': array([ 6.14841689]), 'mean': array([ 21.22727273])}
 [[ NaN  NaN  14.  14.  16.  18.]
  [ 14.  15.  16.  18.  20.  22.]
  [ 18.  19.  20.  26.  28.  30.]
