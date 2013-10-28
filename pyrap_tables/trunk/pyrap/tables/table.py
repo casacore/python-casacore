@@ -349,6 +349,10 @@ class table(Table):
         """Return the number of rows in the table."""
         return self._nrows();
 
+    def __getattr__(self, columnname):
+        """Get the tablecolumn object"""
+        return self.col(columnname)
+
     def __getitem__ (self, key):
         """Get the values from one or more rows."""
         return self._row._getitem (key, self.nrows());
