@@ -368,10 +368,14 @@ class table(Table):
         object is somewhat easier to use than the table object because the
         column name does not have to be repeated each time.
 
+        It is also possible to use a column name as an attribute, It is an
+        easier way to get a column object.
+
         For example::
 
-          tc = t.col('colname')
-          tc.getcol()
+          tc = t.col('DATA')
+          tc[0:10]       # get first 10 rows of column DATA
+          t.DATA[0:10]   # does the same in an easier way
 
         """
         from tablecolumn import tablecolumn;
