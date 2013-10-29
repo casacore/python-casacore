@@ -25,6 +25,8 @@
 #
 # $Id: tablecolumn.py,v 1.9 2007/08/28 07:22:18 gvandiep Exp $
 
+from tablehelper import _check_key_slice
+
 class tablecolumn:
     """The Python interface to a column in a Casacore table.
 
@@ -209,7 +211,7 @@ class tablecolumn:
         return self._table.nrows();
 
     def __getitem__ (self, key):
-        sei = self.checkkey (key, self._table.nrows());
+        sei = _check_key_slice (key, self._table.nrows(), 'tablecolumn');
         if len(sei) == 1:
             # A single row.
             return self.getcell (sei[0]);
@@ -224,7 +226,7 @@ class tablecolumn:
         return result;
 
     def __setitem__ (self, key, value):
-        sei = self.checkkey (key, self._table.nrows());
+        sei = _check_key_slice (key, self._table.nrows(), 'tablecolumn');
         if len(sei) == 1:
             # A single row.
             return self.putcell (sei[0], value);
@@ -245,40 +247,3 @@ class tablecolumn:
                 self.putcell (rownr, val);
                 rownr += sei[2];
         return True;
-        
-    def checkkey (self, key, nrows):
-        if not isinstance(key, slice):
-            # A single index (possibly negative, thus from the end).
-            if key < 0:
-                key += nrows;
-            if key < 0  or  key >= nrows:
-                raise IndexError("tablecolumn index out of range");
-            return [key];
-        # Given as start:stop:step where each part is optional and can
-        # be negative.
-        incr = 1;
-        if key.step != None:
-            incr = key.step;
-            if incr == 0:
-                raise RunTimeError("tablecolumn slice step cannot be zero");
-        strow  = 0;
-        endrow = nrows;
-        if incr < 0:
-            strow  = nrows-1;
-            endrow = -1;
-        if key.start != None:
-            strow = key.start;
-            if strow < 0:
-                strow += nrows;
-            strow = min(max(strow,0), nrows-1);
-        if key.stop != None:
-            endrow = key.stop;
-            if endrow < 0:
-                endrow += nrows;
-            endrow = min(max(endrow,-1), nrows);
-        if incr > 0:
-            nrow = int((endrow - strow + incr - 1) / incr);
-        else:
-            nrow = int((strow - endrow - incr - 1) / -incr);
-        nrow = max(0, nrow);
-        return [strow,nrow,incr];

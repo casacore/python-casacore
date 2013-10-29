@@ -42,27 +42,7 @@ Several utility functions exist. Important ones are:
 
 # Make interface to class TableProxy available.
 from _tables import Table
-
-# A keywordset in a table can hold tables, but it is not possible to
-# pass them around because a ValueHolder cannot deal with it.
-# Therefore it is passed around as a string with a special prefix.
-def _add_prefix (name):
-    """Add the prefix 'Table: ' to a table name to get a specific keyword value."""
-    return 'Table: ' + name;
-
-def _do_remove_prefix (name):
-    """Strip the possible prefix 'Table: ' from a table name."""
-    res = name;
-    if isinstance(res, str):
-        if (res.find ('Table: ') == 0):
-            res = res.replace ('Table: ', '', 1);
-    return res;
-
-def _remove_prefix (name):
-    """Strip the possible prefix 'Table: ' from one or more table names."""
-    if isinstance(name, str):
-        return _do_remove_prefix (name)
-    return [_do_remove_prefix(nm) for nm in name]
+from tablehelper import _add_prefix, _remove_prefix, _do_remove_prefix
 
 
 # Execute a TaQL command on a table.

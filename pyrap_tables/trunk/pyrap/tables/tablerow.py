@@ -27,6 +27,7 @@
 
 # Make interface to class TableRowProxy available.
 from _tables import TableRow
+from tablehelper import _check_key_slice
 
 # A normal tablerow object keeps a reference to a table object to be able
 # to know the actual number of rows.
@@ -60,7 +61,7 @@ class _tablerow(TableRow):
         self._put (rownr, value, matchingfields)
 
     def _getitem (self, key, nrows):
-        sei = self.checkkey (key, nrows);
+        sei = _check_key_slice (key, nrows, 'tablerow');
         rownr = sei[0];
         if len(sei) == 1:
             return self.get (rownr);
@@ -73,7 +74,7 @@ class _tablerow(TableRow):
         return result;
     
     def _setitem (self, key, value, nrows):
-        sei = self.checkkey (key, nrows);
+        sei = _check_key_slice (key, nrows, 'tablerow');
         rownr = sei[0];
         if len(sei) == 1:
             return self.put (rownr, value);
@@ -91,40 +92,6 @@ class _tablerow(TableRow):
             for val in value:
                 self.put (rownr, val, True);
                 rownr += sei[2];
-
-    def checkkey (self, key, nrows):
-        if not isinstance(key, slice):
-            if key < 0:
-                key += nrows;
-            if key < 0  or  key >= nrows:
-                raise IndexError("tablerow index out of range");
-            return [key];
-        incr = 1;
-        if key.step != None:
-            incr = key.step;
-            if incr == 0:
-                raise RunTimeError("tablerow slice step cannot be zero");
-        strow  = 0;
-        endrow = nrows;
-        if incr < 0:
-            strow  = nrows-1;
-            endrow = -1;
-        if key.start != None:
-            strow = key.start;
-            if strow < 0:
-                strow += nrows;
-            strow = min(max(strow,0), nrows-1);
-        if key.stop != None:
-            endrow = key.stop;
-            if endrow < 0:
-                endrow += nrows;
-            endrow = min(max(endrow,-1), nrows);
-        if incr > 0:
-            nrow = int((endrow - strow + incr - 1) / incr);
-        else:
-            nrow = int((strow - endrow - incr - 1) / -incr);
-        nrow = max(0, nrow);
-        return [strow,nrow,incr];
 
 
 

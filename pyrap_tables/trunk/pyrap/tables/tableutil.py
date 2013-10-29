@@ -26,7 +26,7 @@
 # $Id: tableutil.py,v 1.6 2006/11/08 00:12:55 gvandiep Exp $
 
 from table import table
-from table import _remove_prefix
+from tablehelper import _remove_prefix, _value_type_name
 
 
 def tablefromascii (tablename, asciifile,
@@ -237,26 +237,6 @@ def tablefromascii (tablename, asciifile,
                  ack=ack)
 
 
-
-# Convert Python value type to a glish-like type string
-# as expected by the table code.
-def value_type_name (value):
-    if isinstance(value, bool):
-        return 'boolean'
-    if isinstance(value, int):
-        return 'integer'
-    if isinstance(value, long):
-        return 'integer'
-    if isinstance(value, float):
-        return 'double'
-    if isinstance(value, complex):
-        return 'dcomplex'
-    if isinstance(value, str):
-        return 'string'
-    if isinstance(value, dict):
-        return 'record'
-    return 'unknown'
-
 # Create a description of a scalar column
 def makescacoldesc (columnname, value,
                     datamanagertype='', 
@@ -318,7 +298,7 @@ def makescacoldesc (columnname, value,
     """
     vtype = valuetype
     if vtype == '':
-        vtype = value_type_name(value)
+        vtype = _value_type_name(value)
     rec2 = {'valueType' : vtype,
             'dataManagerType' : datamanagertype,
             'dataManagerGroup' : datamanagergroup,
@@ -415,7 +395,7 @@ def makearrcoldesc (columnname, value, ndim=0,
     """
     vtype = valuetype
     if vtype == '':
-        vtype = value_type_name(value)
+        vtype = _value_type_name(value)
     if len(shape) > 0:
         if ndim <= 0:
             ndim = len(shape)
@@ -637,3 +617,14 @@ def tablesummary(tablename):
     """
     t = table(tablename, ack=False)
     t.summary()
+
+def tablestructure(tablename, dataman=True, column=True, subtable=False,
+                   sort=False):
+    """Print the structure of a table.
+
+    It is the same as :func:`table.showstructure`, but without the need to open
+    the table first.
+
+    """
+    t = table(tablename, ack=False)
+    print t.showstructure (dataman, column, subtable, sort)
