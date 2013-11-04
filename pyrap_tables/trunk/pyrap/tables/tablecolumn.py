@@ -25,7 +25,9 @@
 #
 # $Id: tablecolumn.py,v 1.9 2007/08/28 07:22:18 gvandiep Exp $
 
-from tablehelper import _check_key_slice
+from tablehelper import _check_key_slice, _do_remove_prefix
+from table import table
+
 
 class tablecolumn:
     """The Python interface to a column in a Casacore table.
@@ -210,7 +212,42 @@ class tablecolumn:
     def __len__ (self):
         return self._table.nrows();
 
+    def __getattr__(self, name):
+        """Get the keyword value.
+
+        | The value of a column keyword is returned if it names a keyword.
+          If the keyword is a subtable, it opens the table and returns a
+          table object.
+        | The values of all column keywords is returned if name equals _ or keys.
+
+        An AttributeError is raised if the name is not a keyword.
+
+        For example::
+
+          print tc.MEASINFO         # print the column's measure info
+          print tc._                # print all column keywords
+
+        """
+        # Try if it is a keyword.
+        try:
+            val = self.getkeyword(name)
+            # See if the keyword represents a subtable and try to open it.
+            if val != _do_remove_prefix(val):
+                try:
+                    return table(val, ack=False)
+                except:
+                    pass
+            return val
+        except:
+            pass
+        # _ or keys means all keywords.
+        if name == '_'  or  name == 'keys':
+            return self.getkeywords()
+        # Unknown name.
+        raise AttributeError("table has no attribute/keyword " + name)
+
     def __getitem__ (self, key):
+        """Get the values from one or more rows."""
         sei = _check_key_slice (key, self._table.nrows(), 'tablecolumn');
         if len(sei) == 1:
             # A single row.

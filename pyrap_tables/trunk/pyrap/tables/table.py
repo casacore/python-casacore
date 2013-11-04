@@ -329,77 +329,50 @@ class table(Table):
         """Return the number of rows in the table."""
         return self._nrows();
 
-    def _colkey(self, name):
-        # First try if it is a column.
-        try:
-            return self.col(name)
-        except:
-            pass
-        # Now try if it is a keyword. If not, an exception was raised and it exits.
-        val = self.getkeyword(name)
-        # See if the keyword represents a subtable and try to open it.
-        if val != _do_remove_prefix(val):
-            try:
-                return table(val, ack=False)
-            except:
-                pass
-        return val
-        
     def __getattr__(self, name):
         """Get the tablecolumn object or keyword value.
 
-        A tablecolumn object is returned if it names a column.
-        The value of a keyword is returned if it names a keyword.
-        If the keyword is a subtable, it opens the table and returns a table object.
+        | A tablecolumn object is returned if it names a column.
+        | The value of a keyword is returned if it names a keyword.
+          If the keyword is a subtable, it opens the table and returns a
+          table object.
+        | The values of all keywords is returned if name equals _ or keys.
 
-        An AttributeError is raised if the name is column nor keyword..
+        An AttributeError is raised if the name is column nor keyword.
 
         For example::
 
           print t.DATA[i]           # print row i of column DATA
           print t.MS_VERSION        # print the MS version
+          print t.keys              # print values of all keywords
           subtab = t.FEED           # open the FEED subtable
 
         """
+        # First try if it is a column.
         try:
-            return self._colkey(name)
+            return self.col(name)
         except:
-            raise AttributeError("table has no attribute/column/keyword " + name)
+            pass
+        # Now try if it is a keyword.
+        try:
+            val = self.getkeyword(name)
+            # See if the keyword represents a subtable and try to open it.
+            if val != _do_remove_prefix(val):
+                try:
+                    return table(val, ack=False)
+                except:
+                    pass
+            return val
+        except:
+            pass
+        # _ or keys means all keywords.
+        if name == '_'  or  name == 'keys':
+            return self.getkeywords()
+        # Unknown name.
+        raise AttributeError("table has no attribute/column/keyword " + name)
 
     def __getitem__ (self, key):
-        """Get the values from one or more rows, get a tablecolumn object, or get keywords.
-
-        If the key is a single integer, the values from that row are returned.
-        If the key is a slice, the values of all those rows are returned.
-        If the key is a string a tablecolumn object is returned if it names a column.
-        If the key is an empty string, the table keywordset is returned.
-        Otherwise if the string names a keyword, the value of that keyword is returned.
-        If the keyword is a subtable, it opens the table and returns a table object.
-
-        A KeyError is raised if the string is none of the above or if the key
-        does not have type string, int, or slice.
-
-        For example::
-
-          tc = t['DATA']            # get column DATA of table t
-          print t['']               # all table keywords
-          print t['MS_VERSION']     # print the MS version
-          st = t['FEED']            # open the FEED subtable
-
-        Note that all but the second example can more easily be expressed using
-        an attribute (e.g., t.DATA).
-
-        """
-        if isinstance(key, str):
-            # An empty name means all table keywords.
-            if len(key) == 0:
-                return self.getkeywords()
-            # Otherwise a column object or a specific table keyword.
-            try:
-                return self._colkey(key)
-            except:
-                raise KeyError("table has no column or keyword " + key)
-        # If no string, it is a row number or range.
+        """Get the values from one or more rows."""
         return self._row._getitem (key, self.nrows());
 
     def __setitem__ (self, key, value):
