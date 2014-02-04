@@ -1,4 +1,4 @@
-# substitute.py: substitute glish variables and expressions
+# substitute.py: substitute python variables and expressions
 # Copyright (C) 1998,1999,2008
 # Associated Universities, Inc. Washington DC, USA.
 #
@@ -203,10 +203,11 @@ def substitutename(name, objlist, globals, locals):
     if len(name) == 0:
         return '$'
 
-    # If the name is undefined, return the original.
+    # First try as a single variable; otherwise as an expression.
     try:
-        v = eval(name, globals, locals)
-#        v = getvariable (name)
+        v = getvariable (name)
+        if v == None:
+            v = eval(name, globals, locals)
     except NameError:
         return '$' + name
 
