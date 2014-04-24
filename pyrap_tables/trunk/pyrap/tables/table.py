@@ -126,10 +126,10 @@ class table(Table):
     :func:`tablefromascii` to create a table from an ASCII file.
 
     Several functions accept or return arrays for which numpy arrays are used.
-    One dimensional arrays can also be passed in as sequences (e.g. a list).
-    A scalar value can also be passed in to functions expecting an array and
+    One dimensional arrays can also be passed as sequences (e.g., a list).
+    A scalar value can also be passed to functions expecting an array and
     results in a 1-dim array of length 1.
-    Scalar arguments can be passed in as normal python scalars, but also as
+    Scalar arguments can be passed as normal python scalars, but also as
     numpy scalars (which have a special data type).
     If needed and if possible, data type conversion is done automatically.
 
@@ -140,6 +140,14 @@ class table(Table):
 
       t = table('~/3c343.MS')
       print t[0]
+
+    The `table` class supports the context manager idiom (__enter__ and __exit__).
+    When used in a `with` statement, the table will be flushed and closed
+    automatically, which is handy when writing a table.
+    For example::
+
+      with table('my.ms') as t:
+        t.putcell ('SPECTRAL_WINDOW_ID', 0, 0)
 
 
     Usually a table is kept on disk, but it can also reside in memory.
@@ -315,6 +323,14 @@ class table(Table):
                         print 'Successful virtual concatenation of', len(tabname), 'tables:', self.ncols(), 'columns,', self.nrows(), 'rows';
         # Create a row object for this table.
         self._makerow()
+
+    def __enter__(self):
+        """Function to enter a with block."""
+        return self
+        
+    def __exit__ (self, type, value, traceback):
+        """Function to exit a with block which closes the table object."""
+        self.close()
 
     def _makerow (self):
         """Internal method to make its tablerow object."""

@@ -122,10 +122,26 @@ class tablerow(_tablerow):
     The argument `readonly=False` is needed in the table constructor to make
     it work.
 
+    The `tablerow` class supports the context manager idiom (__enter__ and __exit__).
+    When used in a `with` statement, the table changes will be flushed
+    automatically, which is handy when writing to table rows.
+    For example::
+
+      with t.row() as tr:
+        tr.put (1, tr.get(0))   # copy row 0 to row 1
+
     """
     def __init__(self, table, columnnames=[], exclude=False):
         _tablerow.__init__ (self, table, columnnames, exclude);
         self._table = table;
+
+    def __enter__(self):
+        """Function to enter a with block."""
+        return self
+        
+    def __exit__ (self, type, value, traceback):
+        """Function to exit a with block which flushes the table object."""
+        self._table.flush()
 
     def __len__ (self):
         return self._table.nrows();

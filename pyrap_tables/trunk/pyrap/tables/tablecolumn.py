@@ -56,6 +56,14 @@ class tablecolumn:
       tc[-1,-5,-1]        # get last 4 cells in reversed order
       tc[1] = tr[0]       # put value of cell 0 into cell 1
 
+    The `tablecolumn` class supports the context manager idiom (__enter__ and __exit__).
+    When used in a `with` statement, the table changes will be flushed
+    automatically, which is handy when writing to the table column.
+    For example::
+
+      with t.SPECTRAL_WINDOW_ID as tc:
+        tc.putcell (0, 0)
+
     """
 
     def __init__(self, table, columnname):
@@ -63,6 +71,14 @@ class tablecolumn:
             raise RuntimeError("Column " + columnname + " does not exist in table " + table.name());
         self._table  = table;
         self._column = columnname;
+
+    def __enter__(self):
+        """Function to enter a with block."""
+        return self
+        
+    def __exit__ (self, type, value, traceback):
+        """Function to exit a with block which flushes the table object."""
+        self._table.flush()
 
     def name (self):
         """Get the name of the column."""
