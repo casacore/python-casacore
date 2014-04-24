@@ -83,7 +83,7 @@ def _check_key_slice (key, nrows, name):
         strow  = nrows-1;
         endrow = -1;
     if key.start != None:
-        strow = _check_index (key.start;
+        strow = _check_index (key.start);
         if strow < 0:
             strow += nrows;
         strow = min(max(strow,0), nrows-1);
