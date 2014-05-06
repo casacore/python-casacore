@@ -3,6 +3,7 @@
 Setup script for the CASACORE python wrapper.
 """
 import os
+import glob
 from setuptools import setup, find_packages, Extension
 from distutils.sysconfig import get_config_vars
 from casacore import __version__
@@ -16,24 +17,21 @@ os.environ['OPT'] = " ".join(
 
 # below is the binary python module stuff
 extension_metas = (
-    # name, extname, sources, depends, casalibs
+    # name, sources, depends, libraries
     (
-        "pyrap.fitting",
-        "_fitting",
+        "casacore.fitting._fitting",
         ["src/fit.cc", "src/fitting.cc"],
         ["src/fitting.h"],
         ['casa_scimath', 'casa_scimath_f'],
     ),
     (
-        "pyrap.functionals",
-        "_functionals",
+        "casacore.functionals._functionals",
         ["src/functional.cc", "src/functionals.cc"],
         ["src/functionals.h"],
         ['casa_scimath', 'casa_scimath_f'],
     ),
     (
-        "pyrap.images",
-        "_images",
+        "casacore.images._images",
         ["src/images.cc", "src/pyimages.cc"],
         ["src/pyimages.h"],
         ['casa_images', 'casa_components', 'casa_coordinates',
@@ -41,23 +39,20 @@ extension_metas = (
             'casa_scimath', 'casa_scimath_f', 'casa_tables', 'casa_mirlib']
     ),
     (
-        "pyrap.measures",
-        "_measures",
+        "casacore.measures._measures",
         ["src/pymeas.cc", "src/pymeasures.cc"],
         ["src/pymeasures.h"],
         ['casa_measures', 'casa_scimath', 'casa_scimath_f', 'casa_tables']
     ),
     (
-        "pyrap.quanta",
-        "_quanta",
+        "casacore.quanta._quanta",
         ["src/quanta.cc", "src/quantamath.cc", "src/quantity.cc",
             "src/quantvec.cc"],
         ["src/quanta.h"],
-        [],
+        ["casa_casa"],
     ),
     (
-        "pyrap.tables",
-        "_tables",
+        "casacore.tables._tables",
         ["src/pytable.cc", "src/pytableindex.cc", "src/pytableiter.cc",
          "src/pytablerow.cc", "src/tables.cc"],
         ["src/tables.h"],
@@ -71,11 +66,17 @@ def read(fname):
 
 extensions = []
 for meta in extension_metas:
-    name, extname, sources, depends, casalibs = meta
-    extensions.append(Extension(name="%s.%s" % (name, extname),
+    name, sources, depends, libraries = meta
+    extensions.append(Extension(name=name,
                                 sources=sources,
                                 depends=depends,
-                                libraries=casalibs))
+                                libraries=libraries))
+
+
+extensions.append(Extension(name='libpyrap',
+                            sources=glob.glob('src/Converters/*.cc'),
+                            depends=glob.glob('src/Converters/*.h'),
+                            libraries=[]))
 
 
 setup(name='casacore',

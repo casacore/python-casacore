@@ -20,6 +20,12 @@ Installation
 places checkout `python setup.py build_ext -h` and find out how
 to set for example the include path.
 
+This works for me:
+
+```
+$ python setup.py build_ext -I/usr/include/casacore:src
+$ python setup.py install
+```
 
 Requirements
 ============
