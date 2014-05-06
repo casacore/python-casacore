@@ -1,1 +1,3 @@
-from casacore import *
+"""
+backwards compatibility module
+"""
