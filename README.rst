@@ -18,6 +18,13 @@ Installation
 $ python setup.py install
 ```
 
+Requirements
+============
+
+ * Casacore: https://code.google.com/p/casacore/
+ * Boost-python: http://www.boost.org/doc/libs/1_55_0/libs/python/doc/
+ * numpy: http://www.numpy.org/
+
 About
 =====
 
