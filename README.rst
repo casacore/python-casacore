@@ -3,10 +3,10 @@ python-casacore
 
 A fork from pyrap with improvements like:
 
- * No scons dependency
- * Python 3 support
- * Project structure cleanup
- * Backwards compatibility
+* No scons
+* Python 3 support
+* Project structure cleanup
+* Backwards compatibility
 
 *DO NOT USE THIS CODE*. Use the original Pyrap. This is my personal attempt to
 make pyrap better.
@@ -14,9 +14,12 @@ make pyrap better.
 Installation
 ============
 
-```
-$ python setup.py install
-```
+`$ python setup.py install`
+
+**note:** If you like to install your casacore and whatever in obscure
+places checkout `python setup.py build_ext -h` and find out how
+to set for example the include path.
+
 
 Requirements
 ============
