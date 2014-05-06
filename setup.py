@@ -3,11 +3,18 @@
 Setup script for the CASACORE python wrapper.
 """
 import os
-import glob
 from setuptools import setup, find_packages, Extension
+from distutils.sysconfig import get_config_vars
 from casacore import __version__
 
+# this looks hacky but it removes the strict-prototypes warning
+# durng compilation
+(opt,) = get_config_vars('OPT')
+os.environ['OPT'] = " ".join(
+    flag for flag in opt.split() if flag != '-Wstrict-prototypes'
+)
 
+# below is the binary python module stuff
 extension_metas = (
     # name, extname, sources, depends, casalibs
     (
@@ -17,74 +24,60 @@ extension_metas = (
         ["src/fitting.h"],
         ['casa_scimath', 'casa_scimath_f'],
     ),
+    (
+        "pyrap.functionals",
+        "_functionals",
+        ["src/functional.cc", "src/functionals.cc"],
+        ["src/functionals.h"],
+        ['casa_scimath', 'casa_scimath_f'],
+    ),
+    (
+        "pyrap.images",
+        "_images",
+        ["src/images.cc", "src/pyimages.cc"],
+        ["src/pyimages.h"],
+        ['casa_images', 'casa_components', 'casa_coordinates',
+            'casa_fits', 'casa_lattices', 'casa_measures',
+            'casa_scimath', 'casa_scimath_f', 'casa_tables', 'casa_mirlib']
+    ),
+    (
+        "pyrap.measures",
+        "_measures",
+        ["src/pymeas.cc", "src/pymeasures.cc"],
+        ["src/pymeasures.h"],
+        ['casa_measures', 'casa_scimath', 'casa_scimath_f', 'casa_tables']
+    ),
+    (
+        "pyrap.quanta",
+        "_quanta",
+        ["src/quanta.cc", "src/quantamath.cc", "src/quantity.cc",
+            "src/quantvec.cc"],
+        ["src/quanta.h"],
+        [],
+    ),
+    (
+        "pyrap.tables",
+        "_tables",
+        ["src/pytable.cc", "src/pytableindex.cc", "src/pytableiter.cc",
+         "src/pytablerow.cc", "src/tables.cc"],
+        ["src/tables.h"],
+        ['casa_tables'],
+    )
 )
 
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+extensions = []
 for meta in extension_metas:
     name, extname, sources, depends, casalibs = meta
-    extension = Extension(name="%s.%s" % (name, extname),
-                          sources=sources,
-                          depends=depends,
-                          libraries=casalibs)
-
-"""
-PKGNAME = "pyrap.functionals"
-EXTNAME = "_functionals"
-casalibs = ['casa_scimath', 'casa_scimath_f'] # casa_casa is added by default
-
-casaextension = Extension(name = "%s.%s" % (PKGNAME, EXTNAME),
-                          sources = glob.glob('src/*.cc'),
-                          depends = glob.glob('src/*.h'),
-                          libraries = casalibs )
+    extensions.append(Extension(name="%s.%s" % (name, extname),
+                                sources=sources,
+                                depends=depends,
+                                libraries=casalibs))
 
 
-PKGNAME = "pyrap.images"
-EXTNAME = "_images"
-casalibs = ['casa_images', 'casa_components', 'casa_coordinates',
-            'casa_fits', 'casa_lattices', 'casa_measures',
-            'casa_scimath', 'casa_scimath_f', 'casa_tables', 'casa_mirlib']
-# casa_casa is added by default
-
-casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME),
-			sources = glob.glob('src/*.cc'),
-			depends = glob.glob('src/*.h'),
-			libraries= casalibs)
-
-
-PKGNAME = "pyrap.measures"
-EXTNAME = "_measures"
-casalibs = ['casa_measures', 'casa_scimath', 'casa_scimath_f',
-            'casa_tables',] # casa_casa is added by default
-
-casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME),
-			sources = glob.glob('src/*.cc'),
-			depends = glob.glob('src/*.h'),
-			libraries= casalibs)
-
-
-PKGNAME = "pyrap.quanta"
-EXTNAME = "_quanta"
-casalibs = [] # casa_casa is added by default
-
-casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME),
-                          sources = glob.glob('src/*.cc'),
-                          depends = glob.glob('src/*.h'),
-                          libraries = casalibs)
-
-
-PKGNAME = "pyrap.tables"
-EXTNAME = "_tables"
-casalibs = ['casa_tables'] # casa_casa is added by default
-
-casaextension = Extension(name="%s.%s" % (PKGNAME, EXTNAME),
-			sources = glob.glob('src/*.cc'),
-			depends = glob.glob('src/*.h'),
-			libraries= casalibs)
-
-"""
 setup(name='casacore',
       version=__version__,
       description='A wrapper around CASACORE, the radio astronomy library',
@@ -94,5 +87,5 @@ setup(name='casacore',
       keywords=['pyrap', 'casacore', 'utilities', 'astronomoy'],
       long_description=read('README.rst'),
       packages=find_packages(),
-      ext_modules=[extension],
+      ext_modules=extensions,
       license='GPL')
