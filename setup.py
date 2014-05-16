@@ -9,7 +9,7 @@ from distutils.sysconfig import get_config_vars
 from casacore import __version__
 
 # this looks hacky but it removes the strict-prototypes warning
-# durng compilation
+# during compilation
 (opt,) = get_config_vars('OPT')
 os.environ['OPT'] = " ".join(
     flag for flag in opt.split() if flag != '-Wstrict-prototypes'
@@ -49,7 +49,7 @@ extension_metas = (
         ["src/quanta.cc", "src/quantamath.cc", "src/quantity.cc",
             "src/quantvec.cc"],
         ["src/quanta.h"],
-        ["casa_casa"],
+        ["casa_casa", "boost_python", "pyrap"],
     ),
     (
         "casacore.tables._tables",
@@ -64,7 +64,13 @@ extension_metas = (
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-extensions = []
+
+extensions = [Extension(name='libpyrap',
+                            sources=glob.glob('src/Converters/*.cc'),
+                            depends=glob.glob('src/Converters/*.h'),
+                            libraries=[])]
+
+
 for meta in extension_metas:
     name, sources, depends, libraries = meta
     extensions.append(Extension(name=name,
@@ -73,10 +79,7 @@ for meta in extension_metas:
                                 libraries=libraries))
 
 
-extensions.append(Extension(name='libpyrap',
-                            sources=glob.glob('src/Converters/*.cc'),
-                            depends=glob.glob('src/Converters/*.h'),
-                            libraries=[]))
+
 
 
 setup(name='casacore',
@@ -85,7 +88,7 @@ setup(name='casacore',
       author='Gijs Molenaar',
       author_email='gijs@pythonic.nl',
       url='https://github.com/gijzelaerr/casacore-python',
-      keywords=['pyrap', 'casacore', 'utilities', 'astronomoy'],
+      keywords=['pyrap', 'casacore', 'utilities', 'astronomy'],
       long_description=read('README.rst'),
       packages=find_packages(),
       ext_modules=extensions,
