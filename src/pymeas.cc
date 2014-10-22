@@ -27,7 +27,7 @@
 
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
-#include <casacore/measures/Measures/MeasuresProxy.h>
+#include <measures/Measures/MeasuresProxy.h>
 #include <pyrap/Converters/PycBasicData.h>
 #include <pyrap/Converters/PycRecord.h>
 
