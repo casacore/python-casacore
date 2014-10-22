@@ -5,16 +5,19 @@ Python-casacore is a set of Python bindings for casacore,
 a library used in radio astronomy. It hopefully will replace the old pyrap
 some day.
 
+ * https://code.google.com/p/casacore/
+ * https://code.google.com/p/pyrap/
+
+
 Differences from pyrap:
 
 * No scons
-* Python 3 support
+* Python 3 support (work in progress)
 * Project structure cleanup
-* Backwards compatibility
 
-python-casacore is based on casacore 2.0, which is not released yet.
 
-https://code.google.com/p/casacore/
+All while aming to be backwards compatible. python-casacore is based on
+casacore 2.0, which is not released yet.
 
 
 Installation
@@ -26,19 +29,21 @@ Installation
 places checkout `python setup.py build_ext -h` and find out how
 to set for example the include path.
 
-This works for me:
 
-```
-$ python setup.py build_ext -I/usr/include/casacore:src
-$ python setup.py install
-```
+This should work::
+
+    $ python setup.py build_ext -I/usr/include/casacore:src
+    $ python setup.py install
+
 
 We will make python-casacore installable by pypi when casacore 2.0 is
 released.
 
+
 Requirements
 ============
 
+ * setuptools
  * Casacore: https://code.google.com/p/casacore/
  * Boost-python: http://www.boost.org/doc/libs/1_55_0/libs/python/doc/
  * numpy: http://www.numpy.org/
