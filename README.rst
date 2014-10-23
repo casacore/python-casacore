@@ -5,8 +5,8 @@ Python-casacore is a set of Python bindings for casacore,
 a library used in radio astronomy. It hopefully will replace the old pyrap
 some day.
 
- * https://code.google.com/p/casacore/
- * https://code.google.com/p/pyrap/
+* https://code.google.com/p/casacore/
+* https://code.google.com/p/pyrap/
 
 
 Differences from pyrap:
@@ -23,9 +23,9 @@ casacore 2.0, which is not released yet.
 Installation
 ============
 
-`$ python setup.py install`
+    $ python setup.py install
 
-**note:** If you like to install your casacore and whatever in obscure
+**note:** If you like to install your casacore in obscure
 places checkout `python setup.py build_ext -h` and find out how
 to set for example the include path.
 
@@ -61,6 +61,6 @@ https://groups.google.com/forum/#!forum/pyrap-devel
 About
 =====
 
- * Ger van Diepen -  gervandiepen@gmail.com
- * Malte Marquarding - Malte.Marquarding@gmail.com
- * Gijs Molenaar - gijs@pythonic.nl
+* Ger van Diepen -  gervandiepen@gmail.com
+* Malte Marquarding - Malte.Marquarding@gmail.com
+* Gijs Molenaar - gijs@pythonic.nl
