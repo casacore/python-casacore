@@ -23,6 +23,8 @@ casacore 2.0, which is not released yet.
 Installation
 ============
 
+to install run::
+
     $ python setup.py install
 
 **note:** If you like to install your casacore in obscure
@@ -43,10 +45,10 @@ released.
 Requirements
 ============
 
- * setuptools
- * Casacore: https://code.google.com/p/casacore/
- * Boost-python: http://www.boost.org/doc/libs/1_55_0/libs/python/doc/
- * numpy: http://www.numpy.org/
+* setuptools
+* Casacore: https://code.google.com/p/casacore/
+* Boost-python: http://www.boost.org/doc/libs/1_55_0/libs/python/doc/
+* numpy: http://www.numpy.org/
 
 
 Staying up to date
