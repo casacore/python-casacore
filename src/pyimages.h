@@ -29,7 +29,7 @@
 #define PYRAP_IMAGES_H
 
 namespace casa {
-  namespace pyrap {
+  namespace python {
     void pyimages();
   } // python
 } //casa

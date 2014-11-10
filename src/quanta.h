@@ -29,7 +29,7 @@
 #define PYRAP_QUANTA_H
 
 namespace casa {
-  namespace pyrap {
+  namespace python {
     void quantity();
     void quantvec();
     void quantamath();

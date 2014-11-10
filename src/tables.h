@@ -29,7 +29,7 @@
 #define APPSPYTHON_PYCASATABLE_H
 
 namespace casa {
-  namespace pyrap {
+  namespace python {
 
     void pytable();
     void pytablerow();

@@ -29,7 +29,7 @@
 #define PYRAP_FUNCTIONALS_H
 
 namespace casa {
-  namespace pyrap {
+  namespace python {
     void functional();
   } // python
 } //casa

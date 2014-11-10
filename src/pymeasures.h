@@ -29,7 +29,7 @@
 #define PYRAP_PYMEASURES_H
 
 namespace casa {
-  namespace pyrap {
+  namespace python {
     void pymeas();
   } // python
 } //casa
