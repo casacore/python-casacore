@@ -3,3 +3,4 @@ build/
 dist/
 casacore.egg-info/
 *.pyc
+.vagrant/
