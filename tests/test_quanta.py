@@ -1,4 +1,5 @@
 import unittest
+from math import sin
 from pyrap.quanta import *
 
 
@@ -17,7 +18,7 @@ class TestQuanta(unittest.TestCase):
         print q0*q1
         print q0/q1
         print q0+1
-        print q2+[1,1]
+        print q2+[1, 1]
         print sin(q0)
         print sin(q2)
         print q0.get()

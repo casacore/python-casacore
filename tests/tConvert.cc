@@ -25,11 +25,11 @@
 //#
 //# $Id: tConvert.cc,v 1.4 2006/11/06 00:14:44 gvandiep Exp $
 
-#include <pyrap/Converters/PycExcp.h>
-#include <pyrap/Converters/PycBasicData.h>
-#include <pyrap/Converters/PycValueHolder.h>
-#include <pyrap/Converters/PycRecord.h>
-#include <pyrap/Converters/PycArray.h>
+#include <casacore/python/Converters/PycExcp.h>
+#include <casacore/python/Converters/PycBasicData.h>
+#include <casacore/python/Converters/PycValueHolder.h>
+#include <casacore/python/Converters/PycRecord.h>
+#include <casacore/python/Converters/PycArray.h>
 #include <casa/Arrays/ArrayIO.h>
 
 #include <boost/python.hpp>

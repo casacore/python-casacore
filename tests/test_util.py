@@ -1,6 +1,7 @@
 import unittest
 from pyrap.util import substitute
 
+
 def f1(arg):
     a = 3
     s = substitute('subs as $a $arg', locals=locals())
