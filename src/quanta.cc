@@ -27,19 +27,18 @@
 
 #include "quanta.h"
 
-#include <pyrap/Converters/PycExcp.h>
-#include <pyrap/Converters/PycBasicData.h>
-#include <pyrap/Converters/PycRecord.h>
+#include <casacore/python/Converters/PycExcp.h>
+casacore/python/ConvertersConverters/PycBascasacore/python/Convertersde <pyrap/Converters/PycRecord.h>
 
 #include <boost/python.hpp>
 
 BOOST_PYTHON_MODULE(_quanta)
 {
-  casa::pyrap::register_convert_excp();
-  casa::pyrap::register_convert_basicdata();
-  casa::pyrap::register_convert_casa_record();
+  casa::python::register_convert_excp();
+  casa::python::register_convert_basicdata();
+  casa::python::register_convert_casa_record();
 
-  casa::pyrap::quantity();
-  casa::pyrap::quantvec();
-  casa::pyrap::quantamath();
+  casa::python::quantity();
+  casa::python::quantvec();
+  casa::python::quantamath();
 }

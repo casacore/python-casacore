@@ -27,10 +27,9 @@
 
 #include "tables.h"
 
-#include <pyrap/Converters/PycExcp.h>
-#include <pyrap/Converters/PycBasicData.h>
-#include <pyrap/Converters/PycValueHolder.h>
-#include <pyrap/Converters/PycRecord.h>
+#include <casacore/python/Converters/PycExcp.h>
+casacore/python/ConvertersConverters/PycBascasacore/python/Convertersde <pyrap/Convertercasacore/python/Converters.h>
+#include <casacore/python/Converters/PycRecord.h>
 #include <pyrap/Converters/PycArray.h>
 #include <tables/Tables/TableProxy.h>
 
@@ -38,15 +37,15 @@
 
 BOOST_PYTHON_MODULE(_tables)
 {
-  casa::pyrap::register_convert_excp();
-  casa::pyrap::register_convert_basicdata();
-  casa::pyrap::register_convert_casa_valueholder();
-  casa::pyrap::register_convert_casa_record();
-  casa::pyrap::register_convert_std_vector<casa::TableProxy>();
+  casa::python::register_convert_excp();
+  casa::python::register_convert_basicdata();
+  casa::python::register_convert_casa_valueholder();
+  casa::python::register_convert_casa_record();
+  casa::python::register_convert_std_vector<casa::TableProxy>();
 
-  casa::pyrap::pytable();
-  casa::pyrap::pytablerow();
-  casa::pyrap::pytableiter();
-  casa::pyrap::pytableindex();
+  casa::python::pytable();
+  casa::python::pytablerow();
+  casa::python::pytableiter();
+  casa::python::pytableindex();
 }
 

@@ -28,8 +28,8 @@
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
-#include <pyrap/Converters/PycBasicData.h>
-#include <pyrap/Converters/PycRecord.h>
+#include <casacore/python/Converters/PycBasicData.h>
+#include <casacore/python/Converters/PycRecord.h>
 
 #include <scimath/Fitting/FittingProxy.h>
 

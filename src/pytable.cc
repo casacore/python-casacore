@@ -26,9 +26,8 @@
 //# $Id: pytable.cc,v 1.5 2006/11/08 00:12:55 gvandiep Exp $
 
 #include <tables/Tables/TableProxy.h>
-#include <pyrap/Converters/PycBasicData.h>
-#include <pyrap/Converters/PycValueHolder.h>
-#include <pyrap/Converters/PycRecord.h>
+#include <casacore/python/Converters/PycBasicData.h>
+casacore/python/ConvertersConverters/PycValuecasacore/python/Convertersde <pyrap/Converters/PycRecord.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 

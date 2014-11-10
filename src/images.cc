@@ -27,10 +27,10 @@
 
 #include "pyimages.h"
 
-#include <pyrap/Converters/PycExcp.h>
-#include <pyrap/Converters/PycBasicData.h>
-#include <pyrap/Converters/PycValueHolder.h>
-#include <pyrap/Converters/PycRecord.h>
+#include <casacore/python/Converters/PycExcp.h>
+#include <casacore/python/Converters/PycBasicData.h>
+#include <casacore/python/Converters/PycValueHolder.h>
+#include <casacore/python/Converters/PycRecord.h>
 
 #include <images/Images/ImageProxy.h>
 #include <images/Images/FITSImage.h>
@@ -41,16 +41,16 @@
 BOOST_PYTHON_MODULE(_images)
 {
   // Register the required pyrap converters.
-  casa::pyrap::register_convert_excp();
-  casa::pyrap::register_convert_basicdata();
-  casa::pyrap::register_convert_casa_valueholder();
-  casa::pyrap::register_convert_casa_record();
-  casa::pyrap::register_convert_std_vector<casa::ImageProxy>();
+  casa::python::register_convert_excp();
+  casa::python::register_convert_basicdata();
+  casa::python::register_convert_casa_valueholder();
+  casa::python::register_convert_casa_record();
+  casa::python::register_convert_std_vector<casa::ImageProxy>();
 
   // Register the FITS and Miriad image types.
   casa::FITSImage::registerOpenFunction();
   casa::MIRIADImage::registerOpenFunction();
 
   // Make python interface to images.
-  casa::pyrap::pyimages();
+  casa::python::pyimages();
 }

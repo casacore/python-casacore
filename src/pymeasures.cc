@@ -26,17 +26,17 @@
 //# $Id: pymeasures.cc,v 1.2 2006/10/17 03:37:27 gvandiep Exp $
 
 #include <boost/python.hpp>
-#include <pyrap/Converters/PycExcp.h>
-#include <pyrap/Converters/PycBasicData.h>
-//#include <pyrap/Converters/PycValueHolder.h>
-#include <pyrap/Converters/PycRecord.h>
+#include <casacore/python/Converters/PycExcp.h>
+#include <casacore/python/Converters/PycBasicData.h>
+//#include <casacore/python/Converters/PycValueHolder.h>
+#include <casacore/python/Converters/PycRecord.h>
 #include "pymeasures.h"
 
 BOOST_PYTHON_MODULE(_measures)
 {
-  casa::pyrap::register_convert_excp();
-  casa::pyrap::register_convert_basicdata();
-  casa::pyrap::register_convert_casa_record();
+  casa::python::register_convert_excp();
+  casa::python::register_convert_basicdata();
+  casa::python::register_convert_casa_record();
 
-  casa::pyrap::pymeas();
+  casa::python::pymeas();
 }

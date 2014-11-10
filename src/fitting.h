@@ -29,7 +29,7 @@
 #define PYRAP_FITTING_H
 
 namespace casa {
-  namespace pyrap {
+  namespace python {
     void fit();
   } // python
 } //casa

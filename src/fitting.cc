@@ -30,15 +30,15 @@
 
 #include "fitting.h"
 
-#include <pyrap/Converters/PycExcp.h>
-#include <pyrap/Converters/PycBasicData.h>
-#include <pyrap/Converters/PycRecord.h>
-#include <pyrap/Converters/PycArray.h>
+#include <casacore/python/Converters/PycExcp.h>
+#include <casacore/python/Converters/PycBasicData.h>
+#include <casacore/python/Converters/PycRecord.h>
+#include <casacore/python/Converters/PycArray.h>
 
 BOOST_PYTHON_MODULE(_fitting)
 {
-  casa::pyrap::register_convert_excp();
-  casa::pyrap::register_convert_basicdata();
-  casa::pyrap::register_convert_casa_record();
-  casa::pyrap::fit();
+  casa::python::register_convert_excp();
+  casa::python::register_convert_basicdata();
+  //casa::python::gister_convert_casa_record();
+  casa::python::fit();
 }

@@ -26,9 +26,9 @@
 //# $Id$
 
 #include <images/Images/ImageProxy.h>
-#include <pyrap/Converters/PycBasicData.h>
-#include <pyrap/Converters/PycValueHolder.h>
-#include <pyrap/Converters/PycRecord.h>
+#include <casacore/python/Converters/PycBasicData.h>
+#include <casacore/python/Converters/PycValueHolder.h>
+#include <casacore/python/Converters/PycRecord.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
