@@ -12,4 +12,4 @@ add-apt-repository ppa:ska-sa/beta
 apt-get update
 apt-get upgrade -y
 
-apt-get install -y libcasacore-dev casacore-data python-numpy python-nose python-setuptools libboost-python-dev
+apt-get install -y libcasacore-dev casacore-data python-numpy python-nose python-setuptools libboost-python-dev libcfitsio3-dev
