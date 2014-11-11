@@ -1,7 +1,7 @@
 .idea
 build/
 dist/
-casacore.egg-info/
 *.pyc
 .vagrant/
 casacore/*/_*.so
+python_casacore.egg-info/
