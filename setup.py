@@ -73,7 +73,7 @@ for meta in extension_metas:
                                 libraries=libraries))
 
 
-setup(name='casacore',
+setup(name='python-casacore',
       version=__version__,
       description='A wrapper around CASACORE, the radio astronomy library',
       author='Gijs Molenaar',
