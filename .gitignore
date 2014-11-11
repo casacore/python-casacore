@@ -4,3 +4,4 @@ dist/
 casacore.egg-info/
 *.pyc
 .vagrant/
+casacore/*/_*.so
