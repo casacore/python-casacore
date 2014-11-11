@@ -39,6 +39,6 @@ BOOST_PYTHON_MODULE(_fitting)
 {
   casa::python::register_convert_excp();
   casa::python::register_convert_basicdata();
-  //casa::python::gister_convert_casa_record();
+  casa::python::register_convert_casa_record();
   casa::python::fit();
 }

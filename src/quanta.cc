@@ -28,7 +28,8 @@
 #include "quanta.h"
 
 #include <casacore/python/Converters/PycExcp.h>
-casacore/python/ConvertersConverters/PycBascasacore/python/Convertersde <pyrap/Converters/PycRecord.h>
+#include <casacore/python/Converters/PycBasicData.h>
+#include <casacore/python/Converters/PycRecord.h>
 
 #include <boost/python.hpp>
 

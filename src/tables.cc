@@ -28,9 +28,10 @@
 #include "tables.h"
 
 #include <casacore/python/Converters/PycExcp.h>
-casacore/python/ConvertersConverters/PycBascasacore/python/Convertersde <pyrap/Convertercasacore/python/Converters.h>
+#include <casacore/python/Converters/PycBasicData.h>
+#include <casacore/python/Converters/PycValueHolder.h>
 #include <casacore/python/Converters/PycRecord.h>
-#include <pyrap/Converters/PycArray.h>
+#include <casacore/python/Converters/PycArray.h>
 #include <tables/Tables/TableProxy.h>
 
 #include <boost/python.hpp>

@@ -28,7 +28,7 @@
 #include <tables/Tables/TableRowProxy.h>
 #include <tables/Tables/TableProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>
-casacore/python/ConvertersConverters/PycRecord.h>
+#include <casacore/python/Converters/PycRecord.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
