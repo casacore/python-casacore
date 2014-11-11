@@ -8,47 +8,35 @@ some day.
 * https://code.google.com/p/casacore/
 * https://code.google.com/p/pyrap/
 
-
-Differences from pyrap:
-
-* No scons
-* Python 3 support (work in progress)
-* Project structure cleanup
-
-
-All while aming to be backwards compatible. python-casacore is based on
-casacore 2.0, which is not released yet.
+Please don't use yet, unless you want to be involved in the development and testing.
 
 
 Installation
 ============
 
-to install run::
+to install run (change the include path to your casacore headers path)::
 
+    $ python setup.py build_ext -I/usr/include/casacore
     $ python setup.py install
-
-**note:** If you like to install your casacore in obscure
-places checkout `python setup.py build_ext -h` and find out how
-to set for example the include path.
-
-
-This should work::
-
-    $ python setup.py build_ext -I/usr/include/casacore:src
-    $ python setup.py install
-
-
-We will make python-casacore installable by pypi when casacore 2.0 is
-released.
 
 
 Requirements
 ============
 
 * setuptools
-* Casacore: https://code.google.com/p/casacore/
+* Casacore >= 2.0: https://code.google.com/p/casacore/
 * Boost-python: http://www.boost.org/doc/libs/1_55_0/libs/python/doc/
 * numpy: http://www.numpy.org/
+* cfitsio: http://heasarc.gsfc.nasa.gov/fitsio/
+
+on ubuntu:
+
+* enable the SKA-SA launchpad PPA: https://launchpad.net/~ska-sa/+archive/ubuntu/main
+* enable the SKA-sa launchpas BETA PPA: https://launchpad.net/~ska-sa/+archive/ubuntu/beta
+* install build dependencies:
+
+    $ apt-get install libcasacore-dev casacore-data python-numpy python-nose \
+        python-setuptools libboost-python-dev libcfitsio3-dev
 
 
 Staying up to date
