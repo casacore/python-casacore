@@ -27,13 +27,13 @@
 
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
-#include <scimath/Functionals/FunctionalProxy.h>
+#include <casacore/scimath/Functionals/FunctionalProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
 
 using namespace boost::python;
 
-namespace casa { namespace pyrap {
+namespace casa { namespace python {
 
   
   void functional()

@@ -42,7 +42,7 @@
 using namespace boost::python;
 
 namespace casa {
-  namespace pyrap {
+  namespace python {
 
   typedef Quantum<Vector<Double> > QProxy;
   typedef Vector<Double> VD;
@@ -190,7 +190,7 @@ namespace casa {
 
 }}
 
-namespace casa { namespace pyrap {
+namespace casa { namespace python {
 
   void quantvec()
   {

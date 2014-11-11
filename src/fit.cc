@@ -35,7 +35,7 @@
 
 using namespace boost::python;
 
-namespace casa { namespace pyrap {
+namespace casa { namespace python {
   void fit()
   {
     class_<FittingProxy> ("fitting")

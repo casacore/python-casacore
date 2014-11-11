@@ -44,7 +44,7 @@ using namespace boost::python;
 
 
 namespace casa {
-  namespace pyrap {
+  namespace python {
 
   Quantity fromString(const String& str) {
     QuantumHolder qh;
@@ -151,7 +151,7 @@ namespace casa {
 
 }}
 
-namespace casa { namespace pyrap {
+namespace casa { namespace python {
   void quantity()
   {
     class_<Quantity> ("Quantity")

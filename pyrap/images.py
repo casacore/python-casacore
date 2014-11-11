@@ -1,1 +1,0 @@
-from casacore.images import *

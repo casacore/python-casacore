@@ -33,7 +33,7 @@
 using namespace boost::python;
 
 namespace casa { 
-  namespace pyrap {
+  namespace python {
 
     dict constants() {
       dict d;

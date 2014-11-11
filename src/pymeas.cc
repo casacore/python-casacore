@@ -33,7 +33,7 @@
 
 using namespace boost::python;
 
-namespace casa { namespace pyrap {
+namespace casa { namespace python {
   void pymeas()
   {
     class_<MeasuresProxy> ("measures")
