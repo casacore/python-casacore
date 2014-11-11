@@ -3,7 +3,6 @@
 Setup script for the CASACORE python wrapper.
 """
 import os
-import glob
 from setuptools import setup, find_packages, Extension
 from distutils.sysconfig import get_config_vars
 from casacore import __version__
@@ -65,12 +64,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-extensions = [Extension(name='libpyrap',
-                            sources=glob.glob('src/Converters/*.cc'),
-                            depends=glob.glob('src/Converters/*.h'),
-                            libraries=[])]
-
-
+extensions = []
 for meta in extension_metas:
     name, sources, depends, libraries = meta
     extensions.append(Extension(name=name,
@@ -79,15 +73,12 @@ for meta in extension_metas:
                                 libraries=libraries))
 
 
-
-
-
 setup(name='casacore',
       version=__version__,
       description='A wrapper around CASACORE, the radio astronomy library',
       author='Gijs Molenaar',
       author_email='gijs@pythonic.nl',
-      url='https://github.com/gijzelaerr/casacore-python',
+      url='https://github.com/ska-sa/casacore-python',
       keywords=['pyrap', 'casacore', 'utilities', 'astronomy'],
       long_description=read('README.rst'),
       packages=find_packages(),
