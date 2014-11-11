@@ -33,7 +33,7 @@ on ubuntu:
 
 * enable the SKA-SA launchpad PPA: https://launchpad.net/~ska-sa/+archive/ubuntu/main
 * enable the SKA-sa launchpas BETA PPA: https://launchpad.net/~ska-sa/+archive/ubuntu/beta
-* install build dependencies:
+* install build dependencies::
 
     $ apt-get install libcasacore-dev casacore-data python-numpy python-nose \
         python-setuptools libboost-python-dev libcfitsio3-dev
