@@ -38,6 +38,7 @@
 
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
+#include <boost/python/overloads.hpp>
 
 using namespace boost::python;
 
@@ -55,32 +56,34 @@ namespace casa {
   }
    
 
-  String printTime(const Quantity& q, const String& fmt) {
+  String printTime(const Quantity& q, const String& fmt, uInt prec) {
     MVTime mvt(q);
-    if (fmt == "") {
-      return mvt.string();
+    if (fmt.empty()) {
+      return mvt.string(prec);
     }
-    return mvt.string(MVTime::giveMe(fmt));
+    return mvt.string(MVTime::giveMe(fmt), prec);
   }
 
-  String printAngle(const Quantity& q, const String& fmt) {
+  String printAngle(const Quantity& q, const String& fmt, uInt prec) {
     MVAngle mva(q);
-    if (fmt ==  "") {
-      return mva.string();
+    if (fmt.empty()) {
+      return mva.string(prec);
     }
-    return mva.string(MVAngle::giveMe(fmt));
+    return mva.string(MVAngle::giveMe(fmt), prec);
   }
 
-  String printQuantum(const Quantity& q,  const String& fmt) {
+  String printQuantum(const Quantity& q,  const String& fmt="", uInt prec=0) {
     if (q.get().getFullUnit() == Unit("s")) {
-      return printTime(q, fmt);
-    } else if  (q.get().getFullUnit() == Unit("rad")) {
-      return printAngle(q, fmt);      
+      return printTime(q, fmt, prec);
+    } else if (q.get().getFullUnit() == Unit("rad")) {
+      return printAngle(q, fmt, prec);      
     }
     ostringstream oss;
     q.print(oss);
     return String(oss);
   }
+  // Introduce the overloaded PrintQuantum function
+  BOOST_PYTHON_FUNCTION_OVERLOADS(printQuantumOVL, printQuantum, 1, 3)
 
   // these functions take Unit as argument, enable outside access through
   // strings
@@ -156,7 +159,8 @@ namespace casa { namespace pyrap {
       .def (init< const Quantity& > ())
       .def (init< Double, const String& >())
       .def ("__repr__", &printQuantum, (boost::python::arg("self"),
-					boost::python::arg("fmt")=""))
+					boost::python::arg("fmt")="",
+					boost::python::arg("precision")=0))
       .def ("get_value", (const Double& ( Quantity::* )( ) const)(&Quantity::getValue),
 	    return_value_policy < copy_const_reference> ()
 	    )
@@ -220,7 +224,9 @@ namespace casa { namespace pyrap {
       .def (self >= self)
       .def (self >= Double())
       .def (Double() >= self)     
-      .def ("formatted", &printQuantum)
+      .def ("formatted", &printQuantum, printQuantumOVL((boost::python::arg("q"),
+                                                         boost::python::arg("fmt")="",
+							 boost::python::arg("precision")=0)))
       ;
     def ("from_string", &fromString);
     def ("from_dict", &fromRecord);
