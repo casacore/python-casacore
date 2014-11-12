@@ -12,6 +12,6 @@ before_install:
   - sudo apt-get install libcasacore-dev
 install:
   - python setup.py build_ext -I/usr/include/casacore
-  - sudo python setup.py install
+  - python setup.py install
 script:
   - nosetests
