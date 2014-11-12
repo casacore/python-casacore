@@ -1,12 +1,9 @@
 python-casacore
 ===============
 
-Python-casacore is a set of Python bindings for casacore,
-a library used in radio astronomy. It hopefully will replace the old pyrap
+Python-casacore is a set of Python bindings for `casacore <https://code.google.com/p/casacore/>`_,
+a library used in radio astronomy. It hopefully will replace the old `pyrap <https://code.google.com/p/pyrap/>`_
 some day.
-
-* https://code.google.com/p/casacore/
-* https://code.google.com/p/pyrap/
 
 Please don't use yet, unless you want to be involved in the development and testing.
 
@@ -14,14 +11,21 @@ Please don't use yet, unless you want to be involved in the development and test
 Installation
 ============
 
-to install run (change the include path to your casacore headers path)::
+Ubuntu 14.04
+------------
 
-    $ python setup.py build_ext -I/usr/include/casacore
-    $ python setup.py install
+This is most simple way to get started with python-casacore::
+
+    $ sudo apt-get install software-properties-common
+    $ sudo add-apt-repository ppa:ska-sa/beta
+    $ sudo apt-get update
+    $ sudo apt-get install python-casacore
 
 
-Requirements
-============
+from source
+-----------
+
+install these requirements:
 
 * setuptools
 * Casacore >= 2.0: https://code.google.com/p/casacore/
@@ -29,7 +33,7 @@ Requirements
 * numpy: http://www.numpy.org/
 * cfitsio: http://heasarc.gsfc.nasa.gov/fitsio/
 
-on ubuntu:
+On ubuntu you can install these with:
 
 * enable the SKA-SA launchpad PPA: https://launchpad.net/~ska-sa/+archive/ubuntu/main
 * enable the SKA-sa launchpas BETA PPA: https://launchpad.net/~ska-sa/+archive/ubuntu/beta
@@ -38,19 +42,37 @@ on ubuntu:
     $ apt-get install libcasacore-dev casacore-data python-numpy python-nose \
         python-setuptools libboost-python-dev libcfitsio3-dev
 
+Then to compile install run (change the include path to your casacore headers path)::
+
+    $ python setup.py build_ext -I/usr/include/casacore
+    $ python setup.py install
+
+
+Using pip
+-----------------
+
+Due to a bug in casacore you need to manually set the include path.
+
+create and modify the file `~/.pydistutils.cfg`::
+
+    [build_ext]
+    include_dirs=/usr/include/casacore
+    
+Now you can pip install python-casacore::
+
+    $ pip install python-casacore
+
 
 Staying up to date
 ==================
 
-Stay up to date by subscribing to the pyrap-devel mailinglist:
+Stay up to date by subscribing to the
+`pyrap-devel mailinglist <https://groups.google.com/forum/#!forum/pyrap-devel>`_.
 
 
-https://groups.google.com/forum/#!forum/pyrap-devel
+Credits
+=======
 
-
-About
-=====
-
-* Ger van Diepen -  gervandiepen@gmail.com
-* Malte Marquarding - Malte.Marquarding@gmail.com
-* Gijs Molenaar - gijs@pythonic.nl
+* `Ger van Diepen <gervandiepen@gmail.com>`_
+* `Malte Marquarding <Malte.Marquarding@gmail.com>`_
+* `Gijs Molenaar <gijs@pythonic.nl>`_
