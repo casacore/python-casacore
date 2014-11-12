@@ -27,19 +27,19 @@ from source
 
 install these requirements:
 
-* setuptools
-* Casacore >= 2.0: https://code.google.com/p/casacore/
-* Boost-python: http://www.boost.org/doc/libs/1_55_0/libs/python/doc/
-* numpy: http://www.numpy.org/
-* cfitsio: http://heasarc.gsfc.nasa.gov/fitsio/
+* `setuptools <https://pypi.python.org/pypi/setuptools>`_
+* `Casacore <https://code.google.com/p/casacore/>`_ >= 2.0
+* `Boost-python <http://www.boost.org/libs/python/doc/>`_
+* `numpy <http://www.numpy.org/>`_ 
+* `cfitsio <http://heasarc.gsfc.nasa.gov/fitsio/>`_
 
 On ubuntu you can install these with:
 
-* enable the SKA-SA launchpad PPA: https://launchpad.net/~ska-sa/+archive/ubuntu/main
-* enable the SKA-sa launchpas BETA PPA: https://launchpad.net/~ska-sa/+archive/ubuntu/beta
+* enable the `SKA-SA launchpad PPA <https://launchpad.net/~ska-sa/+archive/ubuntu/main>`_ 
+
 * install build dependencies::
 
-    $ apt-get install libcasacore-dev casacore-data python-numpy python-nose \
+    $ apt-get install libcasacore-devpython-numpy python-nose \
         python-setuptools libboost-python-dev libcfitsio3-dev
 
 Then to compile install run (change the include path to your casacore headers path)::
@@ -51,9 +51,10 @@ Then to compile install run (change the include path to your casacore headers pa
 Using pip
 -----------------
 
-Due to a bug in casacore you need to manually set the include path.
+Due to a bug in casacore you need to manually set the include path. Unfortunatly you
+can't do this with pip command line arguments, so you need to do this with a workaround.
 
-create and modify the file `~/.pydistutils.cfg`::
+create and modify the file *~/.pydistutils.cfg*::
 
     [build_ext]
     include_dirs=/usr/include/casacore
