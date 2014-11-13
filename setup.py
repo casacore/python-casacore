@@ -7,6 +7,7 @@ from setuptools import setup, Extension, find_packages
 from distutils.sysconfig import get_config_vars
 
 from casacore import __version__
+from casacore import six
 
 # remove the strict-prototypes warning during compilation
 (opt,) = get_config_vars('OPT')
