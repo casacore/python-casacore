@@ -5,3 +5,4 @@ dist/
 .vagrant/
 casacore/*/_*.so
 python_casacore.egg-info/
+*~
