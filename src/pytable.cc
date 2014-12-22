@@ -25,7 +25,7 @@
 //#
 //# $Id: pytable.cc,v 1.5 2006/11/08 00:12:55 gvandiep Exp $
 
-#include <tables/Tables/TableProxy.h>
+#include <casacore/tables/Tables/TableProxy.h>
 
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycValueHolder.h>
@@ -36,7 +36,7 @@
 
 using namespace boost::python;
 
-namespace casa { namespace python {
+namespace casacore { namespace python {
 
   void pytable()
   {
@@ -142,17 +142,34 @@ namespace casa { namespace python {
       .def ("_getcell", &TableProxy::getCell,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("rownr")))
+      .def ("_getcellvh", &TableProxy::getCellVH,
+	    (boost::python::arg("columnname"),
+	     boost::python::arg("rownr"),
+             boost::python::arg("value")))
       .def ("_getcellslice", &TableProxy::getCellSliceIP,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("rownr"),
 	     boost::python::arg("blc"),
 	     boost::python::arg("trc"),
 	     boost::python::arg("inc")))
+      .def ("_getcellslicevh", &TableProxy::getCellSliceVHIP,
+	    (boost::python::arg("columnname"),
+	     boost::python::arg("rownr"),
+	     boost::python::arg("blc"),
+	     boost::python::arg("trc"),
+	     boost::python::arg("inc"),
+             boost::python::arg("value")))
       .def ("_getcol", &TableProxy::getColumn,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("startrow"),
 	     boost::python::arg("nrow"),
 	     boost::python::arg("rowincr")))
+      .def ("_getcolvh", &TableProxy::getColumnVH,
+	    (boost::python::arg("columnname"),
+	     boost::python::arg("startrow"),
+	     boost::python::arg("nrow"),
+	     boost::python::arg("rowincr"),
+             boost::python::arg("value")))
       .def ("_getvarcol", &TableProxy::getVarColumn,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("startrow"),
@@ -166,6 +183,15 @@ namespace casa { namespace python {
 	     boost::python::arg("startrow"),
 	     boost::python::arg("nrow"),
 	     boost::python::arg("rowincr")))
+      .def ("_getcolslicevh", &TableProxy::getColumnSliceVHIP,
+	    (boost::python::arg("columnname"),
+	     boost::python::arg("blc"),
+	     boost::python::arg("trc"),
+	     boost::python::arg("inc"),
+	     boost::python::arg("startrow"),
+	     boost::python::arg("nrow"),
+	     boost::python::arg("rowincr"),
+             boost::python::arg("value")))
       .def ("_putcell", &TableProxy::putCell,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("rownr"),

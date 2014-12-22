@@ -25,8 +25,8 @@
 //#
 //# $Id: pytableiter.cc,v 1.1 2006/09/19 06:44:14 gvandiep Exp $
 
-#include <tables/Tables/TableIterProxy.h>
-#include <tables/Tables/TableProxy.h>
+#include <casacore/tables/Tables/TableIterProxy.h>
+#include <casacore/tables/Tables/TableProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
 #include <boost/python.hpp>
@@ -34,7 +34,7 @@
 
 using namespace boost::python;
 
-namespace casa { namespace python {
+namespace casacore { namespace python {
 
   void pytableiter()
   {

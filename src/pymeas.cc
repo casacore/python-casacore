@@ -27,13 +27,13 @@
 
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
-#include <measures/Measures/MeasuresProxy.h>
+#include <casacore/measures/Measures/MeasuresProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
 
 using namespace boost::python;
 
-namespace casa { namespace python {
+namespace casacore { namespace python {
   void pymeas()
   {
     class_<MeasuresProxy> ("measures")

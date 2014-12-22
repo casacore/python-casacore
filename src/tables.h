@@ -28,7 +28,9 @@
 #ifndef APPSPYTHON_PYCASATABLE_H
 #define APPSPYTHON_PYCASATABLE_H
 
-namespace casa {
+#include <casacore/casa/aips.h>
+
+namespace casacore {
   namespace python {
 
     void pytable();

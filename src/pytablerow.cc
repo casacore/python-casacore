@@ -25,8 +25,8 @@
 //#
 //# $Id: pytablerow.cc,v 1.2 2006/10/25 22:14:54 gvandiep Exp $
 
-#include <tables/Tables/TableRowProxy.h>
-#include <tables/Tables/TableProxy.h>
+#include <casacore/tables/Tables/TableRowProxy.h>
+#include <casacore/tables/Tables/TableProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
 #include <boost/python.hpp>
@@ -34,7 +34,7 @@
 
 using namespace boost::python;
 
-namespace casa { namespace python {
+namespace casacore { namespace python {
 
   void pytablerow()
   {

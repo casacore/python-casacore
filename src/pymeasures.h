@@ -28,7 +28,9 @@
 #ifndef PYRAP_MEASURES_H
 #define PYRAP_PYMEASURES_H
 
-namespace casa {
+#include <casacore/casa/aips.h>
+
+namespace casacore {
   namespace python {
     void pymeas();
   } // python

@@ -25,23 +25,23 @@
 //#
 //# $Id:$
 
-#include <casa/Quanta.h>
-#include <casa/Quanta/QLogical.h>
-#include <casa/Quanta/QuantumHolder.h>
-#include <casa/Quanta/MVTime.h>
-#include <casa/Quanta/MVAngle.h>
+#include <casacore/casa/Quanta.h>
+#include <casacore/casa/Quanta/QLogical.h>
+#include <casacore/casa/Quanta/QuantumHolder.h>
+#include <casacore/casa/Quanta/MVTime.h>
+#include <casacore/casa/Quanta/MVAngle.h>
 
-#include <casa/Containers/Record.h>
-#include <casa/Exceptions/Error.h>
-#include <casa/sstream.h>
-#include <casa/BasicSL/String.h>
+#include <casacore/casa/Containers/Record.h>
+#include <casacore/casa/Exceptions/Error.h>
+#include <casacore/casa/sstream.h>
+#include <casacore/casa/BasicSL/String.h>
 
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
 using namespace boost::python;
 
-namespace casa {
+namespace casacore {
   namespace python {
 
   typedef Quantum<Vector<Double> > QProxy;
@@ -190,7 +190,7 @@ namespace casa {
 
 }}
 
-namespace casa { namespace python {
+namespace casacore { namespace python {
 
   void quantvec()
   {

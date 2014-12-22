@@ -28,7 +28,9 @@
 #ifndef PYRAP_FUNCTIONALS_H
 #define PYRAP_FUNCTIONALS_H
 
-namespace casa {
+#include <casacore/casa/aips.h>
+
+namespace casacore {
   namespace python {
     void functional();
   } // python
