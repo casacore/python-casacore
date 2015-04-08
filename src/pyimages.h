@@ -28,7 +28,9 @@
 #ifndef PYRAP_IMAGES_H
 #define PYRAP_IMAGES_H
 
-namespace casa {
+#include <casacore/casa/aips.h>
+
+namespace casacore {
   namespace python {
     void pyimages();
   } // python

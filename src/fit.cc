@@ -31,11 +31,11 @@
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
 
-#include <scimath/Fitting/FittingProxy.h>
+#include <casacore/scimath/Fitting/FittingProxy.h>
 
 using namespace boost::python;
 
-namespace casa { namespace python {
+namespace casacore { namespace python {
   void fit()
   {
     class_<FittingProxy> ("fitting")

@@ -25,7 +25,7 @@
 //#
 //# $Id$
 
-#include <images/Images/ImageProxy.h>
+#include <casacore/images/Images/ImageProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycValueHolder.h>
 #include <casacore/python/Converters/PycRecord.h>
@@ -34,7 +34,7 @@
 
 using namespace boost::python;
 
-namespace casa { namespace python {
+namespace casacore { namespace python {
 
   void pyimages()
   {

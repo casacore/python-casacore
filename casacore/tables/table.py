@@ -878,19 +878,53 @@ class table(Table):
         """
         return self._getcell (columnname, rownr)
 
+    def getcellnp (self, columnname, rownr, nparray):
+        """Get data from a column cell into the given numpy array .
+
+        Get the contents of a cell containing an array into the
+        given numpy array. The numpy array has to be C-contiguous
+        with a shape matching the shape of the column cell.
+        Data type coercion will be done as needed.
+
+        """
+        if not nparray.flags.c_contiguous  or  nparray.size == 0:
+            raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
+        return self._getcellvh (columnname, rownr, nparray)
+
     def getcellslice (self, columnname, rownr, blc, trc, inc=[]):
         """Get a slice from a column cell holding an array.
 
-        The columnname and (0-relative) rownr indicate the  table cell.
+        The columnname and (0-relative) rownr indicate the table cell.
 
         The slice to get is defined by the blc, trc, and optional inc arguments.
         (blc = bottom-left corner, trc=top-right corner, inc=stride). Not all
         axes have to be filled in for blc, trc, and inc. Missing axes default
-        to begin, end, and 1.
+        to begin, end, and 1. A negative blc or trc defaults to begin or end.
+        Note that trc is inclusive (unlike python indexing).
 
         """
         return self._getcellslice (columnname, rownr,
                                    blc, trc, inc);
+
+    def getcellslicenp (self, columnname, nparray, rownr, blc, trc, inc=[]):
+        """Get a slice from a column cell into the given numpy array.
+
+        The columnname and (0-relative) rownr indicate the table cell.
+
+        The numpy array has to be C-contiguous with a shape matching the
+        shape of the slice. Data type coercion will be done as needed.
+
+        The slice to get is defined by the blc, trc, and optional inc arguments.
+        (blc = bottom-left corner, trc=top-right corner, inc=stride). Not all
+        axes have to be filled in for blc, trc, and inc. Missing axes default
+        to begin, end, and 1. A negative blc or trc defaults to begin or end.
+        Note that trc is inclusive (unlike python indexing).
+
+        """
+        if not nparray.flags.c_contiguous  or  nparray.size == 0:
+            raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
+        return self._getcellslicevh (columnname, rownr,
+                                     blc, trc, inc, nparray);
 
     def getcol (self, columnname, startrow=0, nrow=-1, rowincr=1):
         """Get the contents of a column or part of it.
@@ -914,6 +948,24 @@ class table(Table):
 #                i = inx*
 #        except:
         return self._getcol (columnname, startrow, nrow, rowincr)
+
+    def getcolnp (self, columnname, nparray, startrow=0, nrow=-1, rowincr=1):
+        """Get the contents of a column or part of it into the given numpy array.
+
+        The numpy array has to be C-contiguous with a shape matching the
+        shape of the column (part). Data type coercion will be done as needed.
+
+        If the column contains arrays, they should all have the same shape.
+        An exception is thrown if they differ in shape. In that case the
+        method :func:`getvarcol` should be used instead.
+
+        The column can be sliced by giving a start row (default 0), number of
+        rows (default all), and row stride (default 1).
+
+        """
+        if not nparray.flags.c_contiguous  or  nparray.size == 0:
+            raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
+        return self._getcolvh (columnname, startrow, nrow, rowincr, nparray)
 
     def getvarcol (self, columnname, startrow=0, nrow=-1, rowincr=1):
         """Get the contents of a column or part of it.
@@ -939,6 +991,26 @@ class table(Table):
         """
         return self._getcolslice (columnname, blc, trc, inc,
                                   startrow, nrow, rowincr);
+
+    def getcolslicenp (self, columnname, nparray, blc, trc, inc=[],
+                       startrow=0, nrow=-1, rowincr=1):
+        """Get a slice from a table column into the given numpy array.
+
+        The numpy array has to be C-contiguous with a shape matching the
+        shape of the column (slice). Data type coercion will be done as needed.
+
+        The slice in each array is given by blc, trc, and inc (as in getcellslice).
+        The column can be sliced by giving a start row (default 0), number of
+        rows (default all), and row stride (default 1).
+
+        It returns a numpy array where the first axis is formed by the column
+        cells. The other axes are the array axes.
+
+        """
+        if not nparray.flags.c_contiguous  or  nparray.size == 0:
+            raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
+        return self._getcolslicevh (columnname, blc, trc, inc,
+                                    startrow, nrow, rowincr, nparray);
 
     def putcell (self, columnname, rownr, value):
         """Put a value into one or more table cells.
@@ -971,7 +1043,8 @@ class table(Table):
         The slice to put is defined by the blc, trc, and optional inc arguments.
         (blc = bottom-left corner, trc=top-right corner, inc=stride). Not all
         axes have to be filled in for blc, trc, and inc. Missing axes default
-        to begin, end, and 1.
+        to begin, end, and 1. A negative blc or trc defaults to begin or end.
+        Note that trc is inclusive (unlike python indexing).
 
         As in putcell the array can be given by a scalar, sequence, or numpy array.
         The shape of the array to put has to match the slice shape.

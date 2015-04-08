@@ -32,7 +32,7 @@
 #include <casacore/python/Converters/PycValueHolder.h>
 #include <casacore/python/Converters/PycRecord.h>
 #include <casacore/python/Converters/PycArray.h>
-#include <tables/Tables/TableProxy.h>
+#include <casacore/tables/Tables/TableProxy.h>
 
 #include <boost/python.hpp>
 

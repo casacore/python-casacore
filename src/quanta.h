@@ -28,7 +28,9 @@
 #ifndef PYRAP_QUANTA_H
 #define PYRAP_QUANTA_H
 
-namespace casa {
+#include <casacore/casa/aips.h>
+
+namespace casacore {
   namespace python {
     void quantity();
     void quantvec();

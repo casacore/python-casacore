@@ -24,15 +24,15 @@
 //#                        AUSTRALIA
 //# $Id:$
 
-#include <casa/Quanta.h>
-#include <casa/Quanta/QMath.h>
-#include <casa/Quanta/QLogical.h>
+#include <casacore/casa/Quanta.h>
+#include <casacore/casa/Quanta/QMath.h>
+#include <casacore/casa/Quanta/QLogical.h>
 
 #include <boost/python.hpp>
 
 using namespace boost::python;
 
-namespace casa { 
+namespace casacore { 
   namespace python {
 
     dict constants() {

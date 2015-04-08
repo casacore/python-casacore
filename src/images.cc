@@ -32,9 +32,9 @@
 #include <casacore/python/Converters/PycValueHolder.h>
 #include <casacore/python/Converters/PycRecord.h>
 
-#include <images/Images/ImageProxy.h>
-#include <images/Images/FITSImage.h>
-#include <images/Images/MIRIADImage.h>
+#include <casacore/images/Images/ImageProxy.h>
+#include <casacore/images/Images/FITSImage.h>
+#include <casacore/images/Images/MIRIADImage.h>
 
 #include <boost/python.hpp>
 

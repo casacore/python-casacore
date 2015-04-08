@@ -33,7 +33,7 @@
 
 using namespace boost::python;
 
-namespace casa { namespace python {
+namespace casacore { namespace python {
 
   
   void functional()
