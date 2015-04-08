@@ -40,6 +40,7 @@ On ubuntu you can install these with:
         python-setuptools libboost-python-dev libcfitsio3-dev
 
 * compile and install::
+
     $ python setup.py install
 
 
