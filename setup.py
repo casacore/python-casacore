@@ -38,7 +38,7 @@ extension_metas = (
         "casacore.images._images",
         ["src/images.cc", "src/pyimages.cc"],
         ["src/pyimages.h"],
-        ['casa_images', 'casa_components', 'casa_coordinates',
+        ['casa_images', 'casa_coordinates',
          'casa_fits', 'casa_lattices', 'casa_measures',
          'casa_scimath', 'casa_scimath_f', 'casa_tables', 'casa_mirlib',
          'boost_python', 'casa_python']
