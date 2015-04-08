@@ -39,13 +39,15 @@ On ubuntu you can install these with:
     $ apt-get install libcasacore-dev python-numpy \
         python-setuptools libboost-python-dev libcfitsio3-dev
 
-* Compile and install
+* compile and install::
     $ python setup.py install
 
 
 Using pip
 ---------
 
+python-casacore is also available trough pip. Note that you need to manually satisfy
+the requirements mentioned above::
     $ pip install python-casacore
 
 
