@@ -3,15 +3,13 @@ python:
   - '2.7'
 before_install:
   - sudo apt-get update -qq
-  - > 
-    sudo apt-get install software-properties-common python-nose
-    python-numpy python-setuptools libboost-python-dev
-    libcfitsio3-dev libpython3.4-dev libpython2.7-dev python3-nose
-  - sudo add-apt-repository -y ppa:ska-sa/beta
+  - sudo apt-get install software-properties-common python-nose
+        python-numpy python-setuptools libboost-python-dev
+        libcfitsio3-dev libpython2.7-dev
+  - sudo add-apt-repository -y ppa:radio-astro/main
   - sudo apt-get update -qq
-  - sudo apt-get install libcasacore-dev
+  - sudo apt-get install libcasacore2-dev
 install:
-  - python setup.py build_ext -I/usr/include/casacore
   - python setup.py develop
 script:
   - nosetests

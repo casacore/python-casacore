@@ -32,7 +32,7 @@ install these requirements:
 
 On ubuntu you can install these with:
 
-* enable the `SKA-SA launchpad PPA <https://launchpad.net/~ska-sa/+archive/ubuntu/main>`_ 
+* enable the `radio astronomy launchpad PPA <https://launchpad.net/~radio-astro/+archive/ubuntu/main>`_ 
 
 * install build dependencies::
 
