@@ -36,7 +36,7 @@ On ubuntu you can install these with:
 
 * install build dependencies::
 
-    $ apt-get install libcasacore-dev python-numpy \
+    $ apt-get install libcasacore2-dev python-numpy \
         python-setuptools libboost-python-dev libcfitsio3-dev
 
 * compile and install::
