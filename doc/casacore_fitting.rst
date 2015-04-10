@@ -2,12 +2,12 @@
 Module :mod:`fitting`
 ===========================
 
-.. automodule:: pyrap.fitting
+.. automodule:: casacore.fitting
 
 API
 ---
 
-.. autoclass:: pyrap.fitting.fitserver
+.. autoclass:: casacore.fitting.fitserver
    :members:
    :undoc-members:
    :inherited-members:

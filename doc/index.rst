@@ -2,26 +2,26 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to pyrap's documentation!
-=================================
+Welcome to python-casacore's documentation!
+===========================================
 
-`pyrap <http://pyrap.googlecode.com>`_ is a python binding to the
-`casacore <http://casacore.googlecode.com>`_ library.
+`python-casacore <https://github.com/casacore/python-casacore>`_ is a python
+binding to the `casacore <http://casacore.googlecode.com>`_ library.
 It consists of the following modules:
 
-:mod:`pyrap.util`
+:mod:`casacore.util`
   Common utility functions
-:mod:`pyrap.tables`
+:mod:`casacore.tables`
   Relational data base like table system supporting multi-dimensional arrays.
-:mod:`pyrap.images` and :mod:`pyrap.images.coordinates`
+:mod:`casacore.images` and :mod:`casacore.images.coordinates`
   Access, arithmetic, and analysis on multi-dimensional images.
-:mod:`pyrap.functionals`
+:mod:`casacore.functionals`
   Functions with one or more dimensions
-:mod:`pyrap.fitting`
+:mod:`casacore.fitting`
   Fitting data to functionals.
-:mod:`pyrap.quanta`
+:mod:`casacore.quanta`
   Handling of values and units.
-:mod:`pyrap.measures`
+:mod:`casacore.measures`
   Handling of astronomical coordinates
 
 
@@ -30,13 +30,13 @@ Contents:
 .. toctree::
    :maxdepth: 3
 
-   pyrap_util.rst
-   pyrap_tables.rst
-   pyrap_images.rst
-   pyrap_functionals.rst
-   pyrap_fitting.rst
-   pyrap_quanta.rst
-   pyrap_measures.rst
+   casacore_util.rst
+   casacore_tables.rst
+   casacore_images.rst
+   casacore_functionals.rst
+   casacore_fitting.rst
+   casacore_quanta.rst
+   casacore_measures.rst
 
 
 Indices and tables

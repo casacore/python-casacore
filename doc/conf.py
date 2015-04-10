@@ -38,7 +38,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'pyrap'
+project = u'python-casacore'
 copyright = u'2009, Malte Marquarding, Ger van Diepen'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -65,7 +65,7 @@ release = '0.3'
 
 # List of directories, relative to source directory, that shouldn't be searched
 # for source files.
-exclude_trees = ['.build', 'pyrap_quanta/tags']
+exclude_trees = ['.build']
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
@@ -165,7 +165,7 @@ latex_paper_size = 'a4'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('index', 'pyrap.tex', ur'pyrap Documentation',
+  ('index', 'casacore.tex', ur'python-casacore Documentation',
    ur'Malte Marquarding, Ger van Diepen', 'manual'),
 ]
 
