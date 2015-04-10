@@ -20,7 +20,7 @@ Ubuntu 14.04
 This is most simple way to get started with python-casacore::
 
     $ sudo apt-get install software-properties-common
-    $ sudo add-apt-repository ppa:ska-sa/beta
+    $ sudo add-apt-repository ppa:radio-astro/main
     $ sudo apt-get update
     $ sudo apt-get install python-casacore
 
