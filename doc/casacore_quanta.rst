@@ -1,8 +1,8 @@
 ==========================
-Module :mod:`pyrap.quanta`
+Module :mod:`casacore.quanta`
 ==========================
 
-.. module:: pyrap.quanta
+.. module:: casacore.quanta
 
 Python bindings for
 `casacore Quantum objects <../../casacore/doc/html/classcasa_1_1Quantum.html>`_
@@ -22,10 +22,10 @@ Constants, time and angle formatting
 ------------------------------------
 
 If you would like to see all the possible constants known to quanta you can
-execute the function :func:`pyrap.quanta.constants.keys()`. You can get the
+execute the function :func:`casacore.quanta.constants.keys()`. You can get the
 value of any constant in that dictionary with a command such as::
 
-    >>> from pyrap import quanta
+    >>> from casacore import quanta
     >>> boltzmann = quanta.constants['k']
     >>> print 'Boltzmann constant is ', boltzmann
     Boltzmann constant is 1.3806578e-23 J/K
@@ -61,7 +61,7 @@ is done in such a way that it interprets a 'd' as degrees if preceded by a
 value without a period and if any value following it is terminated with an 'm'.
 In other cases 'days' are assumed. Here are some examples::
 
-    >>> from pyrap.quanta import quantity
+    >>> from casacore.quanta import quantity
     >>> print quantity('today')
     50611.2108 d
     >>> print quantity('5jul1998')
@@ -108,11 +108,11 @@ API
 
 .. function:: quantity(*args)
 
-   A Factory function to create a :class:`pyrap.quanta.Quantity` instance.
+   A Factory function to create a :class:`casacore.quanta.Quantity` instance.
    This can be from a scalar or vector and a unit.
 
    :param args:
-   	  * A string will be parsed into a :class:`pyrap.quanta.Quantity`
+   	  * A string will be parsed into a :class:`casacore.quanta.Quantity`
 	  * A `dict` with the keys `value` and `unit`
 	  * two arguments representing `value` and `unit`
 
@@ -139,7 +139,7 @@ API
 
         :param unit: an optional conformant unit to convert the quantity to.
                      If the unit isn't specified the canonical unit is used.
-	:rtype: :class:`pyrap.quanta.Quantity`
+	:rtype: :class:`casacore.quanta.Quantity`
 
         Example::
 
@@ -168,9 +168,9 @@ API
 
     .. method:: conforms(other)
 
-	Check if another :class:`pyrap.quanta.Quantity` conforms to self.
+	Check if another :class:`casacore.quanta.Quantity` conforms to self.
 
-        :param other: an :class:`pyrap.quanta.Quantity` object to compare to
+        :param other: an :class:`casacore.quanta.Quantity` object to compare to
 
     .. method:: convert(other=None)
 
@@ -197,14 +197,14 @@ API
         Convert to an angle Quantity.
 	This will only work if it conforms to angle
 
-	:rtype: :class:`pyrap.quanta.Quantity`
+	:rtype: :class:`casacore.quanta.Quantity`
 
     .. method:: to_time()
 
         Convert to a time Quantity (e.g. hour angle).
 	This will only work if it conforms to time
 
-	:rtype: :class:`pyrap.quanta.Quantity`
+	:rtype: :class:`casacore.quanta.Quantity`
 
     .. method:: to_unix_time()
 

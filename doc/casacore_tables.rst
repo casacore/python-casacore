@@ -2,7 +2,7 @@
 Module :mod:`tables`
 ====================
 
-.. automodule:: pyrap.tables
+.. automodule:: casacore.tables
 
 Table utility functions
 -----------------------
@@ -51,60 +51,60 @@ MeasurementSet utility functions
 
 Utility functions details
 -------------------------
-.. autofunction:: pyrap.tables.taql
-.. autofunction:: pyrap.tables.tablefromascii
-.. autofunction:: pyrap.tables.maketabdesc
-.. autofunction:: pyrap.tables.makescacoldesc
-.. autofunction:: pyrap.tables.makearrcoldesc
-.. autofunction:: pyrap.tables.makecoldesc
-.. autofunction:: pyrap.tables.tabledefinehypercolumn
-.. autofunction:: pyrap.tables.tableexists
-.. autofunction:: pyrap.tables.tableiswritable
-.. autofunction:: pyrap.tables.tablecopy
-.. autofunction:: pyrap.tables.tabledelete
-.. autofunction:: pyrap.tables.tablerename
-.. autofunction:: pyrap.tables.tableinfo
-.. autofunction:: pyrap.tables.tablesummary
-.. autofunction:: pyrap.tables.addImagingColumns
-.. autofunction:: pyrap.tables.removeImagingColumns
-.. autofunction:: pyrap.tables.addDerivedMSCal
-.. autofunction:: pyrap.tables.removeDerivedMSCal
-.. autofunction:: pyrap.tables.msconcat
+.. autofunction:: casacore.tables.taql
+.. autofunction:: casacore.tables.tablefromascii
+.. autofunction:: casacore.tables.maketabdesc
+.. autofunction:: casacore.tables.makescacoldesc
+.. autofunction:: casacore.tables.makearrcoldesc
+.. autofunction:: casacore.tables.makecoldesc
+.. autofunction:: casacore.tables.tabledefinehypercolumn
+.. autofunction:: casacore.tables.tableexists
+.. autofunction:: casacore.tables.tableiswritable
+.. autofunction:: casacore.tables.tablecopy
+.. autofunction:: casacore.tables.tabledelete
+.. autofunction:: casacore.tables.tablerename
+.. autofunction:: casacore.tables.tableinfo
+.. autofunction:: casacore.tables.tablesummary
+.. autofunction:: casacore.tables.addImagingColumns
+.. autofunction:: casacore.tables.removeImagingColumns
+.. autofunction:: casacore.tables.addDerivedMSCal
+.. autofunction:: casacore.tables.removeDerivedMSCal
+.. autofunction:: casacore.tables.msconcat
 
 Class :class:`tables.table`
 ---------------------------
-.. autoclass:: pyrap.tables.table
+.. autoclass:: casacore.tables.table
    :members:
    :undoc-members:
    :inherited-members:
 
 Class :class:`tables.tablecolumn`
 ---------------------------------
-.. autoclass:: pyrap.tables.tablecolumn
+.. autoclass:: casacore.tables.tablecolumn
    :members:
    :undoc-members:
    :inherited-members:
 
 Class :class:`tables.tablerow`
 ------------------------------
-.. autoclass:: pyrap.tables.tablerow
+.. autoclass:: casacore.tables.tablerow
    :members:
    :undoc-members:
    :inherited-members:
 
 Class :class:`tables.tableiter`
 -------------------------------
-.. autoclass:: pyrap.tables.tableiter
+.. autoclass:: casacore.tables.tableiter
    :members:
    :undoc-members:
    :inherited-members:
 
 Class :class:`tables.tableindex`
 --------------------------------
-.. autoclass:: pyrap.tables.tableindex
+.. autoclass:: casacore.tables.tableindex
    :members:
    :undoc-members:
    :inherited-members:
 
-.. automodule:: pyrap.tables.tableutil
-.. automodule:: pyrap.tables.msutil
+.. automodule:: casacore.tables.tableutil
+.. automodule:: casacore.tables.msutil

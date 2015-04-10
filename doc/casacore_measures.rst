@@ -1,8 +1,8 @@
 ============================
-Module :mod:`pyrap.measures`
+Module :mod:`casacore.measures`
 ============================
 
-.. module:: pyrap.measures
+.. module:: casacore.measures
 
 Introduction
 ============
@@ -22,36 +22,36 @@ measures. The basic functionality provided is:
 To access the measures do the following. We will use `dm` as the measures
 instance through all examples::
 
-   >>> from pyrap.measures import measures
+   >>> from casacore.measures import measures
    >>> dm = measures()
 
 Measures
 --------
 
 Measures are e.g. an epoch or coordinates which have in addition to values -
-:class:`pyrap.quanta.Quantity` - also a reference specification and possibly
+:class:`casacore.quanta.Quantity` - also a reference specification and possibly
 an offset. They are represented as records with fields describing the various
 entities embodied in the measure. These entities can be obtained by the access
 methods:
 
-* :meth:`~pyrap.measures.measures.get_type`
-* :meth:`~pyrap.measures.measures.get_ref`
-* :meth:`~pyrap.measures.measures.get_offset`
-* :meth:`~pyrap.measures.measures.get_value`.
+* :meth:`~casacore.measures.measures.get_type`
+* :meth:`~casacore.measures.measures.get_ref`
+* :meth:`~casacore.measures.measures.get_offset`
+* :meth:`~casacore.measures.measures.get_value`.
 
 Each measure has its own list of reference codes (see the individual methods
-for creating them, like :meth:`~pyrap.measures.measures.direction`). If an
+for creating them, like :meth:`~casacore.measures.measures.direction`). If an
 empty or no code reference code is  given, the default code for that type of
 measure will be used (e.g. it is *J2000* for a
-:meth:`~pyrap.measures.measures.direction`). If an unknown code is given,
+:meth:`~casacore.measures.measures.direction`). If an unknown code is given,
 this default is also returned, but with a warning message.
 
 The values of a measure (like the right-ascension for a
-:meth:`~pyrap.measures.measures.direction`) are given as
-:func:`pyrap.quanta.quantity`. Each of them can be either a scalar quantity
+:meth:`~casacore.measures.measures.direction`) are given as
+:func:`casacore.quanta.quantity`. Each of them can be either a scalar quantity
 with a scalar or vector for its actual value (see the following example)::
 
-    >>> from pyrap.quanta import quantity
+    >>> from casacore.quanta import quantity
     >>> dm.epoch('utc','today')	# note that your value will be different
     {'m0': {'unit': 'd', 'value': 55147.912709756973},
      'refer': 'UTC',
@@ -89,19 +89,19 @@ with a scalar or vector for its actual value (see the following example)::
 
 Known measures are:
 
-    * :meth:`~pyrap.measures.measures.epoch`: an instance in time (internally
+    * :meth:`~casacore.measures.measures.epoch`: an instance in time (internally
       expressed as MJD or MGSD)
-    * :meth:`~pyrap.measures.measures.direction`: a direction towards an
+    * :meth:`~casacore.measures.measures.direction`: a direction towards an
       astronomical object (including planets, sun, moon)
-    * :meth:`~pyrap.measures.measures.position`: a position on Earth
-    * :meth:`~pyrap.measures.measures.frequency`: electromagnetic wave energy
-    * :meth:`~pyrap.measures.measures.radialvelocity`: radial velocity of
+    * :meth:`~casacore.measures.measures.position`: a position on Earth
+    * :meth:`~casacore.measures.measures.frequency`: electromagnetic wave energy
+    * :meth:`~casacore.measures.measures.radialvelocity`: radial velocity of
       astronomical object
-    * :meth:`~pyrap.measures.measures.doppler`: doppler shift (i.e. radial
+    * :meth:`~casacore.measures.measures.doppler`: doppler shift (i.e. radial
       velocity in non-velocity units like *Optical*, *Radio*.
-    * :meth:`~pyrap.measures.measures.baseline`: interferometer baseline
-    * :meth:`~pyrap.measures.measures.uvw`: UVW coordinates
-    * :meth:`~pyrap.measures.measures.earthmagnetic`: Earth' magnetic field
+    * :meth:`~casacore.measures.measures.baseline`: interferometer baseline
+    * :meth:`~casacore.measures.measures.uvw`: UVW coordinates
+    * :meth:`~casacore.measures.measures.earthmagnetic`: Earth' magnetic field
 
 In addition to the reference code (like *J2000*), a measure needs sometimes
 more information to be convertable to another reference code (e.g. a time
@@ -121,9 +121,9 @@ position by adding to your *.casarc* file::
 API
 ---
 
-.. autofunction:: pyrap.measures.is_measure
+.. autofunction:: casacore.measures.is_measure
 
-.. autoclass:: pyrap.measures.measures
+.. autoclass:: casacore.measures.measures
    :members:
    :exclude-members: asbaseline, doframe, framenow, getvalue, todop, todoppler,
                      torestfrequency, torest, touvw, tofrequency,
