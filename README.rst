@@ -3,13 +3,13 @@ python-casacore
 
 Python-casacore is a set of Python bindings for `casacore <https://code.google.com/p/casacore/>`_,
 a c++ library used in radio astronomy. Python-casacore replaces the old
-`pyrap <https://code.google.com/p/pyrap/>`_..
+`pyrap <https://code.google.com/p/pyrap/>`_.
 
 
-The python-casacore documentation can be found on `readthedocs <http://python-casacore.readthedocs.org/>`.
+The python-casacore documentation can be found on `readthedocs <http://python-casacore.readthedocs.org/>`_.
 
-[![Build Status](https://travis-ci.org/casacore/python-casacore.svg?branch=master)](https://travis-ci.org/casacore/python-casacore)
-
+.. image:: https://travis-ci.org/casacore/python-casacore.svg?branch=master
+    :target: https://travis-ci.org/casacore/python-casacore
 
 Installation
 ============
