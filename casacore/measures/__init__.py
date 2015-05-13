@@ -27,7 +27,7 @@
 __all__ = ['is_measure', 'measures']
 
 import os
-import pyrap.quanta as dq
+import casacore.quanta as dq
 from  _measures import measures as _measures
 
 if os.environ.has_key("MEASURESDATA"):
@@ -75,7 +75,7 @@ class measures(_measures):
 
     Typical usage::
 
-        from pyrap.measures import measures
+        from casacore.measures import measures
         dm = measures() # create measures server instance
         dirmeas = dm.direction()
 
@@ -131,9 +131,9 @@ class measures(_measures):
 
         :param v0, v1: Direction quantity values should be
                        longitude (angle) and latitude (angle) or strings
-                       parsable by :func:`~pyrap.quanta.quantity`.
+                       parsable by :func:`~casacore.quanta.quantity`.
                        None are needed for planets: the frame epoch defines
-                       coordinates. See :func:`~pyrap.quanta.quantity` for
+                       coordinates. See :func:`~casacore.quanta.quantity` for
                        possible angle formats.
         :param off: an optional offset measure of same type
 
@@ -164,7 +164,7 @@ class measures(_measures):
 
         The position quantity values should be either longitude (angle),
         latitude(angle) and height(length); or x,y,z (length). See
-        :func:`~pyrap.quanta.quantity` for possible angle formats.
+        :func:`~casacore.quanta.quantity` for possible angle formats.
 
         :param rf: reference code string; Allowable reference
                    codes are: *WGS84* *ITRF* (World Geodetic System and
@@ -275,7 +275,7 @@ class measures(_measures):
 
         Example::
 
-            >>> from pyrap import quanta
+            >>> from casacore import quanta
             >>> dm.doppler('radio', 0.4)
             >>> dm.doppler('radio', '0.4')
             >>> dm.doppler('RADIO', quanta.constants['c']*0.4))
@@ -390,7 +390,7 @@ class measures(_measures):
         International Geomagnetic Reference Field). The earthmagnetic quantity
         values should be either longitude (angle), latitude(angle) and
         length(field strength); or x,y,z (field).
-        See :func:`~pyrap.quanta.quantity` for possible angle formats.
+        See :func:`~casacore.quanta.quantity` for possible angle formats.
 
         :param rf: reference code string; Allowable reference
                    codes are: *IGRF*
@@ -565,7 +565,7 @@ class measures(_measures):
 
         Example::
 
-            >>> from pyrap.quanta import quantity
+            >>> from casacore.quanta import quantity
             >>> x = quantity([10,50],'m')
             >>> y = quantity([20,100],'m')
             >>> z = quantity([30,150],'m')

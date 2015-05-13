@@ -87,11 +87,11 @@ def taql (command, style='Python', tables=[], globals={}, locals={}):
     for tab in tables:
         tabs += [tab]
     try:
-        import pyrap.util
+        import casacore.util
         if len(locals) == 0:
             # local variables in caller are 3 levels up from getlocals
-            locals = pyrap.util.getlocals(3)
-        cmd = pyrap.util.substitute(cmd, [(table, '', tabs)], globals, locals)
+            locals = casacore.util.getlocals(3)
+        cmd = casacore.util.substitute(cmd, [(table, '', tabs)], globals, locals)
     except:
         pass
     if style:
@@ -1127,14 +1127,14 @@ class table(Table):
         tdesc = desc
         # Create a tabdesc if only a coldesc is given.
         if desc.has_key('name'):
-            import pyrap.tables.tableutil
+            import casacore.tables.tableutil
             if len(desc)==2 and desc.has_key('desc'):
                 # Given as output from makecoldesc
-                tdesc = pyrap.tables.tableutil.maketabdesc(desc);
+                tdesc = casacore.tables.tableutil.maketabdesc(desc);
             elif desc.has_key('valueType'):
             # Given as output of getcoldesc (with a name field added)
-                cd = pyrap.tables.tableutil.makecoldesc (desc['name'], desc)
-                tdesc = pyrap.tables.tableutil.maketabdesc(cd)
+                cd = casacore.tables.tableutil.makecoldesc (desc['name'], desc)
+                tdesc = casacore.tables.tableutil.maketabdesc(cd)
         self._addcols (tdesc, dminfo, addtoparent)
         self._makerow()
 
@@ -1731,7 +1731,7 @@ class table(Table):
                 tx = 0;
                 os.system ('casabrowser ' + tempname + waitstr1)
                 if wait:
-                    from pyrap.tables import tabledelete
+                    from casacore.tables import tabledelete
                     print "  finished browsing"
                     tabledelete (tempname);
 
@@ -1816,7 +1816,7 @@ class table(Table):
                     os.system ('casaviewer ' + tempname + waitstr1)
                     viewed = True
                     if wait:
-                        from pyrap.tables import tabledelete
+                        from casacore.tables import tabledelete
                         print "  finished viewing"
                         tabledelete (tempname);
                     else:
