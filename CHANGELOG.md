@@ -1,3 +1,8 @@
+# next release
+
+## General
+ - Replaced references to pyrap -> casacore (issue #16)
+
 # 2.0.0
 
 ## General
