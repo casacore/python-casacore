@@ -3,11 +3,12 @@
 Setup script for the CASACORE python wrapper.
 """
 import os
+import sys
 from setuptools import setup, Extension, find_packages
 from distutils.sysconfig import get_config_vars
 
 from casacore import __version__
-from casacore import six
+
 
 # remove the strict-prototypes warning during compilation
 (opt,) = get_config_vars('OPT')
@@ -20,19 +21,27 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
+# The Ubuntu boost python package contains a shared library for python3.4.
+if sys.version_info.major == 2:
+    boost_python = 'boost_python'
+else:
+    boost_python = 'boost_python-py%s%s' % (sys.version_info.major,
+                                            sys.version_info.minor)
+
+
 extension_metas = (
     # name, sources, depends, libraries
     (
         "casacore.fitting._fitting",
         ["src/fit.cc", "src/fitting.cc"],
         ["src/fitting.h"],
-        ['casa_scimath', 'casa_scimath_f', 'boost_python', 'casa_python'],
+        ['casa_scimath', 'casa_scimath_f', boost_python, 'casa_python'],
     ),
     (
         "casacore.functionals._functionals",
         ["src/functional.cc", "src/functionals.cc"],
         ["src/functionals.h"],
-        ['casa_scimath', 'casa_scimath_f', 'boost_python', 'casa_python'],
+        ['casa_scimath', 'casa_scimath_f', boost_python, 'casa_python'],
     ),
     (
         "casacore.images._images",
@@ -41,14 +50,14 @@ extension_metas = (
         ['casa_images', 'casa_coordinates',
          'casa_fits', 'casa_lattices', 'casa_measures',
          'casa_scimath', 'casa_scimath_f', 'casa_tables', 'casa_mirlib',
-         'boost_python', 'casa_python']
+         boost_python, 'casa_python']
     ),
     (
         "casacore.measures._measures",
         ["src/pymeas.cc", "src/pymeasures.cc"],
         ["src/pymeasures.h"],
         ['casa_measures', 'casa_scimath', 'casa_scimath_f', 'casa_tables',
-         'boost_python', 'casa_python']
+         boost_python, 'casa_python']
     ),
     (
         "casacore.quanta._quanta",
@@ -62,7 +71,7 @@ extension_metas = (
         ["src/pytable.cc", "src/pytableindex.cc", "src/pytableiter.cc",
          "src/pytablerow.cc", "src/tables.cc"],
         ["src/tables.h"],
-        ['casa_tables', 'boost_python', 'casa_python'],
+        ['casa_tables', boost_python, 'casa_python'],
     )
 )
 
