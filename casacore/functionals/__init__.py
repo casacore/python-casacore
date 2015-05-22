@@ -35,19 +35,19 @@ parameters, and for the automatic calculation of the derivatives with respect
 to the parameters.
 
 The created functionals can be used for fitiing as provided by 
-:mod:`pyrap.fitting`.
+:mod:`casacore.fitting`.
 
 A functional has a mask associated with it, to indicate if certain parameters 
 have to be solved for. See masks for details.
 
-To access the functionals module ``import pyrap.functionals``.
+To access the functionals module ``import casacore.functionals``.
 
 Functionals are created in a variety of ways, in general by specifying the 
 name of the functional, together with some necessary information like e.g. 
 the order of a polynomial, or the code needed to compile your privately d
 efined function. Parameters can be set at creation time or later::
 
-    >>> from pyrap.functionals import functional, gaussian1d
+    >>> from casacore.functionals import functional, gaussian1d
     >>> a = gaussian1d()	    # creates a 1D Gaussian, default arguments
     >>> b = functional('gaussian1') # creates the same one
     >>> print a.f(1)                # the value at x=1
@@ -59,7 +59,7 @@ efined function. Parameters can be set at creation time or later::
 
 In some cases an order can be specified as well (e.g. for polynomials)::
 
-    >>> from pyrap.functionals import functional, poly
+    >>> from casacore.functionals import functional, poly
     >>> a = poly(3)               # creates a 3rd order polynomial
     >>> print a
     {'ndim': 1, 'masks': array([ True,  True,  True,  True], dtype=bool),
@@ -70,7 +70,7 @@ create a functional from a compiled string specifying an arbitrary function.
 For example, let us make our own polynomial ``1 + 2*x + 3*x2`` and evaluate it 
 at a few abcissa locations::
 
-    >>> from pyrap.functionals import compiled
+    >>> from casacore.functionals import compiled
     >>> a = compiled('p0 + p1*x + p2*x*x', [1,2,3])   # Define
     >>> a([0,10,20])                                  # Evaluate at x=[0,10,20]
     [1.0, 321.0, 1241.0]

@@ -86,7 +86,7 @@ class CasaTestFrame(wxFrame):
 if __name__ == '__main__':
     import sys
     app = wxPySimpleApp()
-    from pyrap_tables import table as casatable
+    from casacore.tables import table as casatable
     casatab = casatable('/nfs/aips++/data/atnf/scripts/C972.ms')
     frame = CasaTestFrame(None, sys.stdout, casatab)
     frame.Show(True)

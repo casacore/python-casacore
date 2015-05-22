@@ -41,7 +41,7 @@ The fitting module
 
 For most uses we will create a single fitting object to work with::
 
-    from pyrap.fitting import fitserver
+    from casacore.fitting import fitserver
     dfit = fitserver()
 
 
@@ -56,7 +56,7 @@ indices to loop over. In both cases the parameters of the tool can be given
 in the constructor (fitter method), or in a separate init method (see next
 example of the highest level use)::
 
-    from pyrap.fitting import fitserver
+    from casacore.fitting import fitserver
     myfit = fitserver()		# general fitting object created
     				# (needs initializing before it can be used)
     cpid = myfit.fitter(ftype='complex') # and another (sub-)fitter

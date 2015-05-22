@@ -1,5 +1,5 @@
 from _fitting import fitting
-from pyrap.functionals import *
+from casacore.functionals import *
 import numpy as NUM
 
 class fitserver(object):
@@ -10,7 +10,7 @@ class fitserver(object):
     conjugate (complex with both the unknown and its conjugate in the
     condition equations), separable complex, asreal complex with the real and
     imaginary part seen as independent unknowns. All solutions need a model
-    (specified as a :mod:`pyrap.functionals`. All solutions are done using an
+    (specified as a :mod:`casacore.functionals`. All solutions are done using an
     SVD type method. A collinearity factor can be specified, which is in
     essence the sine squared of the minimum angle between two normal equation
     columns that are still to be considered independent. For automatic

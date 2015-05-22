@@ -292,7 +292,7 @@ class compiled(functional):
 
     Examples::
 
-        >>> from pyrap.functionals import compiled
+        >>> from casacore.functionals import compiled
         >>> import math
         >>> a = compiled('sin(pi(0.5) ) +pi');  # an example
         >>> print a(0)

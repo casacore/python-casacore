@@ -33,7 +33,7 @@ try:
 except ImportError:
     import numpy.core.ma as nma
 
-from pyrap.images.coordinates import coordinatesystem
+from casacore.images.coordinates import coordinatesystem
 
 class image(Image):
     """The Python interface to casacore images.
@@ -147,10 +147,10 @@ class image(Image):
                             imgs += [img]
                         try:
                             # Substitute possible $ arguments
-                            import pyrap.util
-                            imagename = pyrap.util.substitute(imagename, [(image, '', imgs)], locals=pyrap.util.getlocals(3))
+                            import casacore.util
+                            imagename = casacore.util.substitute(imagename, [(image, '', imgs)], locals=casacore.util.getlocals(3))
                         except:
-                            print "Probably could not import pyrap.util"
+                            print "Probably could not import casacore.util"
                             pass
                         Image.__init__ (self, imagename, maskname, imgs)
                     else:
