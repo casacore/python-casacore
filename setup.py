@@ -22,11 +22,11 @@ def read(fname):
 
 
 # The Ubuntu boost python package contains a shared library for python3.4.
-if sys.version_info[1] == 2:
+if sys.version_info[0] == 2:
     boost_python = 'boost_python'
 else:
-    boost_python = 'boost_python-py%s%s' % (sys.version_info.major,
-                                            sys.version_info.minor)
+    boost_python = 'boost_python-py%s%s' % (sys.version_info[0],
+                                            sys.version_info[1])
 
 
 extension_metas = (
