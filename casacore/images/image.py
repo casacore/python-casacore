@@ -34,6 +34,8 @@ except ImportError:
     import numpy.core.ma as nma
 
 from casacore.images.coordinates import coordinatesystem
+from casacore import six
+
 
 class image(Image):
     """The Python interface to casacore images.
@@ -150,7 +152,7 @@ class image(Image):
                             import casacore.util
                             imagename = casacore.util.substitute(imagename, [(image, '', imgs)], locals=casacore.util.getlocals(3))
                         except:
-                            print "Probably could not import casacore.util"
+                            six.print("Probably could not import casacore.util")
                             pass
                         Image.__init__ (self, imagename, maskname, imgs)
                     else:
@@ -587,21 +589,21 @@ class image(Image):
         # Test if casaviewer can be found.
         # On OS-X 'which' always returns 0, so use test on top of it.
         if os.system('test -x `which casaviewer` > /dev/null 2>&1') == 0:
-            print "Starting casaviewer in the background ..."
+            six.print("Starting casaviewer in the background ...")
             self.unlock()
             if self.ispersistent():
                 os.system ('casaviewer ' + self.name() + ' &')
             elif len(tempname) > 0:
-                print "  making a persistent copy in " + tempname
-                print "  which should be deleted after the viewer has ended"
+                six.print("  making a persistent copy in " + tempname)
+                six.print("  which should be deleted after the viewer has ended")
                 self.saveas (tempname);
                 os.system ('casaviewer ' + tempname + ' &')
             else:
-                print "Cannot view because the image is in memory only."
-                print "You can browse a persistent copy of the image like:"
-                print "   t.view('/tmp/tempimage')"
+                six.print("Cannot view because the image is in memory only.")
+                six.print("You can browse a persistent copy of the image like:")
+                six.print("   t.view('/tmp/tempimage')")
         else:
-            print 'casaviewer cannot be found'
+            six.print("casaviewer cannot be found")
 
 
     def _adaptAxes (self, axes):

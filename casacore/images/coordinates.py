@@ -27,6 +27,8 @@
 
 import string
 import numpy
+from casacore import six
+
 
 class coordinatesystem(object):
     """
@@ -60,7 +62,7 @@ class coordinatesystem(object):
         return self._csys
 
     def summary(self):
-        print str(self)
+        six.print(str(self))
 
     def _get_coordinatenames(self):
         """Create ordered list of coordinate names

@@ -43,7 +43,7 @@ Several utility functions exist. Important ones are:
 # Make interface to class TableProxy available.
 from _tables import Table
 from tablehelper import _add_prefix, _remove_prefix, _do_remove_prefix
-
+from casacore import six
 
 # Execute a TaQL command on a table.
 def taql (command, style='Python', tables=[], globals={}, locals={}):
@@ -294,7 +294,7 @@ class table(Table):
                 Table.__init__ (self, tabname, lockopt, endian,
                                 memtype, nrow, tabledesc, dminfo);
                 if ack:
-                    print 'Successful creation of', lockopt['option']+'-locked table', tabname+':', self.ncols(), 'columns,', self.nrows(), 'rows';
+                    six.print('Successful creation of', lockopt['option']+'-locked table', tabname+':', self.ncols(), 'columns,', self.nrows(), 'rows')
             else:
                 # Deal with existing tables.
                 if not tabname:
@@ -310,17 +310,17 @@ class table(Table):
                 if isinstance(tabname,str):
                     Table.__init__ (self, tabname, lockopt, opt);
                     if ack:
-                        print 'Successful', typstr, 'open of', lockopt['option']+'-locked table', tabname+':', self.ncols(), 'columns,', self.nrows(), 'rows';
+                        six.print('Successful', typstr, 'open of', lockopt['option']+'-locked table', tabname+':', self.ncols(), 'columns,', self.nrows(), 'rows')
                 elif isinstance(tabname[0],str):
                     # Concatenate and open named tables.
                     Table.__init__ (self, tabname, concatsubtables, lockopt, opt)
                     if ack:
-                        print 'Successful', typstr, 'open of', lockopt['option']+'-locked concatenated tables', tabname,':', self.ncols(), 'columns,', self.nrows(), 'rows';
+                        six.print('Successful', typstr, 'open of', lockopt['option']+'-locked concatenated tables', tabname,':', self.ncols(), 'columns,', self.nrows(), 'rows')
                 else:
                     # Concatenate already open tables.
                     Table.__init__ (self, tabname, concatsubtables, 0, 0, 0)
                     if ack:
-                        print 'Successful virtual concatenation of', len(tabname), 'tables:', self.ncols(), 'columns,', self.nrows(), 'rows';
+                        six.print('Successful virtual concatenation of', len(tabname), 'tables:', self.ncols(), 'columns,', self.nrows(), 'rows')
         # Create a row object for this table.
         self._makerow()
 
@@ -545,7 +545,7 @@ class table(Table):
         msg = self._toascii (asciifile, headerfile, columnnames, sep,
                              precision, usebrackets)
         if len(msg) > 0:
-            print msg
+            six.print(msg)
 
     def rename (self, newtablename):
         """Rename the table.
@@ -1512,24 +1512,24 @@ class table(Table):
         tables referenced by table keywords.
 
         """
-        print 'Table summary:', self.name();
-        print 'Shape:', self.ncols(), 'columns by', self.nrows(), 'rows';
-        print 'Info:', self.info();
+        six.print('Table summary:', self.name())
+        six.print('Shape:', self.ncols(), 'columns by', self.nrows(), 'rows')
+        six.print('Info:', self.info())
         tkeys = self.getkeywords();
         if (len(tkeys) > 0):
-            print 'Table keywords:', tkeys;
+            six.print('Table keywords:', tkeys)
         columns = self.colnames();
         if (len(columns) > 0):
-            print 'Columns:', columns;
+            six.print('Columns:', columns)
             for column in columns:
                 ckeys = self.getcolkeywords(column);
                 if (len(ckeys) > 0):
-                    print column, 'keywords:', ckeys;
+                    six.print(column, 'keywords:', ckeys)
         if (recurse):
             for key in tkeys.keys():
                 value = tkeys[key];
                 tabname = _remove_prefix (value);
-                print 'Summarizing subtable:', tabname;
+                six.print('Summarizing subtable:', tabname)
                 lt = table(tabname);
                 if (not lt.summary(recurse)):
                     break;
@@ -1718,34 +1718,34 @@ class table(Table):
                 waitstr1 = " &";
                 waitstr2 = "background ...";
             if self.iswritable():
-                print "Flushing data and starting casabrowser in the " + waitstr2
+                six.print("Flushing data and starting casabrowser in the " + waitstr2)
             else:
-                print "Starting casabrowser in the " + waitstr2
+                six.print("Starting casabrowser in the " + waitstr2)
             self.flush()
             self.unlock()
             if os.system('test -e ' + self.name() + '/table.dat') == 0:
                 os.system ('casabrowser ' + self.name() + waitstr1)
             elif len(tempname) > 0:
-                print "  making a persistent copy in table " + tempname
+                six.print("  making a persistent copy in table " + tempname)
                 tx = self.copy (tempname);
                 tx = 0;
                 os.system ('casabrowser ' + tempname + waitstr1)
                 if wait:
                     from casacore.tables import tabledelete
-                    print "  finished browsing"
+                    six.print("  finished browsing")
                     tabledelete (tempname);
 
                 else:
-                    print "  after browsing use tabledelete('" + tempname + "') to delete the copy"
+                    six.print("  after browsing use tabledelete('" + tempname + "') to delete the copy")
             else:
-                print "Cannot browse because the table is in memory only."
-                print "You can browse a (shallow) persistent copy of the table like:"
-                print "   t.browse(True, '/tmp/tab1')"
+                six.print("Cannot browse because the table is in memory only.")
+                six.print("You can browse a (shallow) persistent copy of the table like:")
+                six.print("   t.browse(True, '/tmp/tab1')")
         else:
             try:
                 import wxPython
             except ImportError:
-                print 'casabrowser nor wx available'
+                six.print('casabrowser nor wx available')
                 return
             from wxPython.wx import wxPySimpleApp
             import sys
@@ -1801,30 +1801,30 @@ class table(Table):
                     waitstr1 = " &";
                     waitstr2 = "background ...";
                 if self.iswritable():
-                    print "Flushing data and starting casaviewer in the " + waitstr2
+                    six.print("Flushing data and starting casaviewer in the " + waitstr2)
                 else:
-                    print "Starting casaviewer in the " + waitstr2
+                    six.print("Starting casaviewer in the " + waitstr2)
                 self.flush()
                 self.unlock()
                 if os.system('test -e ' + self.name() + '/table.dat') == 0:
                     os.system ('casaviewer ' + self.name() + waitstr1)
                     viewed = True
                 elif len(tempname) > 0:
-                    print "  making a persistent copy in table " + tempname
-                    tx = self.copy (tempname);
-                    tx = 0;
+                    six.print("  making a persistent copy in table " + tempname)
+                    tx = self.copy (tempname)
+                    tx = 0
                     os.system ('casaviewer ' + tempname + waitstr1)
                     viewed = True
                     if wait:
                         from casacore.tables import tabledelete
-                        print "  finished viewing"
+                        six.print("  finished viewing")
                         tabledelete (tempname);
                     else:
-                        print "  after viewing use tabledelete('" + tempname + "') to delete the copy"
+                        six.print("  after viewing use tabledelete('" + tempname + "') to delete the copy")
                 else:
-                    print "Cannot browse because the table is in memory only."
-                    print "You can browse a (shallow) persistent copy of the table like:"
-                    print "   t.view(True, '/tmp/tab1')"
+                    six.print("Cannot browse because the table is in memory only.")
+                    six.print("You can browse a (shallow) persistent copy of the table like:")
+                    six.print("   t.view(True, '/tmp/tab1')")
         # Could not view the table, so browse it.
         if not viewed:
             self.browse (wait, tempname)

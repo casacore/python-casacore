@@ -23,10 +23,11 @@
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
 #
-# $Id: tableutil.py,v 1.6 2006/11/08 00:12:55 gvandiep Exp $
+
 
 from table import table
 from tablehelper import _remove_prefix, _value_type_name
+from casacore import six
 
 
 def tablefromascii (tablename, asciifile,
@@ -230,7 +231,7 @@ def tablefromascii (tablename, asciifile,
     tab = table(asciifile, headerfile, tablename, autoheader, autoshape,
                 sep, commentmarker, firstline, lastline,
                 _columnnames=columnnames, _datatypes=datatypes, _oper=1)
-    print 'Input format: [' + tab._getasciiformat() +']'
+    six.print('Input format: [' + tab._getasciiformat() +']')
     # Close table and reopen it in correct way.
     tab = 0
     return table(tablename, readonly=readonly, lockoptions=lockoptions,
@@ -552,12 +553,13 @@ def tabledelete (tablename, checksubtables=False, ack=True):
     tabname = _remove_prefix(tablename)
     t = table(tabname, ack=False)
     if t.ismultiused(checksubtables):
-        print 'Table', tabname, 'cannot be deleted; it is still in use'
+        six.print('Table', tabname, 'cannot be deleted; it is still in use')
     else:
         t = 0
         table(tabname, readonly=False, _delete=True, ack=False)
         if ack:
-            print 'Table', tabname, 'has been deleted'
+            six.print('Table', tabname, 'has been deleted')
+
 
 def tableexists(tablename):
     """Test if a table exists."""
@@ -567,6 +569,7 @@ def tableexists(tablename):
     except:
         result = False
     return result
+
 
 def tableiswritable(tablename):
     """Test if a table is writable."""
@@ -578,6 +581,7 @@ def tableiswritable(tablename):
         result = False
     return result
 
+
 def tablecopy(tablename, newtablename, deep=False, valuecopy=False, dminfo={},
               endian='aipsrc', memorytable=False, copynorows=False):
     """Copy a table.
@@ -588,6 +592,7 @@ def tablecopy(tablename, newtablename, deep=False, valuecopy=False, dminfo={},
     """
     t = table(tablename, ack=False)
     return t.copy (newtablename, deep=deep, valuecopy=valuecopy)
+
 
 def tablerename(tablename, newtablename):
     """Rename a table.
@@ -608,6 +613,7 @@ def tableinfo(tablename):
     t = table(tablename, ack=False)
     return t.info()
 
+
 def tablesummary(tablename):
     """Get the summary of a table.
 
@@ -618,6 +624,7 @@ def tablesummary(tablename):
     t = table(tablename, ack=False)
     t.summary()
 
+
 def tablestructure(tablename, dataman=True, column=True, subtable=False,
                    sort=False):
     """Print the structure of a table.
@@ -627,4 +634,4 @@ def tablestructure(tablename, dataman=True, column=True, subtable=False,
 
     """
     t = table(tablename, ack=False)
-    print t.showstructure (dataman, column, subtable, sort)
+    six.print(t.showstructure(dataman, column, subtable, sort))

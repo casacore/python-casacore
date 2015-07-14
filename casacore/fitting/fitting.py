@@ -1,5 +1,6 @@
 from _fitting import fitting
 from casacore.functionals import *
+from casacore import six
 import numpy as NUM
 
 class fitserver(object):
@@ -221,7 +222,7 @@ class fitserver(object):
                 functional("hyper", len(x)).todict()
         self._fitids[fid]["constraint"][i]["x"] = [float(v) for v in x]
         self._fitids[fid]["constraint"][i]["y"] = float(y)
-        print self._fitids[fid]["constraint"]
+        six.print(self._fitids[fid]["constraint"])
 
     def fitpoly(self, n, x, y, sd=None, wt=1.0, fid=0):
         if self.set(n=n+1, fid=fid):

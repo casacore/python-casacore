@@ -1,6 +1,9 @@
 from wxPython.wx import *
 from wxPython.grid import *
 
+from casacore import six
+
+
 class wxCasaTable(wxPyGridTableBase):
     """
     This is all it takes to make a custom data table to plug into a
@@ -69,7 +72,7 @@ class wxCasaTableGrid(wxGrid):
         EVT_GRID_CELL_RIGHT_CLICK(self, self.OnRightDown)  #added
 
     def OnRightDown(self, event):                          #added
-        print self.GetSelectedRows()                       #added
+        six.print(self.GetSelectedRows())                     #added
 
 
 #---------------------------------------------------------------------------
