@@ -231,7 +231,7 @@ def tablefromascii (tablename, asciifile,
     tab = table(asciifile, headerfile, tablename, autoheader, autoshape,
                 sep, commentmarker, firstline, lastline,
                 _columnnames=columnnames, _datatypes=datatypes, _oper=1)
-    six.print('Input format: [' + tab._getasciiformat() +']')
+    six.print_('Input format: [' + tab._getasciiformat() +']')
     # Close table and reopen it in correct way.
     tab = 0
     return table(tablename, readonly=readonly, lockoptions=lockoptions,
@@ -553,12 +553,12 @@ def tabledelete (tablename, checksubtables=False, ack=True):
     tabname = _remove_prefix(tablename)
     t = table(tabname, ack=False)
     if t.ismultiused(checksubtables):
-        six.print('Table', tabname, 'cannot be deleted; it is still in use')
+        six.print_('Table', tabname, 'cannot be deleted; it is still in use')
     else:
         t = 0
         table(tabname, readonly=False, _delete=True, ack=False)
         if ack:
-            six.print('Table', tabname, 'has been deleted')
+            six.print_('Table', tabname, 'has been deleted')
 
 
 def tableexists(tablename):
@@ -634,4 +634,4 @@ def tablestructure(tablename, dataman=True, column=True, subtable=False,
 
     """
     t = table(tablename, ack=False)
-    six.print(t.showstructure(dataman, column, subtable, sort))
+    six.print_(t.showstructure(dataman, column, subtable, sort))

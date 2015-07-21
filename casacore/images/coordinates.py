@@ -62,7 +62,7 @@ class coordinatesystem(object):
         return self._csys
 
     def summary(self):
-        six.print(str(self))
+        six.print_(str(self))
 
     def _get_coordinatenames(self):
         """Create ordered list of coordinate names
