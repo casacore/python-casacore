@@ -72,7 +72,7 @@ class wxCasaTableGrid(wxGrid):
         EVT_GRID_CELL_RIGHT_CLICK(self, self.OnRightDown)  #added
 
     def OnRightDown(self, event):                          #added
-        six.print(self.GetSelectedRows())                     #added
+        six.print_(self.GetSelectedRows())                     #added
 
 
 #---------------------------------------------------------------------------
