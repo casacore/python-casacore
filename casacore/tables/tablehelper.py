@@ -47,14 +47,14 @@ def _remove_prefix (name):
         return _do_remove_prefix (name)
     return [_do_remove_prefix(nm) for nm in name]
 
-def _check_index (key):
+def _check_index (key, name):
     # The __index__ method converts e.g. np.int16 to a proper integer.
     # An exception is thrown if the type does not have __index__ which
     # means that the given key cannot be used as an index.
     try:
         return key.__index__()
     except:
-        raise TypeError(name + " indices must be integer (or None in a slice");
+        raise TypeError(name + " indices must be integer (or None in a slice)");
     
 # Check a key or slice given to index a tablerow or tablecolumn object.
 # A TypeError exception is raised if values or not integer or None.
@@ -63,7 +63,7 @@ def _check_index (key):
 # Otherwise it returns [startrow, nrow, step].
 def _check_key_slice (key, nrows, name):
     if not isinstance(key, slice):
-        inx = _check_index (key)
+        inx = _check_index (key, name)
         # A single index (possibly negative, thus from the end).
         if inx < 0:
             inx += nrows;
@@ -74,7 +74,7 @@ def _check_key_slice (key, nrows, name):
     # be negative.
     incr = 1;
     if key.step != None:
-        incr = _check_index (key.step);
+        incr = _check_index (key.step, name);
         if incr == 0:
             raise RunTimeError(name + " slice step cannot be zero");
     strow  = 0;
@@ -83,12 +83,12 @@ def _check_key_slice (key, nrows, name):
         strow  = nrows-1;
         endrow = -1;
     if key.start != None:
-        strow = _check_index (key.start);
+        strow = _check_index (key.start, name);
         if strow < 0:
             strow += nrows;
         strow = min(max(strow,0), nrows-1);
     if key.stop != None:
-        endrow = _check_index (key.stop);
+        endrow = _check_index (key.stop, name);
         if endrow < 0:
             endrow += nrows;
         endrow = min(max(endrow,-1), nrows);
