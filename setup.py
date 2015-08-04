@@ -66,7 +66,7 @@ extension_metas = (
         ["src/quanta.cc", "src/quantamath.cc", "src/quantity.cc",
             "src/quantvec.cc"],
         ["src/quanta.h"],
-        ["casa_casa", "boost_python", "casa_python"],
+        ["casa_casa", boost_python, casa_python],
     ),
     (
         "casacore.tables._tables",
