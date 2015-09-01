@@ -6,6 +6,7 @@ import os
 import sys
 from setuptools import setup, Extension, find_packages
 from distutils.sysconfig import get_config_vars
+from ctypes.util import find_library
 
 from casacore import __version__
 
@@ -20,16 +21,22 @@ os.environ['OPT'] = " ".join(
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-
-# The Ubuntu boost python package contains a shared library for python3.4.
 if sys.version_info[0] == 2:
-    boost_python = 'boost_python'
     casa_python = 'casa_python'
 else:
-    boost_python = 'boost_python-py%s%s' % (sys.version_info[0],
-                                            sys.version_info[1])
     casa_python = 'casa_python3'
 
+# Find correct boost-python library.
+# Use version suffix if present
+boost_pyversuffix = '-py%s%s' % (sys.version_info[0], sys.version_info[1])
+if find_library("boost_python" + boost_pyversuffix) is None:
+    boost_pyversuffix = ""
+
+# If boost libraries with -mt suffix exist, use those
+if find_library("boost_python-mt" + boost_pyversuffix) is None:
+  boost_python = "boost_python"+boost_pyversuffix
+else:
+  boost_python = "boost_python-mt"+boost_pyversuffix
 
 extension_metas = (
     # name, sources, depends, libraries
