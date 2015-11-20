@@ -1,7 +1,10 @@
-# next release
+# 2.1.0
 
 ## General
  - Replaced references to pyrap -> casacore (issue #16)
+ - Experimental support for Python3 (needs python3 branch build of casacore)
+ - Link against correct Python on OSX when using homebrew (issue #15)
+
 
 # 2.0.0
 
