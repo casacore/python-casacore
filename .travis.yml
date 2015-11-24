@@ -21,3 +21,8 @@ deploy:
   on:
     tags: true
     repo: casacore/python-casacore
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/08a570c12a3afa37d8e2
+
