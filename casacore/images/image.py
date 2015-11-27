@@ -445,7 +445,7 @@ class image(Image):
         """Convert the pixel coordinates of an image value to world coordinates.
 
         The coordinates must be given with the slowest varying axis first.
-        Thus normally like frequency,Dec,Ra.
+        Thus normally like frequency(,polarisation axis),Dec,Ra.
 
         """
         return self._toworld (pixel, True);
@@ -454,7 +454,7 @@ class image(Image):
         """Convert the world coordinates of an image value to pixel coordinates.
 
         The coordinates must be given with the slowest varying axis first.
-        Thus normally like frequency,Dec,Ra.
+        Thus normally like frequency(,polarisation axis),Dec,Ra.
 
         """
         return self._topixel (world, True);
