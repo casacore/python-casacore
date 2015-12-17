@@ -79,5 +79,5 @@ The functions created can also be used to specify the function to be fitted
 in a least squares fit.
 
 """
-from functional import *
+from .functional import *
 

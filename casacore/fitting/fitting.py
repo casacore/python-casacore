@@ -1,4 +1,4 @@
-from _fitting import fitting
+from ._fitting import fitting
 from casacore.functionals import *
 from casacore import six
 import numpy as NUM

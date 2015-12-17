@@ -1,4 +1,4 @@
 """
 Utilities for casacore modules.
 """
-from substitute import substitute, getlocals, getvariable
+from .substitute import substitute, getlocals, getvariable

@@ -1,7 +1,7 @@
 import datetime
-from _quanta import Quantity
-from _quanta import QuantVec
-from _quanta import from_string, from_dict, from_dict_v
+from ._quanta import Quantity
+from ._quanta import QuantVec
+from ._quanta import from_string, from_dict, from_dict_v
 
 def is_quantity(q):
     """Indicate whether the object is a valid quantity"""

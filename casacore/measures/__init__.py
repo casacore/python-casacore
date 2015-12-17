@@ -28,7 +28,7 @@ __all__ = ['is_measure', 'measures']
 
 import os
 import casacore.quanta as dq
-from  _measures import measures as _measures
+from  ._measures import measures as _measures
 
 if os.environ.has_key("MEASURESDATA"):
     if not os.environ.has_key("AIPSPATH"):
