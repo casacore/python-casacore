@@ -25,8 +25,8 @@
 #
 # $Id: tablecolumn.py,v 1.9 2007/08/28 07:22:18 gvandiep Exp $
 
-from tablehelper import _check_key_slice, _do_remove_prefix
-from table import table
+from .tablehelper import _check_key_slice, _do_remove_prefix
+from .table import table
 
 
 class tablecolumn:
@@ -217,12 +217,12 @@ class tablecolumn:
 
     def iter (self, order='', sort=True):
         """Return a :class:`tableiter` object on this column."""
-        from tables import tableiter;
+        from casacore.tables import tableiter;
         return tableiter (self._table, [self._column], order, sort);
 
     def index (self, sort=True):
         """Return a :class:`tableindex` object on this column."""
-        from tables import tableindex;
+        from casacore.tables import tableindex;
         return tableindex (self._table, [self._column], sort);
 
     def __len__ (self):

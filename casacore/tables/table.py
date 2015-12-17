@@ -41,8 +41,8 @@ Several utility functions exist. Important ones are:
 
 
 # Make interface to class TableProxy available.
-from _tables import Table
-from tablehelper import _add_prefix, _remove_prefix, _do_remove_prefix
+from ._tables import Table
+from .tablehelper import _add_prefix, _remove_prefix, _do_remove_prefix
 from casacore import six
 
 # Execute a TaQL command on a table.
@@ -334,7 +334,7 @@ class table(Table):
 
     def _makerow (self):
         """Internal method to make its tablerow object."""
-        from tablerow import _tablerow;
+        from .tablerow import _tablerow;
         self._row = _tablerow (self, []);
     
     def __str__ (self):
@@ -412,7 +412,7 @@ class table(Table):
           t.DATA[0:10]   # does the same in an easier way
 
         """
-        from tablecolumn import tablecolumn;
+        from .tablecolumn import tablecolumn;
         return tablecolumn (self, columnname);
 
     def row (self, columnnames=[], exclude=False):
@@ -422,7 +422,7 @@ class table(Table):
         more rows.
 
         """
-        from tablerow import tablerow;
+        from .tablerow import tablerow;
         return tablerow (self, columnnames, exclude);
 
     def iter (self, columnnames, order='', sort=True):
@@ -447,7 +447,7 @@ class table(Table):
             print ts.nrows()
 
         """
-        from tableiter import tableiter;
+        from .tableiter import tableiter;
         return tableiter (self, columnnames, order, sort);
 
     def index (self, columnnames, sort=True):
@@ -466,7 +466,7 @@ class table(Table):
           print tinx.rownumbers(0)       # print rownrs containing ANTENNA1=0
 
         """
-        from tableindex import tableindex;
+        from .tableindex import tableindex;
         return tableindex (self, columnnames, sort);
 
     def flush (self, recursive=False):

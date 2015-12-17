@@ -404,4 +404,4 @@ given::
     >>> dfit.solution(fid=id2)
 
 """
-from fitting import *
+from .fitting import *

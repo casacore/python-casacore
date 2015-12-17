@@ -26,7 +26,7 @@
 # $Id: tableindex.py,v 1.6 2006/11/08 00:12:55 gvandiep Exp $
 
 # Make interface to class TableIndexProxy available.
-from _tables import TableIndex
+from ._tables import TableIndex
 
 class tableindex(TableIndex):
     """ The Python interface to Casacore table index

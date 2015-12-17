@@ -25,8 +25,8 @@
 #
 
 
-from table import table
-from tablehelper import _remove_prefix, _value_type_name
+from .table import table
+from .tablehelper import _remove_prefix, _value_type_name
 from casacore import six
 
 

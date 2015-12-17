@@ -1,5 +1,5 @@
 import numpy
-from _functionals import _functional
+from ._functionals import _functional
 
 class functional(_functional):
     def __init__(self, name=None, order=-1, params=None, mode=None, dtype=0):

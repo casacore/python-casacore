@@ -26,7 +26,7 @@
 # $Id$
 
 # Make interface to class ImageProxy available.
-from _images import Image
+from ._images import Image
 import numpy
 try:
     import numpy.ma as nma

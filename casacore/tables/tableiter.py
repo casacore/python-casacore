@@ -26,8 +26,8 @@
 # $Id: tableiter.py,v 1.6 2006/12/11 02:46:08 gvandiep Exp $
 
 # Make interface to class TableIterProxy available.
-from _tables import TableIter
-from table import table;
+from ._tables import TableIter
+from .table import table;
 
 class tableiter(TableIter):
     """The Python interface to Casacore table iterators
