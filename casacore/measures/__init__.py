@@ -30,9 +30,9 @@ import os
 import casacore.quanta as dq
 from  ._measures import measures as _measures
 
-if os.environ.has_key("MEASURESDATA"):
-    if not os.environ.has_key("AIPSPATH"):
-        os.environ["AIPSPATH"] = "%s dummy dummy" %  os.environ["MEASURESDATA"]
+if 'MEASURESDATA' in os.environ.keys():
+    if 'AIPSPATH' not in os.environ.keys():
+        os.environ['AIPSPATH'] = '%s dummy dummy' %  os.environ['MEASURESDATA']
 
 def is_measure(v):
     """
