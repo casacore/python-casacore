@@ -338,8 +338,9 @@ class table(Table):
         self._row = _tablerow (self, []);
     
     def __str__ (self):
-        """Return the table name."""
-        return _add_prefix (self.name());
+        """Return the table name and the basic statistics"""
+        return _add_prefix (self.name()) + "\n%d rows"%self.nrows() + "\n" + \
+          "%d columns: "%len(self.colnames())+" ".join(self.colnames());
     
     def __len__ (self):
         """Return the number of rows in the table."""
