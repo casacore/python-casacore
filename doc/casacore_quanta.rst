@@ -89,7 +89,7 @@ Standard output:
     >>> print q
     345.75917 deg
 
-Angel/time quantity formatting:
+Angle/time quantity formatting:
 
     >>> print q.formatted("ANGLE")
     +345.45.33
