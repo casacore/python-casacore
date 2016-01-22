@@ -54,7 +54,7 @@ square brackets is optional. There are examples after the list.
     * yyyy-mm-dd[Ttime[+-hh[:mm]]] - gives the UTC time from ISO 8601 format
                                      with timezone offset
     * dd[-]mmm[-][cc]yy[/time] - gives the UTC time at the specified instant
-                                 in calendat style notation (23-jun-1999)
+                                 in calendar style notation (23-jun-1999)
 
 Note that the standard unit for degrees is 'deg', and for days 'd'. Formatting
 is done in such a way that it interprets a 'd' as degrees if preceded by a
