@@ -27,6 +27,8 @@
 #include <casacore/casa/Quanta.h>
 #include <casacore/casa/Quanta/QMath.h>
 #include <casacore/casa/Quanta/QLogical.h>
+#include <casacore/casa/version.h>
+#include <sstream>
 
 #include <boost/python.hpp>
 
@@ -55,6 +57,48 @@ namespace casacore {
       return d;
     }
 
+    dict unitMap(map<String, UnitName> mymap) {
+      dict d;
+
+      for (map<String, UnitName>::iterator i=mymap.begin();
+       i != mymap.end(); ++i) {
+        list unitdesc;
+        ostringstream oss;
+// Test for casacore > 2.0.3
+#if CASACORE_MAJOR_VERSION>2 || (CASACORE_MAJOR_VERSION==2 && \
+                 (CASACORE_MINOR_VERSION>0 || (CASACORE_MINOR_VERSION==0 \
+                         && CASACORE_PATCH_VERSION>3)))
+        // Use the getter introduced in casacore 2.0.4
+        unitdesc.append(i->second).getFullName();
+#else
+        // Do the same thing with some string parsing (yuk)
+        oss << i->second;
+        string namestring=oss.str();
+        unitdesc.append(namestring.substr(11, namestring.rfind(")")-11));
+        oss.str("");
+#endif
+        oss<<(i->second).getVal().getDim();
+        Quantity q((i->second).getVal().getFac(),oss.str());
+        unitdesc.append(q);
+        d[(i->second).getName() ] = unitdesc;
+      }
+      return d;
+    }
+
+    dict units() {
+      map<String, UnitName> mapSI = UnitMap::giveSI();
+      map<String, UnitName> mapDef = UnitMap::giveDef();
+      map<String, UnitName> mapCust = UnitMap::giveCust();
+      mapSI.insert(mapDef.begin(), mapDef.end());
+      mapSI.insert(mapCust.begin(), mapCust.end());
+      return unitMap(mapSI);
+    }
+
+    dict prefixes() {
+      map<String, UnitName> mapPref = UnitMap::givePref();
+      return unitMap(mapPref);
+    }
+
 
     typedef Quantum<Vector<Double> > QProxy; 
     typedef Vector<Double> VD; 
@@ -62,6 +106,8 @@ namespace casacore {
     {
       // misc
       def ("constants", &constants);
+      def ("units", &units);
+      def ("prefixes", &prefixes);
 
       // Quantum<Vector<Double> > functions
 
