@@ -10,9 +10,12 @@ before_install:
 - sudo apt-get update -qq
 - sudo apt-get install libcasacore2-dev casacore-data
 install:
+- sudo pip install sphinx
+- sudo pip install travis-sphinx
 - python setup.py develop
 script:
 - nosetests
+- travis-sphinx --nowarn -s doc build
 deploy:
   provider: pypi
   user: gijzelaerr
