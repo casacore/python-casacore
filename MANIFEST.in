@@ -1,2 +1,0 @@
-include README.rst *.py
-recursive-include src *.cc *.h

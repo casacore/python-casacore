@@ -1,3 +1,0 @@
-"""
-backwards compatibility module
-"""
