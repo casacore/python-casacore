@@ -15,6 +15,8 @@
 # absolute, like shown here.
 #sys.path.append(os.path.abspath('.'))
 
+import sphinx_rtd_theme
+
 # General configuration
 # ---------------------
 
@@ -91,7 +93,7 @@ pygments_style = 'sphinx'
 # The style sheet to use for HTML and HTML Help pages. A file of that name
 # must exist either in Sphinx' static/ path, or in one of the custom paths
 # given in html_static_path.
-html_style = 'default.css'
+# html_style = 'default.css'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -151,6 +153,12 @@ html_static_path = ['.static']
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'pyrapdoc'
+
+html_theme = "classic"
+
+html_theme = "sphinx_rtd_theme"
+
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 
 # Options for LaTeX output
