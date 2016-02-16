@@ -1,0 +1,2569 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Module tables &mdash; python-casacore 2.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="python-casacore 2.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Module images" href="casacore_images.html"/>
+        <link rel="prev" title="Module casacore.util" href="casacore_util.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-casacore
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="casacore_util.html">Module <code class="docutils literal"><span class="pre">casacore.util</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Module <code class="docutils literal"><span class="pre">tables</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#table-utility-functions">Table utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#measurementset-utility-functions">MeasurementSet utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utility-functions-details">Utility functions details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-tables-table">Class <code class="docutils literal"><span class="pre">tables.table</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-tables-tablecolumn">Class <code class="docutils literal"><span class="pre">tables.tablecolumn</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-tables-tablerow">Class <code class="docutils literal"><span class="pre">tables.tablerow</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-tables-tableiter">Class <code class="docutils literal"><span class="pre">tables.tableiter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-tables-tableindex">Class <code class="docutils literal"><span class="pre">tables.tableindex</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html">Module <code class="docutils literal"><span class="pre">images</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html#module-casacore.images.coordinates">Module <code class="docutils literal"><span class="pre">coordinates</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_functionals.html">Module <code class="docutils literal"><span class="pre">functionals</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_fitting.html">Module <code class="docutils literal"><span class="pre">fitting</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_quanta.html">Module <code class="docutils literal"><span class="pre">casacore.quanta</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_measures.html">Module <code class="docutils literal"><span class="pre">casacore.measures</span></code></a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">python-casacore</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Module <code class="docutils literal"><span class="pre">tables</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/casacore_tables.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-casacore.tables">
+<span id="module-tables"></span><h1>Module <code class="xref py py-mod docutils literal"><span class="pre">tables</span></code><a class="headerlink" href="#module-casacore.tables" title="Permalink to this headline">¶</a></h1>
+<p>Python interface to the Casacore tables module.</p>
+<p>A <a class="reference external" href="../../casacore/doc/html/group__Tables__module.html">casacore table</a>
+is similar to a relational data base table with the extension
+that table cells can contain n-dimensional arrays.
+It has a rich SQL-like query language
+(<a class="reference external" href="../../casacore/doc/notes/199.html">TaQL</a>).</p>
+<p>A table consists of numbered rows and named columns. A column can hold
+scalar values or arrays of any dimensionality and shape. Furthermore the
+table and each column can hold a set of keywords (e.g. to define the units).
+It is nestable, thus the value of a keyword can be a keyword set in itself.</p>
+<p>The <cite>tables</cite> module consists of a few classes:</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="#casacore.tables.table" title="casacore.tables.table"><code class="xref py py-class docutils literal"><span class="pre">table</span></code></a></dt>
+<dd>main module to open, create, access, and query tables</dd>
+<dt><a class="reference internal" href="#casacore.tables.tablecolumn" title="casacore.tables.tablecolumn"><code class="xref py py-class docutils literal"><span class="pre">tablecolumn</span></code></a></dt>
+<dd>access the contents of a column in an easier way</dd>
+<dt><a class="reference internal" href="#casacore.tables.tablerow" title="casacore.tables.tablerow"><code class="xref py py-class docutils literal"><span class="pre">tablerow</span></code></a></dt>
+<dd>access the contents of table rows or parts of it</dd>
+<dt><a class="reference internal" href="#casacore.tables.tableiter" title="casacore.tables.tableiter"><code class="xref py py-class docutils literal"><span class="pre">tableiter</span></code></a></dt>
+<dd>iterate through a table based on the contents of one or more columns</dd>
+<dt><a class="reference internal" href="#casacore.tables.tableindex" title="casacore.tables.tableindex"><code class="xref py py-class docutils literal"><span class="pre">tableindex</span></code></a></dt>
+<dd>build and use an index on one or more table columns</dd>
+<dt>submodule <a class="reference external" href="#table-utility-functions">tableutil</a></dt>
+<dd>table utility functions (e.g. to create a table description)</dd>
+<dt>submodule <a class="reference external" href="#measurementset-utility-functions">msutil</a></dt>
+<dd>MeasuementSet utility functions (e.g. to concat MSs)</dd>
+</dl>
+<div class="section" id="table-utility-functions">
+<h2>Table utility functions<a class="headerlink" href="#table-utility-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><a class="reference internal" href="#casacore.tables.taql" title="casacore.tables.taql"><code class="xref py py-func docutils literal"><span class="pre">taql()</span></code></a> or <cite>tablecommand()</cite></dt>
+<dd>Execute TaQL query command</dd>
+<dt><a class="reference internal" href="#casacore.tables.tablefromascii" title="casacore.tables.tablefromascii"><code class="xref py py-func docutils literal"><span class="pre">tablefromascii()</span></code></a></dt>
+<dd>Create table from ASCII file</dd>
+<dt><a class="reference internal" href="#casacore.tables.maketabdesc" title="casacore.tables.maketabdesc"><code class="xref py py-func docutils literal"><span class="pre">maketabdesc()</span></code></a> or <cite>tablecreatedesc</cite></dt>
+<dd>Create table description</dd>
+<dt><a class="reference internal" href="#casacore.tables.makescacoldesc" title="casacore.tables.makescacoldesc"><code class="xref py py-func docutils literal"><span class="pre">makescacoldesc()</span></code></a> or <cite>tablecreatescalarcoldesc</cite></dt>
+<dd>Create description of column holding scalars</dd>
+<dt><a class="reference internal" href="#casacore.tables.makearrcoldesc" title="casacore.tables.makearrcoldesc"><code class="xref py py-func docutils literal"><span class="pre">makearrcoldesc()</span></code></a> or <cite>tablecreatearraycoldesc</cite></dt>
+<dd>Create description of column holding arrays</dd>
+<dt><a class="reference internal" href="#casacore.tables.makecoldesc" title="casacore.tables.makecoldesc"><code class="xref py py-func docutils literal"><span class="pre">makecoldesc()</span></code></a></dt>
+<dd>Create description of any column</dd>
+<dt><a class="reference internal" href="#casacore.tables.tabledefinehypercolumn" title="casacore.tables.tabledefinehypercolumn"><code class="xref py py-func docutils literal"><span class="pre">tabledefinehypercolumn()</span></code></a></dt>
+<dd>Advanced definition of hypercolumn for tiled storage managers</dd>
+<dt><a class="reference internal" href="#casacore.tables.tableexists" title="casacore.tables.tableexists"><code class="xref py py-func docutils literal"><span class="pre">tableexists()</span></code></a></dt>
+<dd>Test if a table exists</dd>
+<dt><a class="reference internal" href="#casacore.tables.tableiswritable" title="casacore.tables.tableiswritable"><code class="xref py py-func docutils literal"><span class="pre">tableiswritable()</span></code></a></dt>
+<dd>Test if a table is writable</dd>
+<dt><a class="reference internal" href="#casacore.tables.tablecopy" title="casacore.tables.tablecopy"><code class="xref py py-func docutils literal"><span class="pre">tablecopy()</span></code></a></dt>
+<dd>Copy a table</dd>
+<dt><a class="reference internal" href="#casacore.tables.tabledelete" title="casacore.tables.tabledelete"><code class="xref py py-func docutils literal"><span class="pre">tabledelete()</span></code></a></dt>
+<dd>Delete a table</dd>
+<dt><a class="reference internal" href="#casacore.tables.tablerename" title="casacore.tables.tablerename"><code class="xref py py-func docutils literal"><span class="pre">tablerename()</span></code></a></dt>
+<dd>Rename a table</dd>
+<dt><a class="reference internal" href="#casacore.tables.tableinfo" title="casacore.tables.tableinfo"><code class="xref py py-func docutils literal"><span class="pre">tableinfo()</span></code></a></dt>
+<dd>Get the type info of a table</dd>
+<dt><a class="reference internal" href="#casacore.tables.tablesummary" title="casacore.tables.tablesummary"><code class="xref py py-func docutils literal"><span class="pre">tablesummary()</span></code></a></dt>
+<dd>Get a summary of the table</dd>
+</dl>
+</div>
+<div class="section" id="measurementset-utility-functions">
+<h2>MeasurementSet utility functions<a class="headerlink" href="#measurementset-utility-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><a class="reference internal" href="#casacore.tables.addImagingColumns" title="casacore.tables.addImagingColumns"><code class="xref py py-func docutils literal"><span class="pre">addImagingColumns()</span></code></a></dt>
+<dd>Add MeasurementSet columns needed for the CASA imager</dd>
+<dt><a class="reference internal" href="#casacore.tables.removeImagingColumns" title="casacore.tables.removeImagingColumns"><code class="xref py py-func docutils literal"><span class="pre">removeImagingColumns()</span></code></a></dt>
+<dd>Remove CASA imager columns CORRECTED_DATA, MODEL_DATA, and
+IMAGING_WEIGHT</dd>
+<dt><a class="reference internal" href="#casacore.tables.addDerivedMSCal" title="casacore.tables.addDerivedMSCal"><code class="xref py py-func docutils literal"><span class="pre">addDerivedMSCal()</span></code></a></dt>
+<dd>Add the DerivedMSCal virtual columns like PA1, HA1 to a MeasurementSet</dd>
+<dt><a class="reference internal" href="#casacore.tables.removeDerivedMSCal" title="casacore.tables.removeDerivedMSCal"><code class="xref py py-func docutils literal"><span class="pre">removeDerivedMSCal()</span></code></a></dt>
+<dd>Remove the DerivedMSCal virtual columns like PA1, HA1 from a MeasurementSet</dd>
+<dt><a class="reference internal" href="#casacore.tables.msconcat" title="casacore.tables.msconcat"><code class="xref py py-func docutils literal"><span class="pre">msconcat()</span></code></a></dt>
+<dd>Concatenate spectral windows in different MSs to a single MS (in a virtual way)</dd>
+</dl>
+</div>
+<div class="section" id="utility-functions-details">
+<h2>Utility functions details<a class="headerlink" href="#utility-functions-details" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="casacore.tables.taql">
+<code class="descclassname">casacore.tables.</code><code class="descname">taql</code><span class="sig-paren">(</span><em>command</em>, <em>style='Python'</em>, <em>tables=[]</em>, <em>globals={}</em>, <em>locals={}</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.taql" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a TaQL command and return a table object.</p>
+<p>A <a class="reference external" href="../../casacore/doc/notes/199.html">TaQL</a>
+command is an SQL-like command to do a selection of rows and/or
+columns in a table.</p>
+<p>The default style used in a TaQL command is python, which means 0-based
+indexing, C-ordered arrays, and non-inclusive end in ranges.</p>
+<p>It is possible to use python variables directly in the command using
+<cite>$var</cite> where <cite>var</cite> is the name of the variable to use. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;3c343.MS&#39;</span><span class="p">)</span>
+<span class="n">value</span> <span class="o">=</span> <span class="mf">5.1</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">taql</span><span class="p">(</span><span class="s1">&#39;select from $t where COL &gt; $value&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example the table <cite>$t</cite> is replaced by a sequence number (like <cite>$1</cite>)
+and <cite>$value</cite> by its value 5.1.
+The table object of <cite>t</cite> will be appended to a copy of the <cite>tables</cite> argument
+such that the sequence number inserted matches the table object in the list.
+The more advanced user can already use <cite>$n</cite> in the query string and
+supply the associated table object in the <cite>tables</cite> argument
+(where <cite>n</cite> represents the (n-1)th <cite>tables</cite> element).</p>
+<p>The <code class="xref py py-func docutils literal"><span class="pre">query()</span></code> command makes use of this feature.</p>
+<p>The arguments <cite>globals</cite> and <cite>locals</cite> can be used to pass in a dict
+containing the possible variables used in the TaQL command. They can
+be obtained with the python functions locals() and globals().
+If <cite>locals</cite> is empty, the local variables in the calling function will
+be used, so normally one does not need to use these arguments.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.tablefromascii">
+<code class="descclassname">casacore.tables.</code><code class="descname">tablefromascii</code><span class="sig-paren">(</span><em>tablename</em>, <em>asciifile</em>, <em>headerfile=''</em>, <em>autoheader=False</em>, <em>autoshape=[]</em>, <em>columnnames=[]</em>, <em>datatypes=[]</em>, <em>sep=' '</em>, <em>commentmarker=''</em>, <em>firstline=1</em>, <em>lastline=-1</em>, <em>readonly=True</em>, <em>lockoptions='default'</em>, <em>ack=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablefromascii" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a table from an ASCII file.</p>
+<p>Create a table from a file in ASCII format. Columnar data as well as
+table and column keywords may be specified.
+Once the table is created from the ASCII data, it is opened in the
+specified mode and a table object is returned.</p>
+<p>The table columns are filled from a file containing the data values
+separated by a separator (one line per table row). The default
+separator is a blank. Blanks before and after the separator are ignored.
+If a non-blank separator is used, values can be empty. Such values
+default to 0, empty string, or F depending on the data type. E.g.
+1,,2, has 4 values of which the 2nd and 4th are empty and default to 0.
+Similarly if fewer values are given than needed, the missing values
+get the default value.</p>
+<p>Either the data format can be explicitly specified or it can be found
+automatically. The former gives more control in ambiguous situations.
+Both scalar and array columns can be generated from the ASCII input.
+The format string determines the type and optional shape.</p>
+<p>It is possible to give the column names and their data types in
+various ways:</p>
+<ul class="simple">
+<li>Using 2 header lines (as described below) as the first two lines
+in the data file or in a separate header file. This is the default way.</li>
+<li>Derive them automatically from the data (<cite>autoheader=True</cite>).</li>
+<li>Using the arguments <cite>columnnames</cite> and
+<cite>datatypes</cite> (as non-empty vectors of strings).
+It implies (<cite>autoheader=False</cite>). The data types should be
+given in the same way as done in headers.</li>
+</ul>
+<p>In automatic mode (<cite>autoheader=True</cite>) the first line
+of the ASCII data is analyzed
+to deduce the data types. Only the types I, D, and A can be
+recognized. A number without decimal point or exponent is I (integer),
+otherwise it is D (double). Any other string is A (string).
+Note that a number may contain a leading sign (+ or -).
+The <cite>autoshape</cite> argument can be used to specify if the input
+should be stored as multiple scalars (the default) or as a single
+array. In the latter case one axis in the shape can be defined as
+variable length by giving it the value 0. It means that the actual
+array shape in a row is determined by the number of values in the
+corresponding input line.
+Columns get the names <cite>Column1</cite>, <cite>Column2</cite>, etc..
+For example:</p>
+<ol class="arabic simple">
+<li><cite>autoshape=[]</cite> (which is the default) means that all values
+are to be stored as scalar columns.</li>
+<li><cite>autoshape=0</cite> means that all values in a row are to be stored as
+a variable length vector.</li>
+<li><cite>autoshape=10</cite> defines a fixed length vector. If an input
+line contains less than 10 values, the vector is filled with default
+values. If more than 10 values, the latter values are ignored.</li>
+<li><cite>autoshape=[5,0]</cite> defines a 2-dim array of which the 2nd axis is
+variable. Note that if an input line does not contain a multiple of 5
+values, the array is filled with default values.</li>
+</ol>
+<p>If the format of the table is explicitly specified, it has to be done
+either in the first two lines of the data file (named by the
+argument filename), or in a separate header file (named by the
+argument headerfile). In both forms, table keywords may also be
+specified before the column definitions.
+The column names and types can be described by two lines:</p>
+<ol class="arabic simple">
+<li>The first line contains the names of the columns.
+These names may be enclosed in quotes (either single or double).</li>
+<li>The second line contains the data type and optionally the shape
+of each column. Valid types are:<ul>
+<li>S for Short data</li>
+<li>I for Integer data</li>
+<li>R for Real data</li>
+<li>D for Double Precision data</li>
+<li>X for Complex data (Real followed by Imaginary)</li>
+<li>Z for Complex data (Amplitude then Phase)</li>
+<li>DX for Double Precision Complex data (Real followed by Imaginary)</li>
+<li>DZ for Double Precision Complex data (Amplitude then Phase)</li>
+<li>A for ASCII data (a value must be enclosed in single or double quotes
+if it contains whitespace)</li>
+<li>B for Boolean data (False are empty string, 0, or any string
+starting with F, f, N, or n).</li>
+</ul>
+</li>
+</ol>
+<p>If a column is an array, the shape has to be given after the data type
+without any whitespace. E.g. <cite>I10</cite> defines an integer vector
+of length 10. <cite>A2,5</cite> defines a 2-dim string array with shape
+[2,5]. Note that <cite>I</cite> is not the same as <cite>I1</cite> as the
+first one defines a scalar and the other one a vector with length 1.
+The last column can have one variable length axis denoted by the value 0.
+It &#8220;consumes&#8221; the remainder of the input line.</p>
+<p>If the argument headerfile is set then the header information is
+read from that file instead of the first lines of the data file.</p>
+<p>To give a simple example of the form where the header information
+is located at the top of the data file:</p>
+<div class="highlight-python"><div class="highlight"><pre>COLI   COLF   COLD       COLX        COLZ       COLS
+  I      R      D          X           Z          A
+  1      1.1    1.11       1.12 1.13   1.14 1.15  Str1
+  10     11     12         13   14     15   16    &quot;&quot;
+</pre></div>
+</div>
+<p>Note that a complex number consists of 2 numbers.
+Also note that an empty string can be given.</p>
+<p>Let us now give an example of a separate header file that one might use to
+get interferometer data into casacore:</p>
+<div class="highlight-python"><div class="highlight"><pre>U     V      W         TIME        ANT1       ANT2      DATA
+R     R      R          D           I          I        X1,0
+</pre></div>
+</div>
+<p>The data file would then look like:</p>
+<div class="highlight-python"><div class="highlight"><pre>124.011 54560.0  3477.1  43456789.0990    1      2        4.327 -0.1132
+34561.0 45629.3  3900.5  43456789.0990    1      3        5.398 0.4521
+</pre></div>
+</div>
+<p>Note that the DATA column is defined as a 2-dim array of 1
+correlation and a variable number of channels, so the actual number of
+channels is determined by the input. In this example both rows will
+have 1 channel (note that a complex value contains 2 values).</p>
+<p>Tables may have keywords in addition to the columns. The keywords
+are useful for holding information that is global to the entire
+table (such as author, revision, history, etc.).
+The keywords in the header definitions must preceed the column descriptions.
+They must be enclosed between a line that starts with &#8221;.key...&#8221; and
+a line that starts with &#8221;.endkey...&#8221; (where ... can be anything).
+A table keywordset and column keywordsets can be specified.
+The latter can be specified by specifying the column name after
+the .keywords string.
+Between these two lines each line should contain the following:</p>
+<ul class="simple">
+<li>The keyword name, e.g., ANYKEY</li>
+<li>The datatype and optional  shape of the keyword
+(cf. list of valid types above)</li>
+<li>The value or values for the keyword (the keyword may contain 
+a scalar or an array of values). e.g., 3.14159 21.78945</li>
+</ul>
+<p>Thus to continue the example above, one might wish to add keywords
+as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre>.keywords
+DATE        A  &quot;97/1/16&quot;
+REVISION    D 2.01
+AUTHOR      A &quot;Tim Cornwell&quot;
+INSTRUMENT  A &quot;VLA&quot;
+.endkeywords
+.keywords TIME
+UNIT A &quot;s&quot;
+.endkeywords
+U     V      W         TIME        ANT1       ANT2      DATA
+R     R      R          D           I          I        X1,0
+</pre></div>
+</div>
+<p>Similarly to the column format string, the keyword formats can also
+contain shape information. The only difference is that if no shape is
+given, a keyword can have multiple values (making it a vector).</p>
+<p>It is possible to ignore comment lines in the header and data file
+by giving the <cite>commentmarker</cite>. It indicates that lines
+starting with the given marker are ignored. Note that the marker can
+be a regular expression (e.g. <cite>&#8216; *//&#8217;</cite> tells that lines starting
+with // and optionally preceeded by blanks have to be ignored).</p>
+<p>With the arguments <cite>firstline</cite> and <cite>lastline</cite> one can
+specify which lines have to be taken from the input file. A negative value
+means 1 for <cite>firstline</cite> or end-of-file for <cite>lastline</cite>.
+Note that if the headers and data are combined in one file,
+these line arguments apply to the whole file. If headers and data are in
+separate files, these line arguments apply to the data file only.</p>
+<p>Also note that ignored comment lines are counted, thus are used to
+determine which lines are in the line range.</p>
+<p>The number of rows is determined by the number of lines read from the data
+file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.maketabdesc">
+<code class="descclassname">casacore.tables.</code><code class="descname">maketabdesc</code><span class="sig-paren">(</span><em>descs=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.maketabdesc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a table description.</p>
+<p>Creates a table description from a set of column descriptions. The
+resulting table description can be used in the <a class="reference internal" href="#casacore.tables.table" title="casacore.tables.table"><code class="xref py py-class docutils literal"><span class="pre">table</span></code></a> constructor.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">scd1</span> <span class="o">=</span> <span class="n">makescacoldesc</span><span class="p">(</span><span class="s2">&quot;col2&quot;</span><span class="p">,</span> <span class="s2">&quot;aa&quot;</span><span class="p">)</span>
+<span class="n">scd2</span> <span class="o">=</span> <span class="n">makescacoldesc</span><span class="p">(</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;IncrementalStMan&quot;</span><span class="p">)</span>
+<span class="n">scd3</span> <span class="o">=</span> <span class="n">makescacoldesc</span><span class="p">(</span><span class="s2">&quot;colrec1&quot;</span><span class="p">,</span> <span class="p">{})</span>
+<span class="n">acd1</span> <span class="o">=</span> <span class="n">makearrcoldesc</span><span class="p">(</span><span class="s2">&quot;arr1&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">acd2</span> <span class="o">=</span> <span class="n">makearrcoldesc</span><span class="p">(</span><span class="s2">&quot;arr2&quot;</span><span class="p">,</span> <span class="mf">0.</span><span class="o">+</span><span class="mi">0j</span><span class="p">)</span>
+<span class="n">td</span> <span class="o">=</span> <span class="n">maketabdesc</span><span class="p">([</span><span class="n">scd1</span><span class="p">,</span> <span class="n">scd2</span><span class="p">,</span> <span class="n">scd3</span><span class="p">,</span> <span class="n">acd1</span><span class="p">,</span> <span class="n">acd2</span><span class="p">])</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s2">&quot;mytable&quot;</span><span class="p">,</span> <span class="n">td</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">This creates a table description <cite>td</cite> from five column descriptions
+and then creates a 100-row table called <cite>mytable</cite> from the table
+description.</div>
+<div class="line">The columns contain respectivily strings, integer scalars, records,
+3D integer arrays with fixed shape [2,3,4], and complex arrays with
+variable shape.</div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.makescacoldesc">
+<code class="descclassname">casacore.tables.</code><code class="descname">makescacoldesc</code><span class="sig-paren">(</span><em>columnname</em>, <em>value</em>, <em>datamanagertype=''</em>, <em>datamanagergroup=''</em>, <em>options=0</em>, <em>maxlen=0</em>, <em>comment=''</em>, <em>valuetype=''</em>, <em>keywords={}</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.makescacoldesc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create description of a scalar column.</p>
+<p>A description for a scalar column can be created from a name for
+the column and a data value, which is used only to determine the
+type of the column. Note that a dict value is also possible.</p>
+<p>It is possible to create the column description in more detail
+by giving the data manager name, group, option, and comment as well.</p>
+<p>The data manager type tells which data manager (storage manager)
+is used to store the columns. The data manager type and group are
+explained in more detail in the <a class="reference external" href="../../casacore/doc/html/group__Tables__module.html">casacore Tables</a> documentation.</p>
+<p>It returns a dict with fields <cite>name</cite> and <cite>desc</cite> which can thereafter be used
+to build a table description using function <a class="reference internal" href="#casacore.tables.maketabdesc" title="casacore.tables.maketabdesc"><code class="xref py py-func docutils literal"><span class="pre">maketabdesc()</span></code></a>.</p>
+<dl class="docutils">
+<dt><cite>columname</cite></dt>
+<dd>Name of column</dd>
+<dt><cite>value</cite></dt>
+<dd>Example data value used to determine the column&#8217;s data type.
+It is only used if argument <cite>valuetype</cite> is not given.</dd>
+<dt><cite>datamanagertype</cite></dt>
+<dd>Type of data manager which can be one of StandardStMan (default)
+or IncrementalStMan. The latter one can save disk space if many subsequent
+cells in the column will have the same value.</dd>
+<dt><cite>datamanagergroup</cite></dt>
+<dd>Data manager group. Only for the expert user.</dd>
+<dt><cite>options</cite></dt>
+<dd>Options. Need not be filled in.</dd>
+<dt><cite>maxlen</cite></dt>
+<dd>Maximum length of string values in a column.
+Default 0 means unlimited.</dd>
+<dt><cite>comment</cite></dt>
+<dd>Comment: informational for user.</dd>
+<dt><cite>valuetype</cite></dt>
+<dd>A string giving the column&#8217;s data type. Possible data types are
+bool (or boolean), uchar (or byte), short, int (or integer), uint,
+float, double, complex, dcomplex, and string.</dd>
+<dt>&#8216;keywords&#8217;</dt>
+<dd>A dict defining initial keywords for the column.</dd>
+</dl>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre>scd1 = makescacoldesc(&quot;col2&quot;, &quot;&quot;))
+scd2 = makescacoldesc(&quot;col1&quot;, 1, &quot;IncrementalStMan&quot;)
+td = maketabdesc([scd1, scd2])
+</pre></div>
+</div>
+<p>This creates a table description consisting of an integer column <cite>col1</cite>,
+and a string column <cite>col2</cite>. <cite>col1</cite> uses the IncrementalStMan storage manager,
+while <cite>col2</cite> uses the default storage manager StandardStMan.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.makearrcoldesc">
+<code class="descclassname">casacore.tables.</code><code class="descname">makearrcoldesc</code><span class="sig-paren">(</span><em>columnname</em>, <em>value</em>, <em>ndim=0</em>, <em>shape=[]</em>, <em>datamanagertype=''</em>, <em>datamanagergroup=''</em>, <em>options=0</em>, <em>maxlen=0</em>, <em>comment=''</em>, <em>valuetype=''</em>, <em>keywords={}</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.makearrcoldesc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create description of an array column.</p>
+<p>A description for a scalar column can be created from a name for
+the column and a data value, which is used only to determine the
+type of the column. Note that a dict value is also possible.</p>
+<p>It is possible to create the column description in more detail
+by giving the dimensionality, shape, data manager name, group, option,
+and comment as well.</p>
+<p>The data manager type tells which data manager (storage manager)
+is used to store the columns. The data manager type and group are
+explained in more detail in the <a class="reference external" href="../../casacore/doc/html/group__Tables__module.html">casacore Tables</a> documentation.</p>
+<p>It returns a dict with fields <cite>name</cite> and <cite>desc</cite> which can thereafter be used
+to build a table description using function <a class="reference internal" href="#casacore.tables.maketabdesc" title="casacore.tables.maketabdesc"><code class="xref py py-func docutils literal"><span class="pre">maketabdesc()</span></code></a>.</p>
+<dl class="docutils">
+<dt><cite>name</cite></dt>
+<dd>The name of the column.</dd>
+<dt><cite>value</cite></dt>
+<dd>A data value, which is only used to determine the data type of the column.
+It is only used if argument <cite>valuetype</cite> is not given.</dd>
+<dt><cite>ndim</cite></dt>
+<dd>Optionally the number of dimensions. A value &gt; 0 means that all
+arrays in the column must have that dimensionality. Note that the
+arrays can still differ in shape unless the shape vector is also given.</dd>
+<dt><cite>shape</cite></dt>
+<dd>An optional sequence of integers giving the shape of the array in each
+cell. If given, it forces option FixedShape (see below) and sets the
+number of dimensions (if not given). All arrays in the column get the
+given shape and the array is created as soon as a row is added.
+Note that the shape vector gives the shape in each table cell; the
+number of rows in the table should NOT be part of it.</dd>
+<dt><cite>datamanagertype</cite></dt>
+<dd>Type of data manager which can be one of StandardStMan (default),
+IncrementalStMan, TiledColumnStMan, TiledCellStMan, or TiledShapeStMan.
+The tiled storage managers are usually used for bigger data arrays.</dd>
+<dt><cite>datamanagergroup</cite></dt>
+<dd>Data manager group. Only for the expert user.</dd>
+<dt><cite>options</cite></dt>
+<dd><p class="first">Optionally numeric array options which can be added to combine them.</p>
+<dl class="docutils">
+<dt><cite>1</cite> means Direct.</dt>
+<dd>It tells that the data are directly stored in the table. Direct
+forces option FixedShape. If not given, the array is indirect, which
+means that the data will be stored in a separate file.</dd>
+<dt><cite>4</cite> means FixedShape.</dt>
+<dd>This option does not need to be given, because it is enforced if
+the shape is given. FixedShape means that the shape of the array must
+be the same in each cell of the column. Otherwise the array shapes may
+be different in each column cell and is it possible that a cell does
+not contain an array at all.
+Note that when given (or implicitly by option Direct), the
+shape argument must be given as well.</dd>
+</dl>
+<p class="last">Default is 0, thus indirect and variable shaped.</p>
+</dd>
+<dt><cite>maxlen</cite></dt>
+<dd>Maximum length of string values in a column.
+Default 0 means unlimited.</dd>
+<dt><cite>comment</cite></dt>
+<dd>Comment: informational for user.</dd>
+<dt><cite>valuetype</cite></dt>
+<dd>A string giving the column&#8217;s data type. Possible data types are
+bool (or boolean), uchar (or byte), short, int (or integer), uint,
+float, double, complex, dcomplex, and string.</dd>
+<dt>&#8216;keywords&#8217;</dt>
+<dd>A dict defining initial keywords for the column.</dd>
+</dl>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">acd1</span><span class="o">=</span> <span class="n">makescacoldesc</span><span class="p">(</span><span class="s2">&quot;arr1&quot;</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">td</span> <span class="o">=</span> <span class="n">maketabdesc</span><span class="p">(</span><span class="n">acd1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This creates a table description consisting of an array column <cite>arr1</cite>
+containing 3-dim arrays of doubles with shape [2,3,4].</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.makecoldesc">
+<code class="descclassname">casacore.tables.</code><code class="descname">makecoldesc</code><span class="sig-paren">(</span><em>columnname</em>, <em>desc</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.makecoldesc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create column description using the description of another column.</p>
+<p>The other description can be obtained from a table using function
+<code class="xref py py-func docutils literal"><span class="pre">getcoldesc()</span></code> or from another column description dict using
+<cite>otherdesc[&#8216;desc&#8217;]</cite>.</p>
+<p>It returns a dict with fields <cite>name</cite> and <cite>desc</cite> which can thereafter be used
+to build a table description using function <a class="reference internal" href="#casacore.tables.maketabdesc" title="casacore.tables.maketabdesc"><code class="xref py py-func docutils literal"><span class="pre">maketabdesc()</span></code></a>.</p>
+<dl class="docutils">
+<dt><cite>columname</cite></dt>
+<dd>Name of column</dd>
+<dt><cite>desc</cite></dt>
+<dd>Description of the column</dd>
+</dl>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cd1</span> <span class="o">=</span> <span class="n">makecoldesc</span><span class="p">(</span><span class="s2">&quot;col2&quot;</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">getcoldesc</span><span class="p">(</span><span class="s1">&#39;othercol&#39;</span><span class="p">))</span>
+<span class="n">td</span> <span class="o">=</span> <span class="n">maketabdesc</span><span class="p">(</span><span class="n">cd1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This creates a table description consisting of a column <cite>col2</cite> having
+the same description as column <cite>othercol</cite>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.tabledefinehypercolumn">
+<code class="descclassname">casacore.tables.</code><code class="descname">tabledefinehypercolumn</code><span class="sig-paren">(</span><em>tabdesc</em>, <em>name</em>, <em>ndim</em>, <em>datacolumns</em>, <em>coordcolumns=False</em>, <em>idcolumns=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tabledefinehypercolumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a hypercolumn to a table description.</p>
+<p>It defines a hypercolumn and adds it the given table description.
+A hypercolumn is an entity used by the Tiled Storage Managers (TSM). It
+defines which columns have to be stored together with a TSM.</p>
+<p>It should only be used by expert users who want to use a TSM to its
+full extent. For a basic TSM s hypercolumn definition is not needed.</p>
+<dl class="docutils">
+<dt>tabledesc</dt>
+<dd>A table description (result from <a class="reference internal" href="#casacore.tables.maketabdesc" title="casacore.tables.maketabdesc"><code class="xref py py-func docutils literal"><span class="pre">maketabdesc()</span></code></a>).</dd>
+<dt>name</dt>
+<dd>Name of hypercolumn</dd>
+<dt>ndim</dt>
+<dd>Dimensionality of hypercolumn; normally 1 more than the dimensionality
+of the arrays in the data columns to be stored with the TSM</dd>
+<dt>datacolumns</dt>
+<dd>Data columns to be stored with TSM</dd>
+<dt>coordcolumns</dt>
+<dd>Optional coordinate columns to be stored with TSM</dd>
+<dt>idcolumns</dt>
+<dd>Optional id columns to be stored with TSM</dd>
+</dl>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">scd1</span> <span class="o">=</span> <span class="n">makescacoldesc</span><span class="p">(</span><span class="s2">&quot;col2&quot;</span><span class="p">,</span> <span class="s2">&quot;aa&quot;</span><span class="p">)</span>
+<span class="n">scd2</span> <span class="o">=</span> <span class="n">makescacoldesc</span><span class="p">(</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;IncrementalStMan&quot;</span><span class="p">)</span>
+<span class="n">scd3</span> <span class="o">=</span> <span class="n">makescacoldesc</span><span class="p">(</span><span class="s2">&quot;colrec1&quot;</span><span class="p">,</span> <span class="p">{})</span>
+<span class="n">acd1</span> <span class="o">=</span> <span class="n">makearrcoldesc</span><span class="p">(</span><span class="s2">&quot;arr1&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">acd2</span> <span class="o">=</span> <span class="n">makearrcoldesc</span><span class="p">(</span><span class="s2">&quot;arr2&quot;</span><span class="p">,</span> <span class="n">as_complex</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">td</span> <span class="o">=</span> <span class="n">maketabdesc</span><span class="p">([</span><span class="n">scd1</span><span class="p">,</span> <span class="n">scd2</span><span class="p">,</span> <span class="n">scd3</span><span class="p">,</span> <span class="n">acd1</span><span class="p">,</span> <span class="n">acd2</span><span class="p">])</span>
+<span class="n">tabledefinehypercolumn</span><span class="p">(</span><span class="n">td</span><span class="p">,</span> <span class="s2">&quot;TiledArray&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;arr1&quot;</span><span class="p">])</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s2">&quot;mytable&quot;</span><span class="p">,</span> <span class="n">tabledesc</span><span class="o">=</span><span class="n">td</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">This creates a table description <cite>td</cite> from five column descriptions
+and then creates a 100-row table called mytable from the table
+description.</div>
+<div class="line">The columns contain respectivily strings, integer scalars, records,
+3D integer arrays with fixed shape [2,3,4], and complex arrays with
+variable shape.</div>
+<div class="line">The first array is stored with the Tiled Storage Manager (in this case
+the TiledColumnStMan).</div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.tableexists">
+<code class="descclassname">casacore.tables.</code><code class="descname">tableexists</code><span class="sig-paren">(</span><em>tablename</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableexists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if a table exists.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.tableiswritable">
+<code class="descclassname">casacore.tables.</code><code class="descname">tableiswritable</code><span class="sig-paren">(</span><em>tablename</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableiswritable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if a table is writable.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.tablecopy">
+<code class="descclassname">casacore.tables.</code><code class="descname">tablecopy</code><span class="sig-paren">(</span><em>tablename</em>, <em>newtablename</em>, <em>deep=False</em>, <em>valuecopy=False</em>, <em>dminfo={}</em>, <em>endian='aipsrc'</em>, <em>memorytable=False</em>, <em>copynorows=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecopy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a table.</p>
+<p>It is the same as <a class="reference internal" href="#casacore.tables.table.copy" title="casacore.tables.table.copy"><code class="xref py py-func docutils literal"><span class="pre">table.copy()</span></code></a>, but without the need to open
+the table first.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.tabledelete">
+<code class="descclassname">casacore.tables.</code><code class="descname">tabledelete</code><span class="sig-paren">(</span><em>tablename</em>, <em>checksubtables=False</em>, <em>ack=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tabledelete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a table on disk.</p>
+<p>It is the same as <code class="xref py py-func docutils literal"><span class="pre">table.delete()</span></code>, but without the need to open
+the table first.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.tablerename">
+<code class="descclassname">casacore.tables.</code><code class="descname">tablerename</code><span class="sig-paren">(</span><em>tablename</em>, <em>newtablename</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablerename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rename a table.</p>
+<p>The table with the given name is renamed (or moved) to the new name.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.tableinfo">
+<code class="descclassname">casacore.tables.</code><code class="descname">tableinfo</code><span class="sig-paren">(</span><em>tablename</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableinfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get type info of a table.</p>
+<p>It is the same as <a class="reference internal" href="#casacore.tables.table.info" title="casacore.tables.table.info"><code class="xref py py-func docutils literal"><span class="pre">table.info()</span></code></a>, but without the need to open
+the table first.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.tablesummary">
+<code class="descclassname">casacore.tables.</code><code class="descname">tablesummary</code><span class="sig-paren">(</span><em>tablename</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablesummary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the summary of a table.</p>
+<p>It is the same as <a class="reference internal" href="#casacore.tables.table.summary" title="casacore.tables.table.summary"><code class="xref py py-func docutils literal"><span class="pre">table.summary()</span></code></a>, but without the need to open
+the table first.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.addImagingColumns">
+<code class="descclassname">casacore.tables.</code><code class="descname">addImagingColumns</code><span class="sig-paren">(</span><em>msname</em>, <em>ack=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.addImagingColumns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the columns to an MS needed for the casa imager.</p>
+<p>It adds the columns MODEL_DATA, CORRECTED_DATA, and IMAGING_WEIGHT.
+It also sets the CHANNEL_SELECTION keyword needed for the older casa imagers.</p>
+<p>A column is not added if already existing.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.removeImagingColumns">
+<code class="descclassname">casacore.tables.</code><code class="descname">removeImagingColumns</code><span class="sig-paren">(</span><em>msname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.removeImagingColumns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.addDerivedMSCal">
+<code class="descclassname">casacore.tables.</code><code class="descname">addDerivedMSCal</code><span class="sig-paren">(</span><em>msname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.addDerivedMSCal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the derived columns like HA to an MS or CalTable</p>
+<p>It adds the columns HA, HA1, HA2, PA1, PA2, LAST, LAST1, LAST2, AZEL1,
+AZEL2, and UVW_J2000.
+They are all bound to the DerivedMSCal virtual data manager.</p>
+<p>It fails if one of the columns already exists.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.removeDerivedMSCal">
+<code class="descclassname">casacore.tables.</code><code class="descname">removeDerivedMSCal</code><span class="sig-paren">(</span><em>msname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.removeDerivedMSCal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the derived columns like HA from an MS or CalTable</p>
+<p>It removes the columns using the data manager DerivedMSCal.
+Such columns are HA, HA1, HA2, PA1, PA2, LAST, LAST1, LAST2, AZEL1,
+AZEL2, and UVW_J2000.</p>
+<p>It fails if one of the columns already exists.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.tables.msconcat">
+<code class="descclassname">casacore.tables.</code><code class="descname">msconcat</code><span class="sig-paren">(</span><em>names</em>, <em>newname</em>, <em>concatTime=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.msconcat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Virtually concatenate multiple MeasurementSets</p>
+<p>Multiple MeasurementSets are concatenated into a single MeasurementSet.
+The concatenation is done in an entirely or almost entirely virtual way,
+so hardly any data are copied. It makes the command very fast and hardly
+any extra disk space is needed.</p>
+<p>The MSs can be concatenated in time or frequency (spectral windows).
+If concatenated in time, no indices need to be updated and the
+concatenation is done in a single step.</p>
+<p>If spectral windows are concatenated, tThe data-description-ids and
+spectral-window-ids in the resulting MS and its subtables are updated
+to make them unique.
+The spectral concatenation is done in two steps and results in two MSs:</p>
+<ol class="arabic simple">
+<li>The input MSs are virtually concatenated resulting in the
+MeasurementSet <cite>&lt;newname&gt;_CONCAT</cite>.</li>
+<li>The MeasurementSet &lt;newname&gt; is created. It references all columns
+in <cite>&lt;newname&gt;_CONCAT</cite> with the exception of the DATA_DESC_ID column.
+This column is copied and updated to make the ids correct.
+Furthermore the MS contains a copy of all subtables (with the exception
+of SORTED_TABLE), where the DATA_DESCRIPTION and SPECTRAL_WINDOW
+subtables are the concatenation of those subtables in the input MSs.
+The ids in the resulting subtables are updated.</li>
+</ol>
+<p>The FEED, FREQ_OFFSET, SOURCE, and SYSCAL subtables also have a
+SPECTRAL_WINDOW_ID column. Currently these subtables are not concatenated
+nor are their ids updated.</p>
+<dl class="docutils">
+<dt><cite>names</cite></dt>
+<dd>A sequence containing the names of the MeasurementSets to concatenate.</dd>
+<dt><cite>newname</cite></dt>
+<dd>The name of the resulting MeasurementSet. A MeasurementSet with this
+name followed by <cite>_CONCAT</cite> will also be created (and must be kept).</dd>
+<dt><cite>concatTime</cite></dt>
+<dd>False means that the spectral windows ids will be adjusted as explained
+above.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="class-tables-table">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">tables.table</span></code><a class="headerlink" href="#class-tables-table" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.tables.table">
+<em class="property">class </em><code class="descclassname">casacore.tables.</code><code class="descname">table</code><span class="sig-paren">(</span><em>tablename</em>, <em>tabledesc=False</em>, <em>nrow=0</em>, <em>readonly=True</em>, <em>lockoptions='default'</em>, <em>ack=True</em>, <em>dminfo={}</em>, <em>endian='aipsrc'</em>, <em>memorytable=False</em>, <em>concatsubtables=[]</em>, <em>_columnnames=[]</em>, <em>_datatypes=[]</em>, <em>_oper=0</em>, <em>_delete=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Python interface to Casacore tables.</p>
+<p>One can open or create tables, get or put data in them, make selections,
+get meta information (like storage managers used), etc.
+It is possible to lock/unlock a table for concurrent access.</p>
+<p>A table consists of numbered rows and named columns. A column can hold
+scalar values or arrays of any dimensionality and shape. Furthermore the
+table and each column can hold a possibly nested keyword set
+(e.g. to define the units).</p>
+<p>The classes <a class="reference internal" href="#casacore.tables.tablecolumn" title="casacore.tables.tablecolumn"><code class="xref py py-class docutils literal"><span class="pre">tablecolumn</span></code></a>, <a class="reference internal" href="#casacore.tables.tableiter" title="casacore.tables.tableiter"><code class="xref py py-class docutils literal"><span class="pre">tableiter</span></code></a>, <a class="reference internal" href="#casacore.tables.tableindex" title="casacore.tables.tableindex"><code class="xref py py-class docutils literal"><span class="pre">tableindex</span></code></a>,
+and <a class="reference internal" href="#casacore.tables.tablerow" title="casacore.tables.tablerow"><code class="xref py py-class docutils literal"><span class="pre">tablerow</span></code></a> tablecolumn can be used for easier access to tables.
+Module tableutil contains some useful utility functions, for instance
+<a class="reference internal" href="#casacore.tables.tablefromascii" title="casacore.tables.tablefromascii"><code class="xref py py-func docutils literal"><span class="pre">tablefromascii()</span></code></a> to create a table from an ASCII file.</p>
+<p>Several functions accept or return arrays for which numpy arrays are used.
+One dimensional arrays can also be passed as sequences (e.g., a list).
+A scalar value can also be passed to functions expecting an array and
+results in a 1-dim array of length 1.
+Scalar arguments can be passed as normal python scalars, but also as
+numpy scalars (which have a special data type).
+If needed and if possible, data type conversion is done automatically.</p>
+<p>A <cite>table</cite> object contains a <a class="reference internal" href="#casacore.tables.tablerow" title="casacore.tables.tablerow"><code class="xref py py-class docutils literal"><span class="pre">tablerow</span></code></a> object which contains
+all columns. Similar to <cite>tablerow</cite> the <cite>table</cite> object can be indexed
+in the standard python way to get (or put) values in one or more rows.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;~/3c343.MS&#39;</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The <cite>table</cite> class supports the context manager idiom (__enter__ and __exit__).
+When used in a <cite>with</cite> statement, the table will be flushed and closed
+automatically, which is handy when writing a table.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;my.ms&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+  <span class="n">t</span><span class="o">.</span><span class="n">putcell</span> <span class="p">(</span><span class="s1">&#39;SPECTRAL_WINDOW_ID&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Usually a table is kept on disk, but it can also reside in memory.
+Furthermore, results of sort and selection are kept as so-called
+reference tables which are kept in memory (but can be made persistent).</p>
+<dl class="docutils">
+<dt><cite>table(&#8216;tablename&#8217;, tabledesc)</cite></dt>
+<dd>creates a new table using the given table description which can be
+obtained from an existing table (using table.getdesc) or created
+(using tableutil.maketabdesc).
+If <cite>memorytable=True</cite>, the table is created in memory.</dd>
+<dt><cite>table(&#8216;tablename&#8217;, readonly=False)</cite></dt>
+<dd><div class="first last line-block">
+<div class="line">opens an existing table for read/write. Default is for readonly.</div>
+<div class="line">In general it is a bad idea to open a subtable using a path like
+&#8216;my.ms/ANTENNA&#8217;, because it will fail if &#8216;my.ms&#8217; is a selection instead
+of a plain table. Therefore a double colon can be used like
+&#8216;my.ms::ANTENNA&#8217; making the table system handle it in a correct way.</div>
+</div>
+</dd>
+<dt><cite>table([&#8216;table1&#8217;,&#8217;table2&#8217;,...])</cite></dt>
+<dd>opens a virtual table as the concatenation of the given tables.
+The tables have to have the same columns.</dd>
+<dt><cite>table([tableobject1,tableobject2,...])</cite></dt>
+<dd>opens a virtual table as the concatenation of the given table objects.
+The tables have to have the same columns.</dd>
+</dl>
+<p>The following arguments can be used.</p>
+<dl class="docutils">
+<dt><cite>tablename</cite></dt>
+<dd><div class="first last line-block">
+<div class="line">name of the table to be opened or created. As in most UNIX shells
+a table name can contain environment variables and a tilde with
+optional user name.</div>
+<div class="line">This argument can be a sequence of names in which case they are
+opened as a (virtual) concatenation of tables.</div>
+<div class="line">It can also be a sequence of table objects to be concatenated.</div>
+</div>
+</dd>
+<dt><cite>tabledesc</cite></dt>
+<dd>description of table to be created. If given as a dict (which should
+be created by <a class="reference internal" href="#casacore.tables.maketabdesc" title="casacore.tables.maketabdesc"><code class="xref py py-func docutils literal"><span class="pre">maketabdesc()</span></code></a>, the table is created. Otherwise
+it should exist and is opened.</dd>
+<dt><cite>nrow</cite></dt>
+<dd>initial number of rows in table to be created (default 0).</dd>
+<dt><cite>readonly = True/False</cite></dt>
+<dd>tell if a table has to be opened readonly (default) or read/write.</dd>
+<dt><cite>lockoptions</cite></dt>
+<dd>see below</dd>
+<dt><cite>ack=False</cite></dt>
+<dd>prohibit the printing of a message telling if the table was
+opened or created successfully.</dd>
+<dt><cite>dminfo</cite></dt>
+<dd>a dict (as returned by <a class="reference internal" href="#casacore.tables.table.getdminfo" title="casacore.tables.table.getdminfo"><code class="xref py py-func docutils literal"><span class="pre">getdminfo()</span></code></a>) giving specific data manager
+info for one or more columns. In this way expert users can
+tell how data are stored (or use virtual data managers).</dd>
+<dt><cite>endian</cite></dt>
+<dd><div class="first last line-block">
+<div class="line">endianness of the data in table to be created</div>
+<div class="line">&#8216;little&#8217; = as little endian</div>
+<div class="line">&#8216;big&#8217;    = as big endian</div>
+<div class="line">&#8216;local&#8217;  = use the endianness of the machine being used</div>
+<div class="line">&#8216;aipsrc&#8217; = use a defined in an .aipsrc file (defaults to local)</div>
+</div>
+</dd>
+<dt><cite>memorytable=True</cite></dt>
+<dd>create table in memory instead of on disk.</dd>
+<dt><cite>concatsubtables</cite></dt>
+<dd>if tables are concatenated, it should contain a sequence of the
+names of subtables to be concatenated as well (default none).
+Non-mentioned subtables are considered to be identical in each table,
+so only the subtable of the first table is used as subtable for the
+concatenated table.</dd>
+</dl>
+<p>Locking/unlocking to share a table in a concurrent environment is
+controlled by the lockoptions argument.</p>
+<dl class="docutils">
+<dt><cite>auto</cite></dt>
+<dd>let the system take care of locking. It locks when needed,
+but unlocking is usually not done automatically.</dd>
+<dt><cite>autonoread</cite></dt>
+<dd>as <cite>auto</cite>, but no read locking is needed. This must be
+used with care, because it means that reading can be done
+while the table object is not synchronized with the table
+file (as is normally done when a lock is acquired).
+The method <a class="reference internal" href="#casacore.tables.table.resync" title="casacore.tables.table.resync"><code class="xref py py-func docutils literal"><span class="pre">resync()</span></code></a> can be used to explicitly synchronize
+the table object with the file.</dd>
+<dt><cite>user</cite></dt>
+<dd>the user takes care by explicit calls to lock and unlock</dd>
+<dt><cite>usernoread</cite></dt>
+<dd>as <cite>user</cite> and the no readlocking behaviour of <cite>autonoread</cite>.</dd>
+<dt><cite>permanent</cite></dt>
+<dd>use a permanent write lock; the constructor fails if the
+lock cannot be acquired because the table is already
+in use in another process</dd>
+<dt><cite>permanentwait</cite></dt>
+<dd>as above, but wait until the lock is acquired.</dd>
+<dt><cite>default</cite></dt>
+<dd>this is the default option.
+If the given table is already open, the locking option
+in use is not changed. Otherwise it reverts to <cite>auto</cite>.</dd>
+</dl>
+<p>If auto locking is used, it is possible to give a record containing
+the fields option, interval, and/or maxwait (see <a class="reference internal" href="#casacore.tables.table.lockoptions" title="casacore.tables.table.lockoptions"><code class="xref py py-func docutils literal"><span class="pre">lockoptions()</span></code></a>
+for their meaning). In this way advanced users can have full control
+over the locking process. In practice this is hardly ever needed.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;3c343.ms&#39;</span><span class="p">)</span>                  <span class="c1"># open table readonly</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;3c343.ms&#39;</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>  <span class="c1"># open table read/write</span>
+<span class="n">t1</span><span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;new.tab&#39;</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">getdesc</span><span class="p">())</span>      <span class="c1"># create table</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">,</span><span class="n">t3</span><span class="p">,</span><span class="n">t4</span><span class="p">])</span>               <span class="c1"># concatenate 4 tables</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="casacore.tables.table.addcols">
+<code class="descname">addcols</code><span class="sig-paren">(</span><em>desc</em>, <em>dminfo={}</em>, <em>addtoparent=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.addcols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add one or more columns.</p>
+<p>Columns can always be added to a normal table.
+They can also be added to a reference table and optionally to its
+parent table.</p>
+<dl class="docutils">
+<dt><cite>desc</cite></dt>
+<dd><p class="first">contains a description of the column(s) to be added. It can be given
+in three ways:</p>
+<ul class="last simple">
+<li>a dict created by <a class="reference internal" href="#casacore.tables.maketabdesc" title="casacore.tables.maketabdesc"><code class="xref py py-func docutils literal"><span class="pre">maketabdesc()</span></code></a>. In this way multiple
+columns can be added.</li>
+<li>a dict created by <a class="reference internal" href="#casacore.tables.makescacoldesc" title="casacore.tables.makescacoldesc"><code class="xref py py-func docutils literal"><span class="pre">makescacoldesc()</span></code></a>, <a class="reference internal" href="#casacore.tables.makearrcoldesc" title="casacore.tables.makearrcoldesc"><code class="xref py py-func docutils literal"><span class="pre">makearrcoldesc()</span></code></a>,
+or <a class="reference internal" href="#casacore.tables.makecoldesc" title="casacore.tables.makecoldesc"><code class="xref py py-func docutils literal"><span class="pre">makecoldesc()</span></code></a>. In this way a single column can be added.</li>
+<li>a dict created by <a class="reference internal" href="#casacore.tables.table.getcoldesc" title="casacore.tables.table.getcoldesc"><code class="xref py py-func docutils literal"><span class="pre">getcoldesc()</span></code></a>. The key &#8216;name&#8217; containing
+the column name has to be defined in such a dict.</li>
+</ul>
+</dd>
+<dt><cite>dminfo</cite></dt>
+<dd>can be used to provide detailed data manager info to tell how the
+column(s) have to be stored. The dminfo of an existing column can be
+obtained using method <a class="reference internal" href="#casacore.tables.table.getdminfo" title="casacore.tables.table.getdminfo"><code class="xref py py-func docutils literal"><span class="pre">getdminfo()</span></code></a>.</dd>
+<dt><cite>addtoparent</cite></dt>
+<dd>defines if the column should also be added to the parent table in
+case the current table is a reference table (result of selection).
+If True, it will be added to the parent if it does not exist yet.</dd>
+</dl>
+<p>For example, add a column using the same data manager type as another
+column:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">coldmi</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">getdminfo</span><span class="p">(</span><span class="s1">&#39;colarrtsm&#39;</span><span class="p">)</span>     <span class="c1"># get dminfo of existing column</span>
+<span class="n">coldmi</span><span class="p">[</span><span class="s2">&quot;NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;tsm2&#39;</span>               <span class="c1"># give it a unique name</span>
+<span class="n">t</span><span class="o">.</span><span class="n">addcols</span> <span class="p">(</span><span class="n">maketabdesc</span><span class="p">(</span><span class="n">makearrcoldesc</span><span class="p">(</span><span class="s2">&quot;colarrtsm2&quot;</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)),</span>
+           <span class="n">coldmi</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.addreadmeline">
+<code class="descname">addreadmeline</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.addreadmeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a readme line to the table info.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.addrows">
+<code class="descname">addrows</code><span class="sig-paren">(</span><em>nrows=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.addrows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add one or more rows to the table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.browse">
+<code class="descname">browse</code><span class="sig-paren">(</span><em>wait=True</em>, <em>tempname='/tmp/seltable'</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.browse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Browse a table using casabrowser or a simple wxwidget based browser.</p>
+<p>By default the casabrowser is used if it can be found (in your PATH).
+Otherwise the wxwidget one is used if wx can be loaded.</p>
+<p>The casabrowser can only browse tables that are persistent on disk.
+This gives problems for tables resulting from a query because they are
+held in memory only (unless an output table name was given).</p>
+<p>To make browsing of such tables possible, the argument <cite>tempname</cite> can
+be used to specify a table name that will be used to form a persistent
+table that can be browsed. Note that such a table is very small as it
+does not contain data, but only references to rows in the original table.
+The default for <cite>tempname</cite> is &#8216;/tmp/seltable&#8217;.</p>
+<p>If needed, the table can be deleted using the <a class="reference internal" href="#casacore.tables.tabledelete" title="casacore.tables.tabledelete"><code class="xref py py-func docutils literal"><span class="pre">tabledelete()</span></code></a>
+function.</p>
+<p>If <cite>wait=False</cite>, the casabrowser is started in the background.
+In that case the user should delete a possibly created copy of a 
+temporary table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.calc">
+<code class="descname">calc</code><span class="sig-paren">(</span><em>expr</em>, <em>style='Python'</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do a TaQL calculation</p>
+<p>The TaQL CALC command can be used to get the result of a calculation on
+table data. It is, however, also possible to use it without table data.</p>
+<p>For instance, to use it for converting units:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,{})</span>
+<span class="n">t</span><span class="o">.</span><span class="n">calc</span> <span class="p">(</span><span class="s1">&#39;(1 \in)cm&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><cite>expr</cite></dt>
+<dd>The CALC expression</dd>
+<dt><cite>style</cite></dt>
+<dd>The TaQL syntax style to be used (defaults to Python).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flush and close the table which invalidates the table object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.col">
+<code class="descname">col</code><span class="sig-paren">(</span><em>columnname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.col" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tablecolumn object for the given column.</p>
+<p>If multiple operations need to be done on a column, a <a class="reference internal" href="#casacore.tables.tablecolumn" title="casacore.tables.tablecolumn"><code class="xref py py-class docutils literal"><span class="pre">tablecolumn</span></code></a>
+object is somewhat easier to use than the table object because the
+column name does not have to be repeated each time.</p>
+<p>It is also possible to use a column name as an attribute, It is an
+easier way to get a column object.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tc</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;DATA&#39;</span><span class="p">)</span>
+<span class="n">tc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>       <span class="c1"># get first 10 rows of column DATA</span>
+<span class="n">t</span><span class="o">.</span><span class="n">DATA</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>   <span class="c1"># does the same in an easier way</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.colarraytype">
+<code class="descname">colarraytype</code><span class="sig-paren">(</span><em>columnname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.colarraytype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the array type of a column holding arrays.</p>
+<p>It tells if an array is fixed or variable shaped and if it is stored
+directly or indirectly. This is done by means of a string like
+<code class="docutils literal"><span class="pre">Indirect,</span> <span class="pre">variable</span> <span class="pre">sized</span> <span class="pre">arrays</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.coldatatype">
+<code class="descname">coldatatype</code><span class="sig-paren">(</span><em>columnname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.coldatatype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the data type of a column.</p>
+<p>It returns a string which can have the values:
+<code class="docutils literal"><span class="pre">boolean</span> <span class="pre">integer</span> <span class="pre">float</span> <span class="pre">double</span> <span class="pre">complex</span> <span class="pre">dcomplex</span> <span class="pre">string</span> <span class="pre">record</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.coldesc">
+<code class="descname">coldesc</code><span class="sig-paren">(</span><em>columnname</em>, <em>actual=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.coldesc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the description of a column.</p>
+<p>Make the description object of the given column like <a class="reference internal" href="#casacore.tables.makecoldesc" title="casacore.tables.makecoldesc"><code class="xref py py-func docutils literal"><span class="pre">makecoldesc()</span></code></a>
+is doing with the description given by <a class="reference internal" href="#casacore.tables.table.getcoldesc" title="casacore.tables.table.getcoldesc"><code class="xref py py-func docutils literal"><span class="pre">getcoldesc()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.colfieldnames">
+<code class="descname">colfieldnames</code><span class="sig-paren">(</span><em>columnname</em>, <em>keyword=''</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.colfieldnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the names of the fields in a column keyword value.</p>
+<p>The value of a keyword can be a struct (python dict). This method
+returns the names of the fields in that struct.
+Each field in a struct can be a struct in itself. Names of fields in a
+sub-struct can be obtained by giving a keyword name consisting of
+multiple parts separated by dots (e.g. &#8216;key1.sub1.sub2&#8217;).</p>
+<p>If an empty keyword name is given (which is the default), all keyword
+names of the column are shown and its behaviour is the same as
+<a class="reference internal" href="#casacore.tables.table.colkeywordnames" title="casacore.tables.table.colkeywordnames"><code class="xref py py-func docutils literal"><span class="pre">colkeywordnames()</span></code></a>.</p>
+<p>Instead of a keyword name an index can be given which returns the names
+of the struct value of the i-th keyword.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.colkeywordnames">
+<code class="descname">colkeywordnames</code><span class="sig-paren">(</span><em>columnname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.colkeywordnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the names of all keywords of a column.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.colnames">
+<code class="descname">colnames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.colnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the names of all columns in the table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><em>newtablename</em>, <em>deep=False</em>, <em>valuecopy=False</em>, <em>dminfo={}</em>, <em>endian='aipsrc'</em>, <em>memorytable=False</em>, <em>copynorows=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy the table and return a table object for the copy.</p>
+<p>It copies all data in the columns and keywords.
+Besides the table, all its subtables are copied too.
+By default a shallow copy is made (usually by copying files).
+It means that the copy of a reference table is also a reference table.
+Use <cite>deep=True</cite> to make a deep copy which turns a reference table
+into a normal table.</p>
+<dl class="docutils">
+<dt><cite>deep=True</cite></dt>
+<dd>a deep copy of a reference table is made.</dd>
+<dt><cite>valuecopy=True</cite></dt>
+<dd>values are copied, which reorganizes normal tables and removes wasted
+space. It implies <cite>deep=True</cite>. It is slower than a normal copy.</dd>
+<dt><cite>dminfo</cite></dt>
+<dd>gives the option to specify data managers to change the way columns
+are stored. This is a dict as returned by method <a class="reference internal" href="#casacore.tables.table.getdminfo" title="casacore.tables.table.getdminfo"><code class="xref py py-func docutils literal"><span class="pre">getdminfo()</span></code></a>.</dd>
+<dt><cite>endian</cite></dt>
+<dd>specifies the endianness of the new table when a deep copy is made:
+|  &#8216;little&#8217; = as little endian
+|  &#8216;big&#8217;    = as big endian
+|  &#8216;local&#8217;  = use the endianness of the machine being used
+|  &#8216;aipsrc&#8217; = use as defined in an .aipsrc file (defaults to local)</dd>
+<dt><cite>memorytable=True</cite></dt>
+<dd>do not copy to disk, but to a table kept in memory.</dd>
+<dt><cite>copynorows=True</cite></dt>
+<dd>only copy the column layout and keywords, but no data.</dd>
+</dl>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span>  <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;3c343.MS&#39;</span><span class="p">)</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;ANTENNA1 != ANTENNA2&#39;</span><span class="p">)</span>   <span class="c1"># do row selection</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">copy</span> <span class="p">(</span><span class="s1">&#39;3c343.sel&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>       <span class="c1"># make deep copy</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">copy</span> <span class="p">(</span><span class="s1">&#39;new.tab&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>    <span class="c1"># reorganize storage</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.copyrows">
+<code class="descname">copyrows</code><span class="sig-paren">(</span><em>outtable</em>, <em>startrowin=0</em>, <em>startrowout=-1</em>, <em>nrow=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.copyrows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy the contents of rows from this table to outtable.</p>
+<p>The contents of the columns with matching names are copied.
+The other arguments can be used to specify where to start copying.
+By default the entire input table is appended to the output table.
+Rows are added to the output table if needed.</p>
+<dl class="docutils">
+<dt><cite>startrowin</cite></dt>
+<dd>Row where to start in the input table.</dd>
+<dt><cite>startrowout</cite></dt>
+<dd>Row where to start in the output table,
+| -1 means write at the end of the output table.</dd>
+<dt><cite>nrow</cite></dt>
+<dd>Number of rows to copy
+| -1 means from startrowin till the end of the input table</dd>
+</dl>
+<p>The following example appends row to the table itself, thus doubles
+the number of rows:</p>
+<div class="highlight-python"><div class="highlight"><pre>t:=table(&#39;test.ms&#39;,readonly=F)
+t.copyrows(t)
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.datachanged">
+<code class="descname">datachanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.datachanged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if data in the table have changed since the last time called.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.done">
+<code class="descname">done</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flush and close the table which invalidates the table object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.endianformat">
+<code class="descname">endianformat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.endianformat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the endian format (&#8216;little&#8217; or &#8216;big&#8217;) in which the table is written.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.fieldnames">
+<code class="descname">fieldnames</code><span class="sig-paren">(</span><em>keyword=''</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.fieldnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the names of the fields in a table keyword value.</p>
+<p>The value of a keyword can be a struct (python dict). This method
+returns the names of the fields in that struct.
+Each field in a struct can be a struct in itself. Names of fields in a
+sub-struct can be obtained by giving a keyword name consisting of
+multiple parts separated by dots (e.g. &#8216;key1.sub1.sub2&#8217;).</p>
+<p>If an empty keyword name is given (which is the default), all table
+keyword names are shown and its behaviour is the same as <a class="reference internal" href="#casacore.tables.table.keywordnames" title="casacore.tables.table.keywordnames"><code class="xref py py-func docutils literal"><span class="pre">keywordnames()</span></code></a>.</p>
+<p>Instead of a keyword name an index can be given which returns the names
+of the struct value of the i-th keyword.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.flush">
+<code class="descname">flush</code><span class="sig-paren">(</span><em>recursive=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.flush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flush the table to disk.</p>
+<p>Until a flush or unlock is performed, the results of operations might
+not be stored on disk yet. 
+| If <cite>recursive=True</cite>, all subtables are flushed as well.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcell">
+<code class="descname">getcell</code><span class="sig-paren">(</span><em>columnname</em>, <em>rownr</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data from a column cell.</p>
+<p>Get the contents of a cell which can be returned as a scalar value,
+a numpy array, or a dict depending on the contents of the cell.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcellnp">
+<code class="descname">getcellnp</code><span class="sig-paren">(</span><em>columnname</em>, <em>rownr</em>, <em>nparray</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcellnp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data from a column cell into the given numpy array .</p>
+<p>Get the contents of a cell containing an array into the
+given numpy array. The numpy array has to be C-contiguous
+with a shape matching the shape of the column cell.
+Data type coercion will be done as needed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcellslice">
+<code class="descname">getcellslice</code><span class="sig-paren">(</span><em>columnname</em>, <em>rownr</em>, <em>blc</em>, <em>trc</em>, <em>inc=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcellslice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a slice from a column cell holding an array.</p>
+<p>The columnname and (0-relative) rownr indicate the table cell.</p>
+<p>The slice to get is defined by the blc, trc, and optional inc arguments.
+(blc = bottom-left corner, trc=top-right corner, inc=stride). Not all
+axes have to be filled in for blc, trc, and inc. Missing axes default
+to begin, end, and 1. A negative blc or trc defaults to begin or end.
+Note that trc is inclusive (unlike python indexing).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcellslicenp">
+<code class="descname">getcellslicenp</code><span class="sig-paren">(</span><em>columnname</em>, <em>nparray</em>, <em>rownr</em>, <em>blc</em>, <em>trc</em>, <em>inc=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcellslicenp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a slice from a column cell into the given numpy array.</p>
+<p>The columnname and (0-relative) rownr indicate the table cell.</p>
+<p>The numpy array has to be C-contiguous with a shape matching the
+shape of the slice. Data type coercion will be done as needed.</p>
+<p>The slice to get is defined by the blc, trc, and optional inc arguments.
+(blc = bottom-left corner, trc=top-right corner, inc=stride). Not all
+axes have to be filled in for blc, trc, and inc. Missing axes default
+to begin, end, and 1. A negative blc or trc defaults to begin or end.
+Note that trc is inclusive (unlike python indexing).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcol">
+<code class="descname">getcol</code><span class="sig-paren">(</span><em>columnname</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the contents of a column or part of it.</p>
+<p>It is returned as a numpy array.
+If the column contains arrays, they should all have the same shape.
+An exception is thrown if they differ in shape. In that case the
+method <a class="reference internal" href="#casacore.tables.table.getvarcol" title="casacore.tables.table.getvarcol"><code class="xref py py-func docutils literal"><span class="pre">getvarcol()</span></code></a> should be used instead.</p>
+<p>The column can be sliced by giving a start row (default 0), number of
+rows (default all), and row stride (default 1).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcoldesc">
+<code class="descname">getcoldesc</code><span class="sig-paren">(</span><em>columnname</em>, <em>actual=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcoldesc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the description of a column.</p>
+<p>By default it returns the actual description (thus telling the
+actual array shapes and data managers used).
+<cite>actual=False</cite> means that the original description as made by
+<a class="reference internal" href="#casacore.tables.makescacoldesc" title="casacore.tables.makescacoldesc"><code class="xref py py-func docutils literal"><span class="pre">makescacoldesc()</span></code></a> or <a class="reference internal" href="#casacore.tables.makearrcoldesc" title="casacore.tables.makearrcoldesc"><code class="xref py py-func docutils literal"><span class="pre">makearrcoldesc()</span></code></a> is returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcolkeyword">
+<code class="descname">getcolkeyword</code><span class="sig-paren">(</span><em>columnname</em>, <em>keyword</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcolkeyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of a column keyword.</p>
+<p>It is similar to <a class="reference internal" href="#casacore.tables.table.getkeyword" title="casacore.tables.table.getkeyword"><code class="xref py py-func docutils literal"><span class="pre">getkeyword()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcolkeywords">
+<code class="descname">getcolkeywords</code><span class="sig-paren">(</span><em>columnname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcolkeywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of all keywords of a column.</p>
+<p>It is returned as a dict. See <a class="reference internal" href="#casacore.tables.table.getkeyword" title="casacore.tables.table.getkeyword"><code class="xref py py-func docutils literal"><span class="pre">getkeyword()</span></code></a> for the possible
+value types.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcolnp">
+<code class="descname">getcolnp</code><span class="sig-paren">(</span><em>columnname</em>, <em>nparray</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcolnp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the contents of a column or part of it into the given numpy array.</p>
+<p>The numpy array has to be C-contiguous with a shape matching the
+shape of the column (part). Data type coercion will be done as needed.</p>
+<p>If the column contains arrays, they should all have the same shape.
+An exception is thrown if they differ in shape. In that case the
+method <a class="reference internal" href="#casacore.tables.table.getvarcol" title="casacore.tables.table.getvarcol"><code class="xref py py-func docutils literal"><span class="pre">getvarcol()</span></code></a> should be used instead.</p>
+<p>The column can be sliced by giving a start row (default 0), number of
+rows (default all), and row stride (default 1).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcolshapestring">
+<code class="descname">getcolshapestring</code><span class="sig-paren">(</span><em>columnname</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcolshapestring" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the shapes of all cells in the column in string format.</p>
+<p>It returns the shape in a string like [10,20,30].</p>
+<p>If the column contains fixed shape arrays, a single shape is returned.
+Otherwise a list of shape strings is returned.</p>
+<p>The column can be sliced by giving a start row (default 0), number of
+rows (default all), and row stride (default 1).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcolslice">
+<code class="descname">getcolslice</code><span class="sig-paren">(</span><em>columnname</em>, <em>blc</em>, <em>trc</em>, <em>inc=[]</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcolslice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a slice from a table column holding arrays.</p>
+<p>The slice in each array is given by blc, trc, and inc (as in getcellslice).
+The column can be sliced by giving a start row (default 0), number of
+rows (default all), and row stride (default 1).</p>
+<p>It returns a numpy array where the first axis is formed by the column
+cells. The other axes are the array axes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getcolslicenp">
+<code class="descname">getcolslicenp</code><span class="sig-paren">(</span><em>columnname</em>, <em>nparray</em>, <em>blc</em>, <em>trc</em>, <em>inc=[]</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getcolslicenp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a slice from a table column into the given numpy array.</p>
+<p>The numpy array has to be C-contiguous with a shape matching the
+shape of the column (slice). Data type coercion will be done as needed.</p>
+<p>The slice in each array is given by blc, trc, and inc (as in getcellslice).
+The column can be sliced by giving a start row (default 0), number of
+rows (default all), and row stride (default 1).</p>
+<p>It returns a numpy array where the first axis is formed by the column
+cells. The other axes are the array axes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getdesc">
+<code class="descname">getdesc</code><span class="sig-paren">(</span><em>actual=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getdesc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the table description.</p>
+<p>By default it returns the actual description (thus telling the
+actual array shapes and data managers used).
+<cite>actual=False</cite> means that the original description as made by
+<a class="reference internal" href="#casacore.tables.maketabdesc" title="casacore.tables.maketabdesc"><code class="xref py py-func docutils literal"><span class="pre">maketabdesc()</span></code></a> is returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getdminfo">
+<code class="descname">getdminfo</code><span class="sig-paren">(</span><em>columnname=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getdminfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data manager info.</p>
+<p>Each column in a table is stored using a data manager. A storage manager
+is a data manager storing the physically in a file. A virtual column
+engine is a data manager that does not store data but calculates it on
+the fly (e.g. scaling floats to short to reduce storage).</p>
+<p>By default this method returns a dict telling the data managers used.
+Each field in the dict is a dict containing:</p>
+<ul class="simple">
+<li>NAME telling the (unique) name of the data manager</li>
+<li>TYPE telling the type of data manager (e.g. TiledShapeStMan)</li>
+<li>SEQNR telling the sequence number of the data manager
+(is &#8216;&#8217;i&#8217;&#8217; in table.f&lt;i&gt; for storage managers)</li>
+<li>SPEC is a dict holding the data manager specification</li>
+<li>COLUMNS is a list giving the columns stored by this data manager</li>
+</ul>
+<p>When giving a column name the data manager info of that particular
+column is returned (without the COLUMNS field).
+It can, for instance, be used when adding a column using <a class="reference internal" href="#casacore.tables.table.addcols" title="casacore.tables.table.addcols"><code class="xref py py-func docutils literal"><span class="pre">addcols()</span></code></a>
+that should use the same data manager type as an existing column.
+However, when doing that care should be taken to change the NAME because
+each data manager name has to be unique.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getdmprop">
+<code class="descname">getdmprop</code><span class="sig-paren">(</span><em>name</em>, <em>bycolumn=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getdmprop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get properties of a data manager.</p>
+<p>Each column in a table is stored using a data manager. A storage manager
+is a data manager storing the physically in a file. A virtual column
+engine is a data manager that does not store data but calculates it on
+the fly (e.g. scaling floats to short to reduce storage).</p>
+<p>Some data managers have properties that can be changed on the fly
+(e.g. cachesize for a tiled storage manager). The properties of
+a given data manager are returned as a dict; function <a class="reference internal" href="#casacore.tables.table.setdmprop" title="casacore.tables.table.setdmprop"><code class="xref py py-func docutils literal"><span class="pre">setdmprop()</span></code></a>
+can be used to change the properties. Note the properties are also part
+of the data manager info returned by <a class="reference internal" href="#casacore.tables.table.getdminfo" title="casacore.tables.table.getdminfo"><code class="xref py py-func docutils literal"><span class="pre">getdminfo()</span></code></a>.</p>
+<p>The data manager can be specified in two ways: by data manager name
+or by the name of a column using the data manager. The argument
+<cite>bycolumn</cite> defines which way is used (default is by column name).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getkeyword">
+<code class="descname">getkeyword</code><span class="sig-paren">(</span><em>keyword</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getkeyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of a table keyword.</p>
+<p>The value of a keyword can be a:</p>
+<ul class="simple">
+<li>scalar which is returned as a normal python scalar.</li>
+<li>an array which is returned as a numpy array.</li>
+<li>a reference to a table which is returned as a string containing its
+name prefixed by &#8216;Table :&#8217;. It can be opened using the normal table
+constructor which will remove the prefix.</li>
+<li>a struct which is returned as a dict. A struct is fully nestable, thus
+each field in the struct can have one of the values described here.</li>
+</ul>
+<p>Similar to method <a class="reference internal" href="#casacore.tables.table.fieldnames" title="casacore.tables.table.fieldnames"><code class="xref py py-func docutils literal"><span class="pre">fieldnames()</span></code></a> a keyword name can be given consisting
+of multiple parts separated by dots. This represents nested structs,
+thus gives the value of a field in a struct (in a struct, etc.).</p>
+<p>Instead of a keyword name an index can be given which returns the value
+of the i-th keyword.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getkeywords">
+<code class="descname">getkeywords</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getkeywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of all table keywords.</p>
+<p>It is returned as a dict. See <a class="reference internal" href="#casacore.tables.table.getkeyword" title="casacore.tables.table.getkeyword"><code class="xref py py-func docutils literal"><span class="pre">getkeyword()</span></code></a> for the possible
+value types.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getsubtables">
+<code class="descname">getsubtables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getsubtables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the names of all subtables.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.getvarcol">
+<code class="descname">getvarcol</code><span class="sig-paren">(</span><em>columnname</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.getvarcol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the contents of a column or part of it.</p>
+<p>It is similar to <a class="reference internal" href="#casacore.tables.table.getcol" title="casacore.tables.table.getcol"><code class="xref py py-func docutils literal"><span class="pre">getcol()</span></code></a>, but the result is returned as a dict of
+numpy arrays.
+It can deal with a column containing variable shaped arrays.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.haslock">
+<code class="descname">haslock</code><span class="sig-paren">(</span><em>write=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.haslock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if the table is read or write locked.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.index">
+<code class="descname">index</code><span class="sig-paren">(</span><em>columnnames</em>, <em>sort=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tableindex object.</p>
+<p><a class="reference internal" href="#casacore.tables.tableindex" title="casacore.tables.tableindex"><code class="xref py py-class docutils literal"><span class="pre">tableindex</span></code></a> lets one get the row numbers of the rows holding
+given values for the columns for which the index is created.
+It uses an in-memory index on which a binary search is done.
+By default the table is sorted on the given columns to get the correct
+index order.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;3c343.MS&#39;</span><span class="p">)</span>
+<span class="n">tinx</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;ANTENNA1&#39;</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">tinx</span><span class="o">.</span><span class="n">rownumbers</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>       <span class="c1"># print rownrs containing ANTENNA1=0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.info">
+<code class="descname">info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the table info (table type, subtype, and readme lines).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.iscelldefined">
+<code class="descname">iscelldefined</code><span class="sig-paren">(</span><em>columnname</em>, <em>rownr</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.iscelldefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if a column cell contains a value.</p>
+<p>Columns containing variable shaped arrays can be empty. For these cases
+this method returns True. Doing <a class="reference internal" href="#casacore.tables.table.getcell" title="casacore.tables.table.getcell"><code class="xref py py-func docutils literal"><span class="pre">getcell()</span></code></a> on an empty cell results
+in an exception.</p>
+<p>Note that an empty cell is not the same as an empty array. A cell can
+contain an empty array (of any dimensionality) as a value.</p>
+<p>Also note that a cell in a column containing scalars or fixed shaped
+arrays cannot be empty.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.ismultiused">
+<code class="descname">ismultiused</code><span class="sig-paren">(</span><em>checksubtables=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.ismultiused" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if the table is used in other processes.</p>
+<p><cite>checksubtables=True</cite> means it will also check it for subtables.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.isscalarcol">
+<code class="descname">isscalarcol</code><span class="sig-paren">(</span><em>columnname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.isscalarcol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if the column contains scalar values.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.isvarcol">
+<code class="descname">isvarcol</code><span class="sig-paren">(</span><em>columnname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.isvarcol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if the column holds variable shaped arrays.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.iswritable">
+<code class="descname">iswritable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.iswritable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return if the table is writable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.iter">
+<code class="descname">iter</code><span class="sig-paren">(</span><em>columnnames</em>, <em>order=''</em>, <em>sort=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tableiter object.</p>
+<p><a class="reference internal" href="#casacore.tables.tableiter" title="casacore.tables.tableiter"><code class="xref py py-class docutils literal"><span class="pre">tableiter</span></code></a> lets one iterate over a table by returning in each
+iteration step a reference table containing equal values for the given
+columns.
+By default a sort is done on the given columns to get the correct
+iteration order.</p>
+<dl class="docutils">
+<dt><cite>order</cite></dt>
+<dd><div class="first last line-block">
+<div class="line">&#8216;ascending&#8217;  is iterate in ascending order (is the default).</div>
+<div class="line">&#8216;descending&#8217; is iterate in descending order.</div>
+</div>
+</dd>
+<dt><cite>sort=False</cite></dt>
+<dd>do not sort (because table is already in correct order).</dd>
+</dl>
+<p>For example, iterate by time through a measurementset table:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;3c343.MS&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ts</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s1">&#39;TIME&#39;</span><span class="p">):</span>
+  <span class="k">print</span> <span class="n">ts</span><span class="o">.</span><span class="n">nrows</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.keywordnames">
+<code class="descname">keywordnames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.keywordnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the names of all table keywords.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.lock">
+<code class="descname">lock</code><span class="sig-paren">(</span><em>write=True</em>, <em>nattempts=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire a read or write lock on a table.</p>
+<p><cite>write=False</cite> means a read lock, otherwise a write lock.
+| nattempts defines the nr of attempts (one attempt per second) to do
+before giving up. The default 0 means unlimited.
+An exception is thrown if no lock could be acquired.</p>
+<p>If the table has already been locked appropriately, nothing will be
+done. Thus locks do NOT nest.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.lockoptions">
+<code class="descname">lockoptions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.lockoptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the lockoptions.</p>
+<p>They are returned as a dict with fields:</p>
+<dl class="docutils">
+<dt>&#8216;option&#8217;</dt>
+<dd>the locking mode (user, usernoread, auto, autonoread, permanent,
+permanentwait).</dd>
+<dt><cite>interval</cite></dt>
+<dd>In case of AutoLocking the inspection interval defines how often
+the table system checks if another process needs a lock on the table.</dd>
+<dt><cite>maxwait</cite></dt>
+<dd>the maximum time to wait when acquiring a lock in AutoLocking mode.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.name">
+<code class="descname">name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the table name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.ncols">
+<code class="descname">ncols</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.ncols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of columns in the table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.nrows">
+<code class="descname">nrows</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.nrows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of rows in the table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.partnames">
+<code class="descname">partnames</code><span class="sig-paren">(</span><em>recursive=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.partnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the names of the tables this table consists of.</p>
+<p>A table can be a reference to another table (e.g. for a selection) or
+a concatenation of other tables. This function returns the names of
+such table parts.
+For a plain table it simply returns the name of that table.</p>
+<p>In its turn a table part can be a reference or concatenated table.
+<cite>recursive=True</cite> means that it follows table parts until the end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.putcell">
+<code class="descname">putcell</code><span class="sig-paren">(</span><em>columnname</em>, <em>rownr</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.putcell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put a value into one or more table cells.</p>
+<p>The columnname and (0-relative) rownrs indicate the  table cells.
+rownr can be a single row number or a sequence of row numbers.
+If multiple rownrs are given, the given value is put in all those rows.</p>
+<p>The given value has to be convertible to the data type of the column.
+If the column contains scalar values, the given value must be a scalar.
+The value for a column holding arrays can be given as:</p>
+<ul class="simple">
+<li>a scalar resulting in a 1-dim array of 1 element</li>
+<li>a sequence (list, tuple) resulting in a 1-dim array</li>
+<li>a numpy array of any dimensionality</li>
+</ul>
+<p>Note that the arrays in a column may have a fixed dimensionality or
+shape. In that case the dimensionality or shape of the array to put
+has to conform.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.putcellslice">
+<code class="descname">putcellslice</code><span class="sig-paren">(</span><em>columnname</em>, <em>rownr</em>, <em>value</em>, <em>blc</em>, <em>trc</em>, <em>inc=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.putcellslice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put into a slice of a table cell holding an array.</p>
+<p>The columnname and (0-relative) rownr indicate the table cell.
+Unlike putcell only a single row can be given.</p>
+<p>The slice to put is defined by the blc, trc, and optional inc arguments.
+(blc = bottom-left corner, trc=top-right corner, inc=stride). Not all
+axes have to be filled in for blc, trc, and inc. Missing axes default
+to begin, end, and 1. A negative blc or trc defaults to begin or end.
+Note that trc is inclusive (unlike python indexing).</p>
+<p>As in putcell the array can be given by a scalar, sequence, or numpy array.
+The shape of the array to put has to match the slice shape.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.putcol">
+<code class="descname">putcol</code><span class="sig-paren">(</span><em>columnname</em>, <em>value</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.putcol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put an entire column or part of it.</p>
+<p>If the column contains scalar values, the given value should be a 1-dim
+array. Otherwise it is a numpy array where the first axis is formed by
+the column cells.</p>
+<p>The column can be sliced by giving a start row (default 0), number of
+rows (default all), and row stride (default 1).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.putcolkeyword">
+<code class="descname">putcolkeyword</code><span class="sig-paren">(</span><em>columnname</em>, <em>keyword</em>, <em>value</em>, <em>makesubrecord=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.putcolkeyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the value of a column keyword.</p>
+<p>It is similar to <a class="reference internal" href="#casacore.tables.table.putkeyword" title="casacore.tables.table.putkeyword"><code class="xref py py-func docutils literal"><span class="pre">putkeyword()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.putcolkeywords">
+<code class="descname">putcolkeywords</code><span class="sig-paren">(</span><em>columnname</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.putcolkeywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the value of multiple keywords in a column.</p>
+<p>The value has to be a dict, so each field in the dict is a keyword.
+It puts all keywords similar to <a class="reference internal" href="#casacore.tables.table.putkeyword" title="casacore.tables.table.putkeyword"><code class="xref py py-func docutils literal"><span class="pre">putkeyword()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.putcolslice">
+<code class="descname">putcolslice</code><span class="sig-paren">(</span><em>columnname</em>, <em>value</em>, <em>blc</em>, <em>trc</em>, <em>inc=[]</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.putcolslice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put into a slice in a table column holding arrays.</p>
+<p>Its arguments are the same as for getcolslice and putcellslice.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.putinfo">
+<code class="descname">putinfo</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.putinfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the table info.</p>
+<p>The table info is a dict containing the fields:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.putkeyword">
+<code class="descname">putkeyword</code><span class="sig-paren">(</span><em>keyword</em>, <em>value</em>, <em>makesubrecord=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.putkeyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the value of a table keyword.</p>
+<p>The value of a keyword can be a:</p>
+<ul class="simple">
+<li>scalar which can be given a normal python scalar or numpy scalar.</li>
+<li>an array which can be given as a numpy array. A 1-dimensional array
+can also be given as a sequence (tuple or list).</li>
+<li>a reference to a table which can be given as a table object or as a
+string containing its name prefixed by &#8216;Table :&#8217;.</li>
+<li>a struct which can be given as a dict. A struct is fully nestable,
+thus each field in the dict can be one of the values described here.
+The only exception is that a table value can only be given by the string.</li>
+</ul>
+<p>If the keyword already exists, the type of the new value should match
+the existing one (e.g. a scalar cannot be replaced by an array).</p>
+<p>Similar to method <a class="reference internal" href="#casacore.tables.table.getkeyword" title="casacore.tables.table.getkeyword"><code class="xref py py-func docutils literal"><span class="pre">getkeyword()</span></code></a> a keyword name can be given
+consisting of multiple parts separated by dots. This represents nested
+structs, thus puts the value into a field in a struct (in a struct,
+etc.).
+If <cite>makesubrecord=True</cite> structs will be created for the keyword name 
+parts that do not exist.</p>
+<p>Instead of a keyword name an index can be given which returns the value
+of the i-th keyword.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.putkeywords">
+<code class="descname">putkeywords</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.putkeywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the value of multiple table keywords.</p>
+<p>The value has to be a dict, so each field in the dict is a keyword.
+It puts all keywords similar to <a class="reference internal" href="#casacore.tables.table.putkeyword" title="casacore.tables.table.putkeyword"><code class="xref py py-func docutils literal"><span class="pre">putkeyword()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.putvarcol">
+<code class="descname">putvarcol</code><span class="sig-paren">(</span><em>columnname</em>, <em>value</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.putvarcol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put an entire column or part of it.</p>
+<p>It is similar to putcol, but the shapes of the arrays in the column
+can vary. The value has to be a dict of numpy arrays.</p>
+<p>The column can be sliced by giving a start row (default 0), number of
+rows (default all), and row stride (default 1).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.query">
+<code class="descname">query</code><span class="sig-paren">(</span><em>query=''</em>, <em>name=''</em>, <em>sortlist=''</em>, <em>columns=''</em>, <em>limit=0</em>, <em>offset=0</em>, <em>style='Python'</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query the table and return the result as a reference table.</p>
+<p>This method queries the table. It forms a
+<a class="reference external" href="../../casacore/doc/notes/199.html">TaQL</a>
+command from the given arguments and executes it using the
+<a class="reference internal" href="#casacore.tables.taql" title="casacore.tables.taql"><code class="xref py py-func docutils literal"><span class="pre">taql()</span></code></a> function.
+The result is returned in a so-called reference table which references
+the selected columns and rows in the original table. Usually a reference
+table is temporary, but it can be made persistent by giving it a name.
+Note that a reference table is handled as any table, thus can be
+queried again.</p>
+<p>All arguments are optional, but at least one of <cite>query</cite>, <cite>name</cite>,
+<cite>sortlist</cite>, and <cite>columns</cite> should be used.
+See the <a class="reference external" href="../../casacore/doc/notes/199.html">TaQL note</a> for the
+detailed description of the the arguments representing the various
+parts of a TaQL command.</p>
+<dl class="docutils">
+<dt><cite>query</cite></dt>
+<dd>The WHERE part of a TaQL command.</dd>
+<dt><cite>name</cite></dt>
+<dd>The name of the reference table if it is to be made persistent.</dd>
+<dt><cite>sortlist</cite></dt>
+<dd>The ORDERBY part of a TaQL command. It is a single string in which
+commas have to be used to separate sort keys.</dd>
+<dt><cite>columns</cite></dt>
+<dd>The columns to be selected (projection in data base terms). It is a
+single string in which commas have to be used to separate column 
+names. Apart from column names, expressions can be given as well.</dd>
+<dt><cite>limit</cite></dt>
+<dd>If &gt; 0, maximum number of rows to be selected.</dd>
+<dt><cite>offset</cite></dt>
+<dd>If &gt; 0, ignore the first N matches.</dd>
+<dt><cite>style</cite></dt>
+<dd>The TaQL syntax style to be used (defaults to Python).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.removecolkeyword">
+<code class="descname">removecolkeyword</code><span class="sig-paren">(</span><em>columnname</em>, <em>keyword</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.removecolkeyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a column keyword.</p>
+<p>It is similar to <a class="reference internal" href="#casacore.tables.table.removekeyword" title="casacore.tables.table.removekeyword"><code class="xref py py-func docutils literal"><span class="pre">removekeyword()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.removecols">
+<code class="descname">removecols</code><span class="sig-paren">(</span><em>columnnames</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.removecols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove one or more columns.</p>
+<p>Note that some storage managers (in particular the tiled ones) do not
+allow the removal of one of its columns. In that case all its columns
+have to be removed together.</p>
+<p>Columns can always be removed from a reference table. It does NOT remove
+the columns from the referenced table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.removekeyword">
+<code class="descname">removekeyword</code><span class="sig-paren">(</span><em>keyword</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.removekeyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a table keyword.</p>
+<p>Similar to <a class="reference internal" href="#casacore.tables.table.getkeyword" title="casacore.tables.table.getkeyword"><code class="xref py py-func docutils literal"><span class="pre">getkeyword()</span></code></a> the name can consist of multiple parts.
+In that case a field in a struct will be removed.</p>
+<p>Instead of a keyword name an index can be given which removes
+the i-th keyword.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.removerows">
+<code class="descname">removerows</code><span class="sig-paren">(</span><em>rownrs</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.removerows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the given rows from the table.</p>
+<p>The row numbers can be given in a sequence in any order. The rows will
+be removed from the end of the table towards the beginning. This is
+needed because the removal of a row decrements the row number of higher
+rows.</p>
+<p>Thus:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span><span class="o">.</span><span class="n">removerow</span> <span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>is different from:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span><span class="o">.</span><span class="n">removerow</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">t</span><span class="o">.</span><span class="n">removerow</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>because in the latter row 20 was row 21 before the removal of row 10.</p>
+<p>Some storage managers (in particular the tiled ones) do not allow
+removal of rows, so the operation may fail.</p>
+<p>Rows can always be removed from a reference table. It does NOT remove
+the rows from the referenced table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.rename">
+<code class="descname">rename</code><span class="sig-paren">(</span><em>newtablename</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.rename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rename the table.</p>
+<p>It renames the table and, if needed, adjusts the names of its subtables.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.renamecol">
+<code class="descname">renamecol</code><span class="sig-paren">(</span><em>oldname</em>, <em>newname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.renamecol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rename a single table column.</p>
+<p>Renaming a column in a reference table does NOT rename the column in
+the referenced table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.resync">
+<code class="descname">resync</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.resync" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resync the table object with the file contents.</p>
+<p>Usually concurrent access is handled by acquiring read and write locks.
+However, a table can be opened without the need for read locking using
+lock option <cite>usernoread</cite> or <cite>autonoread</cite>. in that case
+synchronization of the table object and actual file contents can be
+done manually using this method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.row">
+<code class="descname">row</code><span class="sig-paren">(</span><em>columnnames=[]</em>, <em>exclude=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tablerow object which includes (or excludes) the given columns.</p>
+<p><a class="reference internal" href="#casacore.tables.tablerow" title="casacore.tables.tablerow"><code class="xref py py-class docutils literal"><span class="pre">tablerow</span></code></a> makes it possible to get/put values in one or
+more rows.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.rownumbers">
+<code class="descname">rownumbers</code><span class="sig-paren">(</span><em>table=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.rownumbers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list containing the row numbers of this table.</p>
+<p>This method can be useful after a selection or a sort.
+It returns the row numbers of the rows in this table with respect
+to the given table. If no table is given, the original table is used.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;W53.MS&#39;</span><span class="p">)</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">selectrows</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>  <span class="c1"># select a few rows</span>
+<span class="n">t1</span><span class="o">.</span><span class="n">rownumbers</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="c1"># [1 3 5 7 9]</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">selectrows</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>       <span class="c1"># select rows from the selection</span>
+<span class="n">t2</span><span class="o">.</span><span class="n">rownumbers</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+<span class="c1"># [2 5]                         # rownrs of t2 in table t1</span>
+<span class="n">t2</span><span class="o">.</span><span class="n">rownumbers</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="c1"># [3 9]                         # rownrs of t2 in t</span>
+<span class="n">t2</span><span class="o">.</span><span class="n">rownumbers</span><span class="p">()</span>
+<span class="c1"># [3 9]</span>
+</pre></div>
+</div>
+<p>The last statements show that the method returns the row numbers
+referring to the given table. Table t2 contains rows 2 and 5 in table t1,
+which are rows 3 and 9 in table t.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.select">
+<code class="descname">select</code><span class="sig-paren">(</span><em>columns</em>, <em>name=''</em>, <em>style='Python'</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select columns and return the result as a reference table.</p>
+<p>This method represents the SELECT part of a TaQL command using the
+given columns (or column expressions). It forms a
+<a class="reference external" href="../../casacore/doc/notes/199.html">TaQL</a>
+command from the given arguments and executes it using the
+<a class="reference internal" href="#casacore.tables.taql" title="casacore.tables.taql"><code class="xref py py-func docutils literal"><span class="pre">taql()</span></code></a> function.
+The result is returned in a so-called reference table which references
+the columns and rows in the original table. Usually a reference
+table is temporary, but it can be made persistent by giving it a name.
+Note that a reference table is handled as any table, thus can be
+queried again.</p>
+<dl class="docutils">
+<dt><cite>columns</cite></dt>
+<dd>The columns to be selected (projection in data base terms). It is a
+single string in which commas have to be used to separate column 
+names. Apart from column names, expressions can be given as well.</dd>
+<dt><cite>name</cite></dt>
+<dd>The name of the reference table if it is to be made persistent.</dd>
+<dt><cite>style</cite></dt>
+<dd>The TaQL syntax style to be used (defaults to Python).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.selectrows">
+<code class="descname">selectrows</code><span class="sig-paren">(</span><em>rownrs</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.selectrows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a reference table containing the given rows.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.setdmprop">
+<code class="descname">setdmprop</code><span class="sig-paren">(</span><em>name</em>, <em>properties</em>, <em>bycolumn=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.setdmprop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set properties of a data manager.</p>
+<p>Properties (e.g. cachesize) of a data manager can be changed by
+defining them appropriately in the properties argument (a dict).
+Current values can be obtained using function <a class="reference internal" href="#casacore.tables.table.getdmprop" title="casacore.tables.table.getdmprop"><code class="xref py py-func docutils literal"><span class="pre">getdmprop()</span></code></a> which
+also serves as a template. The dict can contain more fields; only
+the fields with the names as returned by getdmprop are handled.</p>
+<p>The data manager can be specified in two ways: by data manager name
+or by the name of a column using the data manager. The argument
+<cite>bycolumn</cite> defines which way is used (default is by column name).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.setmaxcachesize">
+<code class="descname">setmaxcachesize</code><span class="sig-paren">(</span><em>columnname</em>, <em>nbytes</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.setmaxcachesize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the maximum cache size for the data manager used by the column.</p>
+<p>It can sometimes be useful to limit the size of the cache used by
+a column stored with the tiled storage manager.
+This method requires some more knowledge about the table system
+and is not meant for the casual user.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.showstructure">
+<code class="descname">showstructure</code><span class="sig-paren">(</span><em>dataman=True</em>, <em>column=True</em>, <em>subtable=False</em>, <em>sort=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.showstructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show table structure in a formatted string.</p>
+<p>The structure of this table and optionally its subtables is shown.
+It shows the data manager info and column descriptions.
+Optionally the columns are sorted in alphabetical order.</p>
+<dl class="docutils">
+<dt><cite>dataman</cite></dt>
+<dd>Show data manager info? If False, only column info is shown.
+If True, data manager info and columns per data manager are shown.</dd>
+<dt><cite>column</cite></dt>
+<dd>Show column description per data manager? Only takes effect if
+dataman=True.</dd>
+<dt><cite>subtable</cite></dt>
+<dd>Show the structure of all subtables (recursively).
+The names of subtables are always shown.</dd>
+<dt>&#8216;sort&#8217;</dt>
+<dd>Sort the columns in alphabetical order?</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.sort">
+<code class="descname">sort</code><span class="sig-paren">(</span><em>sortlist</em>, <em>name=''</em>, <em>limit=0</em>, <em>offset=0</em>, <em>style='Python'</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort the table and return the result as a reference table.</p>
+<p>This method sorts the table. It forms a
+<a class="reference external" href="../../casacore/doc/notes/199.html">TaQL</a>
+command from the given arguments and executes it using the
+<a class="reference internal" href="#casacore.tables.taql" title="casacore.tables.taql"><code class="xref py py-func docutils literal"><span class="pre">taql()</span></code></a> function.
+The result is returned in a so-called reference table which references
+the columns and rows in the original table. Usually a reference
+table is temporary, but it can be made persistent by giving it a name.
+Note that a reference table is handled as any table, thus can be
+queried again.</p>
+<dl class="docutils">
+<dt><cite>sortlist</cite></dt>
+<dd>The ORDERBY part of a TaQL command. It is a single string in which
+commas have to be used to separate sort keys. A sort key can be the
+name of a column, but it can be an expression as well.</dd>
+<dt><cite>name</cite></dt>
+<dd>The name of the reference table if it is to be made persistent.</dd>
+<dt><cite>limit</cite></dt>
+<dd>If &gt; 0, maximum number of rows to be selected after the sort step.
+It can, for instance, be used to select the N highest values.</dd>
+<dt><cite>offset</cite></dt>
+<dd>If &gt; 0, ignore the first <cite>offset</cite> matches after the sort step.</dd>
+<dt><cite>style</cite></dt>
+<dd>The TaQL syntax style to be used (defaults to Python).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.summary">
+<code class="descname">summary</code><span class="sig-paren">(</span><em>recurse=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a summary of the table.</p>
+<p>It prints the number of columns and rows, column names, and table and
+column keywords.
+If <cite>recurse=True</cite> it also prints the summary of all subtables, i.e.
+tables referenced by table keywords.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.toascii">
+<code class="descname">toascii</code><span class="sig-paren">(</span><em>asciifile</em>, <em>headerfile=''</em>, <em>columnnames=()</em>, <em>sep=' '</em>, <em>precision=()</em>, <em>usebrackets=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.toascii" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the table in ASCII format.</p>
+<p>It is approximately the inverse of the from-ASCII-contructor.</p>
+<dl class="docutils">
+<dt><cite>asciifile</cite></dt>
+<dd>The name of the resulting ASCII file.</dd>
+<dt><cite>headerfile</cite></dt>
+<dd>The name of an optional file containing the header info. If not
+given or if equal to argument <cite>asciifile</cite>, the headers are written
+at the beginning of the ASCII file.</dd>
+<dt><cite>columnnames</cite></dt>
+<dd>The names of the columns to be written. If not given or if the first
+name is empty, all columns are written.</dd>
+<dt><cite>sep</cite></dt>
+<dd>The separator to be used between values. Only the first character
+of a string is used. If not given or mepty, a blank is used.</dd>
+<dt><cite>precision</cite></dt>
+<dd>For each column the precision can be given. It is only used for
+columns containing floating point numbers. A value &lt;=0 means using
+the default which is 9 for single and 18 for double precision.</dd>
+<dt><cite>usebrackets</cite></dt>
+<dd>If True, arrays and records are written enclosed in [].
+Multi-dimensional arrays have [] per dimension. In this way variable
+shaped array can be read back correctly. However, it is not supported
+by <a class="reference internal" href="#casacore.tables.tablefromascii" title="casacore.tables.tablefromascii"><code class="xref py py-func docutils literal"><span class="pre">tablefromascii()</span></code></a>.
+If False, records are not written and arrays are written linearly
+with the shape defined in the header as supported byI
+<a class="reference internal" href="#casacore.tables.tablefromascii" title="casacore.tables.tablefromascii"><code class="xref py py-func docutils literal"><span class="pre">tablefromascii()</span></code></a>.</dd>
+</dl>
+<p>Note that columns containing records or variable shaped arrays are
+ignored, because they cannot be written to ASCII. It is told which
+columns are ignored.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span>  <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;3c343.MS&#39;</span><span class="p">)</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;ANTENNA1 != ANTENNA2&#39;</span><span class="p">)</span>   <span class="c1"># do row selection</span>
+<span class="n">t1</span><span class="o">.</span><span class="n">toascii</span> <span class="p">(</span><span class="s1">&#39;3c343.txt&#39;</span><span class="p">)</span>               <span class="c1"># write selection as ASCII</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.unlock">
+<code class="descname">unlock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.unlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unlock the table.</p>
+<p>Flush the table data and release a read or write lock on the table
+acquired by lock().
+Nothing will be done if the table is not locked.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.table.view">
+<code class="descname">view</code><span class="sig-paren">(</span><em>wait=True</em>, <em>tempname='/tmp/seltable'</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.table.view" title="Permalink to this definition">¶</a></dt>
+<dd><p>View a table using casaviewer, casabrowser, or wxwidget based browser.</p>
+<p>The table is viewed depending on the type:</p>
+<dl class="docutils">
+<dt>MeasurementSet</dt>
+<dd>is viewed using casaviewer.</dd>
+<dt>Image</dt>
+<dd>is viewed using casaviewer.</dd>
+<dt>other</dt>
+<dd>are browsed using the <a class="reference internal" href="#casacore.tables.table.browse" title="casacore.tables.table.browse"><code class="xref py py-func docutils literal"><span class="pre">browse()</span></code></a> function.</dd>
+</dl>
+<p>If the casaviewer cannot be found, all tables are browsed.</p>
+<p>The casaviewer can only display tables that are persistent on disk.
+This gives problems for tables resulting from a query because they are
+held in memory only (unless an output table name was given).</p>
+<p>To make viewing of such tables possible, the argument <cite>tempname</cite> can
+be used to specify a table name that will be used to form a persistent
+table that can be browsed. Note that such a table is very small as it
+does not contain data, but only references to rows in the original table.
+The default for <cite>tempname</cite> is &#8216;/tmp/seltable&#8217;.</p>
+<p>If needed, the table can be deleted using the <a class="reference internal" href="#casacore.tables.tabledelete" title="casacore.tables.tabledelete"><code class="xref py py-func docutils literal"><span class="pre">tabledelete()</span></code></a>
+function.</p>
+<p>If <cite>wait=False</cite>, the casaviewer is started in the background.
+In that case the user should delete a possibly created copy of a 
+temporary table.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-tables-tablecolumn">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">tables.tablecolumn</span></code><a class="headerlink" href="#class-tables-tablecolumn" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.tables.tablecolumn">
+<em class="property">class </em><code class="descclassname">casacore.tables.</code><code class="descname">tablecolumn</code><span class="sig-paren">(</span><em>table</em>, <em>columnname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Python interface to a column in a Casacore table.</p>
+<p>The <cite>tablecolumn</cite> class is a convenience class to access data in a
+table column. All functionality provided in this class is available in
+<a class="reference internal" href="#casacore.tables.table" title="casacore.tables.table"><code class="xref py py-class docutils literal"><span class="pre">table</span></code></a>, but <cite>tablecolumn</cite> is more convenient to use because the
+column name does not have to be given over and over again.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;3C343.MS&#39;</span><span class="p">)</span>
+<span class="n">tc</span> <span class="o">=</span> <span class="n">tablecolumn</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">&#39;DATA&#39;</span><span class="p">)</span>
+<span class="c1"># tc = t.col(&#39;DATA&#39;)           # another way to construct a tablecolumn</span>
+<span class="n">tc</span><span class="o">.</span><span class="n">getcell</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                  <span class="c1"># get data from cell 0</span>
+</pre></div>
+</div>
+<p>As can be seen in the example <a class="reference internal" href="#casacore.tables.table.col" title="casacore.tables.table.col"><code class="xref py py-func docutils literal"><span class="pre">table.col()</span></code></a> offers a slightly more
+convenient way to create a <cite>tablecolumn</cite> object.</p>
+<p>A <cite>tablecolumn</cite> can be indexed using Python&#8217;s [] operator. Negative start,
+end, and stride is possible. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>               <span class="c1"># get cell 0</span>
+<span class="n">tc</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>              <span class="c1"># get cell 0,1,2,3,4</span>
+<span class="n">tc</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,]</span>          <span class="c1"># get last 4 cells</span>
+<span class="n">tc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>        <span class="c1"># get last 4 cells in reversed order</span>
+<span class="n">tc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>       <span class="c1"># put value of cell 0 into cell 1</span>
+</pre></div>
+</div>
+<p>The <cite>tablecolumn</cite> class supports the context manager idiom (__enter__ and __exit__).
+When used in a <cite>with</cite> statement, the table changes will be flushed
+automatically, which is handy when writing to the table column.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">t</span><span class="o">.</span><span class="n">SPECTRAL_WINDOW_ID</span> <span class="k">as</span> <span class="n">tc</span><span class="p">:</span>
+  <span class="n">tc</span><span class="o">.</span><span class="n">putcell</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.arraytype">
+<code class="descname">arraytype</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.arraytype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the array type of a column holding arrays.
+(see <a class="reference internal" href="#casacore.tables.table.colarraytype" title="casacore.tables.table.colarraytype"><code class="xref py py-func docutils literal"><span class="pre">table.colarraytype()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.datatype">
+<code class="descname">datatype</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.datatype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the data type of the column.
+(see <a class="reference internal" href="#casacore.tables.table.coldatatype" title="casacore.tables.table.coldatatype"><code class="xref py py-func docutils literal"><span class="pre">table.coldatatype()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.fieldnames">
+<code class="descname">fieldnames</code><span class="sig-paren">(</span><em>keyword=''</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.fieldnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the names of the fields in a column keyword value.
+(see <a class="reference internal" href="#casacore.tables.table.colfieldnames" title="casacore.tables.table.colfieldnames"><code class="xref py py-func docutils literal"><span class="pre">table.colfieldnames()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.getcell">
+<code class="descname">getcell</code><span class="sig-paren">(</span><em>rownr</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.getcell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data from a column cell.
+(see <a class="reference internal" href="#casacore.tables.table.getcell" title="casacore.tables.table.getcell"><code class="xref py py-func docutils literal"><span class="pre">table.getcell()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.getcellslice">
+<code class="descname">getcellslice</code><span class="sig-paren">(</span><em>rownr</em>, <em>blc</em>, <em>trc</em>, <em>inc=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.getcellslice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a slice from a column cell holding an array.
+(see <a class="reference internal" href="#casacore.tables.table.getcellslice" title="casacore.tables.table.getcellslice"><code class="xref py py-func docutils literal"><span class="pre">table.getcellslice()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.getcol">
+<code class="descname">getcol</code><span class="sig-paren">(</span><em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.getcol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the contents of the column or part of it.
+(see <a class="reference internal" href="#casacore.tables.table.getcol" title="casacore.tables.table.getcol"><code class="xref py py-func docutils literal"><span class="pre">table.getcol()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.getcolslice">
+<code class="descname">getcolslice</code><span class="sig-paren">(</span><em>blc</em>, <em>trc</em>, <em>inc=[]</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.getcolslice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a slice from a table column holding arrays.
+(see <a class="reference internal" href="#casacore.tables.table.getcolslice" title="casacore.tables.table.getcolslice"><code class="xref py py-func docutils literal"><span class="pre">table.getcolslice()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.getdesc">
+<code class="descname">getdesc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.getdesc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the description of the column.
+(see <a class="reference internal" href="#casacore.tables.table.getcoldesc" title="casacore.tables.table.getcoldesc"><code class="xref py py-func docutils literal"><span class="pre">table.getcoldesc()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.getdminfo">
+<code class="descname">getdminfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.getdminfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data manager info of the column.
+(see <a class="reference internal" href="#casacore.tables.table.getdminfo" title="casacore.tables.table.getdminfo"><code class="xref py py-func docutils literal"><span class="pre">table.getdminfo()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.getkeyword">
+<code class="descname">getkeyword</code><span class="sig-paren">(</span><em>keyword</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.getkeyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of a column keyword.
+(see <a class="reference internal" href="#casacore.tables.table.getcolkeyword" title="casacore.tables.table.getcolkeyword"><code class="xref py py-func docutils literal"><span class="pre">table.getcolkeyword()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.getkeywords">
+<code class="descname">getkeywords</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.getkeywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of all keywords of the column.
+(see <a class="reference internal" href="#casacore.tables.table.getcolkeywords" title="casacore.tables.table.getcolkeywords"><code class="xref py py-func docutils literal"><span class="pre">table.getcolkeywords()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.getshapestring">
+<code class="descname">getshapestring</code><span class="sig-paren">(</span><em>startrow=1</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.getshapestring" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the shapes of all cells in the column in string format.
+(see <a class="reference internal" href="#casacore.tables.table.getcolshapestring" title="casacore.tables.table.getcolshapestring"><code class="xref py py-func docutils literal"><span class="pre">table.getcolshapestring()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.getvarcol">
+<code class="descname">getvarcol</code><span class="sig-paren">(</span><em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.getvarcol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the contents of the column or part of it.
+(see <a class="reference internal" href="#casacore.tables.table.getvarcol" title="casacore.tables.table.getvarcol"><code class="xref py py-func docutils literal"><span class="pre">table.getvarcol()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.index">
+<code class="descname">index</code><span class="sig-paren">(</span><em>sort=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference internal" href="#casacore.tables.tableindex" title="casacore.tables.tableindex"><code class="xref py py-class docutils literal"><span class="pre">tableindex</span></code></a> object on this column.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.iscelldefined">
+<code class="descname">iscelldefined</code><span class="sig-paren">(</span><em>rownr</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.iscelldefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if a column cell contains a value.
+(see <a class="reference internal" href="#casacore.tables.table.iscelldefined" title="casacore.tables.table.iscelldefined"><code class="xref py py-func docutils literal"><span class="pre">table.iscelldefined()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.isscalar">
+<code class="descname">isscalar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.isscalar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if the column contains scalar values.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.isvar">
+<code class="descname">isvar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.isvar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if the column holds variable shaped arrays.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.iter">
+<code class="descname">iter</code><span class="sig-paren">(</span><em>order=''</em>, <em>sort=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference internal" href="#casacore.tables.tableiter" title="casacore.tables.tableiter"><code class="xref py py-class docutils literal"><span class="pre">tableiter</span></code></a> object on this column.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.keywordnames">
+<code class="descname">keywordnames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.keywordnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the names of all keywords of the column.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.name">
+<code class="descname">name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the name of the column.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.nrows">
+<code class="descname">nrows</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.nrows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of cells in the column.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.putcell">
+<code class="descname">putcell</code><span class="sig-paren">(</span><em>rownr</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.putcell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put a value into one or more table cells.
+(see <a class="reference internal" href="#casacore.tables.table.putcell" title="casacore.tables.table.putcell"><code class="xref py py-func docutils literal"><span class="pre">table.putcell()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.putcellslice">
+<code class="descname">putcellslice</code><span class="sig-paren">(</span><em>rownr</em>, <em>value</em>, <em>blc</em>, <em>trc</em>, <em>inc=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.putcellslice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put into a slice of a table cell holding an array.
+(see <a class="reference internal" href="#casacore.tables.table.putcellslice" title="casacore.tables.table.putcellslice"><code class="xref py py-func docutils literal"><span class="pre">table.putcellslice()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.putcol">
+<code class="descname">putcol</code><span class="sig-paren">(</span><em>value</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.putcol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put an entire column or part of it.
+(see <a class="reference internal" href="#casacore.tables.table.putcol" title="casacore.tables.table.putcol"><code class="xref py py-func docutils literal"><span class="pre">table.putcol()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.putcolslice">
+<code class="descname">putcolslice</code><span class="sig-paren">(</span><em>value</em>, <em>blc</em>, <em>trc</em>, <em>inc=[]</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.putcolslice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put into a slice in a table column holding arrays.
+(see <a class="reference internal" href="#casacore.tables.table.putcolslice" title="casacore.tables.table.putcolslice"><code class="xref py py-func docutils literal"><span class="pre">table.putcolslice()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.putkeyword">
+<code class="descname">putkeyword</code><span class="sig-paren">(</span><em>keyword</em>, <em>value</em>, <em>makesubrecord=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.putkeyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the value of a column keyword.
+(see <a class="reference internal" href="#casacore.tables.table.putcolkeyword" title="casacore.tables.table.putcolkeyword"><code class="xref py py-func docutils literal"><span class="pre">table.putcolkeyword()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.putkeywords">
+<code class="descname">putkeywords</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.putkeywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the value of multiple table keywords.
+(see <a class="reference internal" href="#casacore.tables.table.putcolkeywords" title="casacore.tables.table.putcolkeywords"><code class="xref py py-func docutils literal"><span class="pre">table.putcolkeywords()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.putvarcol">
+<code class="descname">putvarcol</code><span class="sig-paren">(</span><em>value</em>, <em>startrow=0</em>, <em>nrow=-1</em>, <em>rowincr=1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.putvarcol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put an entire column or part of it.
+(see <a class="reference internal" href="#casacore.tables.table.putvarcol" title="casacore.tables.table.putvarcol"><code class="xref py py-func docutils literal"><span class="pre">table.putvarcol()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.removekeyword">
+<code class="descname">removekeyword</code><span class="sig-paren">(</span><em>keyword</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.removekeyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a column keyword.
+(see <a class="reference internal" href="#casacore.tables.table.removecolkeyword" title="casacore.tables.table.removecolkeyword"><code class="xref py py-func docutils literal"><span class="pre">table.removecolkeyword()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablecolumn.table">
+<code class="descname">table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablecolumn.table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the table object this column belongs to.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-tables-tablerow">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">tables.tablerow</span></code><a class="headerlink" href="#class-tables-tablerow" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.tables.tablerow">
+<em class="property">class </em><code class="descclassname">casacore.tables.</code><code class="descname">tablerow</code><span class="sig-paren">(</span><em>table</em>, <em>columnnames=[]</em>, <em>exclude=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablerow" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Python interface to Casacore table rows.</p>
+<p>A table row is a record (dict) containing the values of a single row for
+one or more columns in a table. In constructing the <cite>tablerow</cite> object, one
+can specify which columns are to be included or excluded.
+By default all columns will be used, but if the table is writable,
+only writable columns will be used.</p>
+<p>A <cite>tablerow</cite> object can easily be constructed using <a class="reference internal" href="#casacore.tables.table.row" title="casacore.tables.table.row"><code class="xref py py-func docutils literal"><span class="pre">table.row()</span></code></a>.</p>
+<p>One or more rows can be read or written using the standard python indexing
+syntax where (negative) strides are possible.
+For example:</p>
+<blockquote>
+<div>t = table (&#8216;3c343.MS&#8217;)
+tr = t.row ([&#8216;ANTENNA1&#8217;, &#8216;ANTENNA2&#8217;, &#8216;ARRAY_ID&#8217;])
+tr[0]               # get row 0
+tr[:5]              # get row 0,1,2,3,4
+tr[-5,-1,]          # get last 4 rows
+tr[-1,-5,-1]        # get last 4 rows in reversed order
+tr[1] = tr[0]       # put values of row 0 into row 1</div></blockquote>
+<p>Note that the last line will fail because the table is opened readonly.
+The argument <cite>readonly=False</cite> is needed in the table constructor to make
+it work.</p>
+<p>The <cite>tablerow</cite> class supports the context manager idiom (__enter__ and __exit__).
+When used in a <cite>with</cite> statement, the table changes will be flushed
+automatically, which is handy when writing to table rows.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="p">()</span> <span class="k">as</span> <span class="n">tr</span><span class="p">:</span>
+  <span class="n">tr</span><span class="o">.</span><span class="n">put</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>   <span class="c1"># copy row 0 to row 1</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="casacore.tables.tablerow.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>rownr</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablerow.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the contents of the given row.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablerow.iswritable">
+<code class="descname">iswritable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablerow.iswritable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if all columns in the row object are writable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tablerow.put">
+<code class="descname">put</code><span class="sig-paren">(</span><em>rownr</em>, <em>value</em>, <em>matchingfields=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tablerow.put" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the values into the given row.</p>
+<p>The value should be a dict (as returned by method <a class="reference internal" href="#casacore.tables.tablerow.get" title="casacore.tables.tablerow.get"><code class="xref py py-func docutils literal"><span class="pre">get()</span></code></a>.
+The names of the fields in the dict should match the names of the
+columns used in the <cite>tablerow</cite> object.</p>
+<p><cite>matchingfields=True</cite> means that the value may contain more fields
+and only fields matching a column name will be used.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-tables-tableiter">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">tables.tableiter</span></code><a class="headerlink" href="#class-tables-tableiter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.tables.tableiter">
+<em class="property">class </em><code class="descclassname">casacore.tables.</code><code class="descname">tableiter</code><span class="sig-paren">(</span><em>table</em>, <em>columnnames</em>, <em>order=''</em>, <em>sort=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableiter" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Python interface to Casacore table iterators</p>
+<p>A <cite>tableiter</cite> allows iteration through a table based on the contents
+of one or more columns. Each step in the iteration process forms
+a subset of the table for which the specified columns have the same value.</p>
+<p>It can easily be constructed using the <a class="reference internal" href="#casacore.tables.table.iter" title="casacore.tables.table.iter"><code class="xref py py-func docutils literal"><span class="pre">table.iter()</span></code></a> method as done
+in the example below:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;3c343.MS&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ts</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s1">&#39;ANTENNA1&#39;</span><span class="p">):</span>
+  <span class="k">print</span> <span class="n">ts</span><span class="o">.</span><span class="n">nrows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In this example <cite>ts</cite> will be a so-called reference table which can be
+operated on like any other table object.</p>
+<p>Multiple column names should be given in a sequence (tuple or list).</p>
+<dl class="method">
+<dt id="casacore.tables.tableiter.next">
+<code class="descname">next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableiter.next" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tableiter.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableiter.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the iterator to the beginning.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-tables-tableindex">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">tables.tableindex</span></code><a class="headerlink" href="#class-tables-tableindex" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.tables.tableindex">
+<em class="property">class </em><code class="descclassname">casacore.tables.</code><code class="descname">tableindex</code><span class="sig-paren">(</span><em>table</em>, <em>columnnames</em>, <em>sort=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableindex" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Python interface to Casacore table index</p>
+<p>A tableindex makes it possible to find rows in a <a class="reference internal" href="#casacore.tables.table" title="casacore.tables.table"><code class="xref py py-class docutils literal"><span class="pre">table</span></code></a> based on
+the contents of one or more columns. When constructing the <cite>tableindex</cite> it
+has to be specified for which column or columns an index has to be built.
+Those columns will be loaded in memory and thereafter row numbers can be
+found in a fast way using a binary search.</p>
+<p>Using a table index is only useful if many searches will be done in the
+table. For a single or few searches it is better to query the table using
+method <a class="reference internal" href="#casacore.tables.table.query" title="casacore.tables.table.query"><code class="xref py py-func docutils literal"><span class="pre">table.query()</span></code></a>.</p>
+<p>Normally an index will be build on one or more scalar columns (e.g.
+on ANTENNA1 and ANTENNA2 in a measurementset table). However, it is also
+possible to buo.d an index for a column containing arrays (e.g. for a
+column where each cell can contain multiple names. In that case only a
+single column can be indexed.</p>
+<p>The index can be unique, but does not need to be.
+A unique index can be asked for the row number containing a given key.
+A non-unique index can only be asked for the row numbers containing a key.
+The returned sequence can thereafter be used in <a class="reference internal" href="#casacore.tables.table.selectrows" title="casacore.tables.table.selectrows"><code class="xref py py-func docutils literal"><span class="pre">table.selectrows()</span></code></a>
+to form that subset of the table.</p>
+<p><cite>tableindex</cite> supports Python&#8217;s index operator [] as explained in the
+methods <a class="reference internal" href="#casacore.tables.tableindex.rownr" title="casacore.tables.tableindex.rownr"><code class="xref py py-func docutils literal"><span class="pre">rownr()</span></code></a> and <a class="reference internal" href="#casacore.tables.tableindex.rownrs" title="casacore.tables.tableindex.rownrs"><code class="xref py py-func docutils literal"><span class="pre">rownrs()</span></code></a>.</p>
+<dl class="method">
+<dt id="casacore.tables.tableindex.colnames">
+<code class="descname">colnames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableindex.colnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the column names the index is made of.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tableindex.isunique">
+<code class="descname">isunique</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableindex.isunique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell if all keys in the index are unique.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tableindex.rownr">
+<code class="descname">rownr</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableindex.rownr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the unique row number containing the key.</p>
+<p>If the index is made from a single column, the keycan be given as a
+single value.
+Otherwise the key has to be given as a dict where the name of each
+field in the dict should correspond with the column name in the index.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;3c343.MS/ANTENNA&#39;</span><span class="p">)</span>
+<span class="n">tinx</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">index</span> <span class="p">(</span><span class="s1">&#39;NAME&#39;</span><span class="p">)</span>        <span class="c1"># build index for antenna name</span>
+<span class="n">rownr</span> <span class="o">=</span> <span class="n">tinx</span><span class="o">.</span><span class="n">rownr</span><span class="p">(</span><span class="s1">&#39;RTE&#39;</span><span class="p">)</span>      <span class="c1"># find an antenna by name</span>
+<span class="n">rownr</span> <span class="o">=</span> <span class="n">tinx</span><span class="p">[</span><span class="s1">&#39;RTE&#39;</span><span class="p">]</span>            <span class="c1"># same as above</span>
+<span class="n">t</span><span class="o">.</span><span class="n">getcell</span> <span class="p">(</span><span class="s1">&#39;POSITION&#39;</span><span class="p">,</span> <span class="n">rownr</span><span class="p">)</span>  <span class="c1"># get position of that antenna</span>
+</pre></div>
+</div>
+<p>As shown in the example above the python index operator can also
+be used to find a row number if the index if made of a single column.</p>
+<p>An exception will be raised if the index is not unique. In that case
+method <a class="reference internal" href="#casacore.tables.tableindex.rownrs" title="casacore.tables.tableindex.rownrs"><code class="xref py py-func docutils literal"><span class="pre">rownrs()</span></code></a> should be used instead.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tableindex.rownrs">
+<code class="descname">rownrs</code><span class="sig-paren">(</span><em>key</em>, <em>upperkey={}</em>, <em>lowerincl=True</em>, <em>upperincl=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableindex.rownrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a sequence of row numbers containing the key(s).</p>
+<p>A single key can be given, but by giving argument <cite>upperkey</cite> as well
+a key range can be given (where upper key must be &gt; lower).
+One can specify if the lower and upper key should be part of the range
+(<cite>incl=True</cite>) or not. By default both keys are part of the range.</p>
+<p>The key and optional upper key have to be given in the same way as
+for method <a class="reference internal" href="#casacore.tables.tableindex.rownr" title="casacore.tables.tableindex.rownr"><code class="xref py py-func docutils literal"><span class="pre">rownr()</span></code></a>.</p>
+<p>Similar to method <a class="reference internal" href="#casacore.tables.tableindex.rownr" title="casacore.tables.tableindex.rownr"><code class="xref py py-func docutils literal"><span class="pre">rownr()</span></code></a>. python&#8217;s index operator [] can be used
+if the index consists of a single column. However, in this case only
+key ranges can be used (because the index operator with a single key
+returns a single row number, thus can only be used for unique indices).
+The lower key is inclusive, but the upper key is exclusive conform
+the standard python index semantics.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;3c343.MS&#39;</span><span class="p">)</span>
+<span class="n">tinx</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">index</span> <span class="p">(</span><span class="s1">&#39;ANTENNA1&#39;</span><span class="p">)</span>    <span class="c1"># build index for antenna name</span>
+<span class="n">rownr</span> <span class="o">=</span> <span class="n">tinx</span><span class="o">.</span><span class="n">rownr</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>          <span class="c1"># find antenna1 = 0</span>
+<span class="n">rownr</span> <span class="o">=</span> <span class="n">tinx</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>              <span class="c1"># same as above</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.tables.tableindex.setchanged">
+<code class="descname">setchanged</code><span class="sig-paren">(</span><em>columnnames=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.tables.tableindex.setchanged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell the index that data has changed.</p>
+<p>The index is smart enough to detect that the number of rows in the
+indexed table has changed. However, it cannot detect if a value in
+a column contained in this inex has changed. So it has to be told
+explicitly.</p>
+<dl class="docutils">
+<dt><cite>columnnames</cite></dt>
+<dd>The names of the columns in which data have changed.
+Giving no names means that all columns in the index have changed.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-casacore.tables.tableutil"></span><span class="target" id="module-casacore.tables.msutil"></span></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="casacore_images.html" class="btn btn-neutral float-right" title="Module images" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="casacore_util.html" class="btn btn-neutral" title="Module casacore.util" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2009, Malte Marquarding, Ger van Diepen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

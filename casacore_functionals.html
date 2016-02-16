@@ -1,0 +1,1229 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Module functionals &mdash; python-casacore 2.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="python-casacore 2.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Module fitting" href="casacore_fitting.html"/>
+        <link rel="prev" title="Module images" href="casacore_images.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-casacore
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="casacore_util.html">Module <code class="docutils literal"><span class="pre">casacore.util</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_tables.html">Module <code class="docutils literal"><span class="pre">tables</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html">Module <code class="docutils literal"><span class="pre">images</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html#module-casacore.images.coordinates">Module <code class="docutils literal"><span class="pre">coordinates</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Module <code class="docutils literal"><span class="pre">functionals</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-functionals-functional">Class <code class="docutils literal"><span class="pre">functionals.functional</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-functionals-gaussian1d">Class <code class="docutils literal"><span class="pre">functionals.gaussian1d</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-functionals-gaussian2d">Class <code class="docutils literal"><span class="pre">functionals.gaussian2d</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-functionals-poly">Class <code class="docutils literal"><span class="pre">functionals.poly</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-functionals-oddpoly">Class <code class="docutils literal"><span class="pre">functionals.oddpoly</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-functionals-evenpoly">Class <code class="docutils literal"><span class="pre">functionals.evenpoly</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-functionals-chebyshev">Class <code class="docutils literal"><span class="pre">functionals.chebyshev</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-functionals-compound">Class <code class="docutils literal"><span class="pre">functionals.compound</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-functionals-combi">Class <code class="docutils literal"><span class="pre">functionals.combi</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-functionals-compiled">Class <code class="docutils literal"><span class="pre">functionals.compiled</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_fitting.html">Module <code class="docutils literal"><span class="pre">fitting</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_quanta.html">Module <code class="docutils literal"><span class="pre">casacore.quanta</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_measures.html">Module <code class="docutils literal"><span class="pre">casacore.measures</span></code></a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">python-casacore</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Module <code class="docutils literal"><span class="pre">functionals</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/casacore_functionals.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-casacore.functionals">
+<span id="module-functionals"></span><h1>Module <code class="xref py py-mod docutils literal"><span class="pre">functionals</span></code><a class="headerlink" href="#module-casacore.functionals" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>A functional is a function with parameters, defined as <em>f(p;x)</em>, where <em>p</em> are 
+the parameters, and <em>x</em> the arguments. Methods are available to calculate the 
+value of a function for a series of argument values for the given set of 
+parameters, and for the automatic calculation of the derivatives with respect 
+to the parameters.</p>
+<p>The created functionals can be used for fitiing as provided by 
+<a class="reference internal" href="casacore_fitting.html#module-casacore.fitting" title="casacore.fitting"><code class="xref py py-mod docutils literal"><span class="pre">casacore.fitting</span></code></a>.</p>
+<p>A functional has a mask associated with it, to indicate if certain parameters 
+have to be solved for. See masks for details.</p>
+<p>To access the functionals module <code class="docutils literal"><span class="pre">import</span> <span class="pre">casacore.functionals</span></code>.</p>
+<p>Functionals are created in a variety of ways, in general by specifying the 
+name of the functional, together with some necessary information like e.g. 
+the order of a polynomial, or the code needed to compile your privately d
+efined function. Parameters can be set at creation time or later:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">casacore.functionals</span> <span class="kn">import</span> <span class="n">functional</span><span class="p">,</span> <span class="n">gaussian1d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>            <span class="c1"># creates a 1D Gaussian, default arguments</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">functional</span><span class="p">(</span><span class="s1">&#39;gaussian1&#39;</span><span class="p">)</span> <span class="c1"># creates the same one</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                <span class="c1"># the value at x=1</span>
+<span class="go">[0.062500000000000028]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">[0.062500000000000028]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span><span class="o">.</span><span class="n">fdf</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]);</span>                  <span class="c1"># value and derivatives</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">derivative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In some cases an order can be specified as well (e.g. for polynomials):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">casacore.functionals</span> <span class="kn">import</span> <span class="n">functional</span><span class="p">,</span> <span class="n">poly</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>               <span class="c1"># creates a 3rd order polynomial</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span>
+<span class="go">{&#39;ndim&#39;: 1, &#39;masks&#39;: array([ True,  True,  True,  True], dtype=bool),</span>
+<span class="go"> &#39;params&#39;: array([ 1.,  1.,  1.,  1.]), &#39;npar&#39;: 4, &#39;type&#39;: 5, &#39;order&#39;: 3}</span>
+</pre></div>
+</div>
+<p>An extremely valuable aspect of the Functionals module is the ability to 
+create a functional from a compiled string specifying an arbitrary function. 
+For example, let us make our own polynomial <code class="docutils literal"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">2*x</span> <span class="pre">+</span> <span class="pre">3*x2</span></code> and evaluate it 
+at a few abcissa locations:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">casacore.functionals</span> <span class="kn">import</span> <span class="n">compiled</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">compiled</span><span class="p">(</span><span class="s1">&#39;p0 + p1*x + p2*x*x&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>   <span class="c1"># Define</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span>                                  <span class="c1"># Evaluate at x=[0,10,20]</span>
+<span class="go">[1.0, 321.0, 1241.0]</span>
+</pre></div>
+</div>
+<p>The functions created can also be used to specify the function to be fitted 
+in a least squares fit.</p>
+</div>
+<div class="section" id="class-functionals-functional">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">functionals.functional</span></code><a class="headerlink" href="#class-functionals-functional" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.functionals.functional">
+<em class="property">class </em><code class="descclassname">casacore.functionals.</code><code class="descname">functional</code><span class="sig-paren">(</span><em>name=None</em>, <em>order=-1</em>, <em>params=None</em>, <em>mode=None</em>, <em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.functional" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="casacore.functionals.functional.f">
+<code class="descname">f</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.functional.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the functional for the specified arguments
+(taking any specified mask into account).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; the value(s) to evaluate at</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.functional.fdf">
+<code class="descname">fdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.functional.fdf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the value of the functional for the specified arguments,</dt>
+<dd>and the derivatives with respect to the parameters (taking any
+specified mask into account).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; <p>the value(s) to evaluate at</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">fdf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">derivative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.functional.ndim">
+<code class="descname">ndim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.functional.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dimensionality of the functional</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retval:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.functional.npar">
+<code class="descname">npar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.functional.npar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the numper of parameters of the functional
+:retval: int</p>
+<p>Equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">npar</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-functionals-gaussian1d">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">functionals.gaussian1d</span></code><a class="headerlink" href="#class-functionals-gaussian1d" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.functionals.gaussian1d">
+<em class="property">class </em><code class="descclassname">casacore.functionals.</code><code class="descname">gaussian1d</code><span class="sig-paren">(</span><em>params=None</em>, <em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.gaussian1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a 1-dimensional Gaussian with the specified height, width and
+center.
+:param params: the [height, center, width] as a list</p>
+<dl class="method">
+<dt id="casacore.functionals.gaussian1d.f">
+<code class="descname">f</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.gaussian1d.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the functional for the specified arguments
+(taking any specified mask into account).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; the value(s) to evaluate at</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.gaussian1d.fdf">
+<code class="descname">fdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.gaussian1d.fdf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the value of the functional for the specified arguments,</dt>
+<dd>and the derivatives with respect to the parameters (taking any
+specified mask into account).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; <p>the value(s) to evaluate at</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">fdf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">derivative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.gaussian1d.ndim">
+<code class="descname">ndim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.gaussian1d.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dimensionality of the functional</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retval:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.gaussian1d.npar">
+<code class="descname">npar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.gaussian1d.npar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the numper of parameters of the functional
+:retval: int</p>
+<p>Equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">npar</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-functionals-gaussian2d">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">functionals.gaussian2d</span></code><a class="headerlink" href="#class-functionals-gaussian2d" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.functionals.gaussian2d">
+<em class="property">class </em><code class="descclassname">casacore.functionals.</code><code class="descname">gaussian2d</code><span class="sig-paren">(</span><em>params=None</em>, <em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.gaussian2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a two-dimensional gaussian.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>params</strong> &#8211; list [amplitude, centers, major width, ratio, angle] of
+Gaussian default is [1, 0, 0, 1, 1, 0]</li>
+<li><strong>dtype</strong> &#8211; The data type. One of &#8216;real&#8217; or 0, or &#8216;complex&#8217; or 1</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="casacore.functionals.gaussian2d.f">
+<code class="descname">f</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.gaussian2d.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the functional for the specified arguments
+(taking any specified mask into account).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; the value(s) to evaluate at</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.gaussian2d.fdf">
+<code class="descname">fdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.gaussian2d.fdf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the value of the functional for the specified arguments,</dt>
+<dd>and the derivatives with respect to the parameters (taking any
+specified mask into account).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; <p>the value(s) to evaluate at</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">fdf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">derivative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.gaussian2d.ndim">
+<code class="descname">ndim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.gaussian2d.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dimensionality of the functional</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retval:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.gaussian2d.npar">
+<code class="descname">npar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.gaussian2d.npar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the numper of parameters of the functional
+:retval: int</p>
+<p>Equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">npar</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-functionals-poly">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">functionals.poly</span></code><a class="headerlink" href="#class-functionals-poly" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.functionals.poly">
+<em class="property">class </em><code class="descclassname">casacore.functionals.</code><code class="descname">poly</code><span class="sig-paren">(</span><em>order</em>, <em>params=None</em>, <em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.poly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a polynomial of specified degree. The default parameters are all 1.
+(Note that using the generic functional function the parameters are all
+set to 0).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>order</strong> &#8211; the order of the polynomial (number of parameters -1)</li>
+<li><strong>params</strong> &#8211; the values of the parameters as a list.</li>
+<li><strong>dtype</strong> &#8211; the optional data type. Default is float, but will be
+auto-detected from <cite>params</cite>. Can be set to &#8216;complex&#8217;.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="casacore.functionals.poly.f">
+<code class="descname">f</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.poly.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the functional for the specified arguments
+(taking any specified mask into account).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; the value(s) to evaluate at</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.poly.fdf">
+<code class="descname">fdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.poly.fdf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the value of the functional for the specified arguments,</dt>
+<dd>and the derivatives with respect to the parameters (taking any
+specified mask into account).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; <p>the value(s) to evaluate at</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">fdf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">derivative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.poly.ndim">
+<code class="descname">ndim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.poly.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dimensionality of the functional</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retval:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.poly.npar">
+<code class="descname">npar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.poly.npar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the numper of parameters of the functional
+:retval: int</p>
+<p>Equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">npar</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-functionals-oddpoly">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">functionals.oddpoly</span></code><a class="headerlink" href="#class-functionals-oddpoly" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.functionals.oddpoly">
+<em class="property">class </em><code class="descclassname">casacore.functionals.</code><code class="descname">oddpoly</code><span class="sig-paren">(</span><em>order</em>, <em>params=None</em>, <em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.oddpoly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an odd polynomial of specified degree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>order</strong> &#8211; the order of the polynomial</li>
+<li><strong>params</strong> &#8211; the values of the parameters as a list.</li>
+<li><strong>dtype</strong> &#8211; the optional data type. Default is float, but will be
+auto-detected from <cite>params</cite>. Can be set to &#8216;complex&#8217;.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="casacore.functionals.oddpoly.f">
+<code class="descname">f</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.oddpoly.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the functional for the specified arguments
+(taking any specified mask into account).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; the value(s) to evaluate at</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.oddpoly.fdf">
+<code class="descname">fdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.oddpoly.fdf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the value of the functional for the specified arguments,</dt>
+<dd>and the derivatives with respect to the parameters (taking any
+specified mask into account).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; <p>the value(s) to evaluate at</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">fdf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">derivative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.oddpoly.ndim">
+<code class="descname">ndim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.oddpoly.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dimensionality of the functional</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retval:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.oddpoly.npar">
+<code class="descname">npar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.oddpoly.npar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the numper of parameters of the functional
+:retval: int</p>
+<p>Equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">npar</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-functionals-evenpoly">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">functionals.evenpoly</span></code><a class="headerlink" href="#class-functionals-evenpoly" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.functionals.evenpoly">
+<em class="property">class </em><code class="descclassname">casacore.functionals.</code><code class="descname">evenpoly</code><span class="sig-paren">(</span><em>order</em>, <em>params=None</em>, <em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.evenpoly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an even polynomial of specified degree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>order</strong> &#8211; the order of the polynomial</li>
+<li><strong>params</strong> &#8211; the values of the parameters as a list.</li>
+<li><strong>dtype</strong> &#8211; the optional data type. Default is float, but will be
+auto-detected from <cite>params</cite>. Can be set to &#8216;complex&#8217;.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="casacore.functionals.evenpoly.f">
+<code class="descname">f</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.evenpoly.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the functional for the specified arguments
+(taking any specified mask into account).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; the value(s) to evaluate at</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.evenpoly.fdf">
+<code class="descname">fdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.evenpoly.fdf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the value of the functional for the specified arguments,</dt>
+<dd>and the derivatives with respect to the parameters (taking any
+specified mask into account).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; <p>the value(s) to evaluate at</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">fdf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">derivative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.evenpoly.ndim">
+<code class="descname">ndim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.evenpoly.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dimensionality of the functional</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retval:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.evenpoly.npar">
+<code class="descname">npar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.evenpoly.npar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the numper of parameters of the functional
+:retval: int</p>
+<p>Equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">npar</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-functionals-chebyshev">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">functionals.chebyshev</span></code><a class="headerlink" href="#class-functionals-chebyshev" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.functionals.chebyshev">
+<em class="property">class </em><code class="descclassname">casacore.functionals.</code><code class="descname">chebyshev</code><span class="sig-paren">(</span><em>order</em>, <em>params=None</em>, <em>xmin=-1.0</em>, <em>xmax=1.0</em>, <em>ooimode='constant'</em>, <em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.chebyshev" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="casacore.functionals.chebyshev.f">
+<code class="descname">f</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.chebyshev.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the functional for the specified arguments
+(taking any specified mask into account).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; the value(s) to evaluate at</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.chebyshev.fdf">
+<code class="descname">fdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.chebyshev.fdf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the value of the functional for the specified arguments,</dt>
+<dd>and the derivatives with respect to the parameters (taking any
+specified mask into account).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; <p>the value(s) to evaluate at</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">fdf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">derivative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.chebyshev.ndim">
+<code class="descname">ndim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.chebyshev.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dimensionality of the functional</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retval:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.chebyshev.npar">
+<code class="descname">npar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.chebyshev.npar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the numper of parameters of the functional
+:retval: int</p>
+<p>Equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">npar</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-functionals-compound">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">functionals.compound</span></code><a class="headerlink" href="#class-functionals-compound" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.functionals.compound">
+<em class="property">class </em><code class="descclassname">casacore.functionals.</code><code class="descname">compound</code><span class="sig-paren">(</span><em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.compound" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="casacore.functionals.compound.f">
+<code class="descname">f</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.compound.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the functional for the specified arguments
+(taking any specified mask into account).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; the value(s) to evaluate at</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.compound.fdf">
+<code class="descname">fdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.compound.fdf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the value of the functional for the specified arguments,</dt>
+<dd>and the derivatives with respect to the parameters (taking any
+specified mask into account).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; <p>the value(s) to evaluate at</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">fdf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">derivative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.compound.ndim">
+<code class="descname">ndim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.compound.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dimensionality of the functional</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retval:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.compound.npar">
+<code class="descname">npar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.compound.npar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the numper of parameters of the functional
+:retval: int</p>
+<p>Equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">npar</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-functionals-combi">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">functionals.combi</span></code><a class="headerlink" href="#class-functionals-combi" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.functionals.combi">
+<em class="property">class </em><code class="descclassname">casacore.functionals.</code><code class="descname">combi</code><span class="sig-paren">(</span><em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.combi" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="casacore.functionals.combi.f">
+<code class="descname">f</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.combi.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the functional for the specified arguments
+(taking any specified mask into account).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; the value(s) to evaluate at</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.combi.fdf">
+<code class="descname">fdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.combi.fdf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the value of the functional for the specified arguments,</dt>
+<dd>and the derivatives with respect to the parameters (taking any
+specified mask into account).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; <p>the value(s) to evaluate at</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">fdf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">derivative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.combi.ndim">
+<code class="descname">ndim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.combi.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dimensionality of the functional</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retval:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.combi.npar">
+<code class="descname">npar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.combi.npar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the numper of parameters of the functional
+:retval: int</p>
+<p>Equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">npar</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-functionals-compiled">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">functionals.compiled</span></code><a class="headerlink" href="#class-functionals-compiled" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.functionals.compiled">
+<em class="property">class </em><code class="descclassname">casacore.functionals.</code><code class="descname">compiled</code><span class="sig-paren">(</span><em>code=''</em>, <em>params=None</em>, <em>dtype=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.compiled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a function based on the programable string. The string should
+be a single expression, which can use the standard operators and
+functions and parentheses, having a single value as a result. The
+parameters of the function can be addressed with the <em>p</em> variable. This
+variable can be indexed in two ways. The first way is using the standard a
+lgebraic way, where the parameters are: <code class="docutils literal"><span class="pre">p</span> <span class="pre">(or</span> <span class="pre">p0),</span> <span class="pre">p1,</span> <span class="pre">p2,</span> <span class="pre">...</span></code> . The
+second way is by indexing, where the parameters are addressed as: p[0],
+p[1], ... . The arguments are accessed in the same way, but using the
+variable name x. The compilation determines the number of dimensions and
+parameters of the produced function.</p>
+<p>Operators are the standard operators (including comparisons, which
+produce a zero or one result; and conditional expression).</p>
+<p>In addition to the standard expected functions, there is an atan with
+either one or two arguments (although atan2 exists as well), and pi and
+ee with no or one argument. The functional created behaves as all other
+functionals, and hence can be used in combinations.</p>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">casacore.functionals</span> <span class="kn">import</span> <span class="n">compiled</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">compiled</span><span class="p">(</span><span class="s1">&#39;sin(pi(0.5) ) +pi&#39;</span><span class="p">);</span>  <span class="c1"># an example</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">array([ 4.1415926535897931])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">compiled</span><span class="p">(</span><span class="s1">&#39;p*exp(-(x/p[2])^2)&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">b</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">()</span>
+<span class="go">[0.0, 0.0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="c1"># change to height 10 and  halfwidth 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">b</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="go">array([ 3.6787944117144233,</span>
+<span class="go"> 7.788007830714049,</span>
+<span class="go"> 10.0,</span>
+<span class="go"> 7.788007830714049,</span>
+<span class="go"> 3.6787944117144233])</span>
+<span class="go"># the next one is sync(x), catering for x=0</span>
+<span class="go"># using the fact that comparisons deliver values. Note</span>
+<span class="go"># the extensive calculation to make sure no divison by 0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">synca</span> <span class="o">=</span> <span class="n">compiled</span><span class="p">(</span><span class="s1">&#39;( (x==0) * 1)+( (x!=0) * sin(x+(x==0)*1)/(x+(x==0)*1) )&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">synca</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="go">[0.841471, 10., 0.841471]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">1</span>
+<span class="go">0.841471</span>
+<span class="go"># using conditional expressions:</span>
+<span class="go">print compiled(&#39;x==0 ? 1 : sin(x)/x&#39;)([-1,0,1])</span>
+<span class="go">[0.841471, 1.0, 0.841471]</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="casacore.functionals.compiled.f">
+<code class="descname">f</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.compiled.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the value of the functional for the specified arguments
+(taking any specified mask into account).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; the value(s) to evaluate at</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.compiled.fdf">
+<code class="descname">fdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.compiled.fdf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculate the value of the functional for the specified arguments,</dt>
+<dd>and the derivatives with respect to the parameters (taking any
+specified mask into account).</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; <p>the value(s) to evaluate at</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">gaussian1d</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">fdf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="c1"># equivalent</span>
+<span class="n">a</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">derivative</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.compiled.ndim">
+<code class="descname">ndim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.compiled.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dimensionality of the functional</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retval:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.functionals.compiled.npar">
+<code class="descname">npar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.functionals.compiled.npar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the numper of parameters of the functional
+:retval: int</p>
+<p>Equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">npar</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="casacore_fitting.html" class="btn btn-neutral float-right" title="Module fitting" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="casacore_images.html" class="btn btn-neutral" title="Module images" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2009, Malte Marquarding, Ger van Diepen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

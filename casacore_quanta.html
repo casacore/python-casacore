@@ -1,0 +1,622 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Module casacore.quanta &mdash; python-casacore 2.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="python-casacore 2.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Module casacore.measures" href="casacore_measures.html"/>
+        <link rel="prev" title="Module fitting" href="casacore_fitting.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-casacore
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="casacore_util.html">Module <code class="docutils literal"><span class="pre">casacore.util</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_tables.html">Module <code class="docutils literal"><span class="pre">tables</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html">Module <code class="docutils literal"><span class="pre">images</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html#module-casacore.images.coordinates">Module <code class="docutils literal"><span class="pre">coordinates</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_functionals.html">Module <code class="docutils literal"><span class="pre">functionals</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_fitting.html">Module <code class="docutils literal"><span class="pre">fitting</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Module <code class="docutils literal"><span class="pre">casacore.quanta</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#constants-time-and-angle-formatting">Constants, time and angle formatting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_measures.html">Module <code class="docutils literal"><span class="pre">casacore.measures</span></code></a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">python-casacore</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Module <code class="docutils literal"><span class="pre">casacore.quanta</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/casacore_quanta.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-casacore.quanta">
+<span id="module-casacore-quanta"></span><h1>Module <a class="reference internal" href="#module-casacore.quanta" title="casacore.quanta"><code class="xref py py-mod docutils literal"><span class="pre">casacore.quanta</span></code></a><a class="headerlink" href="#module-casacore.quanta" title="Permalink to this headline">¶</a></h1>
+<p>Python bindings for
+<a class="reference external" href="../../casacore/doc/html/classcasa_1_1Quantum.html">casacore Quantum objects</a>
+It transparently handles Quantity and Quantum&lt;Vector&lt;Double&gt; &gt;.</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>A quantity is a value with a unit. For example, &#8216;5km/s&#8217;, or &#8216;20Jy/pc2&#8217;. This
+module enables you to create and manipulate such quantities. The types of
+functionality provided are:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Conversion of quantities to different units</li>
+<li>Calculations with quantities</li>
+</ul>
+</div></blockquote>
+<div class="section" id="constants-time-and-angle-formatting">
+<h3>Constants, time and angle formatting<a class="headerlink" href="#constants-time-and-angle-formatting" title="Permalink to this headline">¶</a></h3>
+<p>If you would like to see all the possible constants known to quanta you can
+execute the function <code class="xref py py-func docutils literal"><span class="pre">casacore.quanta.constants.keys()</span></code>. You can get the
+value of any constant in that dictionary with a command such as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">casacore</span> <span class="kn">import</span> <span class="n">quanta</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boltzmann</span> <span class="o">=</span> <span class="n">quanta</span><span class="o">.</span><span class="n">constants</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s1">&#39;Boltzmann constant is &#39;</span><span class="p">,</span> <span class="n">boltzmann</span>
+<span class="go">Boltzmann constant is 1.3806578e-23 J/K</span>
+</pre></div>
+</div>
+<p>There are some extra handy ways you can manipulate strings when you are
+dealing with times or angles. The following list shows special strings and
+string formats which you can input to the quantity function. Something in
+square brackets is optional. There are examples after the list.</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>time: [+-]hh:mm:ss.t... - This is the preferred time format (trailing</dt>
+<dd><p class="first last">fields can be omitted)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>time: [+-]hhHmmMss.t..[S] - This is an alternative time format (HMS case</dt>
+<dd><p class="first last">insensitive, trailing second fields can be
+omitted)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>angle: [+-]dd.mm.ss.t.. - This is the preferred angle format (trailing</dt>
+<dd><p class="first last">fields after second priod can be omitted; dd..
+is valid)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>angle: [+-]ddDmmMss.t...[S] - This is an alternative angle format (DMS</dt>
+<dd><p class="first last">case insensitive, trailing fields can be
+omitted after M)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>today - The special string &#8220;today&#8221; gives the UTC time at the instant</dt>
+<dd><p class="first last">the command was issued.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>today/time - The special string &#8220;today&#8221; plus the specified time</dt>
+<dd><p class="first last">string gives the UTC time at the specified instant</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">yyyy/mm/dd[/time] - gives the UTC time at the specified instant</p>
+</li>
+<li><dl class="first docutils">
+<dt>yyyy-mm-dd[Ttime[+-hh[:mm]]] - gives the UTC time from ISO 8601 format</dt>
+<dd><p class="first last">with timezone offset</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>dd[-]mmm[-][cc]yy[/time] - gives the UTC time at the specified instant</dt>
+<dd><p class="first last">in calendar style notation (23-jun-1999)</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Note that the standard unit for degrees is &#8216;deg&#8217;, and for days &#8216;d&#8217;. Formatting
+is done in such a way that it interprets a &#8216;d&#8217; as degrees if preceded by a
+value without a period and if any value following it is terminated with an &#8216;m&#8217;.
+In other cases &#8216;days&#8217; are assumed. Here are some examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">casacore.quanta</span> <span class="kn">import</span> <span class="n">quantity</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">quantity</span><span class="p">(</span><span class="s1">&#39;today&#39;</span><span class="p">)</span>
+<span class="go">50611.2108 d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">quantity</span><span class="p">(</span><span class="s1">&#39;5jul1998&#39;</span><span class="p">)</span>
+<span class="go">50999 unit=d</span>
+<span class="go">print quantity(&#39;5jul1998/12:&#39;)</span>
+<span class="go">50999.5 d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">quantity</span><span class="p">(</span><span class="s1">&#39;-30.12.2&#39;</span><span class="p">)</span>
+<span class="go">30.2005556 deg</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">quantity</span><span class="p">(</span><span class="s1">&#39;2:2:10&#39;</span><span class="p">)</span>
+<span class="go">30.5416667 deg</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">quantity</span><span class="p">(</span><span class="s1">&#39;23h3m2.2s&#39;</span><span class="p">)</span>
+<span class="go">345.759167 deg</span>
+</pre></div>
+</div>
+<p>Python <code class="xref py py-mod docutils literal"><span class="pre">datetime</span></code> to quantity:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utcnow</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">(</span><span class="n">utcnow</span><span class="o">.</span><span class="n">isoformat</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>The (string) output of quantities can be controlled in different ways:</p>
+<p>Standard output:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">(</span><span class="s1">&#39;23h3m2.2s&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">q</span>
+<span class="go">345.75917 deg</span>
+</pre></div>
+</div>
+<p>Angle/time quantity formatting:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">q</span><span class="o">.</span><span class="n">formatted</span><span class="p">(</span><span class="s2">&quot;ANGLE&quot;</span><span class="p">)</span>
+<span class="go">+345.45.33</span>
+</pre></div>
+</div>
+<p>Precision formatting:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">q</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%0.2f</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">345.76 deg</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="casacore.quanta.is_quantity">
+<code class="descclassname">casacore.quanta.</code><code class="descname">is_quantity</code><span class="sig-paren">(</span><em>q</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.is_quantity" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>q</strong> &#8211; the object to check.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.quanta.quantity">
+<code class="descclassname">casacore.quanta.</code><code class="descname">quantity</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.quantity" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Factory function to create a <a class="reference internal" href="#casacore.quanta.Quantity" title="casacore.quanta.Quantity"><code class="xref py py-class docutils literal"><span class="pre">casacore.quanta.Quantity</span></code></a> instance.
+This can be from a scalar or vector and a unit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> &#8211; <blockquote>
+<div><ul class="simple">
+<li>A string will be parsed into a <a class="reference internal" href="#casacore.quanta.Quantity" title="casacore.quanta.Quantity"><code class="xref py py-class docutils literal"><span class="pre">casacore.quanta.Quantity</span></code></a></li>
+<li>A <cite>dict</cite> with the keys <cite>value</cite> and <cite>unit</cite></li>
+<li>two arguments representing <cite>value</cite> and <cite>unit</cite></li>
+</ul>
+</div></blockquote>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q1</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;km/s&quot;</span><span class="p">)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">(</span><span class="s2">&quot;1km/s&quot;</span><span class="p">)</span>
+<span class="n">q3</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">],</span> <span class="s2">&quot;km/s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="casacore.quanta.Quantity">
+<em class="property">class </em><code class="descclassname">casacore.quanta.</code><code class="descname">Quantity</code><a class="headerlink" href="#casacore.quanta.Quantity" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unit-value based physical quantity.</p>
+<dl class="method">
+<dt id="casacore.quanta.Quantity.set_value">
+<code class="descname">set_value</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.set_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of the quantity</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>val</strong> &#8211; The new value to change to (in current units)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.quanta.Quantity.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>unit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the quantity as another (conformant) one.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>unit</strong> &#8211; an optional conformant unit to convert the quantity to.
+If the unit isn&#8217;t specified the canonical unit is used.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#casacore.quanta.Quantity" title="casacore.quanta.Quantity"><code class="xref py py-class docutils literal"><span class="pre">casacore.quanta.Quantity</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">(</span><span class="s1">&#39;1km/s&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
+<span class="go">1000.0 m/s</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.quanta.Quantity.get_value">
+<code class="descname">get_value</code><span class="sig-paren">(</span><em>unit</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of the quantity suing the optiona unit</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>unit</strong> &#8211; a conformant unit to convert the quantity to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><cite>float</cite> ot <cite>list</cite> of <cite>float</cite></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">(</span><span class="s1">&#39;1km/s&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">q</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.quanta.Quantity.get_unit">
+<code class="descname">get_unit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.get_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the unit</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.quanta.Quantity.conforms">
+<code class="descname">conforms</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.conforms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if another <a class="reference internal" href="#casacore.quanta.Quantity" title="casacore.quanta.Quantity"><code class="xref py py-class docutils literal"><span class="pre">casacore.quanta.Quantity</span></code></a> conforms to self.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> &#8211; an <a class="reference internal" href="#casacore.quanta.Quantity" title="casacore.quanta.Quantity"><code class="xref py py-class docutils literal"><span class="pre">casacore.quanta.Quantity</span></code></a> object to compare to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.quanta.Quantity.convert">
+<code class="descname">convert</code><span class="sig-paren">(</span><em>other=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the quantity using the given <a class="reference internal" href="#casacore.quanta.Quantity" title="casacore.quanta.Quantity"><code class="xref py py-class docutils literal"><span class="pre">Quantity</span></code></a> or unit string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> &#8211; an optional conformant <a class="reference internal" href="#casacore.quanta.Quantity" title="casacore.quanta.Quantity"><code class="xref py py-class docutils literal"><span class="pre">Quantity</span></code></a> to convert to.
+If other isn&#8217;t specified the canonical unit is used.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">(</span><span class="s1">&#39;1km/s&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">q</span>
+<span class="go">1000.0 m/s</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.quanta.Quantity.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self as a python <code class="xref py py-class docutils literal"><span class="pre">dict</span></code> with <cite>value</cite> and <cite>unit</cite> keys.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.quanta.Quantity.to_angle">
+<code class="descname">to_angle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.to_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to an angle Quantity.
+This will only work if it conforms to angle</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#casacore.quanta.Quantity" title="casacore.quanta.Quantity"><code class="xref py py-class docutils literal"><span class="pre">casacore.quanta.Quantity</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.quanta.Quantity.to_time">
+<code class="descname">to_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.to_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to a time Quantity (e.g. hour angle).
+This will only work if it conforms to time</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#casacore.quanta.Quantity" title="casacore.quanta.Quantity"><code class="xref py py-class docutils literal"><span class="pre">casacore.quanta.Quantity</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.quanta.Quantity.to_unix_time">
+<code class="descname">to_unix_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.to_unix_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to a unix time value (in seconds).
+This can be used to create python <code class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></code> objects</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.quanta.Quantity.to_string">
+<code class="descname">to_string</code><span class="sig-paren">(</span><em>fmt=&quot;%0.5f&quot;</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string with the Quantity values&#8217; precision formatted with <cite>fmt</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fmt</strong> &#8211; the printf type formatting string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.quanta.Quantity.formatted">
+<code class="descname">formatted</code><span class="sig-paren">(</span><em>fmt</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.quanta.Quantity.formatted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a formatted string representation of the Quantity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fmt</strong> &#8211; the format code for angle or time formatting as per
+<a class="reference external" href="../../casacore/doc/html/classcasa_1_1MVAngle.html#ef9ddd9c3fe111aef61b066b2745ced4">casacore angle format</a> and <a class="reference external" href="../../casacore/doc/html/classcasa_1_1MVTime.html#906c0740cdae7a50ef933d6c3e2ac5ab">casacore time format</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<p>On top of the listed method, it also supports all mathematical operators and
+functions like:</p>
+<blockquote>
+<div><ul class="simple">
+<li>*, *=, +, +=, -, -=, /, /=</li>
+<li>&lt;, &lt;=, &gt;, &gt;=, ==, !=</li>
+<li>abs, pow, root, srqt, cels, floor, sin, cos, asin, acos, atan, atan2
+log, log10, exp</li>
+<li>near and nearabs</li>
+</ul>
+</div></blockquote>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">(</span><span class="s2">&quot;1km/s&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">q</span><span class="o">*</span><span class="mi">2</span>
+<span class="go">2.0 km/s</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="mi">2</span><span class="o">*</span><span class="n">q</span>
+<span class="go">2.0 km/s</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">/=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">q</span>
+<span class="go">0.5 km/s</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q2</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">(</span><span class="s2">&quot;0rad&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dq</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="casacore_measures.html" class="btn btn-neutral float-right" title="Module casacore.measures" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="casacore_fitting.html" class="btn btn-neutral" title="Module fitting" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2009, Malte Marquarding, Ger van Diepen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

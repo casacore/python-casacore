@@ -1,0 +1,1040 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Module fitting &mdash; python-casacore 2.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="python-casacore 2.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Module casacore.quanta" href="casacore_quanta.html"/>
+        <link rel="prev" title="Module functionals" href="casacore_functionals.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-casacore
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="casacore_util.html">Module <code class="docutils literal"><span class="pre">casacore.util</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_tables.html">Module <code class="docutils literal"><span class="pre">tables</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html">Module <code class="docutils literal"><span class="pre">images</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html#module-casacore.images.coordinates">Module <code class="docutils literal"><span class="pre">coordinates</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_functionals.html">Module <code class="docutils literal"><span class="pre">functionals</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Module <code class="docutils literal"><span class="pre">fitting</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-fitting-module">The fitting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#simple-linear-example">Simple linear example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dimensional-example">2-dimensional example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-linear-simple-example">Non-linear simple example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#functional-variety">Functional variety</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-constraints">Use constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-linear-equation-and-constraints">Non-linear equation and constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#deficient-solutions-and-svd-constraints">Deficient solutions and SVD constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#complex-fitting">Complex fitting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_quanta.html">Module <code class="docutils literal"><span class="pre">casacore.quanta</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_measures.html">Module <code class="docutils literal"><span class="pre">casacore.measures</span></code></a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">python-casacore</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Module <code class="docutils literal"><span class="pre">fitting</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/casacore_fitting.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-casacore.fitting">
+<span id="module-fitting"></span><h1>Module <code class="xref py py-mod docutils literal"><span class="pre">fitting</span></code><a class="headerlink" href="#module-casacore.fitting" title="Permalink to this headline">¶</a></h1>
+<p>Python interface to the Casacore scimath fitting module.</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The fitting module provides least squares fitting. It can handle linear and
+non-linear; real and complex (including cases where unknowns are each other&#8217;s
+conjugate); complete and singular-value-decomposition; with or without
+external constraints; general or specific cases.</p>
+<div class="section" id="the-fitting-module">
+<h3>The fitting module<a class="headerlink" href="#the-fitting-module" title="Permalink to this headline">¶</a></h3>
+<p>For most uses we will create a single fitting object to work with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">casacore.fitting</span> <span class="kn">import</span> <span class="n">fitserver</span>
+<span class="n">dfit</span> <span class="o">=</span> <span class="n">fitserver</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>More fitting tools can be created by either the fitter constructor (which
+creates and returns a separate fitting tool), or by the fitter method of
+an existing fitting tool, which returns a fit identifier, which can be
+used to indicate a specific sub-fitter in the fitter used by including a
+parameter &#8216;id=&#8217; in all calls to the fitting tool&#8217;s functions. The latter is
+especially useful in the case where many simultaneous solutions are necessary:
+it is more resource efficient, and also allows you to have an array of fit
+indices to loop over. In both cases the parameters of the tool can be given
+in the constructor (fitter method), or in a separate init method (see next
+example of the highest level use):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">casacore.fitting</span> <span class="kn">import</span> <span class="n">fitserver</span>
+<span class="n">myfit</span> <span class="o">=</span> <span class="n">fitserver</span><span class="p">()</span>         <span class="c1"># general fitting object created</span>
+                            <span class="c1"># (needs initializing before it can be used)</span>
+<span class="n">cpid</span> <span class="o">=</span> <span class="n">myfit</span><span class="o">.</span><span class="n">fitter</span><span class="p">(</span><span class="n">ftype</span><span class="o">=</span><span class="s1">&#39;complex&#39;</span><span class="p">)</span> <span class="c1"># and another (sub-)fitter</span>
+                                     <span class="c1"># with an id</span>
+</pre></div>
+</div>
+<p>The theory behind the fitting module&#8217;s operation is described in detail in
+(<a class="reference external" href="../../casacore/doc/notes/224.html">Note 224</a>).</p>
+<p>Fitting requires a model describing the data obtained. The model is a described
+as a functional with parameters to be solved for. Functionals can be
+pre-programmed functionals like poly, gauss1d, or free form like compiled. In
+the latter case an expression string describes the model.</p>
+<p>The model can depend on zero, one or more arguments, called x. The number of
+arguments determines the dimension of the model.</p>
+<p>Fitting also needs a set of data, called y. If the model is not 0-dimensional,
+each value x will have an observed value. E.g. for each hour of the day x you
+can have a measured temperature. Or in the case of multi-dimensions e.g. each
+pair of hour of the day at each height above the surface (x0, x1) you should
+have a y value.</p>
+</div>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="simple-linear-example">
+<h4>Simple linear example<a class="headerlink" href="#simple-linear-example" title="Permalink to this headline">¶</a></h4>
+<p>The example uses a set of x coordinates:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arange</span>
+<span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">arange</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The &#8216;observed&#8217; values used are a simple 1-dim polynomial of order 2:</p>
+<p>1 + 2(x+1) + 0.03(x+1)^2 == 3.03 +2.06x + 0.03x^2</p>
+<p>We fill these values using the polynomial functional:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">y</span> <span class="o">=</span> <span class="n">functionals</span><span class="o">.</span><span class="n">poly</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mf">3.03</span><span class="p">,</span> <span class="mf">2.06</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">])(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To take the average of these points, we can do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dfit</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">functionals</span><span class="o">.</span><span class="n">compiled</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">),</span> <span class="p">[],</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that an expression uses p (which is p0), p1 and x, x0, x1. Note also that
+since no argument is used in the expression, no x-values have to be given.</p>
+<p>We can get solutions and errors from these data (see for details the separate
+routine descriptions):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span>
+<span class="go">3.041</span>
+<span class="go"># Compare with the result:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">3.041</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">sd</span><span class="p">()</span> <span class="c1"># standard deviation per observation</span>
+<span class="go">1.27824</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">stddev</span><span class="p">()</span>     <span class="c1"># standard deviation per weight</span>
+<span class="go">1.27824</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">error</span><span class="p">()</span>      <span class="c1"># errors in solved parameters</span>
+<span class="go">array( [0.278934])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>       <span class="c1"># rank of solution</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">covariance</span><span class="p">()</span> <span class="c1"># covariance matrix</span>
+<span class="go">[[0.047619]]</span>
+</pre></div>
+</div>
+<p>We can also try to use a 0-order polynomial. Note that a polynomial, even a
+zero-order one, is a 1-dim function, and we need an x defined:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">dfs</span><span class="o">.</span><span class="n">poly</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="p">[],</span> <span class="n">y</span><span class="p">)</span>
+<span class="go">RuntimeError: Linear fitter x and y lengths disagree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">dfs</span><span class="o">.</span><span class="n">poly</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="go">print &gt;&gt;&gt; dfit.solution()</span>
+<span class="go">3.041</span>
+</pre></div>
+</div>
+<p>We would like to check the results, so we will do an average in a separate
+fitter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span> <span class="o">=</span> <span class="n">dfit</span><span class="o">.</span><span class="n">fitter</span><span class="p">()</span>      <span class="c1"># get a new fitter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">dfs</span><span class="o">.</span><span class="n">compiled</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">),</span> <span class="p">[],</span> <span class="n">y</span><span class="p">,</span> <span class="n">fid</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span> <span class="c1"># get average</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span> <span class="o">-</span> <span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">(</span><span class="n">fid</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span> <span class="c1"># check difference</span>
+<span class="go">-4.44089e-16</span>
+<span class="go"># to really show we recalculate and check separately:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">dfs</span><span class="o">.</span><span class="n">compiled</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">),</span> <span class="p">[],</span> <span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">fid</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span> <span class="c1"># calculate new average</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span> <span class="o">-</span> <span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">(</span><span class="n">fid</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+<span class="go">[1 .5205]</span>
+</pre></div>
+</div>
+<p>A 1-order polynomial is now easy:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">dfs</span><span class="o">.</span><span class="n">poly</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span>
+<span class="go">[3.041, 2.06]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">chi2</span><span class="p">()</span>
+<span class="go">0.00201894</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">error</span><span class="p">()</span>
+<span class="go">[0.00224944, 0.00371484]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">sd</span><span class="p">()</span>
+<span class="go">0.0103082</span>
+</pre></div>
+</div>
+<p>Note that each &#8216;equation&#8217; can also be given a weight or standard deviation.</p>
+</div>
+<div class="section" id="dimensional-example">
+<h4>2-dimensional example<a class="headerlink" href="#dimensional-example" title="Permalink to this headline">¶</a></h4>
+<p>A 2-dim model is done the same way. The x vector has now n pairs of values.
+The Glish rbind can help in creating these pairs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">x1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">ravel</span><span class="p">(</span><span class="n">array</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">())</span> <span class="c1"># combine into pairs. Check:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">x1</span>
+<span class="go">array([ 1. ,  0.1,  2. ,  0.2,  3. ,  0.3,  4. ,  0.4,  5. ,  0.5])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">dfs</span><span class="o">.</span><span class="n">compiled</span><span class="p">(</span><span class="s1">&#39;p*x + p1*sin(x1)&#39;</span><span class="p">),</span> <span class="n">x1</span><span class="p">,</span>
+<span class="go">dfs.compiled(&#39;3*x+7*sin(x[2])&#39;).f(x1))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span>
+<span class="go">[ 3. 7.]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="non-linear-simple-example">
+<h4>Non-linear simple example<a class="headerlink" href="#non-linear-simple-example" title="Permalink to this headline">¶</a></h4>
+<p>If the model is non-linear in the parameters to be solved, the functional
+method should be used. The main difference is that a guess solution must be
+inserted in the model parameters. In the following that is not necessary,
+since the default zero values suffice if the function is linear:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">functional</span><span class="p">(</span><span class="n">dfs</span><span class="o">.</span><span class="n">compiled</span><span class="p">(</span><span class="s1">&#39;p*x + p1*sin(x1)&#39;</span><span class="p">),</span> <span class="n">x1</span><span class="p">,</span>
+<span class="go">    dfs.compiled(&#39;3*x+7*sin(x[2])&#39;).f(x1), id=id)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">(</span><span class="n">fid</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+<span class="go">[ 3. 7.]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">(</span><span class="n">fid</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span><span class="o">-</span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span>
+<span class="go">[  6.17284002e-13  -6.35846931e-12]</span>
+<span class="go"># Try with an intial guess</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">functional</span><span class="p">(</span><span class="n">dfs</span><span class="o">.</span><span class="n">compiled</span><span class="p">(</span><span class="s1">&#39;p*x + p1*sin(x1)&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">]),</span> <span class="n">x1</span><span class="p">,</span>
+<span class="go">dfs.compiled(&#39;3*x+7*sin(x[2])&#39;).f(x1), fid=id2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">(</span><span class="n">fid</span><span class="o">=</span><span class="n">id2</span><span class="p">)</span>
+<span class="go">[ 3. 7.]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">(</span><span class="n">fid</span><span class="o">=</span><span class="n">id2</span><span class="p">)</span><span class="o">-</span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span>
+<span class="go">[  6.17284002e-13  -6.35846931e-12]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="functional-variety">
+<h4>Functional variety<a class="headerlink" href="#functional-variety" title="Permalink to this headline">¶</a></h4>
+<p>Just to show the model can be anything, we redo the fit of an order 1
+polynomial to the x, y data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">dfs</span><span class="o">.</span><span class="n">poly</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">()</span>
+<span class="go">[ 3.041 2.06]</span>
+</pre></div>
+</div>
+<p>Now try the same by a sum of odd and even polynomials of default order
+(note the order):</p>
+<div class="highlight-python"><div class="highlight"><pre>a = dfs.compound()
+a.add(dfs.functional(&#39;oddp&#39;))
+a.add(dfs.functional(&#39;evenp&#39;))
+dfit.linear(a,x,y,id=id2);
+dfit.solution(id=id2)
+[ 2.06 3.041]
+</pre></div>
+</div>
+<p>And the combination of an odd (2x) and an even polynomial (3):</p>
+<div class="highlight-python"><div class="highlight"><pre>a = dfs.combi()
+a.add(dfs.functional(&#39;oddp&#39;, params=2));
+a.add(dfs.functional(&#39;evenp&#39;, params=3))
+dfit.linear(a, x, y)
+&gt;&gt;&gt; dfit.solution()
+[ 1.03 1.01367]
+</pre></div>
+</div>
+</div>
+<div class="section" id="use-constraints">
+<h4>Use constraints<a class="headerlink" href="#use-constraints" title="Permalink to this headline">¶</a></h4>
+<p>We have measured a number of anlgles around a triangle. Each angle is measured
+10 times (nominally 50, 60, 70 deg). Solving the angles will give:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">yz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="mi">50</span> <span class="o">+</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span>
+<span class="go">numpy.zeros(10) + 60 + numpy.random.normal(0,1,10),</span>
+<span class="go">numpy.zeros(10) + 70 + numpy.random.normal(0,1,10)]).flatten()</span>
+<span class="go"># Create 3*10 equations</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xz</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span>
+<span class="go"># The equation used and solve</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">dfs</span><span class="o">.</span><span class="n">compiled</span><span class="p">(</span><span class="s1">&#39;p*x+p1*x1+p2*x2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">xz</span><span class="p">,</span> <span class="n">yz</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">(),</span> <span class="s1">&#39;sum=&#39;</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">())</span>
+<span class="go">[49.7079 60.2427 70.092]  sum= 180.043</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">error</span><span class="p">()</span>
+<span class="go">[ 0.334828 0.334828 0.334828]</span>
+<span class="go"># Add a constraint: sum of angles 180deg</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">addconstraint</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">y</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">xz</span><span class="p">,</span><span class="n">yz</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">(),</span> <span class="s1">&#39;sum=&#39;</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">())</span>
+<span class="go">[ 49.6937 60.2285 70.0778]  sum= 180</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">error</span><span class="p">()</span>
+<span class="go">[ 0.273413 0.273413 0.273413]</span>
+<span class="go"># Add another constraint, since we know second angle 60deg</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">addconstraint</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dfit</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">xz</span><span class="p">,</span><span class="n">yz</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">(),</span> <span class="s1">&#39;sum=&#39;</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dfit</span><span class="o">.</span><span class="n">solution</span><span class="p">())</span>
+<span class="go">[ 49.8079 60 70.1921]  sum= 180</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dfit</span><span class="o">.</span><span class="n">error</span><span class="p">()</span>
+<span class="go">[0.239827 0 0.239827]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="non-linear-equation-and-constraints">
+<h4>Non-linear equation and constraints<a class="headerlink" href="#non-linear-equation-and-constraints" title="Permalink to this headline">¶</a></h4>
+<p>In the following we have 2 Gaussian profiles and an offset. We add some noise,
+and solve assuming we have a fair estimate of the position of the Gaussians.
+Note that if the first estimate is beyond the real half-value point, the
+fitting will be difficult, due to the derivatives changing sign:</p>
+<div class="highlight-python"><div class="highlight"><pre># The profile to generate and the parameters to use
+# (in essence 10 + 20 * exp (-((x-10)/4)^2) + 10 * exp(-((x-33)/4)^2) )
+f = dfs.compiled(&#39;p6+p0*exp(-((x-p1)/p2)^2) + p3*exp(-((x-p4)/p5)^2)&#39;,
+[20, 10, 4, 10, 33, 4, 10])
+xg = 0.5 * numpy.arange(1, 101) - 0.5
+yg = numpy.array(f(xg)) + numpy.random.normal(0,0.3,100)
+# Make an intial guess
+f.set_parameters([22, 11, 5, 10, 30, 5, 9])
+# Solve
+dfit.clearconstraints()
+dfit.functional(f,xg,yg)
+print dfit.solution()
+print dfit.solution() - numpy.array([20., 10, 4, 10, 33, 4, 10])
+print dfit.error()
+[0.211312 0.0334257 0.0527771 0.213666 0.0652003 0.102782 0.082641]
+# We know that the two lines have a peak ratio of 2: Amp1-2Amp2 = 0
+dfit.addconstraint([1, 0, 0, -2, 0, 0, 0])
+dfit.functional(f, xg, yg)
+print dfit.solution()
+print dfit.solution() - numpy.array([20., 10, 4, 10, 33, 4, 10])
+print dfit.solution()[0]/dfit.solution()[3]
+print dfit.error()
+# We know that the lines originated in same place: width1 == width2
+# Note that the default assumed value is 0.0
+dfit.addconstraint([0, 0, 1, 0, 0, -1, 0])
+dfit.functional(f, xg, yg)
+print dfit.solution()
+dfit.solution() - numpy.array([20, 10, 4, 10, 33, 4, 10])
+dfit.solution()[2]-dfit.solution()[5]
+dfit.error()
+# And see what happens if we assume that the widths are 4
+dfit.addconstraint([0, 0, 1, 0, 0, 0, 0], 4)
+dfit.functional(f, xg, yg)
+dfit.solution()
+dfit.solution() - [20, 10, 4, 10, 33, 4, 10]
+dfit.error()
+</pre></div>
+</div>
+</div>
+<div class="section" id="deficient-solutions-and-svd-constraints">
+<h4>Deficient solutions and SVD constraints<a class="headerlink" href="#deficient-solutions-and-svd-constraints" title="Permalink to this headline">¶</a></h4>
+<p><em>DOES NOT WORK</em></p>
+<p>In some cases solutions of the least-squares equations is not completely
+possible. An example is e.g. the solution of the closures equations in
+synthesis calibrations, where a missing phase zero and slope and a missing
+absolute gain cannot be solved for. The fitting described here will always
+provide a solution, even in the case of a set of incomplete equations. After
+the solution the deficiency can be checked. If there is a rank deficiency,
+the set of &#8216;constraints&#8217; that makes a solution possible (in a way similar to
+SVD, i.e. providing a missing set of orthogonal equations) is available
+through the constr function:</p>
+<div class="highlight-python"><div class="highlight"><pre># Provide a set of equations.
+x = array([1,1,1]*10)
+y = 180 + numpy.zeros(10) + numpy.random.normal(0, 3, 10)
+f = dfs.functional(&#39;hyper&#39;, 3)
+dfit.linear(f,x,y)
+dfit.deficiency()
+2
+dfit.solution()
+[60.0262 60.0262 60.0262]
+dfit.constraint()
+[-1 0 1 -1 1 0]
+# The SVD constraints can be used as constraints in subsequent solutions:
+dfit.addconstraint(x=dfit.constraint(1))
+T
+dfit.addconstraint(x=dfit.constraint(2))
+T
+dfit.linear(f,xz,yz)
+T
+dfit.solution()
+[60.0262 60.0262 60.0262]
+dfit.rank()
+3
+dfit.deficiency()
+0
+dfit.error()
+[0.202801 0.202801 0.202801]
+</pre></div>
+</div>
+</div>
+<div class="section" id="complex-fitting">
+<h4>Complex fitting<a class="headerlink" href="#complex-fitting" title="Permalink to this headline">¶</a></h4>
+<p>The fitter can handle functions of complex variables. In the following example
+a second order polynomial is first fitted real with a first order linear
+polynomial. The same is repeated complex (with real data); and then a complex
+value is fitted. An example of a 2-dimensional non-linear function is also
+given:</p>
+<div class="highlight-python"><div class="highlight"><pre># Define x and y data
+&gt;&gt;&gt; x = -1 + numpy.arange(0,21)*0.1
+&gt;&gt;&gt; y = dfs.poly(2, [3.03, 2.06, 0.03])(x)
+
+# fit a first order polynomial
+&gt;&gt;&gt; dfit.linear(dfs.poly(1), x,y)
+&gt;&gt;&gt; print &#39;linear&#39;, dfit.solution()
+linear [ 3.041 2.06]
+
+# Get a complex fitter and see the same fit
+&gt;&gt;&gt; id1 = dfit.fitter()
+&gt;&gt;&gt; dfit.set(ftype=&#39;complex&#39;, fid=id1)
+&gt;&gt;&gt; dfit.linear(dfs.poly(1, dtype=&#39;complex&#39;), x, y, fid=id1);
+&gt;&gt;&gt; dfit.solution(fid=id1)
+[ 3.041+0j 2.06+0j]
+
+# Make a complex yi and redo
+&gt;&gt;&gt; yi = dfs.poly(2, [3.03, 2.06, 0.03])(x)
+&gt;&gt;&gt; yi = yi - 3j*array(dfs.poly(2, [3.03+0j, 2.06, 0.03])(x))
+&gt;&gt;&gt; dfit.linear(dfs.poly(1, dtype=&#39;complex&#39;), x, yi, fid=id1)
+&gt;&gt;&gt; dfit.solution(fid=id1)
+[ 3.041-9.123j 2.06-6.18j]
+
+# A non-linear 2-dimensional function, real and complex
+&gt;&gt;&gt; id2 = dfit.fitter()
+&gt;&gt;&gt; dfit.functional(dfs.compiled(&#39;p*x + p1*sin(x1)&#39;, [3,7]), x1,
+                dfs.compiled(&#39;3*x+7*sin(x[2])&#39;)(x1), fid=id2)
+&gt;&gt;&gt; x1 = arange(1,6)
+&gt;&gt;&gt; x2 = 0.1*x1
+&gt;&gt;&gt; x1 = array(zip(x1,x2)).flatten()
+&gt;&gt;&gt; dfit.functional(dfs.compiled(&#39;p*x + p1*sin(x1)&#39;, [3,7]),x1,
+                dfs.compiled(&#39;3*x+7*sin(x[2])&#39;).f(x1), fid=id2)
+&gt;&gt;&gt; dfit.solution(fid=id2)
+&gt;&gt;&gt; dfit.set(type=dfit.complex(), fid=id2)
+&gt;&gt;&gt; dfit.functional(dfs.compiled(&#39;p*x + p1*sin(x1)&#39;, [3,7]),x1,
+                dfs.compiled(&#39;3*x+7*sin(x[2])&#39;).f(x1), fid=id2)
+&gt;&gt;&gt; dfit.solution(fid=id2)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.fitting.fitserver">
+<em class="property">class </em><code class="descclassname">casacore.fitting.</code><code class="descname">fitserver</code><span class="sig-paren">(</span><em>n=0</em>, <em>m=1</em>, <em>ftype=0</em>, <em>colfac=1e-08</em>, <em>lmfac=0.001</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <cite>fitserver instance. The object can be created without
+arguments (in which case it is assumed to be a real fitter), or with
+the arguments specifying the number of unknowns to be solved for (a number
+not relevant in practice); and the type of solution: real, complex,
+conjugate (complex with both the unknown and its conjugate in the
+condition equations), separable complex, asreal complex with the real and
+imaginary part seen as independent unknowns. All solutions need a model
+(specified as a :mod:`casacore.functionals</cite>. All solutions are done using an
+SVD type method. A collinearity factor can be specified, which is in
+essence the sine squared of the minimum angle between two normal equation
+columns that are still to be considered independent. For automatic
+non-linear solutions, a Levenberg-Marquardt factor (see
+<a class="reference external" href="../../casacore/doc/notes/224.html">Note 224</a>) is used, which can be
+specified as well.</p>
+<p>In the case of non-linear solutions that have to be handled by the system,
+an initial estimate for the model parameters is necessary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> &#8211; number of unknowns</li>
+<li><strong>ftype</strong> &#8211; type of solution
+Allowed: real, complex, separable, asreal, conjugate</li>
+<li><strong>colfac</strong> &#8211; collinearity factor</li>
+<li><strong>lmfac</strong> &#8211; Levenberg-Marquardt factor</li>
+<li><strong>fid</strong> &#8211; the id of a sub-fitter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="casacore.fitting.fitserver.addconstraint">
+<code class="descname">addconstraint</code><span class="sig-paren">(</span><em>x</em>, <em>y=0</em>, <em>fnct=None</em>, <em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.addconstraint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.chi2">
+<code class="descname">chi2</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.chi2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the chi squared of a fit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.clearconstraints">
+<code class="descname">clearconstraints</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.clearconstraints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.constraint">
+<code class="descname">constraint</code><span class="sig-paren">(</span><em>n=-1</em>, <em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the set of orthogonal equations that make the solution of
+the rank deficient normal equations possible.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.covariance">
+<code class="descname">covariance</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.covariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the covariance matrix of a fit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.deficiency">
+<code class="descname">deficiency</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.deficiency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the missing rank (in SVD sense) of a fit. The
+<a class="reference internal" href="#casacore.fitting.fitserver.constraint" title="casacore.fitting.fitserver.constraint"><code class="xref py py-meth docutils literal"><span class="pre">constraint()</span></code></a> method will show the equations that are orthogonal
+to the existing ones, and which will make the solution possible.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.done">
+<code class="descname">done</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.done" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.error">
+<code class="descname">error</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the errors in the unknowns of a fit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.fitavg">
+<code class="descname">fitavg</code><span class="sig-paren">(</span><em>y</em>, <em>sd=None</em>, <em>wt=1.0</em>, <em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.fitavg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.fitpoly">
+<code class="descname">fitpoly</code><span class="sig-paren">(</span><em>n</em>, <em>x</em>, <em>y</em>, <em>sd=None</em>, <em>wt=1.0</em>, <em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.fitpoly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.fitspoly">
+<code class="descname">fitspoly</code><span class="sig-paren">(</span><em>n</em>, <em>x</em>, <em>y</em>, <em>sd=None</em>, <em>wt=1.0</em>, <em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.fitspoly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create normal equations from the specified condition equations, and
+solve the resulting normal equations. It is in essence a combination</p>
+<p>The method expects that the properties of the fitter to be used have
+been initialized or set (like the number of simultaneous solutions m;
+the type; factors). The main reason is to limit the number of
+parameters on the one hand, and on the other hand not to depend
+on the actual array structure to get the variables and type. Before
+fitting the x-range is normalized to values less than 1 to cater for
+large difference in x raised to large powers. Later a shift to make x
+around zero will be added as well.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> &#8211; the order of the polynomial to solve for</li>
+<li><strong>x</strong> &#8211; the abscissa values</li>
+<li><strong>y</strong> &#8211; the ordinate values</li>
+<li><strong>sd</strong> &#8211; standard deviation of equations (one or more values used
+cyclically)</li>
+<li><strong>wt</strong> &#8211; an optional alternate for <cite>sd</cite></li>
+<li><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fit</span> <span class="o">=</span> <span class="n">fitserver</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">N</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span> <span class="c1"># we have values at 10 &#39;x&#39; values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="c1"># which are 2 +0.5x -0.1x^2</span>
+<span class="n">fit</span><span class="o">.</span><span class="n">fitspoly</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="c1"># fit a 3-degree polynomial</span>
+<span class="k">print</span> <span class="n">fit</span><span class="o">.</span><span class="n">solution</span><span class="p">(),</span> <span class="n">fit</span><span class="o">.</span><span class="n">error</span><span class="p">()</span> <span class="c1">#  show solution and their errors</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.fitted">
+<code class="descname">fitted</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.fitted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if enough Levenberg-Marquardt loops have been done. It returns
+True if no improvement possible.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.fitter">
+<code class="descname">fitter</code><span class="sig-paren">(</span><em>n=0</em>, <em>ftype='real'</em>, <em>colfac=1e-08</em>, <em>lmfac=0.001</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.fitter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a sub-fitter (which can be used in the same way as a fitter
+default fitter). This function returns an identification, which has to
+be used in the <cite>fid</cite> argument of subsequent calls. The call can
+specify the standard constructor arguments (<cite>n</cite>, <cite>type</cite>, <cite>colfac</cite>,
+<cite>lmfac</cite>), or can specify them later in a <a class="reference internal" href="#casacore.fitting.fitserver.set" title="casacore.fitting.fitserver.set"><code class="xref py py-meth docutils literal"><span class="pre">set()</span></code></a> statement.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> &#8211; number of unknowns</li>
+<li><strong>ftype</strong> &#8211; type of solution
+Allowed: real, complex, separable, asreal, conjugate</li>
+<li><strong>colfac</strong> &#8211; collinearity factor</li>
+<li><strong>lmfac</strong> &#8211; Levenberg-Marquardt factor</li>
+<li><strong>fid</strong> &#8211; the id of a sub-fitter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.functional">
+<code class="descname">functional</code><span class="sig-paren">(</span><em>fnct</em>, <em>x</em>, <em>y</em>, <em>sd=None</em>, <em>wt=1.0</em>, <em>mxit=50</em>, <em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.functional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ths will make a non-linear least squares solution for the points
+through the ordinates at the abscissa values, using the specified
+<cite>fnct</cite>. Details can be found in the <a class="reference internal" href="#casacore.fitting.fitserver.linear" title="casacore.fitting.fitserver.linear"><code class="xref py py-meth docutils literal"><span class="pre">linear()</span></code></a> description.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fnct</strong> &#8211; the functional to fit</li>
+<li><strong>x</strong> &#8211; the abscissa values</li>
+<li><strong>y</strong> &#8211; the ordinate values</li>
+<li><strong>sd</strong> &#8211; standard deviation of equations (one or more values used
+cyclically)</li>
+<li><strong>wt</strong> &#8211; an optional alternate for <cite>sd</cite></li>
+<li><strong>mxit</strong> &#8211; the maximum number of iterations</li>
+<li><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.getstate">
+<code class="descname">getstate</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.getstate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the state of the fitter object or a sub-fitter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of a sub-fitter</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.init">
+<code class="descname">init</code><span class="sig-paren">(</span><em>n=0</em>, <em>ftype='real'</em>, <em>colfac=1e-08</em>, <em>lmfac=0.001</em>, <em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set selected properties of the fitserver instance. Like in the
+constructor, the number of unknowns to be solved for; the number of
+simultaneous solutions; the ftype and the collinearity and
+Levenberg-Marquardt factor can be specified. Individual values can be
+overwritten with the <a class="reference internal" href="#casacore.fitting.fitserver.set" title="casacore.fitting.fitserver.set"><code class="xref py py-meth docutils literal"><span class="pre">set()</span></code></a> function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> &#8211; number of unknowns</li>
+<li><strong>ftype</strong> &#8211; type of solution
+Allowed: real, complex, separable, asreal, conjugate</li>
+<li><strong>colfac</strong> &#8211; collinearity factor</li>
+<li><strong>lmfac</strong> &#8211; Levenberg-Marquardt factor</li>
+<li><strong>fid</strong> &#8211; the id of a sub-fitter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.linear">
+<code class="descname">linear</code><span class="sig-paren">(</span><em>fnct</em>, <em>x</em>, <em>y</em>, <em>sd=None</em>, <em>wt=1.0</em>, <em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.linear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a linear least squares solution for the points through the
+ordinates at the x values, using the specified fnct. The x can be of
+any dimension, depending on the number of arguments needed in the
+functional evaluation. The values should be given in the order:
+x0[1], x0[2], ..., x1[1], ..., xn[m] if there are n observations,
+and m arguments. x should be a vector of m*n length; y (the
+observations) a vector of length n.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fnct</strong> &#8211; the functional to fit</li>
+<li><strong>x</strong> &#8211; the abscissa values</li>
+<li><strong>y</strong> &#8211; the ordinate values</li>
+<li><strong>sd</strong> &#8211; standard deviation of equations (one or more values used
+cyclically)</li>
+<li><strong>wt</strong> &#8211; an optional alternate for <cite>sd</cite></li>
+<li><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c1">#</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.mu">
+<code class="descname">mu</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.mu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the standard deviation per condition equation of a fit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.nonlinear">
+<code class="descname">nonlinear</code><span class="sig-paren">(</span><em>fnct</em>, <em>x</em>, <em>y</em>, <em>sd=None</em>, <em>wt=1.0</em>, <em>mxit=50</em>, <em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.nonlinear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ths will make a non-linear least squares solution for the points
+through the ordinates at the abscissa values, using the specified
+<cite>fnct</cite>. Details can be found in the <a class="reference internal" href="#casacore.fitting.fitserver.linear" title="casacore.fitting.fitserver.linear"><code class="xref py py-meth docutils literal"><span class="pre">linear()</span></code></a> description.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fnct</strong> &#8211; the functional to fit</li>
+<li><strong>x</strong> &#8211; the abscissa values</li>
+<li><strong>y</strong> &#8211; the ordinate values</li>
+<li><strong>sd</strong> &#8211; standard deviation of equations (one or more values used
+cyclically)</li>
+<li><strong>wt</strong> &#8211; an optional alternate for <cite>sd</cite></li>
+<li><strong>mxit</strong> &#8211; the maximum number of iterations</li>
+<li><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.rank">
+<code class="descname">rank</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.rank" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the rank (in SVD sense) of a fit. The <a class="reference internal" href="#casacore.fitting.fitserver.constraint" title="casacore.fitting.fitserver.constraint"><code class="xref py py-meth docutils literal"><span class="pre">constraint()</span></code></a>
+method will show the equations that are orthogonal to the existing
+ones, and which will make the solution possible.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the object&#8217;s resources to its initialized state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of a sub-fitter</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.sd">
+<code class="descname">sd</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.sd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the standard deviation per unit of weight of a fit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>n=None</em>, <em>ftype=None</em>, <em>colfac=None</em>, <em>lmfac=None</em>, <em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set selected properties of the fitserver instance. All unset
+properties remain the same (in the <a class="reference internal" href="#casacore.fitting.fitserver.init" title="casacore.fitting.fitserver.init"><code class="xref py py-meth docutils literal"><span class="pre">init()</span></code></a> method all properties
+are (re-)initialized). Like in the constructor, the number of unknowns
+to be solved for; the number of simultaneous solutions; the ftype (as
+code); and the collinearity and Levenberg-Marquardt factor can be
+specified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> &#8211; number of unknowns</li>
+<li><strong>ftype</strong> &#8211; type of solution
+Allowed: real, complex, separable, asreal, conjugate</li>
+<li><strong>colfac</strong> &#8211; collinearity factor</li>
+<li><strong>lmfac</strong> &#8211; Levenberg-Marquardt factor</li>
+<li><strong>fid</strong> &#8211; the id of a sub-fitter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.solution">
+<code class="descname">solution</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.solution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the solution for the fit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.fitting.fitserver.stddev">
+<code class="descname">stddev</code><span class="sig-paren">(</span><em>fid=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.fitting.fitserver.stddev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the standard deviation per condition equation of a fit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fid</strong> &#8211; the id of the sub-fitter (numerical)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="casacore_quanta.html" class="btn btn-neutral float-right" title="Module casacore.quanta" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="casacore_functionals.html" class="btn btn-neutral" title="Module functionals" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2009, Malte Marquarding, Ger van Diepen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

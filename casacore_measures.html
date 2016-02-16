@@ -1,0 +1,1291 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Module casacore.measures &mdash; python-casacore 2.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="python-casacore 2.1.0 documentation" href="index.html"/>
+        <link rel="prev" title="Module casacore.quanta" href="casacore_quanta.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-casacore
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="casacore_util.html">Module <code class="docutils literal"><span class="pre">casacore.util</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_tables.html">Module <code class="docutils literal"><span class="pre">tables</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html">Module <code class="docutils literal"><span class="pre">images</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html#module-casacore.images.coordinates">Module <code class="docutils literal"><span class="pre">coordinates</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_functionals.html">Module <code class="docutils literal"><span class="pre">functionals</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_fitting.html">Module <code class="docutils literal"><span class="pre">fitting</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_quanta.html">Module <code class="docutils literal"><span class="pre">casacore.quanta</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Module <code class="docutils literal"><span class="pre">casacore.measures</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#measures">Measures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">python-casacore</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Module <code class="docutils literal"><span class="pre">casacore.measures</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/casacore_measures.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-casacore.measures">
+<span id="module-casacore-measures"></span><h1>Module <a class="reference internal" href="#module-casacore.measures" title="casacore.measures"><code class="xref py py-mod docutils literal"><span class="pre">casacore.measures</span></code></a><a class="headerlink" href="#module-casacore.measures" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This is a python bindings to
+<a class="reference external" href="../../casacore/doc/html/group__Measures__module.html">casacore measures</a></p>
+<p>A measure is a quantity with a specified reference frame (e.g. <em>UTC</em>, <em>J2000</em>,
+<em>mars</em>). The measures module provides an interface to the handling of
+measures. The basic functionality provided is:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Conversion of measures, especially between different frames
+(e.g. <em>UTC</em> to <em>LAST</em>)</li>
+<li>Calculation of e.g. a rest frequency from a velocity and a
+frequency.</li>
+</ul>
+</div></blockquote>
+<p>To access the measures do the following. We will use <cite>dm</cite> as the measures
+instance through all examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">casacore.measures</span> <span class="kn">import</span> <span class="n">measures</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span> <span class="o">=</span> <span class="n">measures</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="measures">
+<h3>Measures<a class="headerlink" href="#measures" title="Permalink to this headline">¶</a></h3>
+<p>Measures are e.g. an epoch or coordinates which have in addition to values -
+<a class="reference internal" href="casacore_quanta.html#casacore.quanta.Quantity" title="casacore.quanta.Quantity"><code class="xref py py-class docutils literal"><span class="pre">casacore.quanta.Quantity</span></code></a> - also a reference specification and possibly
+an offset. They are represented as records with fields describing the various
+entities embodied in the measure. These entities can be obtained by the access
+methods:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#casacore.measures.measures.get_type" title="casacore.measures.measures.get_type"><code class="xref py py-meth docutils literal"><span class="pre">get_type()</span></code></a></li>
+<li><a class="reference internal" href="#casacore.measures.measures.get_ref" title="casacore.measures.measures.get_ref"><code class="xref py py-meth docutils literal"><span class="pre">get_ref()</span></code></a></li>
+<li><a class="reference internal" href="#casacore.measures.measures.get_offset" title="casacore.measures.measures.get_offset"><code class="xref py py-meth docutils literal"><span class="pre">get_offset()</span></code></a></li>
+<li><a class="reference internal" href="#casacore.measures.measures.get_value" title="casacore.measures.measures.get_value"><code class="xref py py-meth docutils literal"><span class="pre">get_value()</span></code></a>.</li>
+</ul>
+<p>Each measure has its own list of reference codes (see the individual methods
+for creating them, like <a class="reference internal" href="#casacore.measures.measures.direction" title="casacore.measures.measures.direction"><code class="xref py py-meth docutils literal"><span class="pre">direction()</span></code></a>). If an
+empty or no code reference code is  given, the default code for that type of
+measure will be used (e.g. it is <em>J2000</em> for a
+<a class="reference internal" href="#casacore.measures.measures.direction" title="casacore.measures.measures.direction"><code class="xref py py-meth docutils literal"><span class="pre">direction()</span></code></a>). If an unknown code is given,
+this default is also returned, but with a warning message.</p>
+<p>The values of a measure (like the right-ascension for a
+<a class="reference internal" href="#casacore.measures.measures.direction" title="casacore.measures.measures.direction"><code class="xref py py-meth docutils literal"><span class="pre">direction()</span></code></a>) are given as
+<a class="reference internal" href="casacore_quanta.html#casacore.quanta.quantity" title="casacore.quanta.quantity"><code class="xref py py-func docutils literal"><span class="pre">casacore.quanta.quantity()</span></code></a>. Each of them can be either a scalar quantity
+with a scalar or vector for its actual value (see the following example):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">casacore.quanta</span> <span class="kn">import</span> <span class="n">quantity</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">epoch</span><span class="p">(</span><span class="s1">&#39;utc&#39;</span><span class="p">,</span><span class="s1">&#39;today&#39;</span><span class="p">)</span> <span class="c1"># note that your value will be different</span>
+<span class="go">{&#39;m0&#39;: {&#39;unit&#39;: &#39;d&#39;, &#39;value&#39;: 55147.912709756973},</span>
+<span class="go"> &#39;refer&#39;: &#39;UTC&#39;,</span>
+<span class="go"> &#39;type&#39;: &#39;epoch&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="s1">&#39;j2000&#39;</span><span class="p">,</span><span class="s1">&#39;5h20m&#39;</span><span class="p">,</span><span class="s1">&#39;-30.2deg&#39;</span><span class="p">)</span>
+<span class="go">{&#39;m0&#39;: {&#39;unit&#39;: &#39;rad&#39;, &#39;value&#39;: 1.3962634015954634},</span>
+<span class="go"> &#39;m1&#39;: {&#39;unit&#39;: &#39;rad&#39;, &#39;value&#39;: -0.52708943410228748},</span>
+<span class="go"> &#39;refer&#39;: &#39;J2000&#39;,</span>
+<span class="go"> &#39;type&#39;: &#39;direction&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="s1">&#39;j2000&#39;</span><span class="p">,</span><span class="s1">&#39;5h20m&#39;</span><span class="p">,</span><span class="s1">&#39;-30.2deg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+<span class="go">direction</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">get_offset</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">getref</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">J2000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[1.3962634016 rad, -0.527089434102 rad]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">a</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">1.3962634016 rad</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">a</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">-0.527089434102 rad</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># try as a scalar quantity with multiple values</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="s1">&#39;j2000&#39;</span><span class="p">,</span> <span class="n">quantity</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span><span class="s1">&#39;deg&#39;</span><span class="p">),</span>
+<span class="go">                 quantity([30,40], &#39;deg&#39;))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">a</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">[0.17453292519943295, 0.3490658503988659] rad</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">a</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_value</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">0.3490658503988659</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span>
+<span class="go">{&#39;m0&#39;: {&#39;unit&#39;: &#39;rad&#39;, &#39;value&#39;: array([ 0.17453293,  0.34906585])},</span>
+<span class="go"> &#39;m1&#39;: {&#39;unit&#39;: &#39;rad&#39;, &#39;value&#39;: array([ 0.52359878,  0.6981317 ])},</span>
+<span class="go"> &#39;refer&#39;: &#39;J2000&#39;,</span>
+<span class="go"> &#39;type&#39;: &#39;direction&#39;}</span>
+</pre></div>
+</div>
+<p>Known measures are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#casacore.measures.measures.epoch" title="casacore.measures.measures.epoch"><code class="xref py py-meth docutils literal"><span class="pre">epoch()</span></code></a>: an instance in time (internally
+expressed as MJD or MGSD)</li>
+<li><a class="reference internal" href="#casacore.measures.measures.direction" title="casacore.measures.measures.direction"><code class="xref py py-meth docutils literal"><span class="pre">direction()</span></code></a>: a direction towards an
+astronomical object (including planets, sun, moon)</li>
+<li><a class="reference internal" href="#casacore.measures.measures.position" title="casacore.measures.measures.position"><code class="xref py py-meth docutils literal"><span class="pre">position()</span></code></a>: a position on Earth</li>
+<li><a class="reference internal" href="#casacore.measures.measures.frequency" title="casacore.measures.measures.frequency"><code class="xref py py-meth docutils literal"><span class="pre">frequency()</span></code></a>: electromagnetic wave energy</li>
+<li><a class="reference internal" href="#casacore.measures.measures.radialvelocity" title="casacore.measures.measures.radialvelocity"><code class="xref py py-meth docutils literal"><span class="pre">radialvelocity()</span></code></a>: radial velocity of
+astronomical object</li>
+<li><a class="reference internal" href="#casacore.measures.measures.doppler" title="casacore.measures.measures.doppler"><code class="xref py py-meth docutils literal"><span class="pre">doppler()</span></code></a>: doppler shift (i.e. radial
+velocity in non-velocity units like <em>Optical</em>, <em>Radio</em>.</li>
+<li><a class="reference internal" href="#casacore.measures.measures.baseline" title="casacore.measures.measures.baseline"><code class="xref py py-meth docutils literal"><span class="pre">baseline()</span></code></a>: interferometer baseline</li>
+<li><a class="reference internal" href="#casacore.measures.measures.uvw" title="casacore.measures.measures.uvw"><code class="xref py py-meth docutils literal"><span class="pre">uvw()</span></code></a>: UVW coordinates</li>
+<li><a class="reference internal" href="#casacore.measures.measures.earthmagnetic" title="casacore.measures.measures.earthmagnetic"><code class="xref py py-meth docutils literal"><span class="pre">earthmagnetic()</span></code></a>: Earth&#8217; magnetic field</li>
+</ul>
+</div></blockquote>
+<p>In addition to the reference code (like <em>J2000</em>), a measure needs sometimes
+more information to be convertable to another reference code (e.g. a time
+and position to convert it to an azimuth/elevation). This additional
+information is called the reference frame, and can specify one or more of
+&#8216;where am i&#8217;, &#8216;when is it&#8217;, &#8216;what direction&#8221;, &#8216;how fast&#8217;.</p>
+<p>The frame values can be set using the method <a class="reference internal" href="#casacore.measures.measures.do_frame" title="casacore.measures.measures.do_frame"><code class="xref py py-meth docutils literal"><span class="pre">measures.do_frame()</span></code></a>.</p>
+<p>Since you would normally work from a fixed position, the position frame
+element (&#8216;where you are&#8217;), can be specified in your .aipsrc if its name is in
+the Observatory list (obslist) tool function. You can set your preferred
+position by adding to your <em>.casarc</em> file:</p>
+<div class="highlight-python"><div class="highlight"><pre>measures.default.observatory:       atca
+</pre></div>
+</div>
+</div>
+<div class="section" id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="casacore.measures.is_measure">
+<code class="descclassname">casacore.measures.</code><code class="descname">is_measure</code><span class="sig-paren">(</span><em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.is_measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return if this is a true measures dictionary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>v</strong> &#8211; The object to check</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="casacore.measures.measures">
+<em class="property">class </em><code class="descclassname">casacore.measures.</code><code class="descname">measures</code><a class="headerlink" href="#casacore.measures.measures" title="Permalink to this definition">¶</a></dt>
+<dd><p>The measures server object. This should be used to set frame
+information and create the various measures and do conversion on them.</p>
+<p>The measures types are:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#casacore.measures.measures.direction" title="casacore.measures.measures.direction"><code class="xref py py-meth docutils literal"><span class="pre">direction()</span></code></a></li>
+<li><a class="reference internal" href="#casacore.measures.measures.position" title="casacore.measures.measures.position"><code class="xref py py-meth docutils literal"><span class="pre">position()</span></code></a></li>
+<li><a class="reference internal" href="#casacore.measures.measures.epoch" title="casacore.measures.measures.epoch"><code class="xref py py-meth docutils literal"><span class="pre">epoch()</span></code></a></li>
+<li><a class="reference internal" href="#casacore.measures.measures.frequency" title="casacore.measures.measures.frequency"><code class="xref py py-meth docutils literal"><span class="pre">frequency()</span></code></a></li>
+<li><a class="reference internal" href="#casacore.measures.measures.doppler" title="casacore.measures.measures.doppler"><code class="xref py py-meth docutils literal"><span class="pre">doppler()</span></code></a></li>
+<li><a class="reference internal" href="#casacore.measures.measures.baseline" title="casacore.measures.measures.baseline"><code class="xref py py-meth docutils literal"><span class="pre">baseline()</span></code></a></li>
+<li><a class="reference internal" href="#casacore.measures.measures.radialvelocity" title="casacore.measures.measures.radialvelocity"><code class="xref py py-meth docutils literal"><span class="pre">radialvelocity()</span></code></a></li>
+<li><a class="reference internal" href="#casacore.measures.measures.uvw" title="casacore.measures.measures.uvw"><code class="xref py py-meth docutils literal"><span class="pre">uvw()</span></code></a></li>
+<li><a class="reference internal" href="#casacore.measures.measures.earthmagnetic" title="casacore.measures.measures.earthmagnetic"><code class="xref py py-meth docutils literal"><span class="pre">earthmagnetic()</span></code></a></li>
+</ul>
+<p>Typical usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">casacore.measures</span> <span class="kn">import</span> <span class="n">measures</span>
+<span class="n">dm</span> <span class="o">=</span> <span class="n">measures</span><span class="p">()</span> <span class="c1"># create measures server instance</span>
+<span class="n">dirmeas</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">direction</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="casacore.measures.measures.as_baseline">
+<code class="descname">as_baseline</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.as_baseline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a position measure into a baseline measure. No actual
+baseline is calculated, since operations can be done on positions,
+with subtractions to obtain baselines at a later stage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pos</strong> &#8211; a position measure</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a baseline measure</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.baseline">
+<code class="descname">baseline</code><span class="sig-paren">(</span><em>rf=''</em>, <em>v0='0..'</em>, <em>v1=''</em>, <em>v2=''</em>, <em>off=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.baseline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a baselin measure. It has to specify a reference code, uvw
+quantity values (see introduction for the action on a scalar quantity
+with either a vector or scalar value, and when a vector of quantities
+is given), and optionally it can specify an offset, which in itself
+has to be a baseline.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; <p>reference code string; Allowable reference
+codes are: <em>ITRF</em> and <a class="reference internal" href="#casacore.measures.measures.direction" title="casacore.measures.measures.direction"><code class="xref py py-meth docutils literal"><span class="pre">direction()</span></code></a> codes
+Note that additional ones may become available. Check with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dm</span><span class="o">.</span><span class="n">listcodes</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">baseline</span><span class="p">())</span>
+</pre></div>
+</div>
+</li>
+<li><strong>v0</strong> &#8211; longitude or x as quantity or string</li>
+<li><strong>v1</strong> &#8211; latitude or y as quantity or string</li>
+<li><strong>v2</strong> &#8211; height or z as quantity or string</li>
+<li><strong>off</strong> &#8211; an optional offset measure of same type</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.direction">
+<code class="descname">direction</code><span class="sig-paren">(</span><em>rf=''</em>, <em>v0='0..'</em>, <em>v1='90..'</em>, <em>off=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a direction measure. It has to specify a reference code,
+direction quantity values (see introduction for the action on a
+scalar quantity with either a vector or scalar value, and when a
+vector of quantities is given), and optionally it can specify an
+offset, which in itself has to be a direction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; <p>reference code string; allowable reference codes are:
+J2000 JMEAN  JTRUE APP B1950 BMEAN BTRUE GALACTIC HADEC
+AZEL SUPERGAL ECLIPTIC MECLIPTIC TECLIPTIC MERCURY VENUS
+MARS JUPITER SATURN URANUS NEPTUNE PLUTO MOON SUN COMET.
+Note that additional ones may become available. Check with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dm</span><span class="o">.</span><span class="n">list_codes</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">direction</span><span class="p">())</span>
+</pre></div>
+</div>
+</li>
+<li><strong>v1</strong> (<em>v0,</em>) &#8211; Direction quantity values should be
+longitude (angle) and latitude (angle) or strings
+parsable by <a class="reference internal" href="casacore_quanta.html#casacore.quanta.quantity" title="casacore.quanta.quantity"><code class="xref py py-func docutils literal"><span class="pre">quantity()</span></code></a>.
+None are needed for planets: the frame epoch defines
+coordinates. See <a class="reference internal" href="casacore_quanta.html#casacore.quanta.quantity" title="casacore.quanta.quantity"><code class="xref py py-func docutils literal"><span class="pre">quantity()</span></code></a> for
+possible angle formats.</li>
+<li><strong>off</strong> &#8211; an optional offset measure of same type</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="s1">&#39;j2000&#39;</span><span class="p">,</span><span class="s1">&#39;30deg&#39;</span><span class="p">,</span><span class="s1">&#39;40deg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="s1">&#39;mars&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.do_frame">
+<code class="descname">do_frame</code><span class="sig-paren">(</span><em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.do_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method will set the measure specified as part of a frame.</p>
+<p>If conversion from one type to another is necessary (with the measure
+function), the following frames should be set if one of the reference
+types involved in the conversion is as in the following lists:</p>
+<p><strong>Epoch</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>UTC</li>
+<li>TAI</li>
+<li>LAST - position</li>
+<li>LMST - position</li>
+<li>GMST1</li>
+<li>GAST</li>
+<li>UT1</li>
+<li>UT2</li>
+<li>TDT</li>
+<li>TCG</li>
+<li>TDB</li>
+<li>TCD</li>
+</ul>
+</div></blockquote>
+<p><strong>Direction</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>J2000</li>
+<li>JMEAN - epoch</li>
+<li>JTRUE - epoch</li>
+<li>APP - epoch</li>
+<li>B1950</li>
+<li>BMEAN - epoch</li>
+<li>BTRUE - epoch</li>
+<li>GALACTIC</li>
+<li>HADEC - epoch, position</li>
+<li>AZEL - epoch, position</li>
+<li>SUPERGALACTIC</li>
+<li>ECLIPTIC</li>
+<li>MECLIPTIC - epoch</li>
+<li>TECLIPTIC - epoch</li>
+<li>PLANET - epoch, [position]</li>
+</ul>
+</div></blockquote>
+<p><strong>Position</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>WGS84</li>
+<li>ITRF</li>
+</ul>
+</div></blockquote>
+<p><strong>Radial Velocity</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>LSRK - direction</li>
+<li>LSRD - direction</li>
+<li>BARY - direction</li>
+<li>GEO - direction, epoch</li>
+<li>TOPO - direction, epoch, position</li>
+<li>GALACTO - direction</li>
+<li></li>
+</ul>
+</div></blockquote>
+<p><strong>Doppler</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>RADIO</li>
+<li>OPTICAL</li>
+<li>Z</li>
+<li>RATIO</li>
+<li>RELATIVISTIC</li>
+<li>BETA</li>
+<li>GAMMA</li>
+<li></li>
+</ul>
+</div></blockquote>
+<p><strong>Frequency</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>REST - direction, radialvelocity</li>
+<li>LSRK - direction</li>
+<li>LSRD - direction</li>
+<li>BARY - direction</li>
+<li>GEO - direction, epoch</li>
+<li>TOPO - direction, epoch, position</li>
+<li>GALACTO</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.doppler">
+<code class="descname">doppler</code><span class="sig-paren">(</span><em>rf=''</em>, <em>v0=0.0</em>, <em>off=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.doppler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a doppler measure. It has to specify a reference code,
+doppler quantity value (see introduction for the action on a scalar
+quantity with either a vector or scalar value, and when a vector of
+quantities is given), and optionally it can specify an offset, which
+in itself has to be a doppler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; <p>reference code string; Allowable reference
+codes are: <em>RADIO OPTICAL Z RATIO RELATIVISTIC BETA GAMMA</em>.
+Note that additional ones may become available. Check with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dm</span><span class="o">.</span><span class="n">listcodes</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">doppler</span><span class="p">())</span>
+</pre></div>
+</div>
+</li>
+<li><strong>v0</strong> &#8211; doppler ratio as quantity, string or float value. It
+should be either non-dimensioned to specify a ratio of
+the light velocity, or in velocity. (examples all give
+same doppler):</li>
+<li><strong>off</strong> &#8211; an optional offset measure of same type</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">casacore</span> <span class="kn">import</span> <span class="n">quanta</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">doppler</span><span class="p">(</span><span class="s1">&#39;radio&#39;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">doppler</span><span class="p">(</span><span class="s1">&#39;radio&#39;</span><span class="p">,</span> <span class="s1">&#39;0.4&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">doppler</span><span class="p">(</span><span class="s1">&#39;RADIO&#39;</span><span class="p">,</span> <span class="n">quanta</span><span class="o">.</span><span class="n">constants</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">0.4</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.earthmagnetic">
+<code class="descname">earthmagnetic</code><span class="sig-paren">(</span><em>rf=''</em>, <em>v0='0G'</em>, <em>v1='0..'</em>, <em>v2='90..'</em>, <em>off=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.earthmagnetic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines an earthmagnetic measure. It needs a reference code,
+earthmagnetic quantity values (see introduction for the action on a
+scalar quantity with either a vector or scalar value, and when a
+vector of quantities is given) if the reference code is not for a
+model, and optionally it can specify an offset, which in itself has
+to be a earthmagnetic. In general you specify a model (<em>IGRF</em> is the
+default and the only one known) and convert it to an explicit field.
+(See <a class="reference external" href="http://fdd.gsfc.nasa.gov/IGRF.html">http://fdd.gsfc.nasa.gov/IGRF.html</a> for information on the
+International Geomagnetic Reference Field). The earthmagnetic quantity
+values should be either longitude (angle), latitude(angle) and
+length(field strength); or x,y,z (field).
+See <a class="reference internal" href="casacore_quanta.html#casacore.quanta.quantity" title="casacore.quanta.quantity"><code class="xref py py-func docutils literal"><span class="pre">quantity()</span></code></a> for possible angle formats.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; reference code string; Allowable reference
+codes are: <em>IGRF</em></li>
+<li><strong>v0</strong> &#8211; longitude or x as quantity or string</li>
+<li><strong>v1</strong> &#8211; latitude or y as quantity or string</li>
+<li><strong>v2</strong> &#8211; height or z as quantity or string</li>
+<li><strong>off</strong> &#8211; an optional offset measure of same type</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.epoch">
+<code class="descname">epoch</code><span class="sig-paren">(</span><em>rf=''</em>, <em>v0='0.0d'</em>, <em>off=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.epoch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines an epoch measure. It has to specify a reference code, an epoch
+quantity value (see introduction for the action on a scalar quantity
+with either a vector or scalar value, and when a vector of quantities
+is given), and optionally it can specify an offset, which in itself
+has to be an epoch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; <p>reference code string; Allowable reference
+codes are: <em>UTC TAI LAST LMST GMST1 GAST UT1 UT2 TDT TCG
+TDB TCB</em>
+Note that additional ones may become available. Check with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dm</span><span class="o">.</span><span class="n">listcodes</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">position</span><span class="p">())</span>
+</pre></div>
+</div>
+</li>
+<li><strong>v0</strong> &#8211; time as quantity or string</li>
+<li><strong>off</strong> &#8211; an optional offset measure of same type</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.expand">
+<code class="descname">expand</code><span class="sig-paren">(</span><em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.expand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the differences between a series of given measure values:
+it calculates baseline values from position values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Params v:</th><td class="field-body">a measure (of type &#8216;baseline&#8217;, &#8216;position&#8217; or &#8216;uvw&#8217;)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <cite>dict</cite> with the value for key <cite>measures</cite> being a measure
+and the value for key <cite>xyz</cite> a quantity containing the
+differences.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">casacore.quanta</span> <span class="kn">import</span> <span class="n">quantity</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">],</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="n">quantity</span><span class="p">([</span><span class="mi">30</span><span class="p">,</span><span class="mi">150</span><span class="p">],</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sb</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">baseline</span><span class="p">(</span><span class="s1">&#39;itrf&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">sb</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">out</span><span class="p">[</span><span class="s1">&#39;xyz&#39;</span><span class="p">]</span>
+<span class="go">[40.000000000000014, 80.0, 120.0] m</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.frame_now">
+<code class="descname">frame_now</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.frame_now" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the time (epoch) frame to the current time and day.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.frequency">
+<code class="descname">frequency</code><span class="sig-paren">(</span><em>rf=''</em>, <em>v0='0Hz'</em>, <em>off=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a frequency measure. It has to specify a reference code,
+frequency quantity value (see introduction for the action on a scalar
+quantity with either a vector or scalar value, and when a vector of
+quantities is given), and optionally it can specify an offset, which
+in itself has to be a frequency.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; <p>reference code string; Allowable reference
+codes are: <em>REST LSRK LSRD BARY GEO TOPO GALACTO</em>
+Note that additional ones may become available. Check with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dm</span><span class="o">.</span><span class="n">listcodes</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">frequency</span><span class="p">())</span>
+</pre></div>
+</div>
+</li>
+<li><strong>v0</strong> &#8211; <p>frequency value as quantity or string. The frequency
+quantity values should be in one of the recognised units
+(examples all give same frequency):</p>
+<ul>
+<li>value with time units: a period (0.5s)</li>
+<li>value as frequency: 2Hz</li>
+<li>value in angular frequency: 720deg/s</li>
+<li>value as length: 149896km</li>
+<li>value as wave number: 4.19169e-8m-1</li>
+<li>value as enery (h.nu): 8.27134e-9ueV</li>
+<li>value as momentum: 4.42044e-42kg.m</li>
+</ul>
+</li>
+<li><strong>off</strong> &#8211; an optional offset measure of same type</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.get_lines">
+<code class="descname">get_lines</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.get_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of known spectral line names, which can be used as
+input to <a class="reference internal" href="#casacore.measures.measures.line" title="casacore.measures.measures.line"><code class="xref py py-meth docutils literal"><span class="pre">line()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list of strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.get_observatories">
+<code class="descname">get_observatories</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.get_observatories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of known observatory names, which can be used as input
+to <a class="reference internal" href="#casacore.measures.measures.observatory" title="casacore.measures.measures.observatory"><code class="xref py py-meth docutils literal"><span class="pre">observatory()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list of strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.get_offset">
+<code class="descname">get_offset</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.get_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the offset measure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> &#8211; a measure (dictionary)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">a measure</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.get_ref">
+<code class="descname">get_ref</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.get_ref" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the reference frame of the measure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> &#8211; a measure (dictionary)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.get_sources">
+<code class="descname">get_sources</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.get_sources" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of known sources names, which can be used as
+input to <a class="reference internal" href="#casacore.measures.measures.source" title="casacore.measures.measures.source"><code class="xref py py-meth docutils literal"><span class="pre">source()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list of strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.get_type">
+<code class="descname">get_type</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.get_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the type of the measure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> &#8211; a measure (dictionary)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.get_value">
+<code class="descname">get_value</code><span class="sig-paren">(</span><em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of quantities making up the measures&#8217; value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>v</strong> &#8211; a measure</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.line">
+<code class="descname">line</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a (frequency) measure for the given spectral line name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; the name of the spectral line. Minimum match applies.
+At the time of writing the following are recognised (but
+check <a class="reference internal" href="#casacore.measures.measures.get_lines" title="casacore.measures.measures.get_lines"><code class="xref py py-meth docutils literal"><span class="pre">get_lines()</span></code></a>): <em>C109A CI CII166A DI H107A
+H110A H138B H166A H240A H272A H2CO HE110A HE138B HI
+OH1612 OH1665 OH1667 OH1720 CO115271 H2O22235 SiO86847
+CO230538</em></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a frequency measure</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.list_codes">
+<code class="descname">list_codes</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.list_codes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the known reference codes for a specified measure type. It
+will return a <cite>dict</cite> with two keys. The first is a string list
+of all normal codes; the second a string list (maybe empty) with all
+extra codes (like planets).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> &#8211; the measures with the type to get codes for</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.measure">
+<code class="descname">measure</code><span class="sig-paren">(</span><em>v</em>, <em>rf</em>, <em>off=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create/convert a measure using the frame state set on the measures
+server instance (via <a class="reference internal" href="#casacore.measures.measures.do_frame" title="casacore.measures.measures.do_frame"><code class="xref py py-meth docutils literal"><span class="pre">do_frame()</span></code></a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>v</strong> &#8211; The measure to convert</li>
+<li><strong>rf</strong> &#8211; The frame reference to convert to</li>
+<li><strong>off</strong> &#8211; The optional offset for the measure</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.observatory">
+<code class="descname">observatory</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.observatory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a (position) measure for the given obervatory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; the name of the observatory. At the time of
+writing the following observatories are recognised (but
+check <a class="reference internal" href="#casacore.measures.measures.get_observatories" title="casacore.measures.measures.get_observatories"><code class="xref py py-meth docutils literal"><span class="pre">get_observatories()</span></code></a>): <em>ALMA ATCA BIMA CLRO
+DRAO DWL GB JCMT MOPRA NRAO12M PKS VLA WSRT</em></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a position measure</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.posangle">
+<code class="descname">posangle</code><span class="sig-paren">(</span><em>m0</em>, <em>m1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.posangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method will give the position angle from a direction to another
+i.e. the angle in a direction between the direction to the North
+pole and the other direction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>m0</strong> &#8211; a measure</li>
+<li><strong>m1</strong> &#8211; another measure</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="s1">&#39;j2000&#39;</span><span class="p">,</span><span class="s1">&#39;0deg&#39;</span><span class="p">,</span><span class="s1">&#39;70deg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="s1">&#39;j2000&#39;</span><span class="p">,</span><span class="s1">&#39;0deg&#39;</span><span class="p">,</span><span class="s1">&#39;80deg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dm</span><span class="o">.</span><span class="n">posangle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+<span class="go">-0.0 deg</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.position">
+<code class="descname">position</code><span class="sig-paren">(</span><em>rf=''</em>, <em>v0='0..'</em>, <em>v1='90..'</em>, <em>v2='0m'</em>, <em>off=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a position measure. It has to specify a reference code,
+position quantity values (see introduction for the action on a
+scalar quantity with either a vector or scalar value, and when a
+vector of quantities is given), and optionally it can specify an
+offset, which in itself has to be a position.
+Note that additional ones may become available. Check with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dm</span><span class="o">.</span><span class="n">listcodes</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">position</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>The position quantity values should be either longitude (angle),
+latitude(angle) and height(length); or x,y,z (length). See
+<a class="reference internal" href="casacore_quanta.html#casacore.quanta.quantity" title="casacore.quanta.quantity"><code class="xref py py-func docutils literal"><span class="pre">quantity()</span></code></a> for possible angle formats.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; reference code string; Allowable reference
+codes are: <em>WGS84</em> <em>ITRF</em> (World Geodetic System and
+International Terrestrial Reference Frame)</li>
+<li><strong>v0</strong> &#8211; longitude or x as quantity or string</li>
+<li><strong>v1</strong> &#8211; latitude or y as quantity or string</li>
+<li><strong>v2</strong> &#8211; height or z as quantity or string</li>
+<li><strong>off</strong> &#8211; an optional offset measure of same type</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dm</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="s1">&#39;wgs84&#39;</span><span class="p">,</span><span class="s1">&#39;30deg&#39;</span><span class="p">,</span><span class="s1">&#39;40deg&#39;</span><span class="p">,</span><span class="s1">&#39;10m&#39;</span><span class="p">)</span>
+<span class="n">dm</span><span class="o">.</span><span class="n">observatory</span><span class="p">(</span><span class="s1">&#39;ATCA&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.radialvelocity">
+<code class="descname">radialvelocity</code><span class="sig-paren">(</span><em>rf=''</em>, <em>v0='0m/s'</em>, <em>off=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.radialvelocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a radialvelocity measure. It has to specify a reference
+code, radialvelocity quantity value (see introduction for the action
+on a scalar quantity with either a vector or scalar value, and when
+a vector of quantities is given), and optionally it can specify an
+offset, which in itself has to be a radialvelocity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; <p>reference code string; Allowable reference
+codes are: <em>LSRK LSRD BARY GEO TOPO GALACTO</em>
+Note that additional ones may become available. Check with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dm</span><span class="o">.</span><span class="n">listcodes</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">radialvelocity</span><span class="p">())</span>
+</pre></div>
+</div>
+</li>
+<li><strong>v0</strong> &#8211; longitude or x as quantity or string</li>
+<li><strong>off</strong> &#8211; an optional offset measure of same type</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.rise">
+<code class="descname">rise</code><span class="sig-paren">(</span><em>crd</em>, <em>ev='5deg'</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.rise" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method will give the rise/set hour-angles of a source. It
+needs the position in the frame, and a time. If the latter is not
+set, the current time will be used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>crd</strong> &#8211; a direction measure</li>
+<li><strong>ev</strong> &#8211; the elevation limit as a quantity or string</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><cite>dict</cite> with rise and set sidereal time quantities or a 2
+strings &#8220;below&#8221; or &#8220;above&#8221;</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.riseset">
+<code class="descname">riseset</code><span class="sig-paren">(</span><em>crd</em>, <em>ev='5deg'</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.riseset" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will give the rise/set times of a source. It needs the
+position in the frame, and a time. If the latter is not set, the
+current time will be used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>crd</strong> &#8211; a direction measure</li>
+<li><strong>ev</strong> &#8211; the elevation limit as a quantity or string</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The returned value is a <cite>dict</cite> with a
+&#8216;solved&#8217; key, which is <cite>False</cite> if the source is always
+below or above the horizon. In that case the rise and set
+fields will all have a string value. The <cite>dict</cite> also returns
+a rise and set <cite>dict</cite>, with  &#8216;last&#8217;  and &#8216;utc&#8217; keys showing
+the rise and set times as epochs.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.separation">
+<code class="descname">separation</code><span class="sig-paren">(</span><em>m0</em>, <em>m1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.separation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method will give the separation of a direction from another as
+an angle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>m0</strong> &#8211; a measure</li>
+<li><strong>m1</strong> &#8211; another measure</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="s1">&#39;j2000&#39;</span><span class="p">,</span><span class="s1">&#39;0deg&#39;</span><span class="p">,</span><span class="s1">&#39;70deg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">direction</span><span class="p">(</span><span class="s1">&#39;j2000&#39;</span><span class="p">,</span><span class="s1">&#39;0deg&#39;</span><span class="p">,</span><span class="s1">&#39;80deg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dm</span><span class="o">.</span><span class="n">separation</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+<span class="go">10.0 deg</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.set_data_path">
+<code class="descname">set_data_path</code><span class="sig-paren">(</span><em>pth</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.set_data_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the location of the measures data directory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pth</strong> &#8211; The absolute path to the measures data directory.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.source">
+<code class="descname">source</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a (direction) measure for the given atsronomical source.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; the name of the source. Minimum match applies.
+Check <a class="reference internal" href="#casacore.measures.measures.get_sources" title="casacore.measures.measures.get_sources"><code class="xref py py-meth docutils literal"><span class="pre">get_sources()</span></code></a> for the list of known sources</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a frequency measure</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">dm</span><span class="o">.</span><span class="n">source</span><span class="p">(</span><span class="s1">&#39;1936-6&#39;</span><span class="p">)</span>
+<span class="go">{&#39;m0&#39;: {&#39;unit&#39;: &#39;rad&#39;, &#39;value&#39;: -1.1285176426372401},</span>
+<span class="go"> &#39;m1&#39;: {&#39;unit&#39;: &#39;rad&#39;, &#39;value&#39;: -1.0854059868642842},</span>
+<span class="go"> &#39;refer&#39;: &#39;ICRS&#39;,</span>
+<span class="go"> &#39;type&#39;: &#39;direction&#39;}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.to_doppler">
+<code class="descname">to_doppler</code><span class="sig-paren">(</span><em>rf</em>, <em>v0</em>, <em>rfq</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.to_doppler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a radialvelocity measure or a frequency measure to a
+doppler measure. In the case of a frequency, a rest frequency has
+to be specified. The type of doppler wanted (e.g. <em>RADIO</em>) has to be
+specified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; doppler reference code (see <a class="reference internal" href="#casacore.measures.measures.doppler" title="casacore.measures.measures.doppler"><code class="xref py py-meth docutils literal"><span class="pre">doppler()</span></code></a>)</li>
+<li><strong>v0</strong> &#8211; a radialvelocity or frequency measure</li>
+<li><strong>rfq</strong> &#8211; frequency measure or quantity</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">f</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">frequency</span><span class="p">(</span><span class="s1">&#39;lsrk&#39;</span><span class="p">,</span><span class="s1">&#39;1410MHz&#39;</span><span class="p">)</span>     <span class="c1"># specify a frequency</span>
+<span class="n">dm</span><span class="o">.</span><span class="n">todoppler</span><span class="p">(</span><span class="s1">&#39;radio&#39;</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">dm</span><span class="o">.</span><span class="n">constants</span><span class="p">(</span><span class="s1">&#39;HI&#39;</span><span class="p">))</span> <span class="c1"># give doppler, using HI rest</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.to_frequency">
+<code class="descname">to_frequency</code><span class="sig-paren">(</span><em>rf</em>, <em>v0</em>, <em>rfq</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.to_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Doppler type value (e.g. in radio mode) to a
+frequency. The type of frequency (e.g. LSRK) and a rest frequency
+(either as a frequency quantity (e.g. <code class="docutils literal"><span class="pre">dm.constants('HI'))</span></code> or
+a frequency measure (e.g. <code class="docutils literal"><span class="pre">dm.frequency('rest','5100MHz'))</span></code> should
+be specified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; frequency reference code (see <a class="reference internal" href="#casacore.measures.measures.frequency" title="casacore.measures.measures.frequency"><code class="xref py py-meth docutils literal"><span class="pre">frequency()</span></code></a>)</li>
+<li><strong>v0</strong> &#8211; a doppler measure</li>
+<li><strong>rfq</strong> &#8211; frequency measure or quantity</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dop</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">doppler</span><span class="p">(</span><span class="s1">&#39;radio&#39;</span><span class="p">,</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">tofrequency</span><span class="p">(</span><span class="s1">&#39;lsrk&#39;</span><span class="p">,</span> <span class="n">dop</span><span class="p">,</span> <span class="n">dm</span><span class="o">.</span><span class="n">constants</span><span class="p">(</span><span class="s1">&#39;HI&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.to_radialvelocity">
+<code class="descname">to_radialvelocity</code><span class="sig-paren">(</span><em>rf</em>, <em>v0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.to_radialvelocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Doppler type value (e.g. in radio mode) to a real
+radialvelocity. The type of velocity (e.g. <em>LSRK</em>) should be specified</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; radialvelocity reference code (see <a class="reference internal" href="#casacore.measures.measures.radialvelocity" title="casacore.measures.measures.radialvelocity"><code class="xref py py-meth docutils literal"><span class="pre">radialvelocity()</span></code></a>)</li>
+<li><strong>v0</strong> &#8211; a doppler measure</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">doppler</span><span class="p">(</span><span class="s1">&#39;radio&#39;</span><span class="p">,</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">dm</span><span class="o">.</span><span class="n">toradialvelocity</span><span class="p">(</span><span class="s1">&#39;topo&#39;</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.to_restfrequency">
+<code class="descname">to_restfrequency</code><span class="sig-paren">(</span><em>f0</em>, <em>d0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.to_restfrequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a frequency measure and a doppler measure (e.g.
+obtained from another spectral line with a known rest frequency) to
+a rest frequency.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>f0</strong> &#8211; frequency reference code (see <a class="reference internal" href="#casacore.measures.measures.frequency" title="casacore.measures.measures.frequency"><code class="xref py py-meth docutils literal"><span class="pre">frequency()</span></code></a>)</li>
+<li><strong>v0</strong> &#8211; a doppler measure</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dp</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">doppler</span><span class="p">(</span><span class="s1">&#39;radio&#39;</span><span class="p">,</span> <span class="s1">&#39;2196.24984km/s&#39;</span><span class="p">)</span>  <span class="c1"># a measured doppler speed</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">frequency</span><span class="p">(</span><span class="s1">&#39;lsrk&#39;</span><span class="p">,</span><span class="s1">&#39;1410MHz&#39;</span><span class="p">)</span>    <span class="c1"># a measured frequency</span>
+<span class="n">dm</span><span class="o">.</span><span class="n">torestfrequency</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dp</span><span class="p">)</span>        <span class="c1"># the corresponding rest frequency</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.to_uvw">
+<code class="descname">to_uvw</code><span class="sig-paren">(</span><em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.to_uvw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates a uvw measure from a baseline. The baseline can consist
+of a vector of actual baseline positions. Note that the baseline does
+not have to be a proper baseline, but can be a series of positions
+(to  call positions baselines see <code class="xref py py-meth docutils literal"><span class="pre">asbaseline()</span></code> ) for speed
+reasons: operations are linear and can be done on positions, which
+are converted to baseline values at the end (with <a class="reference internal" href="#casacore.measures.measures.expand" title="casacore.measures.measures.expand"><code class="xref py py-meth docutils literal"><span class="pre">expand()</span></code></a> ).</p>
+<p>Whatever the reference code of the baseline, the returned uvw will be
+given in J2000. If the dot argument is given, that variable will be
+filled with a quantity array consisting of the time derivative of the
+uvw (note that only the sidereal rate is taken into account; not
+precession, earth tides and similar variations, which are much
+smaller). If the xyz variable is given, it will be filled with the
+quantity values of the uvw measure.</p>
+<p>The values of the input baselines can be given as a quantity
+vector per x, y or z value.</p>
+<p>uvw coordinates are calculated for a certain direction in the sky;
+hence the frame has to contain the direction for the calculation to
+work. Since the baseline and the sky rotate with respect of each
+other, the time should be specified as well.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">do_frame</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">observatory</span><span class="p">(</span><span class="s1">&#39;atca&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">do_frame</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">source</span><span class="p">(</span><span class="s1">&#39;1934-638&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm</span><span class="o">.</span><span class="n">do_frame</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">epoch</span><span class="p">(</span><span class="s1">&#39;utc&#39;</span><span class="p">,</span> <span class="s1">&#39;today&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">baseline</span><span class="p">(</span><span class="s1">&#39;itrf&#39;</span><span class="p">,</span> <span class="s1">&#39;10m&#39;</span><span class="p">,</span> <span class="s1">&#39;20m&#39;</span><span class="p">,</span> <span class="s1">&#39;30m&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.measures.measures.uvw">
+<code class="descname">uvw</code><span class="sig-paren">(</span><em>rf=''</em>, <em>v0='0..'</em>, <em>v1=''</em>, <em>v2=''</em>, <em>off=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.measures.measures.uvw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a uvw measure. It has to specify a reference code, uvw
+quantity values (see introduction for the action on a scalar quantity
+with either a vector or scalar value, and when a vector of quantities
+is given), and optionally it can specify an offset, which in itself
+has to be a uvw.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rf</strong> &#8211; <p>reference code string; Allowable reference
+codes are: <em>ITRF</em> and <a class="reference internal" href="#casacore.measures.measures.direction" title="casacore.measures.measures.direction"><code class="xref py py-meth docutils literal"><span class="pre">direction()</span></code></a> codes
+Note that additional ones may become available. Check with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dm</span><span class="o">.</span><span class="n">listcodes</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">uvw</span><span class="p">())</span>
+</pre></div>
+</div>
+</li>
+<li><strong>v0</strong> &#8211; longitude or x as quantity or string</li>
+<li><strong>v1</strong> &#8211; latitude or y as quantity or string</li>
+<li><strong>v2</strong> &#8211; height or z as quantity or string</li>
+<li><strong>off</strong> &#8211; an optional offset measure of same type</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="casacore_quanta.html" class="btn btn-neutral" title="Module casacore.quanta" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2009, Malte Marquarding, Ger van Diepen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

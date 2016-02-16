@@ -1,0 +1,1340 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Module images &mdash; python-casacore 2.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="python-casacore 2.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Module functionals" href="casacore_functionals.html"/>
+        <link rel="prev" title="Module tables" href="casacore_tables.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-casacore
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="casacore_util.html">Module <code class="docutils literal"><span class="pre">casacore.util</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_tables.html">Module <code class="docutils literal"><span class="pre">tables</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Module <code class="docutils literal"><span class="pre">images</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#class-images-image">Class <code class="docutils literal"><span class="pre">images.image</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-casacore.images.coordinates">Module <code class="docutils literal"><span class="pre">coordinates</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#class-images-coordinates-coordinatesystem">Class <code class="docutils literal"><span class="pre">images.coordinates.coordinatesystem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-images-coordinates-coordinate">Class <code class="docutils literal"><span class="pre">images.coordinates.coordinate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-images-coordinates-directioncoordinate">Class <code class="docutils literal"><span class="pre">images.coordinates.directioncoordinate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-images-coordinates-spectralcoordinate">Class <code class="docutils literal"><span class="pre">images.coordinates.spectralcoordinate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-images-coordinates-linearcoordinate">Class <code class="docutils literal"><span class="pre">images.coordinates.linearcoordinate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-images-coordinates-stokescoordinate">Class <code class="docutils literal"><span class="pre">images.coordinates.stokescoordinate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-images-coordinates-tabularcoordinate">Class <code class="docutils literal"><span class="pre">images.coordinates.tabularcoordinate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_functionals.html">Module <code class="docutils literal"><span class="pre">functionals</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_fitting.html">Module <code class="docutils literal"><span class="pre">fitting</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_quanta.html">Module <code class="docutils literal"><span class="pre">casacore.quanta</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_measures.html">Module <code class="docutils literal"><span class="pre">casacore.measures</span></code></a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">python-casacore</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Module <code class="docutils literal"><span class="pre">images</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/casacore_images.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-casacore.images">
+<span id="module-images"></span><h1>Module <code class="xref py py-mod docutils literal"><span class="pre">images</span></code><a class="headerlink" href="#module-casacore.images" title="Permalink to this headline">¶</a></h1>
+<p>Python interface to the Casacore images module.</p>
+<p>A <a class="reference external" href="../../casacore/doc/html/group__Images__module.html">casacore image</a>
+represents an astronomical image of arbitrary dimensionality.
+Several image formats are recognized:</p>
+<dl class="docutils">
+<dt><a class="reference external" href="../../casacore/doc/html/classcasa_1_1PagedImage.html">casacore paged image</a></dt>
+<dd>is the native casacore image format stored in a casacore table.</dd>
+<dt><a class="reference external" href="http://www.hdfgroup.org/HDF5">HDF5</a></dt>
+<dd>is the HDF5 format often used in the earth science community.</dd>
+<dt><a class="reference external" href="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITS</a></dt>
+<dd>is the well-known astronomical FITS format</dd>
+<dt><a class="reference external" href="http://www.atnf.csiro.au/computing/software/miriad">miriad</a></dt>
+<dd>is the format used by the radio-astronomical MIRIAD package.</dd>
+</dl>
+<p>The following functionality exists:</p>
+<ul class="simple">
+<li>get and put data (slices)</li>
+<li>get or put a mask</li>
+<li>get meta data like coordinates and history</li>
+<li>get, put, or search optional image attributes (as used for LOFAR)</li>
+<li>get statistics</li>
+<li>form a subimage</li>
+<li>form an image expression which is treated as an ordinary image</li>
+<li>regrid the image</li>
+<li>write the image to a FITS file</li>
+</ul>
+<div class="section" id="class-images-image">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">images.image</span></code><a class="headerlink" href="#class-images-image" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="casacore.images.image">
+<em class="property">class </em><code class="descclassname">casacore.images.</code><code class="descname">image</code><span class="sig-paren">(</span><em>imagename</em>, <em>axis=0</em>, <em>maskname=''</em>, <em>images=()</em>, <em>values=None</em>, <em>coordsys=None</em>, <em>overwrite=True</em>, <em>ashdf5=False</em>, <em>mask=()</em>, <em>shape=None</em>, <em>tileshape=()</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Python interface to casacore images.</p>
+<p>An image can be constructed in a variety of ways:</p>
+<ul class="simple">
+<li>Opening an existing image. The image format is determined automatically
+and can be
+<a class="reference external" href="http://casacore.googlecode.com">casacore</a>,
+<a class="reference external" href="http://www.hdfgroup.org/HDF5">HDF5</a>,
+<a class="reference external" href="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">FITS</a>,
+or <a class="reference external" href="http://www.atnf.csiro.au/computing/software/miriad">MIRIAD</a>.
+FITS and MIRIAD always have data type float, but casacore and HDF5 images
+can have data type float, double, complex, or dcomplex.</li>
+<li>Open an image expression by giving a <a class="reference external" href="../../casacore/doc/notes/223.html">LEL expression</a> string.
+Note that in an expression <cite>$im</cite> can be used similar to TaQL commands
+(see function <code class="xref py py-func docutils literal"><span class="pre">tables.taql()</span></code>).</li>
+<li>Create a new temporary image from a shape or a numpy array.</li>
+<li>Virtually concatenate a number of images along a given axis. This can
+be used to form a spectral line image cube from separate channel images.</li>
+</ul>
+<p>The following arguments can be given:</p>
+<dl class="docutils">
+<dt><cite>imagename</cite></dt>
+<dd><div class="first last line-block">
+<div class="line">It can be given in several forms:</div>
+<div class="line">If it is a tuple or list, the image is opened as the virtual
+concatenation of the given image names or objects.</div>
+<div class="line">Otherwise it should be a string giving the image name (or expression).
+If argument <cite>values</cite> or <cite>shape</cite> is given, a new image with that name
+is created using the values or shape. If the name is empty, a temporary
+image is created which can be written later using <a class="reference internal" href="#casacore.images.image.saveas" title="casacore.images.image.saveas"><code class="xref py py-func docutils literal"><span class="pre">saveas()</span></code></a>.</div>
+<div class="line">Otherwise it is tried to open an existing image with that name.</div>
+<div class="line">If the open fails, it is opened as a LEL image expression.</div>
+</div>
+</dd>
+<dt><cite>axis</cite></dt>
+<dd>The axis number along which images have to be concatenated.</dd>
+<dt><cite>maskname</cite></dt>
+<dd><div class="first last line-block">
+<div class="line">The name of the mask to be used when opening an existing image. If not
+given, the default image mask is used.</div>
+<div class="line">If an image is created, a mask with this name is created.</div>
+</div>
+</dd>
+<dt><cite>images</cite></dt>
+<dd>Possible images objects to be used for $n arguments in an expression
+string.</dd>
+<dt>&#8216;values`</dt>
+<dd>If given, the image will be created and these values will be stored in it.
+It should be a numpy array or masked array. If it is a masked array,
+its mask acts as the <cite>mask</cite> argument described below.
+The data type of the image is derived from the array&#8217;s data type.</dd>
+<dt><cite>coordsys</cite></dt>
+<dd>The coordinate system to be used when creating an image.
+If not given, an appropriate default coordnate system will be used.</dd>
+<dt><cite>overwrite</cite></dt>
+<dd>If False, an exception is raised if the new image file already exists.
+Default is True.</dd>
+<dt><cite>ashdf5</cite></dt>
+<dd>If True, the image is created in HDF5 format, otherwise in casacore
+format. Default is casacore format.</dd>
+<dt><cite>mask</cite></dt>
+<dd><div class="first last line-block">
+<div class="line">An optional mask to be stored in the image when creating the image.
+If a mask is given, but no maskname is given, the mask will get the
+name <cite>mask0</cite>.</div>
+<div class="line">Note that the mask can also be given in argument <cite>values</cite> (see above).</div>
+</div>
+</dd>
+<dt><cite>shape</cite></dt>
+<dd>If given, the image will be created. If <cite>values</cite> is also given, its
+shape should match. If <cite>values</cite> is not given, an image with data type
+double will be created.</dd>
+<dt><cite>tileshape</cite></dt>
+<dd>Advanced users can give the tile shape to be used. See the
+<code class="xref py py-mod docutils literal"><span class="pre">tables</span></code> module for more information about Tiled Storage Managers.</dd>
+</dl>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">im</span> <span class="o">=</span> <span class="n">image</span><span class="p">(</span><span class="s1">&#39;3c343.fits&#39;</span><span class="p">)</span>          <span class="c1"># open existing fits image</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">image</span><span class="p">(</span><span class="s1">&#39;a.img1 - a.img2&#39;</span><span class="p">)</span>     <span class="c1"># open as expression</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">image</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span><span class="mi">256</span><span class="p">))</span>       <span class="c1"># create temp image </span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">image</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span><span class="mi">256</span><span class="p">))</span>  <span class="c1"># create image a</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="casacore.images.image.attrcreategroup">
+<code class="descname">attrcreategroup</code><span class="sig-paren">(</span><em>groupname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.attrcreategroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new attribute group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.attrfindrows">
+<code class="descname">attrfindrows</code><span class="sig-paren">(</span><em>groupname</em>, <em>attrname</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.attrfindrows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the row numbers of all rows where the attribute matches the given value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.attrget">
+<code class="descname">attrget</code><span class="sig-paren">(</span><em>groupname</em>, <em>attrname</em>, <em>rownr</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.attrget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of an attribute in the given row in a group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.attrgetcol">
+<code class="descname">attrgetcol</code><span class="sig-paren">(</span><em>groupname</em>, <em>attrname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.attrgetcol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of an attribute for all rows in a group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.attrgetmeas">
+<code class="descname">attrgetmeas</code><span class="sig-paren">(</span><em>groupname</em>, <em>attrname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.attrgetmeas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the measinfo (type, frame) of an attribute in a group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.attrgetrow">
+<code class="descname">attrgetrow</code><span class="sig-paren">(</span><em>groupname</em>, <em>key</em>, <em>value=None</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.attrgetrow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the values of all attributes of a row in a group.</p>
+<p>If the key is an integer, the key is the row number for which
+the attribute values have to be returned.</p>
+<p>Otherwise the key has to be a string and it defines the name of an
+attribute. The attribute values of the row for which the key matches
+the given value is returned.
+It can only be used for unique attribute keys. An IndexError exception
+is raised if no or multiple matches are found.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.attrgetunit">
+<code class="descname">attrgetunit</code><span class="sig-paren">(</span><em>groupname</em>, <em>attrname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.attrgetunit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the unit(s) of an attribute in a group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.attrgroupnames">
+<code class="descname">attrgroupnames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.attrgroupnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the names of all attribute groups.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.attrnames">
+<code class="descname">attrnames</code><span class="sig-paren">(</span><em>groupname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.attrnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the names of all attributes in this group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.attrnrows">
+<code class="descname">attrnrows</code><span class="sig-paren">(</span><em>groupname</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.attrnrows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of rows in this attribute group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.attrput">
+<code class="descname">attrput</code><span class="sig-paren">(</span><em>groupname</em>, <em>attrname</em>, <em>rownr</em>, <em>value</em>, <em>unit=[]</em>, <em>meas=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.attrput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the value and optionally unit and measinfo of an attribute in a row in a group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.coordinates">
+<code class="descname">coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the <code class="xref py py-class docutils literal"><span class="pre">coordinatesystem</span></code> of the image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.datatype">
+<code class="descname">datatype</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.datatype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data type of the image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>blc=()</em>, <em>trc=()</em>, <em>inc=()</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get image data and mask.</p>
+<p>Get the image data and mask (see :<a class="reference internal" href="#casacore.images.image.getdata" title="casacore.images.image.getdata"><code class="xref py py-func docutils literal"><span class="pre">getdata()</span></code></a> and <a class="reference internal" href="#casacore.images.image.getmask" title="casacore.images.image.getmask"><code class="xref py py-func docutils literal"><span class="pre">getmask()</span></code></a>)
+as a numpy masked array.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.getdata">
+<code class="descname">getdata</code><span class="sig-paren">(</span><em>blc=()</em>, <em>trc=()</em>, <em>inc=()</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.getdata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get image data.</p>
+<p>Using the arguments blc (bottom left corner), trc (top right corner),
+and inc (stride) it is possible to get a data slice.</p>
+<p>The data is returned as a numpy array. Its dimensionality is the same
+as the dimensionality of the image, even if an axis has length 1.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.getmask">
+<code class="descname">getmask</code><span class="sig-paren">(</span><em>blc=()</em>, <em>trc=()</em>, <em>inc=()</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.getmask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get image mask.</p>
+<p>Using the arguments blc (bottom left corner), trc (top right corner),
+and inc (stride) it is possible to get a mask slice. Not all axes
+need to be specified. Missing values default to begin, end, and 1.</p>
+<p>The mask is returned as a numpy array. Its dimensionality is the same
+as the dimensionality of the image, even if an axis has length 1.
+Note that the casacore images use the convention that a mask value
+True means good and False means bad. However, numpy uses the opposite.
+Therefore the mask will be negated, so it can be used directly in
+numpy operations.</p>
+<p>If the image has no mask, an array will be returned with all values
+set to False.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.haslock">
+<code class="descname">haslock</code><span class="sig-paren">(</span><em>write=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.haslock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if the image holds a read or write lock.</p>
+<div class="line-block">
+<div class="line">See <cite>func:`tables.table.haslock</cite> for more information.</div>
+<div class="line">Locks are only used for images in casacore format. For other formats
+(un)locking is a no-op, so this method always returns True.</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.history">
+<code class="descname">history</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.history" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the image processing history.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.imageinfo">
+<code class="descname">imageinfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.imageinfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the standard image info.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.imagetype">
+<code class="descname">imagetype</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.imagetype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get image type of the image (PagedImage, HDF5Image, etc.).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.info">
+<code class="descname">info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get coordinates, image info, and unit&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.ispersistent">
+<code class="descname">ispersistent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.ispersistent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if the image is persistent, i.e. stored on disk.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.lock">
+<code class="descname">lock</code><span class="sig-paren">(</span><em>write=False</em>, <em>nattempts=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire a read or write lock on the image.</p>
+<div class="line-block">
+<div class="line">See <cite>func:`tables.table.haslock</cite> for more information.</div>
+<div class="line">Locks are only used for images in casacore format. For other formats
+(un)locking is a no-op, so this method always returns True.</div>
+</div>
+<p>Only advanced users should use locking. In normal operations
+explicit locking and unlocking is not necessary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.miscinfo">
+<code class="descname">miscinfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.miscinfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the auxiliary image info.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.name">
+<code class="descname">name</code><span class="sig-paren">(</span><em>strippath=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get image name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.ndim">
+<code class="descname">ndim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get dimensionality of the image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.put">
+<code class="descname">put</code><span class="sig-paren">(</span><em>value</em>, <em>blc=()</em>, <em>trc=()</em>, <em>inc=()</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.put" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put image data and mask.</p>
+<p>Put the image data and optionally the mask (see :<a class="reference internal" href="#casacore.images.image.getdata" title="casacore.images.image.getdata"><code class="xref py py-func docutils literal"><span class="pre">getdata()</span></code></a>
+and <a class="reference internal" href="#casacore.images.image.getmask" title="casacore.images.image.getmask"><code class="xref py py-func docutils literal"><span class="pre">getmask()</span></code></a>).
+If the <cite>value</cite> argument is a numpy masked array, but data and mask will
+bw written. If it is a normal numpy array, only the data will be
+written.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.putdata">
+<code class="descname">putdata</code><span class="sig-paren">(</span><em>value</em>, <em>blc=()</em>, <em>trc=()</em>, <em>inc=()</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.putdata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put image data.</p>
+<p>Using the arguments blc (bottom left corner), trc (top right corner),
+and inc (stride) it is possible to put a data slice. Not all axes
+need to be specified. Missing values default to begin, end, and 1.</p>
+<p>The data should be a numpy array. Its dimensionality must be the same
+as the dimensionality of the image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.putmask">
+<code class="descname">putmask</code><span class="sig-paren">(</span><em>value</em>, <em>blc=()</em>, <em>trc=()</em>, <em>inc=()</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.putmask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put image mask.</p>
+<p>Using the arguments blc (bottom left corner), trc (top right corner),
+and inc (stride) it is possible to put a data slice. Not all axes
+need to be specified. Missing values default to begin, end, and 1.</p>
+<p>The data should be a numpy array. Its dimensionality must be the same
+as the dimensionality of the image.
+Note that the casacore images use the convention that a mask value
+True means good and False means bad. However, numpy uses the opposite.
+Therefore the mask will be negated, so a numoy masked can be given
+directly.</p>
+<p>The mask is not written if the image has no mask and if it the entire
+mask is False. In that case the mask most likely comes from a getmask
+operation on an image without a mask.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.regrid">
+<code class="descname">regrid</code><span class="sig-paren">(</span><em>axes</em>, <em>coordsys</em>, <em>outname=''</em>, <em>overwrite=True</em>, <em>outshape=()</em>, <em>interpolation='linear'</em>, <em>decimate=10</em>, <em>replicate=False</em>, <em>refchange=True</em>, <em>forceregrid=False</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.regrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Regrid the image to a new image object.</p>
+<p>Regrid the image on the given axes to the given coordinate system.
+The output is stored in the given file; it no file name is given a
+temporary image is made.
+If the output shape is empty, the old shape is used.
+<cite>replicate=True</cite> means replication rather than regridding.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.saveas">
+<code class="descname">saveas</code><span class="sig-paren">(</span><em>filename</em>, <em>overwrite=True</em>, <em>hdf5=False</em>, <em>copymask=True</em>, <em>newmaskname=''</em>, <em>newtileshape=()</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.saveas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the image to disk.</p>
+<p>Note that the created disk file is a snapshot, so it is not updated
+for possible later changes in the image object.</p>
+<dl class="docutils">
+<dt><cite>overwrite</cite></dt>
+<dd>If False, an exception is raised if the new image file already exists.
+Default is True.</dd>
+<dt><cite>ashdf5</cite></dt>
+<dd>If True, the image is created in HDF5 format, otherwise in casacore
+format. Default is casacore format.</dd>
+<dt><cite>copymask</cite></dt>
+<dd>By default the mask is written as well if the image has a mask.</dd>
+<dt>&#8216;newmaskname`</dt>
+<dd>If the mask is written, the name is the same the original or
+<cite>mask0</cite> if the original mask has no name. Using this argument a
+different mask name can be given.</dd>
+<dt><cite>tileshape</cite></dt>
+<dd>Advanced users can give a new tile shape. See the <code class="xref py py-mod docutils literal"><span class="pre">tables</span></code>
+module for more information about Tiled Storage Managers.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.shape">
+<code class="descname">shape</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get image shape.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.size">
+<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get nr of pixels in the image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.statistics">
+<code class="descname">statistics</code><span class="sig-paren">(</span><em>axes=()</em>, <em>minmaxvalues=()</em>, <em>exclude=False</em>, <em>robust=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate statistics for the image.</p>
+<p>Statistics are returned in a dict for the given axes.
+E.g. if axes [0,1] is given in a 3-dim image, the statistics are
+calculated for each plane along the 3rd axis. By default statistics
+are calculated for the entire image.</p>
+<p><cite>minmaxvalues</cite> can be given to include or exclude pixels
+with values in the given range. If only one value is given,
+min=-abs(val) and max=abs(val).</p>
+<p>By default robust statistics (Median, MedAbsDevMed, and Quartile) are
+calculated too.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.subimage">
+<code class="descname">subimage</code><span class="sig-paren">(</span><em>blc=()</em>, <em>trc=()</em>, <em>inc=()</em>, <em>dropdegenerate=True</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.subimage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form a subimage.</p>
+<p>An image object containing a subset of an image is returned.
+The arguments blc (bottom left corner), trc (top right corner),
+and inc (stride) define the subset. Not all axes need to be specified.
+Missing values default to begin, end, and 1.</p>
+<p>By default axes with length 1 are left out.</p>
+<p>A subimage is a so-called virtual image. It is not stored, but only
+references the original image. It can be made persistent using the
+<a class="reference internal" href="#casacore.images.image.saveas" title="casacore.images.image.saveas"><code class="xref py py-func docutils literal"><span class="pre">saveas()</span></code></a> method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.tofits">
+<code class="descname">tofits</code><span class="sig-paren">(</span><em>filename</em>, <em>overwrite=True</em>, <em>velocity=True</em>, <em>optical=True</em>, <em>bitpix=-32</em>, <em>minpix=1</em>, <em>maxpix=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.tofits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the image to a file in FITS format.</p>
+<dl class="docutils">
+<dt><cite>filename</cite></dt>
+<dd>FITS file name</dd>
+<dt><cite>overwrite</cite></dt>
+<dd>If False, an exception is raised if the new image file already exists.
+Default is True.</dd>
+<dt><cite>velocity</cite></dt>
+<dd>By default a velocity primary spectral axis is written if possible.</dd>
+<dt><cite>optical</cite></dt>
+<dd>If writing a velocity, use the optical definition
+(otherwise use radio).</dd>
+<dt><cite>bitpix</cite></dt>
+<dd>can be set to -32 (float) or 16 (short) only. When <cite>bitpix</cite> is
+16 it will write BSCALE and BZERO into the FITS file. If minPix</dd>
+<dt><cite>minpix</cite> and <cite>maxpix</cite></dt>
+<dd>are used to determine BSCALE and BZERO if <cite>bitpix=16</cite>.
+If <cite>minpix</cite> is greater than <cite>maxpix</cite> (which is the default),
+the minimum and maximum pixel values will be determined from the ddta.
+Oherwise the supplied values will be used and pixels outside that
+range will be clipped to the minimum and maximum pixel values.
+Note that this truncation does not occur for <cite>bitpix=-32</cite>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.topixel">
+<code class="descname">topixel</code><span class="sig-paren">(</span><em>world</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.topixel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the world coordinates of an image value to pixel coordinates.</p>
+<p>The coordinates must be given with the slowest varying axis first.
+Thus normally like frequency(,polarisation axis),Dec,Ra.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.toworld">
+<code class="descname">toworld</code><span class="sig-paren">(</span><em>pixel</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.toworld" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the pixel coordinates of an image value to world coordinates.</p>
+<p>The coordinates must be given with the slowest varying axis first.
+Thus normally like frequency(,polarisation axis),Dec,Ra.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.unit">
+<code class="descname">unit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the pixel unit of the image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.unlock">
+<code class="descname">unlock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.unlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release a lock on the image.</p>
+<div class="line-block">
+<div class="line">See <cite>func:`tables.table.haslock</cite> for more information.</div>
+<div class="line">Locks are only used for images in casacore format. For other formats
+(un)locking is a no-op, so this method always returns True.</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.image.view">
+<code class="descname">view</code><span class="sig-paren">(</span><em>tempname='/tmp/tempimage'</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.image.view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the image using casaviewer.</p>
+<p>If the image is not persistent, a copy will be made that the user
+has to delete once viewing has finished. The name of the copy can be
+given in argument <cite>tempname</cite>. Default is &#8216;/tmp/tempimage&#8217;.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-casacore.images.coordinates">
+<span id="module-coordinates"></span><h1>Module <code class="xref py py-mod docutils literal"><span class="pre">coordinates</span></code><a class="headerlink" href="#module-casacore.images.coordinates" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="casacore.images.coordinates.coordinate">
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">coordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overwrite as neccessary</p>
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinate.dict">
+<code class="descname">dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate.dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the coordinate info as a dict</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinate.get_axes">
+<code class="descname">get_axes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate.get_axes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinate.get_axis_size">
+<code class="descname">get_axis_size</code><span class="sig-paren">(</span><em>axis=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate.get_axis_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the length of the given axis in this coordinate</p>
+<p>-1 is returned if unknown.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinate.get_image_axis">
+<code class="descname">get_image_axis</code><span class="sig-paren">(</span><em>axis=0</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate.get_image_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the image axis number of the given axis in this coordinate</p>
+<p>-1 is returned if unknown.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinate.get_increment">
+<code class="descname">get_increment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate.get_increment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinate.get_referencepixel">
+<code class="descname">get_referencepixel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate.get_referencepixel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinate.get_referencevalue">
+<code class="descname">get_referencevalue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate.get_referencevalue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinate.get_unit">
+<code class="descname">get_unit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate.get_unit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinate.set_increment">
+<code class="descname">set_increment</code><span class="sig-paren">(</span><em>inc</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate.set_increment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinate.set_referencepixel">
+<code class="descname">set_referencepixel</code><span class="sig-paren">(</span><em>pix</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate.set_referencepixel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinate.set_referencevalue">
+<code class="descname">set_referencevalue</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinate.set_referencevalue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="casacore.images.coordinates.coordinatesystem">
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">coordinatesystem</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>A thin wrapper for casacore coordinate systems. It dissects the 
+coordinatesystem record returned from casacore images.
+This only handles one instance of each coordinate type.
+The possible types are &#8216;&#8217;direction&#8217;&#8216;, &#8216;&#8217;spectral&#8217;&#8216;, &#8216;&#8217;stokes&#8217;&#8216;,
+&#8216;&#8217;linear&#8217;&#8217; and &#8216;&#8217;tabular&#8217;&#8216;.</p>
+<p>It uses reference semantics for the individual coordinates,
+e.g. the following will work:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cs</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">coordinates</span><span class="p">()</span>
+<span class="n">cs</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_referencepixel</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">])</span>
+<span class="c1"># or equivalent</span>
+<span class="n">cs</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">(</span><span class="s2">&quot;direction&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_referencepixel</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.dict">
+<code class="descname">dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.get_axes">
+<code class="descname">get_axes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.get_axes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.get_coordinate">
+<code class="descname">get_coordinate</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.get_coordinate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.get_increment">
+<code class="descname">get_increment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.get_increment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.get_names">
+<code class="descname">get_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.get_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the coordinate names</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.get_obsdate">
+<code class="descname">get_obsdate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.get_obsdate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.get_observer">
+<code class="descname">get_observer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.get_observer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.get_referencepixel">
+<code class="descname">get_referencepixel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.get_referencepixel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.get_referencevalue">
+<code class="descname">get_referencevalue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.get_referencevalue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.get_telescope">
+<code class="descname">get_telescope</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.get_telescope" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.get_unit">
+<code class="descname">get_unit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.get_unit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.set_coordinate">
+<code class="descname">set_coordinate</code><span class="sig-paren">(</span><em>name</em>, <em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.set_coordinate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.set_increment">
+<code class="descname">set_increment</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.set_increment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.set_referencepixel">
+<code class="descname">set_referencepixel</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.set_referencepixel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.set_referencevalue">
+<code class="descname">set_referencevalue</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.set_referencevalue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.coordinatesystem.summary">
+<code class="descname">summary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.coordinatesystem.summary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="casacore.images.coordinates.directioncoordinate">
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">directioncoordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.directioncoordinate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="casacore.images.coordinates.directioncoordinate.get_frame">
+<code class="descname">get_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.directioncoordinate.get_frame" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.directioncoordinate.get_projection">
+<code class="descname">get_projection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.directioncoordinate.get_projection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.directioncoordinate.set_frame">
+<code class="descname">set_frame</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.directioncoordinate.set_frame" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.directioncoordinate.set_projection">
+<code class="descname">set_projection</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.directioncoordinate.set_projection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="casacore.images.coordinates.linearcoordinate">
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">linearcoordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.linearcoordinate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="casacore.images.coordinates.spectralcoordinate">
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">spectralcoordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.get_axes">
+<code class="descname">get_axes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.get_axes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.get_conversion">
+<code class="descname">get_conversion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.get_conversion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.get_frame">
+<code class="descname">get_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.get_frame" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.get_increment">
+<code class="descname">get_increment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.get_increment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.get_referencepixel">
+<code class="descname">get_referencepixel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.get_referencepixel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.get_referencevalue">
+<code class="descname">get_referencevalue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.get_referencevalue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.get_restfrequency">
+<code class="descname">get_restfrequency</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.get_restfrequency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.get_unit">
+<code class="descname">get_unit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.get_unit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.set_conversion">
+<code class="descname">set_conversion</code><span class="sig-paren">(</span><em>key</em>, <em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.set_conversion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.set_frame">
+<code class="descname">set_frame</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.set_frame" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.set_increment">
+<code class="descname">set_increment</code><span class="sig-paren">(</span><em>inc</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.set_increment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.set_referencepixel">
+<code class="descname">set_referencepixel</code><span class="sig-paren">(</span><em>pix</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.set_referencepixel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.spectralcoordinate.set_referencevalue">
+<code class="descname">set_referencevalue</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.spectralcoordinate.set_referencevalue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="casacore.images.coordinates.stokescoordinate">
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">stokescoordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.stokescoordinate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="casacore.images.coordinates.stokescoordinate.get_stokes">
+<code class="descname">get_stokes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.stokescoordinate.get_stokes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="casacore.images.coordinates.tabularcoordinate">
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">tabularcoordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.tabularcoordinate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="casacore.images.coordinates.tabularcoordinate.get_pixelvalues">
+<code class="descname">get_pixelvalues</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.tabularcoordinate.get_pixelvalues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.tabularcoordinate.get_worldvalues">
+<code class="descname">get_worldvalues</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.tabularcoordinate.get_worldvalues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.tabularcoordinate.set_pixelvalues">
+<code class="descname">set_pixelvalues</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.tabularcoordinate.set_pixelvalues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="casacore.images.coordinates.tabularcoordinate.set_worldvalues">
+<code class="descname">set_worldvalues</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.images.coordinates.tabularcoordinate.set_worldvalues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<div class="section" id="class-images-coordinates-coordinatesystem">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">images.coordinates.coordinatesystem</span></code><a class="headerlink" href="#class-images-coordinates-coordinatesystem" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">coordinatesystem</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span></dt>
+<dd><p>A thin wrapper for casacore coordinate systems. It dissects the 
+coordinatesystem record returned from casacore images.
+This only handles one instance of each coordinate type.
+The possible types are &#8216;&#8217;direction&#8217;&#8216;, &#8216;&#8217;spectral&#8217;&#8216;, &#8216;&#8217;stokes&#8217;&#8216;,
+&#8216;&#8217;linear&#8217;&#8217; and &#8216;&#8217;tabular&#8217;&#8216;.</p>
+<p>It uses reference semantics for the individual coordinates,
+e.g. the following will work:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cs</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">coordinates</span><span class="p">()</span>
+<span class="n">cs</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_referencepixel</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">])</span>
+<span class="c1"># or equivalent</span>
+<span class="n">cs</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">(</span><span class="s2">&quot;direction&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_referencepixel</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt>
+<code class="descname">dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_axes</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_coordinate</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_increment</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the coordinate names</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_obsdate</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_observer</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_referencepixel</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_referencevalue</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_telescope</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_unit</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_coordinate</code><span class="sig-paren">(</span><em>name</em>, <em>val</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_increment</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_referencepixel</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_referencevalue</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">summary</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-images-coordinates-coordinate">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">images.coordinates.coordinate</span></code><a class="headerlink" href="#class-images-coordinates-coordinate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">coordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span></dt>
+<dd><p>Overwrite as neccessary</p>
+<dl class="method">
+<dt>
+<code class="descname">dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the coordinate info as a dict</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_axes</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_axis_size</code><span class="sig-paren">(</span><em>axis=0</em><span class="sig-paren">)</span></dt>
+<dd><p>Get the length of the given axis in this coordinate</p>
+<p>-1 is returned if unknown.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_image_axis</code><span class="sig-paren">(</span><em>axis=0</em><span class="sig-paren">)</span></dt>
+<dd><p>Get the image axis number of the given axis in this coordinate</p>
+<p>-1 is returned if unknown.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_increment</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_referencepixel</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_referencevalue</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_unit</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_increment</code><span class="sig-paren">(</span><em>inc</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_referencepixel</code><span class="sig-paren">(</span><em>pix</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_referencevalue</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-images-coordinates-directioncoordinate">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">images.coordinates.directioncoordinate</span></code><a class="headerlink" href="#class-images-coordinates-directioncoordinate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">directioncoordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span></dt>
+<dd><dl class="method">
+<dt>
+<code class="descname">get_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_projection</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_frame</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_projection</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-images-coordinates-spectralcoordinate">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">images.coordinates.spectralcoordinate</span></code><a class="headerlink" href="#class-images-coordinates-spectralcoordinate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">spectralcoordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span></dt>
+<dd><dl class="method">
+<dt>
+<code class="descname">get_axes</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_conversion</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_increment</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_referencepixel</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_referencevalue</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_restfrequency</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_unit</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_conversion</code><span class="sig-paren">(</span><em>key</em>, <em>val</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_frame</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_increment</code><span class="sig-paren">(</span><em>inc</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_referencepixel</code><span class="sig-paren">(</span><em>pix</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_referencevalue</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-images-coordinates-linearcoordinate">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">images.coordinates.linearcoordinate</span></code><a class="headerlink" href="#class-images-coordinates-linearcoordinate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">linearcoordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="class-images-coordinates-stokescoordinate">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">images.coordinates.stokescoordinate</span></code><a class="headerlink" href="#class-images-coordinates-stokescoordinate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">stokescoordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span></dt>
+<dd><dl class="method">
+<dt>
+<code class="descname">get_stokes</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="class-images-coordinates-tabularcoordinate">
+<h2>Class <code class="xref py py-class docutils literal"><span class="pre">images.coordinates.tabularcoordinate</span></code><a class="headerlink" href="#class-images-coordinates-tabularcoordinate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">casacore.images.coordinates.</code><code class="descname">tabularcoordinate</code><span class="sig-paren">(</span><em>rec</em><span class="sig-paren">)</span></dt>
+<dd><dl class="method">
+<dt>
+<code class="descname">get_pixelvalues</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_worldvalues</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_pixelvalues</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_worldvalues</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="casacore_functionals.html" class="btn btn-neutral float-right" title="Module functionals" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="casacore_tables.html" class="btn btn-neutral" title="Module tables" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2009, Malte Marquarding, Ger van Diepen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

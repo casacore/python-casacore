@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Module casacore.util &mdash; python-casacore 2.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="python-casacore 2.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Module tables" href="casacore_tables.html"/>
+        <link rel="prev" title="Welcome to python-casacore’s documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python-casacore
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Module <code class="docutils literal"><span class="pre">casacore.util</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-casacore.util">General utility functions for casacore modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_tables.html">Module <code class="docutils literal"><span class="pre">tables</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html">Module <code class="docutils literal"><span class="pre">images</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_images.html#module-casacore.images.coordinates">Module <code class="docutils literal"><span class="pre">coordinates</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_functionals.html">Module <code class="docutils literal"><span class="pre">functionals</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_fitting.html">Module <code class="docutils literal"><span class="pre">fitting</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_quanta.html">Module <code class="docutils literal"><span class="pre">casacore.quanta</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="casacore_measures.html">Module <code class="docutils literal"><span class="pre">casacore.measures</span></code></a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">python-casacore</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Module <code class="docutils literal"><span class="pre">casacore.util</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/casacore_util.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-casacore-util">
+<h1>Module <a class="reference internal" href="#module-casacore.util" title="casacore.util"><code class="xref py py-mod docutils literal"><span class="pre">casacore.util</span></code></a><a class="headerlink" href="#module-casacore-util" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-casacore.util">
+<span id="general-utility-functions-for-casacore-modules"></span><h2>General utility functions for casacore modules<a class="headerlink" href="#module-casacore.util" title="Permalink to this headline">¶</a></h2>
+<p>Utilities for casacore modules.</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="#casacore.util.getlocals" title="casacore.util.getlocals"><code class="xref py py-func docutils literal"><span class="pre">getlocals()</span></code></a></dt>
+<dd>Get local python variables</dd>
+<dt><a class="reference internal" href="#casacore.util.substitute" title="casacore.util.substitute"><code class="xref py py-func docutils literal"><span class="pre">substitute()</span></code></a></dt>
+<dd>Substitute global python variables in a command string</dd>
+</dl>
+</div>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="casacore.util.getlocals">
+<code class="descclassname">casacore.util.</code><code class="descname">getlocals</code><span class="sig-paren">(</span><em>back=2</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.util.getlocals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the local variables some levels back (-1 is top).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="casacore.util.substitute">
+<code class="descclassname">casacore.util.</code><code class="descname">substitute</code><span class="sig-paren">(</span><em>s</em>, <em>objlist=()</em>, <em>globals={}</em>, <em>locals={}</em><span class="sig-paren">)</span><a class="headerlink" href="#casacore.util.substitute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Substitute global python variables in a command string.</p>
+<p>This function parses a string and tries to substitute parts like
+<cite>$name</cite> by their value. It is uses by <code class="xref py py-mod docutils literal"><span class="pre">image</span></code> and <code class="xref py py-mod docutils literal"><span class="pre">table</span></code>
+to handle image and table objects in a command, but also other
+variables (integers, strings, etc.) can be substituted.
+The following rules apply:</p>
+<ol class="arabic simple">
+<li>A name must start with an underscore or alphabetic, followed
+by zero or more alphanumerics and underscores.</li>
+<li>String parts enclosed in single or double quotes are literals and
+are left untouched.
+Furthermore a $ can be escaped by a backslash, which is useful
+if an environment variable is used. Note that an extra backslash
+is required in Python to escape the backslash.
+The output contains the quotes and backslashes.</li>
+<li>A variable is looked up in the global namespace; that is, in the
+outermost namespace.</li>
+<li>If the variable <cite>name</cite> has a vector value, its substitution is
+enclosed in square brackets and separated by commas.</li>
+<li>A string value is enclosed in double quotes. If the value
+contains a double quote, that quote is enclosed in single quotes.</li>
+<li>If the name&#8217;s value has a type mentioned in the argument <cite>objlist</cite>,
+it is substituted by <cite>$n</cite> (where n is a sequence number) and its
+value is added to the objects of that type in <cite>objlist</cite>.</li>
+<li>If the name is unknown or has an unknown type, it is left untouched.</li>
+</ol>
+<p>The <cite>objlist</cite> argument is a list of tuples or lists where each tuple
+or list has three fields:</p>
+<ol class="arabic simple">
+<li>The first field is the object type (e.g. <cite>table</cite>)</li>
+<li>The second field is a prefix for the sequence number (usually empty).
+E.g. regions could have prefix &#8216;r&#8217; resulting in a substitution like <cite>$r1</cite>.</li>
+<li>The third field is a list of objects to be substituted. New objects
+get appended to it. Usually the list is initially empty.</li>
+</ol>
+<p>Apart from substituting variables, it also substitutes <cite>$(expression)</cite>
+by the expression result.
+It correctly handles parentheses and quotes in the expression.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">b</span><span class="o">=</span><span class="mi">3</span>
+<span class="n">substitute</span><span class="p">(</span><span class="s1">&#39;$(a+b)+$a&#39;</span><span class="p">)</span>              <span class="c1"># results in &#39;5+2&#39; (not &#39;7&#39;)</span>
+<span class="n">substitute</span><span class="p">(</span><span class="s1">&#39;$((a+b)*(a+b))&#39;</span><span class="p">)</span>         <span class="c1"># results in &#39;25&#39;</span>
+<span class="n">substitute</span><span class="p">(</span><span class="s1">&#39;$(len(&quot;ab cd( de&quot;))&#39;</span><span class="p">)</span>    <span class="c1"># results in &#39;9&#39;</span>
+</pre></div>
+</div>
+<p>Substitution is NOT recursive. E.g. if a=1 and b=&#8221;$a&#8221;,
+the result of substitute(&#8220;$b&#8221;) is &#8220;$a&#8221; and not 1.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="casacore_tables.html" class="btn btn-neutral float-right" title="Module tables" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to python-casacore’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2009, Malte Marquarding, Ger van Diepen.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
