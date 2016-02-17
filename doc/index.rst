@@ -6,7 +6,7 @@ Welcome to python-casacore's documentation!
 ===========================================
 
 `python-casacore <https://github.com/casacore/python-casacore>`_ is a python
-binding to the `casacore <http://casacore.googlecode.com>`_ library.
+binding to the `casacore <https://github.com/casacore/casacore>`_ library.
 It consists of the following modules:
 
 :mod:`casacore.util`
