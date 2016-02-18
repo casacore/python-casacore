@@ -6,7 +6,7 @@ a c++ library used in radio astronomy. Python-casacore replaces the old
 `pyrap <https://code.google.com/p/pyrap/>`_.
 
 
-The python-casacore documentation can be found on `readthedocs <http://python-casacore.readthedocs.org/>`_.
+The python-casacore documentation can be found on `casacore.github.io/python-casacore <http://casacore.github.io/python-casacore>`_.
 
 .. image:: https://travis-ci.org/casacore/python-casacore.svg?branch=master
     :target: https://travis-ci.org/casacore/python-casacore
