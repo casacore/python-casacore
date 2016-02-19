@@ -6,10 +6,27 @@ import os
 import sys
 from setuptools import setup, Extension, find_packages
 from distutils.sysconfig import get_config_vars
+from distutils import ccompiler
+import argparse
 from ctypes.util import find_library
 
 from casacore import __version__
 
+def find_library_file(libname):
+    ''' Try to get the directory of the specified library.
+    It adds to the search path the library paths given to distutil's build_ext.
+    This is not guaranteed to work, but should give the correct directory
+    for most configurations. Should be used only for dependency tracking.
+    '''
+    # Use a dummy argument parser to get user specified library dirs
+    parser=argparse.ArgumentParser(add_help=False)
+    parser.add_argument("--library-dirs", "-L", default='')
+    args, unknown = parser.parse_known_args()
+    user_libdirs=args.library_dirs.split(':')
+    # Append default search path (not a complete list)
+    libdirs=user_libdirs+['/usr/local/lib','/usr/lib']
+    compiler=ccompiler.new_compiler()
+    return compiler.find_library_file(libdirs,libname)
 
 # remove the strict-prototypes warning during compilation
 (opt,) = get_config_vars('OPT')
@@ -84,13 +101,26 @@ extension_metas = (
     )
 )
 
+# Find casacore libpath
+found_casacore_libraries=True;
+if not find_library_file('casa_casa'):
+    print("Warning: could not find casa library dir for dependency tracking")
+    found_casacore_libraries=False
 
 extensions = []
 for meta in extension_metas:
     name, sources, depends, libraries = meta
+
+    # Add dependency on casacore libraries to trigger rebuild at casacore update
+    if found_casacore_libraries:
+        for library in libraries:
+            if 'casa' in library:
+                found_lib=find_library_file(library)
+                if found_lib:
+                    depends=depends+[found_lib]
+
     extensions.append(Extension(name=name, sources=sources, depends=depends,
                                 libraries=libraries))
-
 
 setup(name='python-casacore',
       version=__version__,
