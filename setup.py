@@ -104,7 +104,8 @@ extension_metas = (
 # Find casacore libpath
 found_casacore_libraries=True;
 if not find_library_file('casa_casa'):
-    print("Warning: could not find casa library dir for dependency tracking")
+    print("Warning: could not find casa library dir for dependency tracking.")
+    print("Possibly not rebuilding. Specify --force to force a rebuild.")
     found_casacore_libraries=False
 
 extensions = []
