@@ -160,7 +160,7 @@ class measures(_measures):
         offset, which in itself has to be a position.
         Note that additional ones may become available. Check with::
 
-            dm.listcodes(dm.position())
+            dm.list_codes(dm.position())
 
         The position quantity values should be either longitude (angle),
         latitude(angle) and height(length); or x,y,z (length). See
@@ -203,7 +203,7 @@ class measures(_measures):
                    TDB TCB*
                    Note that additional ones may become available. Check with::
 
-                       dm.listcodes(dm.position())
+                       dm.list_codes(dm.position())
 
         :param v0: time as quantity or string
         :param off: an optional offset measure of same type
@@ -228,7 +228,7 @@ class measures(_measures):
                    codes are: *REST LSRK LSRD BARY GEO TOPO GALACTO*
                    Note that additional ones may become available. Check with::
 
-                       dm.listcodes(dm.frequency())
+                       dm.list_codes(dm.frequency())
 
         :param v0: frequency value as quantity or string. The frequency
                    quantity values should be in one of the recognised units
@@ -265,7 +265,7 @@ class measures(_measures):
                    codes are: *RADIO OPTICAL Z RATIO RELATIVISTIC BETA GAMMA*.
                    Note that additional ones may become available. Check with::
 
-                       dm.listcodes(dm.doppler())
+                       dm.list_codes(dm.doppler())
 
         :param v0: doppler ratio as quantity, string or float value. It
                    should be either non-dimensioned to specify a ratio of
@@ -304,7 +304,7 @@ class measures(_measures):
                    codes are: *LSRK LSRD BARY GEO TOPO GALACTO*
                    Note that additional ones may become available. Check with::
 
-                       dm.listcodes(dm.radialvelocity())
+                       dm.list_codes(dm.radialvelocity())
 
         :param v0: longitude or x as quantity or string
         :param off: an optional offset measure of same type
@@ -330,7 +330,7 @@ class measures(_measures):
                    codes are: *ITRF* and :meth:`direction` codes
                    Note that additional ones may become available. Check with::
 
-                       dm.listcodes(dm.baseline())
+                       dm.list_codes(dm.baseline())
 
 
         :param v0: longitude or x as quantity or string
@@ -359,7 +359,7 @@ class measures(_measures):
                    codes are: *ITRF* and :meth:`direction` codes
                    Note that additional ones may become available. Check with::
 
-                       dm.listcodes(dm.uvw())
+                       dm.list_codes(dm.uvw())
 
 
         :param v0: longitude or x as quantity or string
