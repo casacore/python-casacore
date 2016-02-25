@@ -7,7 +7,7 @@ Module :mod:`casacore.measures`
 Introduction
 ============
 
-This is a python bindings to
+This is a python binding to
 `casacore measures <../../casacore/doc/html/group__Measures__module.html>`_
 
 A measure is a quantity with a specified reference frame (e.g. *UTC*, *J2000*,

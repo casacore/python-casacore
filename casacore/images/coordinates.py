@@ -243,7 +243,7 @@ class directioncoordinate(coordinate):
 
     def set_frame(self, val):
         # maybe uses measures here
-        #dm = measures();knonwframes = dm.listcodes(dm.direction())["normal"]
+        #dm = measures();knonwframes = dm.list_codes(dm.direction())["normal"]
         knownframes = ["GALACTIC", "J2000", "B1950", "SUPERGAL"] # etc
         assert val.upper() in knownframes
         self._coord["system"] = val.upper()
@@ -292,7 +292,7 @@ class spectralcoordinate(coordinate):
 
     def set_frame(self, val):
         # maybe uses measures here
-        #dm = measures();knonwframes = dm.listcodes(dm.frequency())["normal"]
+        #dm = measures();knonwframes = dm.list_codes(dm.frequency())["normal"]
         knownframes = ["BARY", "LSRK", "TOPO"] 
         assert val.upper() in knownframes
         self._coord["system"] = val.upper()
