@@ -34,3 +34,7 @@ class TestQuanta(unittest.TestCase):
         print q3.formatted("ANGLE")
         print q3.to_string("%0.3f")
 
+        self.assertIn('Jy', units)
+        self.assertEqual(units['Jy'], ['jansky', quantity(1e-26, 'kg.s-2')])
+        self.assertIn('a',prefixes)
+        self.assertEqual(prefixes['a'],['atto',1e-18])
