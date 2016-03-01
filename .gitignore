@@ -8,3 +8,6 @@ casacore/*/_*.so
 python_casacore.egg-info/
 casacore.egg-info/
 *~
+.coverage
+.virtualenv/
+.virtualenv3/
