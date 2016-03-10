@@ -591,7 +591,9 @@ def tablecopy(tablename, newtablename, deep=False, valuecopy=False, dminfo={},
 
     """
     t = table(tablename, ack=False)
-    return t.copy (newtablename, deep=deep, valuecopy=valuecopy)
+    return t.copy (newtablename, deep=deep, valuecopy=valuecopy,
+                   dminfo=dminfo, endian=endian, memorytable=memorytable,
+                   copynorows=copynorows)
 
 
 def tablerename(tablename, newtablename):
