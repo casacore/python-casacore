@@ -56,6 +56,10 @@ square brackets is optional. There are examples after the list.
     * dd[-]mmm[-][cc]yy[/time] - gives the UTC time at the specified instant
                                  in calendar style notation (23-jun-1999)
 
+All possible units are visible in the dict `casacore.quanta.constants.units`,
+and all possible prefixes (all SI prefixes) are in the dict 
+`casacore.quanta.constants.prefixes`.
+
 Note that the standard unit for degrees is 'deg', and for days 'd'. Formatting
 is done in such a way that it interprets a 'd' as degrees if preceded by a
 value without a period and if any value following it is terminated with an 'm'.

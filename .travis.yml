@@ -10,7 +10,8 @@ before_install:
 - sudo apt-get update -qq
 - sudo apt-get install libcasacore2-dev casacore-data
 install:
-- python setup.py develop
+- pip install -r test_requirements.txt
+- pip install -e .
 script:
 - nosetests
 deploy:
