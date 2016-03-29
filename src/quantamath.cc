@@ -69,7 +69,7 @@ namespace casacore {
                  (CASACORE_MINOR_VERSION>0 || (CASACORE_MINOR_VERSION==0 \
                          && CASACORE_PATCH_VERSION>3)))
         // Use the getter introduced in casacore 2.0.4
-        unitdesc.append(i->second).getFullName();
+        unitdesc.append((i->second).getFullName());
 #else
         // Do the same thing with some string parsing (yuk)
         oss << i->second;
