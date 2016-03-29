@@ -1,33 +1,44 @@
-language: generic
+language: python
 sudo: required
-os:
-  - linux
-  - osx
-env:
-  - CASACORE=20
-  - CASACORE=21
-matrix:
- exclude:
-   - os: osx
-     env: CASACORE=20
 dist: trusty
+python:
+ - 2.6
+ - 2.7
+env:
+ - CASACORE=20
+ - CASACORE=21
+matrix:
+ include:
+  - os: osx
+    language: generic
+    env: CASACORE=21
+    python: 3.5
+  - os: linux
+    language: python
+    env: CASACORE=21
+    python: 3.4
+  - os: linux
+    language: python
+    env: CASACORE=21
+    python: 3.5
+
 before_install:
-- .travis/before_install.sh
+ - .travis/before_install.sh
 install:
-- sudo pip install -r test_requirements.txt
-- sudo pip install -e .
+ - pip install -r test_requirements.txt
+ - pip install -e .
 script:
-- nosetests
+ - nosetests
 deploy:
-  provider: pypi
-  user: gijzelaerr
-  password:
-    secure: cdrrma3XaFjtv4lHvag6dfhSbKBF8iLmVgPQEjXP8qa+WxHnkHObkyraYAFGqThDY/0lBdrBm7Og6l1JfAcSA2BjdPQYxujP8KEoVicPwlgwEJ5LZo4HqympWVk33APvbcYNw7K/CwEXNJCCD1tDiO4pdwkPAWuKlnYUVfZq2yI=
-  on:
-    tags: true
-    repo: casacore/python-casacore
+ provider: pypi
+ user: gijzelaerr
+ password:
+  secure: cdrrma3XaFjtv4lHvag6dfhSbKBF8iLmVgPQEjXP8qa+WxHnkHObkyraYAFGqThDY/0lBdrBm7Og6l1JfAcSA2BjdPQYxujP8KEoVicPwlgwEJ5LZo4HqympWVk33APvbcYNw7K/CwEXNJCCD1tDiO4pdwkPAWuKlnYUVfZq2yI=
+ on:
+  tags: true
+  repo: casacore/python-casacore
 notifications:
   webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/08a570c12a3afa37d8e2
+   urls:
+    - https://webhooks.gitter.im/e/08a570c12a3afa37d8e2
 
