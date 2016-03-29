@@ -776,7 +776,7 @@ class table(Table):
     def isvarcol (self, columnname):
         """Tell if the column holds variable shaped arrays."""
         desc = self.getcoldesc(columnname);
-        return desc.has_key('ndim') and not desc.has_key('shape');
+        return 'ndim' in desc and not 'shape' in desc
 
     def coldatatype (self, columnname):
         """Get the data type of a column.
@@ -1127,12 +1127,12 @@ class table(Table):
         """
         tdesc = desc
         # Create a tabdesc if only a coldesc is given.
-        if desc.has_key('name'):
+        if 'name' in desc:
             import casacore.tables.tableutil
-            if len(desc)==2 and desc.has_key('desc'):
+            if len(desc)==2 and 'desc' in desc:
                 # Given as output from makecoldesc
                 tdesc = casacore.tables.tableutil.maketabdesc(desc);
-            elif desc.has_key('valueType'):
+            elif 'valueType' in desc:
             # Given as output of getcoldesc (with a name field added)
                 cd = casacore.tables.tableutil.makecoldesc (desc['name'], desc)
                 tdesc = casacore.tables.tableutil.maketabdesc(cd)
@@ -1437,7 +1437,7 @@ class table(Table):
         if columnname is None:
             return dminfo
         # Find the info for the given column
-        for fld in dminfo.itervalues():
+        for fld in dminfo.values():
             if columnname in fld["COLUMNS"]:
                 fldc = fld.copy();
                 del fldc['COLUMNS']     # remove COLUMNS field

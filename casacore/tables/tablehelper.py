@@ -25,6 +25,8 @@
 #
 # $Id: tableutil.py,v 1.6 2006/11/08 00:12:55 gvandiep Exp $
 
+from casacore.six import PY2
+
 
 # A keywordset in a table can hold tables, but it is not possible to
 # pass them around because a ValueHolder cannot deal with it.
@@ -107,7 +109,7 @@ def _value_type_name (value):
         return 'boolean'
     if isinstance(value, int):
         return 'integer'
-    if isinstance(value, long):
+    if PY2 and isinstance(value, long):
         return 'integer'
     if isinstance(value, float):
         return 'double'

@@ -472,7 +472,7 @@ def maketabdesc (descs=[]):
         descs = [descs]
     for desc in descs:
         colname = desc['name']
-        if rec.has_key(colname):
+        if colname in rec:
             raise ValueError('Column name ' + colname + ' multiply used in table description')
         rec[colname] = desc['desc']
     return rec
@@ -538,7 +538,7 @@ def tabledefinehypercolumn (tabdesc,
         rec['HCcoordnames'] = coordcolumns
     if not isinstance(idcolumns, bool):
         rec['HCidnames'] = idcolumns
-    if not tabdesc.has_key('_define_hypercolumn_'):
+    if not '_define_hypercolumn_' in tabdesc:
         tabdesc['_define_hypercolumn_'] = {}
     tabdesc['_define_hypercolumn_'][name] = rec
 
