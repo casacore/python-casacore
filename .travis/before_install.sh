@@ -5,20 +5,19 @@ set -v
 
 if [ "$TRAVIS_OS_NAME" = linux ]; then
     sudo apt-get update 
-    sudo apt-get install software-properties-common python-setuptools libboost-python-dev libcfitsio3-dev python-pip python-numpy python3-numpy
+    sudo apt-get install -y software-properties-common python-setuptools libboost-python-dev libcfitsio3-dev
     sudo add-apt-repository -y ppa:radio-astro/main
-    sudo add-apt-repository "deb http://us.archive.ubuntu.com/ubuntu $(lsb_release -sc) restricted multiverse"
+    sudo add-apt-repository -y "deb http://us.archive.ubuntu.com/ubuntu $(lsb_release -sc) restricted multiverse"
     sudo apt-get update 
     if [ "$CASACORE" = 20 ]; then
-        sudo apt-get install libcasacore2-dev casacore-data
+        sudo apt-get install -y libcasacore2-dev casacore-data
     elif [ "$CASACORE" = 21 ]; then
-        sudo apt-get install libcasacore21-dev casacore-data
+        sudo apt-get install -y libcasacore21-dev casacore-data
     fi
-    sudo pip install --upgrade pip
 fi
 
 if [ "$TRAVIS_OS_NAME" = osx ]; then
-    brew update 
+    brew update > /dev/null
     brew tap homebrew/science
     brew tap ska-sa/tap
     brew install cfitsio wcslib fftw hdf5 ccache
