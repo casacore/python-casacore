@@ -96,7 +96,7 @@ class fitserver(object):
     def _gettype(self, ftype):
         if isinstance(ftype, str):
             ftype = ftype.lower()
-            if not self._typeids.has_key(ftype):
+            if not ftype in self._typeids:
                 raise TypeError("Illegal fitting type")
             else:
                 return self._typeids[ftype]
@@ -108,7 +108,7 @@ class fitserver(object):
         return ftype
 
     def _settype(self, ftype=0):
-        for k, v in self._typeids.iteritems():
+        for k, v in self._typeids.items():
             if ftype == v:
                 return k
         return "real"
@@ -116,7 +116,7 @@ class fitserver(object):
     def _checkid(self, fid=0):
         if not (0 <= fid < len(self._fitids)
                 and isinstance(self._fitids[fid], dict)
-                and self._fitids[fid].has_key("stat")
+                and "stat" in self._fitids[fid]
                 and isinstance(self._fitids[fid]["stat"], dict)):
             raise ValueError("fit id out of range")
 
@@ -125,7 +125,7 @@ class fitserver(object):
 
     def  _getstate(self, fid):
         d = self._fitproxy.getstate(fid)
-        if d.has_key("typ"):
+        if "typ" in d:
             d["typ"] = self._settype(d["typ"])
         return d
 
@@ -208,7 +208,7 @@ class fitserver(object):
     def addconstraint(self, x, y=0, fnct=None, fid=0):
         self._checkid(fid)
         i = 0
-        if self._fitids[fid].has_key("constraint"):
+        if "constraint" in self._fitids[fid].has_key:
             i = len(self._fitids[fid]["constraint"])
         else:
             self._fitids[fid]["constraint"] = {}
@@ -309,7 +309,7 @@ class fitserver(object):
         kw["x"] = self._as_array(x, dtype)
         kw["y"] = self._as_array(y, dtype)
         kw["wt"] = self._as_array(wt, dtype)
-        if not self._fitids[fid].has_key("constraint"):
+        if not "constraint" in self._fitids[fid]:
             self._fitids[fid]["constraint"] = {}
         kw["constraint"] =  self._fitids[fid]["constraint"]
         func = getattr(self._fitproxy, ftype)

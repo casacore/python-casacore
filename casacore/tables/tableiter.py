@@ -69,3 +69,5 @@ class tableiter(TableIter):
     def reset (self):
         """Reset the iterator to the beginning."""
         self._reset();
+
+    __next__ = next
