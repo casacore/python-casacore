@@ -143,6 +143,7 @@ setup(name='python-casacore',
       url='https://github.com/casacore/python-casacore',
       keywords=['pyrap', 'casacore', 'utilities', 'astronomy'],
       long_description=read('README.rst'),
+      install_requires=['numpy', 'setuptools'],
       packages=find_packages(),
       ext_modules=extensions,
       license='GPL')
