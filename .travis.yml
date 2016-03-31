@@ -9,18 +9,20 @@ env:
  - CASACORE=21
 matrix:
  include:
-  - os: osx
-    language: generic
-    env: CASACORE=21
-    python: 3.5
+  # TODO: https://github.com/casacore/python-casacore/issues/54
+  #- os: osx
+  #  language: generic
+  #  env: CASACORE=21
+  #  python: 3.5
   - os: linux
     language: python
     env: CASACORE=21
     python: 3.4
-  - os: linux
-    language: python
-    env: CASACORE=21
-    python: 3.5
+  # TODO: https://github.com/casacore/python-casacore/issues/59
+  #- os: linux
+  #  language: python
+  #  env: CASACORE=21
+  #  python: 3.5
 
 before_install:
  - .travis/before_install.sh
