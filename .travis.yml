@@ -27,8 +27,8 @@ matrix:
 before_install:
  - .travis/before_install.sh
 install:
- - pip install -r test_requirements.txt
- - pip install -e .
+ - python setup.py develop
+ - pip install -r tests/requirements.txt
 script:
  - nosetests
 deploy:
