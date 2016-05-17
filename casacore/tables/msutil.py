@@ -25,12 +25,10 @@
 #
 
 import numpy as np
-
-from casacore.tables.table import table, taql
-from casacore.tables.tableutil import makescacoldesc, makearrcoldesc,\
-    makecoldesc, maketabdesc
 from casacore import six
-
+from casacore.tables.table import table, taql
+from casacore.tables.tableutil import makescacoldesc, makearrcoldesc, \
+    makecoldesc, maketabdesc
 
 
 def addImagingColumns(msname, ack=True):
@@ -46,7 +44,7 @@ def addImagingColumns(msname, ack=True):
     # numpy is needed
     import numpy as np
     # Open the MS
-    t = table (msname, readonly=False, ack=False)
+    t = table(msname, readonly=False, ack=False)
     cnames = t.colnames()
     # Get the description of the DATA column.
     try:
@@ -63,14 +61,14 @@ def addImagingColumns(msname, ack=True):
         hasTiled = False
     # Use TiledShapeStMan if needed.
     if not hasTiled:
-        dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE':[4,32,128]}}
+        dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE': [4, 32, 128]}}
     # Add the columns (if not existing). Use the description of the DATA column.
     if 'MODEL_DATA' in cnames:
         six.print_("Column MODEL_DATA not added; it already exists")
     else:
         dminfo['NAME'] = 'modeldata'
         cdesc['comment'] = 'The model data column'
-        t.addcols (maketabdesc(makecoldesc('MODEL_DATA', cdesc)), dminfo)
+        t.addcols(maketabdesc(makecoldesc('MODEL_DATA', cdesc)), dminfo)
         if ack:
             six.print_("added column MODEL_DATA")
     if 'CORRECTED_DATA' in cnames:
@@ -78,7 +76,7 @@ def addImagingColumns(msname, ack=True):
     else:
         dminfo['NAME'] = 'correcteddata'
         cdesc['comment'] = 'The corrected data column'
-        t.addcols (maketabdesc(makecoldesc('CORRECTED_DATA', cdesc)), dminfo)
+        t.addcols(maketabdesc(makecoldesc('CORRECTED_DATA', cdesc)), dminfo)
         if ack:
             six.print_("'added column CORRECTED_DATA")
     if 'IMAGING_WEIGHT' in cnames:
@@ -90,42 +88,44 @@ def addImagingColumns(msname, ack=True):
         if cdesc.has_key('shape'):
             shp = cdesc['shape']
         if len(shp) > 0:
-            shp = [shp[0]]                        # use nchan from shape
+            shp = [shp[0]]  # use nchan from shape
         else:
-            shp = [t.getcell('DATA',0).shape[0]]  # use nchan from actual data
-        cd = makearrcoldesc ('IMAGING_WEIGHT', 0, ndim=1, shape=shp,
-                             valuetype='float')
-        dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE':[32,128]}}
+            shp = [t.getcell('DATA', 0).shape[0]]  # use nchan from actual data
+        cd = makearrcoldesc('IMAGING_WEIGHT', 0, ndim=1, shape=shp,
+                            valuetype='float')
+        dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE': [32, 128]}}
         dminfo['NAME'] = 'imagingweight'
-        t.addcols (maketabdesc(cd), dminfo)
+        t.addcols(maketabdesc(cd), dminfo)
         if ack:
             six.print_("added column IMAGING_WEIGHT")
     # Add or overwrite keyword CHANNEL_SELECTION.
     if 'CHANNEL_SELECTION' in t.colkeywordnames('MODEL_DATA'):
-        t.removecolkeyword ('MODEL_DATA', 'CHANNEL_SELECTION')
+        t.removecolkeyword('MODEL_DATA', 'CHANNEL_SELECTION')
     # Define the CHANNEL_SELECTION keyword containing the channels of
     # all spectral windows.
     tspw = table(t.getkeyword('SPECTRAL_WINDOW'), ack=False)
     nchans = tspw.getcol('NUM_CHAN')
-    chans = [[0,nch] for nch in nchans]
-    t.putcolkeyword ('MODEL_DATA', 'CHANNEL_SELECTION', np.int32(chans))
+    chans = [[0, nch] for nch in nchans]
+    t.putcolkeyword('MODEL_DATA', 'CHANNEL_SELECTION', np.int32(chans))
     if ack:
         six.print_("defined keyword CHANNEL_SELECTION in column MODEL_DATA")
     # Flush the table to make sure it is written.
     t.flush()
 
-def removeImagingColumns (msname):
+
+def removeImagingColumns(msname):
     # Open the MS
-    t = table (msname, readonly=False, ack=False)
+    t = table(msname, readonly=False, ack=False)
     # Remove if the column exists.
     cnames = t.colnames()
     removeNames = []
     for col in ['MODEL_DATA', 'CORRECTED_DATA', 'IMAGING_WEIGHT']:
         if col in cnames:
-            removeNames.append (col)
+            removeNames.append(col)
     if len(removeNames) > 0:
-        t.removecols (removeNames)
+        t.removecols(removeNames)
         t.flush()
+
 
 def addDerivedMSCal(msname):
     """ Add the derived columns like HA to an MS or CalTable
@@ -139,7 +139,7 @@ def addDerivedMSCal(msname):
     """
 
     # Open the MS
-    t = table (msname, readonly=False, ack=False)
+    t = table(msname, readonly=False, ack=False)
     colnames = t.colnames()
     # Check that the columns needed by DerivedMSCal are present.
     # Note that ANTENNA2 and FEED2 are not required.
@@ -154,26 +154,27 @@ def addDerivedMSCal(msname):
     descs = []
     # Define the columns and their units.
     for col in scols1:
-        descs.append (makescacoldesc(col, 0.,
-                                     keywords={"QuantumUnits": ["rad"]}))
+        descs.append(makescacoldesc(col, 0.,
+                                    keywords={"QuantumUnits": ["rad"]}))
     for col in scols2:
-        descs.append (makescacoldesc(col, 0.,
-                                     keywords={"QuantumUnits": ["d"]}))
+        descs.append(makescacoldesc(col, 0.,
+                                    keywords={"QuantumUnits": ["d"]}))
     for col in acols1:
-        descs.append (makearrcoldesc(col, 0.,
-                                     keywords={"QuantumUnits": ["rad","rad"]}))
+        descs.append(makearrcoldesc(col, 0.,
+                                    keywords={"QuantumUnits": ["rad", "rad"]}))
     for col in acols2:
-        descs.append (makearrcoldesc(col, 0.,
-                                     keywords={"QuantumUnits": ["m","m","m"],
-                                               "MEASINFO": {"Ref": "J2000",
-                                                            "type": "uvw"}}))
+        descs.append(makearrcoldesc(col, 0.,
+                                    keywords={"QuantumUnits": ["m", "m", "m"],
+                                              "MEASINFO": {"Ref": "J2000",
+                                                           "type": "uvw"}}))
     # Add all columns using DerivedMSCal as data manager.
     dminfo = {"TYPE": "DerivedMSCal", "NAME": "", "SPEC": {}}
-    t.addcols (maketabdesc(descs), dminfo)
+    t.addcols(maketabdesc(descs), dminfo)
     # Flush the table to make sure it is written.
     t.flush()
 
-def removeDerivedMSCal (msname):
+
+def removeDerivedMSCal(msname):
     """ Remove the derived columns like HA from an MS or CalTable
 
     It removes the columns using the data manager DerivedMSCal.
@@ -185,15 +186,16 @@ def removeDerivedMSCal (msname):
     """
 
     # Open the MS
-    t = table (msname, readonly=False, ack=False)
+    t = table(msname, readonly=False, ack=False)
     # Remove the columns stored as DerivedMSCal.
     dmi = t.getdminfo()
     for x in dmi.itervalues():
         if x['TYPE'] == 'DerivedMSCal':
-            t.removecols (x['COLUMNS'])
+            t.removecols(x['COLUMNS'])
     t.flush()
 
-def msconcat (names, newname, concatTime=False):
+
+def msconcat(names, newname, concatTime=False):
     """Virtually concatenate multiple MeasurementSets
 
     Multiple MeasurementSets are concatenated into a single MeasurementSet.
@@ -245,7 +247,7 @@ def msconcat (names, newname, concatTime=False):
         else:
             tn = table(names)
         t.close()
-        tn.rename (newname)
+        tn.rename(newname)
         return
     # First concatenate the given tables as another table.
     # The SPECTRAL_WINDOW and DATA_DESCRIPTION subtables are concatenated
@@ -254,74 +256,76 @@ def msconcat (names, newname, concatTime=False):
     # them fails due to the rename of the main table.
     tn = table(names)
     tdesc = tn.getdesc()
-    tn.rename (newname + '_CONCAT')
+    tn.rename(newname + '_CONCAT')
     tn.flush()
     # Now create a table where all columns forward to the concatenated table,
     # but create a stored column for the data description id, because it has
     # to be changed.
     # The new column is filled at the end.
-    tnew = table(newname, tdesc, nrow=tn.nrows(), dminfo={'1':{'TYPE':'ForwardColumnEngine', 'NAME':'ForwardData', 'COLUMNS':tn.colnames(), 'SPEC':{'FORWARDTABLE':tn.name()}}})
+    tnew = table(newname, tdesc, nrow=tn.nrows(), dminfo={
+        '1': {'TYPE': 'ForwardColumnEngine', 'NAME': 'ForwardData', 'COLUMNS': tn.colnames(),
+              'SPEC': {'FORWARDTABLE': tn.name()}}})
     # Remove the DATA_DESC_ID column and recreate it in a stored way.
-    tnew.removecols ('DATA_DESC_ID')
-    tnew.addcols (makecoldesc('DATA_DESC_ID', tdesc['DATA_DESC_ID']),
-                  dminfo={'TYPE':'IncrementalStMan', 'NAME':'DDID', 'SPEC':{}})
+    tnew.removecols('DATA_DESC_ID')
+    tnew.addcols(makecoldesc('DATA_DESC_ID', tdesc['DATA_DESC_ID']),
+                 dminfo={'TYPE': 'IncrementalStMan', 'NAME': 'DDID', 'SPEC': {}})
     # Copy the table keywords.
     keywords = tn.getkeywords()
-    tnew.putkeywords (keywords)
+    tnew.putkeywords(keywords)
     # Copy all column keywords.
     for col in tn.colnames():
-        tnew.putcolkeywords (col, tn.getcolkeywords(col))
+        tnew.putcolkeywords(col, tn.getcolkeywords(col))
     # Make a deep copy of all subtables (except SORTED_TABLE).
     for key in keywords:
         if key != 'SORTED_TABLE':
             val = keywords[key]
             if isinstance(val, str):
                 tsub = table(val, ack=False)
-                tsubn = tsub.copy (newname + '/' + key, deep=True)
-                tnew.putkeyword (key, tsubn)
+                tsubn = tsub.copy(newname + '/' + key, deep=True)
+                tnew.putkeyword(key, tsubn)
     tnew.flush()
     # Now we have to take care that the subbands are numbered correctly.
     # The DATA_DESCRIPTION and SPECTRAL_WINDOW subtables are concatenated.
     # The ddid in the main table and spwid in DD subtable have to be updated.
-    tnewdd  = table(tnew.getkeyword('DATA_DESCRIPTION'), readonly=False, ack=False)
+    tnewdd = table(tnew.getkeyword('DATA_DESCRIPTION'), readonly=False, ack=False)
     tnewspw = table(tnew.getkeyword('SPECTRAL_WINDOW'), readonly=False, ack=False)
-    nrdd   = 0
-    nrspw  = 0
+    nrdd = 0
+    nrspw = 0
     nrmain = 0
     useChanSel = True
     for name in names:
         t = table(name, ack=False)
-        tdd  = table(t.getkeyword('DATA_DESCRIPTION'), ack=False)
+        tdd = table(t.getkeyword('DATA_DESCRIPTION'), ack=False)
         tspw = table(t.getkeyword('SPECTRAL_WINDOW'), ack=False)
         # The first table already has its subtable copied.
         # Append the subtables of the other ones.
         if nrdd > 0:
-            tnewdd.addrows (tdd.nrows())
+            tnewdd.addrows(tdd.nrows())
             for i in range(tdd.nrows()):
-                tnewdd[nrdd+i] = tdd[i]        # copy row i
-            tnewspw.addrows (tspw.nrows())
+                tnewdd[nrdd + i] = tdd[i]  # copy row i
+            tnewspw.addrows(tspw.nrows())
             for i in range(tspw.nrows()):
-                tnewspw[nrspw+i] = tspw[i]
-        tnewdd.putcol ('SPECTRAL_WINDOW_ID',
-                       tdd.getcol('SPECTRAL_WINDOW_ID') + nrspw,
-                       nrdd, tdd.nrows())
-        tnew.putcol ('DATA_DESC_ID',
-                     t.getcol('DATA_DESC_ID') + nrdd,
-                     nrmain, t.nrows())
+                tnewspw[nrspw + i] = tspw[i]
+        tnewdd.putcol('SPECTRAL_WINDOW_ID',
+                      tdd.getcol('SPECTRAL_WINDOW_ID') + nrspw,
+                      nrdd, tdd.nrows())
+        tnew.putcol('DATA_DESC_ID',
+                    t.getcol('DATA_DESC_ID') + nrdd,
+                    nrmain, t.nrows())
         nrdd += tdd.nrows()
         nrspw += tspw.nrows()
         nrmain += t.nrows()
     # Overwrite keyword CHANNEL_SELECTION.
     if 'MODEL_DATA' in tnew.colnames():
         if 'CHANNEL_SELECTION' in tnew.colkeywordnames('MODEL_DATA'):
-            tnew.removecolkeyword ('MODEL_DATA', 'CHANNEL_SELECTION')
+            tnew.removecolkeyword('MODEL_DATA', 'CHANNEL_SELECTION')
             # Define the CHANNEL_SELECTION keyword containing the channels of
             # all spectral windows.
             tspw = table(tnew.getkeyword('SPECTRAL_WINDOW'), ack=False)
             nchans = tspw.getcol('NUM_CHAN')
-            chans = [[0,nch] for nch in nchans]
-            tnew.putcolkeyword ('MODEL_DATA', 'CHANNEL_SELECTION',
-                                np.int32(chans))
+            chans = [[0, nch] for nch in nchans]
+            tnew.putcolkeyword('MODEL_DATA', 'CHANNEL_SELECTION',
+                               np.int32(chans))
     # Future work:
     #   If SOURCE subtables have to concatenated, the FIELD and DOPPLER
     #   have to be dealt with as well.
@@ -334,7 +338,8 @@ def msconcat (names, newname, concatTime=False):
     # Flush the table and subtables.
     tnew.flush(True)
 
-def msregularize (msname, newname):
+
+def msregularize(msname, newname):
     """ Regularize an MS
 
     The output MS will be such that it has the same number of baselines
@@ -355,7 +360,7 @@ def msregularize (msname, newname):
     t1 = t.sort('unique ANTENNA1,ANTENNA2')
     nadded = 0
     # Now iterate in time,band over the MS.
-    for tsub in t.iter(['TIME','DATA_DESC_ID']):
+    for tsub in t.iter(['TIME', 'DATA_DESC_ID']):
         nmissing = t1.nrows() - tsub.nrows()
         if nmissing < 0:
             raise ValueError("A time/band chunk has too many rows")
@@ -366,38 +371,38 @@ def msregularize (msname, newname):
             ant1 = tsub.getcol('ANTENNA1')
             ant2 = tsub.getcol('ANTENNA2')
             t2 = taql('select from $t1 where !any(ANTENNA1 == $ant1 && ANTENNA2 == $ant2)')
-            six.print_(nmissing, t1.nrows(),tsub.nrows(), t2.nrows())
+            six.print_(nmissing, t1.nrows(), tsub.nrows(), t2.nrows())
             if t2.nrows() != nmissing:
                 raise ValueError("A time/band chunk behaves strangely")
             # If nothing added yet, create a new table.
             # (which has to be reopened for read/write).
             # Otherwise append to that new table.
             if nadded == 0:
-                tnew = t2.copy (newname+"_add", deep=True)
-                tnew = table(newname+"_add", readonly=False)
+                tnew = t2.copy(newname + "_add", deep=True)
+                tnew = table(newname + "_add", readonly=False)
             else:
-                t2.copyrows (tnew)
+                t2.copyrows(tnew)
             # Set the correct time and band in the new rows.
-            tnew.putcell ('TIME',
-                          range(nadded, nadded+nmissing),
-                          tsub.getcell('TIME',0))
-            tnew.putcell ('DATA_DESC_ID',
-                          range(nadded, nadded+nmissing),
-                          tsub.getcell('DATA_DESC_ID',0))
+            tnew.putcell('TIME',
+                         range(nadded, nadded + nmissing),
+                         tsub.getcell('TIME', 0))
+            tnew.putcell('DATA_DESC_ID',
+                         range(nadded, nadded + nmissing),
+                         tsub.getcell('DATA_DESC_ID', 0))
             nadded += nmissing
     # Combine the existing table and new table.
     if nadded > 0:
         # First initialize data and flags in the added rows.
-        taql ('update $tnew set DATA=0+0i')
-        taql ('update $tnew set FLAG=True')
-        tcomb = table([t,tnew])
-        tcomb.rename (newname+'_adds')
+        taql('update $tnew set DATA=0+0i')
+        taql('update $tnew set FLAG=True')
+        tcomb = table([t, tnew])
+        tcomb.rename(newname + '_adds')
         tcombs = tcomb.sort('TIME,DATA_DESC_ID,ANTENNA1,ANTENNA2')
     else:
         tcombs = t.query(offset=0)
-    tcombs.rename (newname)
+    tcombs.rename(newname)
     six.print_(newname, 'has been created; it references the original MS')
     if nadded > 0:
-        six.print_('  and', newname+'_adds', 'containing', nadded, 'new rows')
+        six.print_('  and', newname + '_adds', 'containing', nadded, 'new rows')
     else:
         six.print_('  no rows needed to be added')

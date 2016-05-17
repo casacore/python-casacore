@@ -27,7 +27,9 @@
 
 # Make interface to class TableRowProxy available.
 from ._tables import TableRow
+
 from .tablehelper import _check_key_slice
+
 
 # A normal tablerow object keeps a reference to a table object to be able
 # to know the actual number of rows.
@@ -37,17 +39,17 @@ from .tablehelper import _check_key_slice
 
 class _tablerow(TableRow):
     def __init__(self, table, columnnames, exclude=False):
-        TableRow.__init__ (self, table, columnnames, exclude);
-    
+        TableRow.__init__(self, table, columnnames, exclude)
+
     def iswritable(self):
         """Tell if all columns in the row object are writable."""
         return self._iswritable()
 
-    def get (self, rownr):
+    def get(self, rownr):
         """Get the contents of the given row."""
-        return self._get (rownr)
+        return self._get(rownr)
 
-    def put (self, rownr, value, matchingfields=True):
+    def put(self, rownr, value, matchingfields=True):
         """Put the values into the given row.
 
         The value should be a dict (as returned by method :func:`get`.
@@ -58,41 +60,40 @@ class _tablerow(TableRow):
         and only fields matching a column name will be used.
 
         """
-        self._put (rownr, value, matchingfields)
+        self._put(rownr, value, matchingfields)
 
-    def _getitem (self, key, nrows):
-        sei = _check_key_slice (key, nrows, 'tablerow');
-        rownr = sei[0];
+    def _getitem(self, key, nrows):
+        sei = _check_key_slice(key, nrows, 'tablerow')
+        rownr = sei[0]
         if len(sei) == 1:
-            return self.get (rownr);
-        result = [];
-        inx = 0;
+            return self.get(rownr)
+        result = []
+        inx = 0
         while inx < sei[1]:
-            result.append (self.get (rownr));
-            rownr += sei[2];
-            inx   += 1;
-        return result;
-    
-    def _setitem (self, key, value, nrows):
-        sei = _check_key_slice (key, nrows, 'tablerow');
-        rownr = sei[0];
+            result.append(self.get(rownr))
+            rownr += sei[2]
+            inx += 1
+        return result
+
+    def _setitem(self, key, value, nrows):
+        sei = _check_key_slice(key, nrows, 'tablerow')
+        rownr = sei[0]
         if len(sei) == 1:
-            return self.put (rownr, value);
+            return self.put(rownr, value)
         if isinstance(value, dict):
             # The same value is put in all rows.
-            inx = 0;
+            inx = 0
             while inx < sei[1]:
-                self.put (rownr, value, True);
-                rownr += sei[2];
-                inx   += 1;
+                self.put(rownr, value, True)
+                rownr += sei[2]
+                inx += 1
         else:
             # Each row has its own value.
             if len(value) != sei[1]:
                 raise RuntimeError("tablerow slice length differs from value length")
             for val in value:
-                self.put (rownr, val, True);
-                rownr += sei[2];
-
+                self.put(rownr, val, True)
+                rownr += sei[2]
 
 
 class tablerow(_tablerow):
@@ -131,23 +132,24 @@ class tablerow(_tablerow):
         tr.put (1, tr.get(0))   # copy row 0 to row 1
 
     """
+
     def __init__(self, table, columnnames=[], exclude=False):
-        _tablerow.__init__ (self, table, columnnames, exclude);
-        self._table = table;
+        _tablerow.__init__(self, table, columnnames, exclude)
+        self._table = table
 
     def __enter__(self):
         """Function to enter a with block."""
         return self
-        
-    def __exit__ (self, type, value, traceback):
+
+    def __exit__(self, type, value, traceback):
         """Function to exit a with block which flushes the table object."""
         self._table.flush()
 
-    def __len__ (self):
-        return self._table.nrows();
+    def __len__(self):
+        return self._table.nrows()
 
-    def __getitem__ (self, key):
-        return self._getitem (key, self._table.nrows());
+    def __getitem__(self, key):
+        return self._getitem(key, self._table.nrows())
 
-    def __setitem__ (self, key, value):
-        return self._setitem (key, value, self._table.nrows());
+    def __setitem__(self, key, value):
+        return self._setitem(key, value, self._table.nrows())

@@ -27,7 +27,9 @@
 
 # Make interface to class TableIterProxy available.
 from ._tables import TableIter
-from .table import table;
+
+from .table import table
+
 
 class tableiter(TableIter):
     """The Python interface to Casacore table iterators
@@ -51,23 +53,23 @@ class tableiter(TableIter):
     """
 
     def __init__(self, table, columnnames, order='', sort=True):
-        st = sort;
+        st = sort
         if isinstance(sort, bool):
-            st = 'heapsort';
+            st = 'heapsort'
             if not sort:
                 st = 'nosort'
-        TableIter.__init__ (self, table, columnnames, order, st);
-    
-    def __iter__ (self):
-        # __iter__ is needed
-        return self;
+        TableIter.__init__(self, table, columnnames, order, st)
 
-    def next (self):
+    def __iter__(self):
+        # __iter__ is needed
+        return self
+
+    def next(self):
         # next returns a Table object, so turn that into table.
-        return table (self._next(), _oper=3);
-            
-    def reset (self):
+        return table(self._next(), _oper=3)
+
+    def reset(self):
         """Reset the iterator to the beginning."""
-        self._reset();
+        self._reset()
 
     __next__ = next

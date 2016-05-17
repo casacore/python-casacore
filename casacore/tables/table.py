@@ -39,14 +39,15 @@ Several utility functions exist. Important ones are:
 
 """
 
-
 # Make interface to class TableProxy available.
 from ._tables import Table
-from .tablehelper import _add_prefix, _remove_prefix, _do_remove_prefix
+
 from casacore import six
+from .tablehelper import _add_prefix, _remove_prefix, _do_remove_prefix
+
 
 # Execute a TaQL command on a table.
-def taql (command, style='Python', tables=[], globals={}, locals={}):
+def taql(command, style='Python', tables=[], globals={}, locals={}):
     """Execute a TaQL command and return a table object.
 
     A `TaQL <../../casacore/doc/notes/199.html>`_
@@ -81,7 +82,7 @@ def taql (command, style='Python', tables=[], globals={}, locals={}):
 
     """
     # Substitute possible tables given as $name.
-    cmd = command;
+    cmd = command
     # Copy the tables argument and make sure it is a list
     tabs = []
     for tab in tables:
@@ -103,6 +104,7 @@ def taql (command, style='Python', tables=[], globals={}, locals={}):
     if len(result) == 0:
         return tab
     return result['values']
+
 
 # alias
 tablecommand = taql
@@ -254,6 +256,7 @@ class table(Table):
       t = table([t1,t2,t3,t4])               # concatenate 4 tables
 
     """
+
     def __init__(self, tablename, tabledesc=False, nrow=0, readonly=True,
                  lockoptions='default', ack=True, dminfo={}, endian='aipsrc',
                  memorytable=False, concatsubtables=[],
@@ -262,19 +265,19 @@ class table(Table):
         """Open or create a table."""
         if _oper == 1:
             # This is the readascii constructor.
-            tabname = _remove_prefix(tablename);
-            Table.__init__ (self, tabname, tabledesc, nrow, readonly,
-                            lockoptions, ack, dminfo, endian, memorytable,
-                            _columnnames, _datatypes);
+            tabname = _remove_prefix(tablename)
+            Table.__init__(self, tabname, tabledesc, nrow, readonly,
+                           lockoptions, ack, dminfo, endian, memorytable,
+                           _columnnames, _datatypes)
         elif _oper == 2:
             # This is the query or calc constructor.
-            Table.__init__ (self, tablename, tabledesc);
+            Table.__init__(self, tablename, tabledesc)
             if len(self._getcalcresult()) != 0:
                 # Do not make row object for a calc result
                 return
         elif _oper == 3:
             # This is the constructor taking a Table (used by copy).
-            Table.__init__ (self, tablename);
+            Table.__init__(self, tablename)
         else:
             # This is the constructor for a normal table open.
             # It can be done in several forms:
@@ -282,69 +285,73 @@ class table(Table):
             #  - open multiple existing tables (ConcatTable)
             #  - create a new table (PlainTable or MemoryTable)
             #  - concatenate open tables (ConcatTable)
-            tabname = _remove_prefix(tablename);
-            lockopt = lockoptions;
+            tabname = _remove_prefix(tablename)
+            lockopt = lockoptions
             if isinstance(lockoptions, str):
-                lockopt = {'option' : lockoptions};
+                lockopt = {'option': lockoptions}
             if isinstance(tabledesc, dict):
                 # Create a new table.
-                memtype = 'plain';
+                memtype = 'plain'
                 if (memorytable):
-                    memtype = 'memory';
-                Table.__init__ (self, tabname, lockopt, endian,
-                                memtype, nrow, tabledesc, dminfo);
+                    memtype = 'memory'
+                Table.__init__(self, tabname, lockopt, endian,
+                               memtype, nrow, tabledesc, dminfo)
                 if ack:
-                    six.print_('Successful creation of', lockopt['option']+'-locked table', tabname+':', self.ncols(), 'columns,', self.nrows(), 'rows')
+                    six.print_('Successful creation of', lockopt['option'] + '-locked table', tabname + ':',
+                               self.ncols(), 'columns,', self.nrows(), 'rows')
             else:
                 # Deal with existing tables.
                 if not tabname:
                     raise ValueError("No tables or names given")
                 # Open an existing table
-                opt=1
-                typstr = 'readonly';
+                opt = 1
+                typstr = 'readonly'
                 if not readonly:
-                    typstr = 'read/write';
-                    opt = 5;
+                    typstr = 'read/write'
+                    opt = 5
                     if _delete:
-                        opt = 6;
-                if isinstance(tabname,str):
-                    Table.__init__ (self, tabname, lockopt, opt);
+                        opt = 6
+                if isinstance(tabname, str):
+                    Table.__init__(self, tabname, lockopt, opt)
                     if ack:
-                        six.print_('Successful', typstr, 'open of', lockopt['option']+'-locked table', tabname+':', self.ncols(), 'columns,', self.nrows(), 'rows')
-                elif isinstance(tabname[0],str):
+                        six.print_('Successful', typstr, 'open of', lockopt['option'] + '-locked table', tabname + ':',
+                                   self.ncols(), 'columns,', self.nrows(), 'rows')
+                elif isinstance(tabname[0], str):
                     # Concatenate and open named tables.
-                    Table.__init__ (self, tabname, concatsubtables, lockopt, opt)
+                    Table.__init__(self, tabname, concatsubtables, lockopt, opt)
                     if ack:
-                        six.print_('Successful', typstr, 'open of', lockopt['option']+'-locked concatenated tables', tabname,':', self.ncols(), 'columns,', self.nrows(), 'rows')
+                        six.print_('Successful', typstr, 'open of', lockopt['option'] + '-locked concatenated tables',
+                                   tabname, ':', self.ncols(), 'columns,', self.nrows(), 'rows')
                 else:
                     # Concatenate already open tables.
-                    Table.__init__ (self, tabname, concatsubtables, 0, 0, 0)
+                    Table.__init__(self, tabname, concatsubtables, 0, 0, 0)
                     if ack:
-                        six.print_('Successful virtual concatenation of', len(tabname), 'tables:', self.ncols(), 'columns,', self.nrows(), 'rows')
+                        six.print_('Successful virtual concatenation of', len(tabname), 'tables:', self.ncols(),
+                                   'columns,', self.nrows(), 'rows')
         # Create a row object for this table.
         self._makerow()
 
     def __enter__(self):
         """Function to enter a with block."""
         return self
-        
-    def __exit__ (self, type, value, traceback):
+
+    def __exit__(self, type, value, traceback):
         """Function to exit a with block which closes the table object."""
         self.close()
 
-    def _makerow (self):
+    def _makerow(self):
         """Internal method to make its tablerow object."""
-        from .tablerow import _tablerow;
-        self._row = _tablerow (self, []);
-    
-    def __str__ (self):
+        from .tablerow import _tablerow
+        self._row = _tablerow(self, [])
+
+    def __str__(self):
         """Return the table name and the basic statistics"""
-        return _add_prefix (self.name()) + "\n%d rows"%self.nrows() + "\n" + \
-          "%d columns: "%len(self.colnames())+" ".join(self.colnames());
-    
-    def __len__ (self):
+        return _add_prefix(self.name()) + "\n%d rows" % self.nrows() + "\n" + \
+               "%d columns: " % len(self.colnames()) + " ".join(self.colnames())
+
+    def __len__(self):
         """Return the number of rows in the table."""
-        return self._nrows();
+        return self._nrows()
 
     def __getattr__(self, name):
         """Get the tablecolumn object or keyword value.
@@ -383,20 +390,20 @@ class table(Table):
         except:
             pass
         # _ or keys means all keywords.
-        if name == '_'  or  name == 'keys':
+        if name == '_' or name == 'keys':
             return self.getkeywords()
         # Unknown name.
         raise AttributeError("table has no attribute/column/keyword " + name)
 
-    def __getitem__ (self, key):
+    def __getitem__(self, key):
         """Get the values from one or more rows."""
-        return self._row._getitem (key, self.nrows());
+        return self._row._getitem(key, self.nrows())
 
-    def __setitem__ (self, key, value):
+    def __setitem__(self, key, value):
         """Put value into one or more rows."""
-        self._row._setitem (key, value, self.nrows());
+        self._row._setitem(key, value, self.nrows())
 
-    def col (self, columnname):
+    def col(self, columnname):
         """Return a tablecolumn object for the given column.
 
         If multiple operations need to be done on a column, a :class:`tablecolumn`
@@ -413,20 +420,20 @@ class table(Table):
           t.DATA[0:10]   # does the same in an easier way
 
         """
-        from .tablecolumn import tablecolumn;
-        return tablecolumn (self, columnname);
+        from .tablecolumn import tablecolumn
+        return tablecolumn(self, columnname)
 
-    def row (self, columnnames=[], exclude=False):
+    def row(self, columnnames=[], exclude=False):
         """Return a tablerow object which includes (or excludes) the given columns.
 
         :class:`tablerow` makes it possible to get/put values in one or
         more rows.
 
         """
-        from .tablerow import tablerow;
-        return tablerow (self, columnnames, exclude);
+        from .tablerow import tablerow
+        return tablerow(self, columnnames, exclude)
 
-    def iter (self, columnnames, order='', sort=True):
+    def iter(self, columnnames, order='', sort=True):
         """Return a tableiter object.
 
         :class:`tableiter` lets one iterate over a table by returning in each
@@ -448,10 +455,10 @@ class table(Table):
             print ts.nrows()
 
         """
-        from .tableiter import tableiter;
-        return tableiter (self, columnnames, order, sort);
+        from .tableiter import tableiter
+        return tableiter(self, columnnames, order, sort)
 
-    def index (self, columnnames, sort=True):
+    def index(self, columnnames, sort=True):
         """Return a tableindex object.
 
         :class:`tableindex` lets one get the row numbers of the rows holding
@@ -467,10 +474,10 @@ class table(Table):
           print tinx.rownumbers(0)       # print rownrs containing ANTENNA1=0
 
         """
-        from .tableindex import tableindex;
-        return tableindex (self, columnnames, sort);
+        from .tableindex import tableindex
+        return tableindex(self, columnnames, sort)
 
-    def flush (self, recursive=False):
+    def flush(self, recursive=False):
         """Flush the table to disk.
 
         Until a flush or unlock is performed, the results of operations might
@@ -478,9 +485,9 @@ class table(Table):
         | If `recursive=True`, all subtables are flushed as well.
             
         """
-        self._flush (recursive)
+        self._flush(recursive)
 
-    def resync (self):
+    def resync(self):
         """Resync the table object with the file contents.
 
         Usually concurrent access is handled by acquiring read and write locks.
@@ -492,17 +499,17 @@ class table(Table):
         """
         self._resync()
 
-    def close (self):
+    def close(self):
         """Flush and close the table which invalidates the table object."""
-        self._row = 0;
-        self._close();
+        self._row = 0
+        self._close()
 
-    def done (self):
+    def done(self):
         """Flush and close the table which invalidates the table object."""
-        self.close();
+        self.close()
 
-    def toascii (self, asciifile, headerfile='', columnnames=(), sep=' ',
-                 precision=(), usebrackets=True):
+    def toascii(self, asciifile, headerfile='', columnnames=(), sep=' ',
+                precision=(), usebrackets=True):
         """Write the table in ASCII format.
 
         It is approximately the inverse of the from-ASCII-contructor.
@@ -543,21 +550,21 @@ class table(Table):
           t1.toascii ('3c343.txt')               # write selection as ASCII
 
         """
-        msg = self._toascii (asciifile, headerfile, columnnames, sep,
-                             precision, usebrackets)
+        msg = self._toascii(asciifile, headerfile, columnnames, sep,
+                            precision, usebrackets)
         if len(msg) > 0:
             six.print_(msg)
 
-    def rename (self, newtablename):
+    def rename(self, newtablename):
         """Rename the table.
 
         It renames the table and, if needed, adjusts the names of its subtables.
 
         """
-        self._rename (newtablename);
-    
-    def copy (self, newtablename, deep=False, valuecopy=False, dminfo={},
-              endian='aipsrc', memorytable=False, copynorows=False):
+        self._rename(newtablename)
+
+    def copy(self, newtablename, deep=False, valuecopy=False, dminfo={},
+             endian='aipsrc', memorytable=False, copynorows=False):
         """Copy the table and return a table object for the copy.
 
         It copies all data in the columns and keywords.
@@ -594,12 +601,12 @@ class table(Table):
           t2 = t.copy ('new.tab', True, True)    # reorganize storage
 
         """
-        t = self._copy (newtablename, memorytable, deep, valuecopy,
-                        endian, dminfo, copynorows);
+        t = self._copy(newtablename, memorytable, deep, valuecopy,
+                       endian, dminfo, copynorows)
         # copy returns a Table object, so turn that into table.
-        return table(t, _oper=3);
-    
-    def copyrows (self, outtable, startrowin=0, startrowout=-1, nrow=-1):
+        return table(t, _oper=3)
+
+    def copyrows(self, outtable, startrowin=0, startrowout=-1, nrow=-1):
         """Copy the contents of rows from this table to outtable.
 
         The contents of the columns with matching names are copied.
@@ -623,17 +630,17 @@ class table(Table):
           t.copyrows(t)
         
         """
-        self._copyrows (outtable, startrowin, startrowout, nrow)
+        self._copyrows(outtable, startrowin, startrowout, nrow)
 
-    def iswritable (self):
+    def iswritable(self):
         """Return if the table is writable."""
         return self._iswritable()
 
-    def endianformat (self):
+    def endianformat(self):
         """Return the endian format ('little' or 'big') in which the table is written."""
         return self._endianformat()
 
-    def lock (self, write=True, nattempts=0):
+    def lock(self, write=True, nattempts=0):
         """Acquire a read or write lock on a table.
 
         `write=False` means a read lock, otherwise a write lock.
@@ -645,9 +652,9 @@ class table(Table):
         done. Thus locks do NOT nest.
 
         """
-        self._lock (write, nattempts)
+        self._lock(write, nattempts)
 
-    def unlock (self):
+    def unlock(self):
         """Unlock the table.
 
         Flush the table data and release a read or write lock on the table
@@ -657,11 +664,11 @@ class table(Table):
         """
         self._unlock()
 
-    def haslock (self, write=True):
+    def haslock(self, write=True):
         """Test if the table is read or write locked."""
-        return self._haslock (write)
+        return self._haslock(write)
 
-    def lockoptions (self):
+    def lockoptions(self):
         """Return the lockoptions.
 
         They are returned as a dict with fields:
@@ -678,11 +685,11 @@ class table(Table):
         """
         return self._lockoptions()
 
-    def datachanged (self):
+    def datachanged(self):
         """Tell if data in the table have changed since the last time called."""
         return self._datachanged()
 
-    def ismultiused (self, checksubtables=False):
+    def ismultiused(self, checksubtables=False):
         """Tell if the table is used in other processes.
 
         `checksubtables=True` means it will also check it for subtables.
@@ -690,11 +697,11 @@ class table(Table):
         """
         return self._ismultiused(checksubtables)
 
-    def name (self):
+    def name(self):
         """Return the table name."""
         return self._name()
 
-    def partnames (self, recursive=False):
+    def partnames(self, recursive=False):
         """Return the names of the tables this table consists of.
 
         A table can be a reference to another table (e.g. for a selection) or
@@ -706,25 +713,25 @@ class table(Table):
         `recursive=True` means that it follows table parts until the end.
 
         """
-        return self._partnames (recursive)
+        return self._partnames(recursive)
 
-    def info (self):
+    def info(self):
         """Return the table info (table type, subtype, and readme lines)."""
         return self._info()
 
-    def putinfo (self, value):
+    def putinfo(self, value):
         """Put the table info.
 
         The table info is a dict containing the fields:
 
         """
-        self._putinfo (value)
+        self._putinfo(value)
 
-    def addreadmeline (self, value):
+    def addreadmeline(self, value):
         """Add a readme line to the table info."""
-        self._addreadmeline (value)
+        self._addreadmeline(value)
 
-    def setmaxcachesize (self, columnname, nbytes):
+    def setmaxcachesize(self, columnname, nbytes):
         """Set the maximum cache size for the data manager used by the column.
 
         It can sometimes be useful to limit the size of the cache used by
@@ -733,9 +740,9 @@ class table(Table):
         and is not meant for the casual user.
 
         """
-        self._setmaxcachesize (columnname, nbytes)
+        self._setmaxcachesize(columnname, nbytes)
 
-    def rownumbers (self, table=None):
+    def rownumbers(self, table=None):
         """Return a list containing the row numbers of this table.
 
         This method can be useful after a selection or a sort.
@@ -765,29 +772,29 @@ class table(Table):
             return self._rownumbers(Table())
         return self._rownumbers(table)
 
-    def colnames (self):
+    def colnames(self):
         """Get the names of all columns in the table."""
         return self._colnames()
 
-    def isscalarcol (self, columnname):
+    def isscalarcol(self, columnname):
         """Tell if the column contains scalar values."""
-        return self._isscalarcol (columnname)
+        return self._isscalarcol(columnname)
 
-    def isvarcol (self, columnname):
+    def isvarcol(self, columnname):
         """Tell if the column holds variable shaped arrays."""
-        desc = self.getcoldesc(columnname);
+        desc = self.getcoldesc(columnname)
         return 'ndim' in desc and not 'shape' in desc
 
-    def coldatatype (self, columnname):
+    def coldatatype(self, columnname):
         """Get the data type of a column.
 
         It returns a string which can have the values:
         ``boolean integer float double complex dcomplex string record``
 
         """
-        return self._coldatatype (columnname)
+        return self._coldatatype(columnname)
 
-    def colarraytype (self, columnname):
+    def colarraytype(self, columnname):
         """Get the array type of a column holding arrays.
 
         It tells if an array is fixed or variable shaped and if it is stored
@@ -795,21 +802,21 @@ class table(Table):
         ``Indirect, variable sized arrays``
 
         """
-        return self._colarraytype (columnname)
+        return self._colarraytype(columnname)
 
-    def ncols (self):
+    def ncols(self):
         """Return the number of columns in the table."""
         return self._ncols()
 
-    def nrows (self):
+    def nrows(self):
         """Return the number of rows in the table."""
         return self._nrows()
 
-    def addrows (self, nrows=1):
+    def addrows(self, nrows=1):
         """Add one or more rows to the table."""
-        self._addrows (nrows)
+        self._addrows(nrows)
 
-    def removerows (self, rownrs):
+    def removerows(self, rownrs):
         """Remove the given rows from the table.
 
         The row numbers can be given in a sequence in any order. The rows will
@@ -835,10 +842,10 @@ class table(Table):
         the rows from the referenced table.
 
         """
-        self._removerows (rownrs)
+        self._removerows(rownrs)
 
-    def getcolshapestring (self, columnname,
-                           startrow=0, nrow=-1, rowincr=1):
+    def getcolshapestring(self, columnname,
+                          startrow=0, nrow=-1, rowincr=1):
         """Get the shapes of all cells in the column in string format.
 
         It returns the shape in a string like [10,20,30].
@@ -850,11 +857,11 @@ class table(Table):
         rows (default all), and row stride (default 1).
 
         """
-        return self._getcolshapestring (columnname,
-                                        startrow, nrow, rowincr,
-                                        True);              #reverse axes
+        return self._getcolshapestring(columnname,
+                                       startrow, nrow, rowincr,
+                                       True);  # reverse axes
 
-    def iscelldefined (self, columnname, rownr):
+    def iscelldefined(self, columnname, rownr):
         """Tell if a column cell contains a value.
 
         Columns containing variable shaped arrays can be empty. For these cases
@@ -868,18 +875,18 @@ class table(Table):
         arrays cannot be empty.
 
         """
-        return self._iscelldefined (columnname, rownr)
+        return self._iscelldefined(columnname, rownr)
 
-    def getcell (self, columnname, rownr):
+    def getcell(self, columnname, rownr):
         """Get data from a column cell.
 
         Get the contents of a cell which can be returned as a scalar value,
         a numpy array, or a dict depending on the contents of the cell.
 
         """
-        return self._getcell (columnname, rownr)
+        return self._getcell(columnname, rownr)
 
-    def getcellnp (self, columnname, rownr, nparray):
+    def getcellnp(self, columnname, rownr, nparray):
         """Get data from a column cell into the given numpy array .
 
         Get the contents of a cell containing an array into the
@@ -888,11 +895,11 @@ class table(Table):
         Data type coercion will be done as needed.
 
         """
-        if not nparray.flags.c_contiguous  or  nparray.size == 0:
+        if not nparray.flags.c_contiguous or nparray.size == 0:
             raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
-        return self._getcellvh (columnname, rownr, nparray)
+        return self._getcellvh(columnname, rownr, nparray)
 
-    def getcellslice (self, columnname, rownr, blc, trc, inc=[]):
+    def getcellslice(self, columnname, rownr, blc, trc, inc=[]):
         """Get a slice from a column cell holding an array.
 
         The columnname and (0-relative) rownr indicate the table cell.
@@ -904,10 +911,10 @@ class table(Table):
         Note that trc is inclusive (unlike python indexing).
 
         """
-        return self._getcellslice (columnname, rownr,
-                                   blc, trc, inc);
+        return self._getcellslice(columnname, rownr,
+                                  blc, trc, inc)
 
-    def getcellslicenp (self, columnname, nparray, rownr, blc, trc, inc=[]):
+    def getcellslicenp(self, columnname, nparray, rownr, blc, trc, inc=[]):
         """Get a slice from a column cell into the given numpy array.
 
         The columnname and (0-relative) rownr indicate the table cell.
@@ -922,12 +929,12 @@ class table(Table):
         Note that trc is inclusive (unlike python indexing).
 
         """
-        if not nparray.flags.c_contiguous  or  nparray.size == 0:
+        if not nparray.flags.c_contiguous or nparray.size == 0:
             raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
-        return self._getcellslicevh (columnname, rownr,
-                                     blc, trc, inc, nparray);
+        return self._getcellslicevh(columnname, rownr,
+                                    blc, trc, inc, nparray)
 
-    def getcol (self, columnname, startrow=0, nrow=-1, rowincr=1):
+    def getcol(self, columnname, startrow=0, nrow=-1, rowincr=1):
         """Get the contents of a column or part of it.
 
         It is returned as a numpy array.
@@ -939,18 +946,18 @@ class table(Table):
         rows (default all), and row stride (default 1).
 
         """
-#        try:     # trial code to read using a vector of rownrs
-#            nr = len(startrow)
-#            if nrow < 0:
-#                nrow = nr
-#            if nrow == 0:
-#                return numpy.array()
-#            for inx in range(nrow):
-#                i = inx*
-#        except:
-        return self._getcol (columnname, startrow, nrow, rowincr)
+        #        try:     # trial code to read using a vector of rownrs
+        #            nr = len(startrow)
+        #            if nrow < 0:
+        #                nrow = nr
+        #            if nrow == 0:
+        #                return numpy.array()
+        #            for inx in range(nrow):
+        #                i = inx*
+        #        except:
+        return self._getcol(columnname, startrow, nrow, rowincr)
 
-    def getcolnp (self, columnname, nparray, startrow=0, nrow=-1, rowincr=1):
+    def getcolnp(self, columnname, nparray, startrow=0, nrow=-1, rowincr=1):
         """Get the contents of a column or part of it into the given numpy array.
 
         The numpy array has to be C-contiguous with a shape matching the
@@ -964,11 +971,11 @@ class table(Table):
         rows (default all), and row stride (default 1).
 
         """
-        if not nparray.flags.c_contiguous  or  nparray.size == 0:
+        if not nparray.flags.c_contiguous or nparray.size == 0:
             raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
-        return self._getcolvh (columnname, startrow, nrow, rowincr, nparray)
+        return self._getcolvh(columnname, startrow, nrow, rowincr, nparray)
 
-    def getvarcol (self, columnname, startrow=0, nrow=-1, rowincr=1):
+    def getvarcol(self, columnname, startrow=0, nrow=-1, rowincr=1):
         """Get the contents of a column or part of it.
 
         It is similar to :func:`getcol`, but the result is returned as a dict of
@@ -976,10 +983,10 @@ class table(Table):
         It can deal with a column containing variable shaped arrays.
 
         """
-        return self._getvarcol (columnname, startrow, nrow, rowincr)
+        return self._getvarcol(columnname, startrow, nrow, rowincr)
 
-    def getcolslice (self, columnname, blc, trc, inc=[],
-                     startrow=0, nrow=-1, rowincr=1):
+    def getcolslice(self, columnname, blc, trc, inc=[],
+                    startrow=0, nrow=-1, rowincr=1):
         """Get a slice from a table column holding arrays.
 
         The slice in each array is given by blc, trc, and inc (as in getcellslice).
@@ -990,11 +997,11 @@ class table(Table):
         cells. The other axes are the array axes.
 
         """
-        return self._getcolslice (columnname, blc, trc, inc,
-                                  startrow, nrow, rowincr);
+        return self._getcolslice(columnname, blc, trc, inc,
+                                 startrow, nrow, rowincr)
 
-    def getcolslicenp (self, columnname, nparray, blc, trc, inc=[],
-                       startrow=0, nrow=-1, rowincr=1):
+    def getcolslicenp(self, columnname, nparray, blc, trc, inc=[],
+                      startrow=0, nrow=-1, rowincr=1):
         """Get a slice from a table column into the given numpy array.
 
         The numpy array has to be C-contiguous with a shape matching the
@@ -1008,12 +1015,12 @@ class table(Table):
         cells. The other axes are the array axes.
 
         """
-        if not nparray.flags.c_contiguous  or  nparray.size == 0:
+        if not nparray.flags.c_contiguous or nparray.size == 0:
             raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
-        return self._getcolslicevh (columnname, blc, trc, inc,
-                                    startrow, nrow, rowincr, nparray);
+        return self._getcolslicevh(columnname, blc, trc, inc,
+                                   startrow, nrow, rowincr, nparray)
 
-    def putcell (self, columnname, rownr, value):
+    def putcell(self, columnname, rownr, value):
         """Put a value into one or more table cells.
 
         The columnname and (0-relative) rownrs indicate the  table cells.
@@ -1033,9 +1040,9 @@ class table(Table):
         has to conform.
 
         """
-        self._putcell (columnname, rownr, value);
+        self._putcell(columnname, rownr, value)
 
-    def putcellslice (self, columnname, rownr, value, blc, trc, inc=[]):
+    def putcellslice(self, columnname, rownr, value, blc, trc, inc=[]):
         """Put into a slice of a table cell holding an array.
 
         The columnname and (0-relative) rownr indicate the table cell.
@@ -1051,10 +1058,10 @@ class table(Table):
         The shape of the array to put has to match the slice shape.
 
         """
-        self._putcellslice (columnname, rownr, value,
-                            blc, trc, inc);
+        self._putcellslice(columnname, rownr, value,
+                           blc, trc, inc)
 
-    def putcol (self, columnname, value, startrow=0, nrow=-1, rowincr=1):
+    def putcol(self, columnname, value, startrow=0, nrow=-1, rowincr=1):
         """Put an entire column or part of it.
 
         If the column contains scalar values, the given value should be a 1-dim
@@ -1065,9 +1072,9 @@ class table(Table):
         rows (default all), and row stride (default 1).
 
         """
-        self._putcol (columnname, startrow, nrow, rowincr, value);
+        self._putcol(columnname, startrow, nrow, rowincr, value)
 
-    def putvarcol (self, columnname, value, startrow=0, nrow=-1, rowincr=1):
+    def putvarcol(self, columnname, value, startrow=0, nrow=-1, rowincr=1):
         """Put an entire column or part of it.
 
         It is similar to putcol, but the shapes of the arrays in the column
@@ -1077,19 +1084,19 @@ class table(Table):
         rows (default all), and row stride (default 1).
 
         """
-        self._putvarcol (columnname, startrow, nrow, rowincr, value);
+        self._putvarcol(columnname, startrow, nrow, rowincr, value)
 
-    def putcolslice (self, columnname, value, blc, trc, inc=[],
-                     startrow=0, nrow=-1, rowincr=1):
+    def putcolslice(self, columnname, value, blc, trc, inc=[],
+                    startrow=0, nrow=-1, rowincr=1):
         """Put into a slice in a table column holding arrays.
 
         Its arguments are the same as for getcolslice and putcellslice.
 
         """
-        self._putcolslice (columnname, value, blc, trc, inc,
-                           startrow, nrow, rowincr);
+        self._putcolslice(columnname, value, blc, trc, inc,
+                          startrow, nrow, rowincr)
 
-    def addcols (self, desc, dminfo={}, addtoparent=True):
+    def addcols(self, desc, dminfo={}, addtoparent=True):
         """Add one or more columns.
 
         Columns can always be added to a normal table.
@@ -1129,27 +1136,27 @@ class table(Table):
         # Create a tabdesc if only a coldesc is given.
         if 'name' in desc:
             import casacore.tables.tableutil
-            if len(desc)==2 and 'desc' in desc:
+            if len(desc) == 2 and 'desc' in desc:
                 # Given as output from makecoldesc
-                tdesc = casacore.tables.tableutil.maketabdesc(desc);
+                tdesc = casacore.tables.tableutil.maketabdesc(desc)
             elif 'valueType' in desc:
-            # Given as output of getcoldesc (with a name field added)
-                cd = casacore.tables.tableutil.makecoldesc (desc['name'], desc)
+                # Given as output of getcoldesc (with a name field added)
+                cd = casacore.tables.tableutil.makecoldesc(desc['name'], desc)
                 tdesc = casacore.tables.tableutil.maketabdesc(cd)
-        self._addcols (tdesc, dminfo, addtoparent)
+        self._addcols(tdesc, dminfo, addtoparent)
         self._makerow()
 
-    def renamecol (self, oldname, newname):
+    def renamecol(self, oldname, newname):
         """Rename a single table column.
 
         Renaming a column in a reference table does NOT rename the column in
         the referenced table.
 
         """
-        self._renamecol (oldname, newname)
+        self._renamecol(oldname, newname)
         self._makerow()
 
-    def removecols (self, columnnames):
+    def removecols(self, columnnames):
         """Remove one or more columns.
 
         Note that some storage managers (in particular the tiled ones) do not
@@ -1160,18 +1167,18 @@ class table(Table):
         the columns from the referenced table.
 
         """
-        self._removecols (columnnames)
+        self._removecols(columnnames)
         self._makerow()
 
-    def keywordnames (self):
+    def keywordnames(self):
         """Get the names of all table keywords."""
-        return self._getfieldnames ('', '', -1);
+        return self._getfieldnames('', '', -1)
 
-    def colkeywordnames (self, columnname):
+    def colkeywordnames(self, columnname):
         """Get the names of all keywords of a column."""
-        return self._getfieldnames (columnname, '', -1);
+        return self._getfieldnames(columnname, '', -1)
 
-    def fieldnames (self, keyword=''):
+    def fieldnames(self, keyword=''):
         """Get the names of the fields in a table keyword value.
 
         The value of a keyword can be a struct (python dict). This method
@@ -1188,11 +1195,11 @@ class table(Table):
 
         """
         if isinstance(keyword, str):
-            return self._getfieldnames ('', keyword, -1);
+            return self._getfieldnames('', keyword, -1)
         else:
-            return self._getfieldnames ('', '', keyword);
+            return self._getfieldnames('', '', keyword)
 
-    def colfieldnames (self, columnname, keyword=''):
+    def colfieldnames(self, columnname, keyword=''):
         """Get the names of the fields in a column keyword value.
 
         The value of a keyword can be a struct (python dict). This method
@@ -1210,11 +1217,11 @@ class table(Table):
 
         """
         if isinstance(keyword, str):
-            return self._getfieldnames (columnname, keyword, -1);
+            return self._getfieldnames(columnname, keyword, -1)
         else:
-            return self._getfieldnames (columnname, '', keyword);
+            return self._getfieldnames(columnname, '', keyword)
 
-    def getkeyword (self, keyword):
+    def getkeyword(self, keyword):
         """Get the value of a table keyword.
 
         The value of a keyword can be a:
@@ -1236,51 +1243,51 @@ class table(Table):
 
         """
         if isinstance(keyword, str):
-            return self._getkeyword ('', keyword, -1);
+            return self._getkeyword('', keyword, -1)
         else:
-            return self._getkeyword ('', '', keyword);
+            return self._getkeyword('', '', keyword)
 
-    def getcolkeyword (self, columnname, keyword):
+    def getcolkeyword(self, columnname, keyword):
         """Get the value of a column keyword.
 
         It is similar to :func:`getkeyword`.
 
         """
         if isinstance(keyword, str):
-            return self._getkeyword (columnname, keyword, -1);
+            return self._getkeyword(columnname, keyword, -1)
         else:
-            return self._getkeyword (columnname, '', keyword);
+            return self._getkeyword(columnname, '', keyword)
 
-    def getkeywords (self):
+    def getkeywords(self):
         """Get the value of all table keywords.
 
         It is returned as a dict. See :func:`getkeyword` for the possible
         value types.
 
         """
-        return self._getkeywords ('');
+        return self._getkeywords('')
 
-    def getcolkeywords (self, columnname):
+    def getcolkeywords(self, columnname):
         """Get the value of all keywords of a column.
 
         It is returned as a dict. See :func:`getkeyword` for the possible
         value types.
 
         """
-        return self._getkeywords (columnname);
+        return self._getkeywords(columnname)
 
-    def getsubtables (self):
+    def getsubtables(self):
         """Get the names of all subtables."""
 
         keyset = self.getkeywords()
         names = []
         for key in keyset:
             value = keyset[key]
-            if isinstance(value, str)  and  value.find('Table: ') == 0:
-                names.append (_do_remove_prefix(value))
+            if isinstance(value, str) and value.find('Table: ') == 0:
+                names.append(_do_remove_prefix(value))
         return names
 
-    def putkeyword (self, keyword, value, makesubrecord=False):
+    def putkeyword(self, keyword, value, makesubrecord=False):
         """Put the value of a table keyword.
 
         The value of a keyword can be a:
@@ -1308,49 +1315,49 @@ class table(Table):
         of the i-th keyword.
 
         """
-        val = value;
+        val = value
         if isinstance(val, table):
-            val = _add_prefix (val.name());
+            val = _add_prefix(val.name())
         if isinstance(keyword, str):
-            return self._putkeyword ('', keyword, -1, makesubrecord, val);
+            return self._putkeyword('', keyword, -1, makesubrecord, val)
         else:
-            return self._putkeyword ('', '', keyword, makesubrecord, val);
+            return self._putkeyword('', '', keyword, makesubrecord, val)
 
-    def putcolkeyword (self, columnname, keyword, value, makesubrecord=False):
+    def putcolkeyword(self, columnname, keyword, value, makesubrecord=False):
         """Put the value of a column keyword.
 
         It is similar to :func:`putkeyword`.
 
         """
-        val = value;
+        val = value
         if isinstance(val, table):
-            val = _add_prefix (val.name());
+            val = _add_prefix(val.name())
         if isinstance(keyword, str):
-            return self._putkeyword (columnname, keyword, -1,
-                                      makesubrecord, val);
+            return self._putkeyword(columnname, keyword, -1,
+                                    makesubrecord, val)
         else:
-            return self._putkeyword (columnname, '', keyword,
-                                      makesubrecord, val);
+            return self._putkeyword(columnname, '', keyword,
+                                    makesubrecord, val)
 
-    def putkeywords (self, value):
+    def putkeywords(self, value):
         """Put the value of multiple table keywords.
 
         The value has to be a dict, so each field in the dict is a keyword.
         It puts all keywords similar to :func:`putkeyword`.
 
         """
-        return self._putkeywords ('', value);
+        return self._putkeywords('', value)
 
-    def putcolkeywords (self, columnname, value):
+    def putcolkeywords(self, columnname, value):
         """Put the value of multiple keywords in a column.
 
         The value has to be a dict, so each field in the dict is a keyword.
         It puts all keywords similar to :func:`putkeyword`.
 
         """
-        return self._putkeywords (columnname, value);
+        return self._putkeywords(columnname, value)
 
-    def removekeyword (self, keyword):
+    def removekeyword(self, keyword):
         """Remove a table keyword.
 
         Similar to :func:`getkeyword` the name can consist of multiple parts.
@@ -1361,22 +1368,22 @@ class table(Table):
 
         """
         if isinstance(keyword, str):
-            self._removekeyword ('', keyword, -1);
+            self._removekeyword('', keyword, -1)
         else:
-            self._removekeyword ('', '', keyword);
+            self._removekeyword('', '', keyword)
 
-    def removecolkeyword (self, columnname, keyword):
+    def removecolkeyword(self, columnname, keyword):
         """Remove a column keyword.
 
         It is similar to :func:`removekeyword`.
 
         """
         if isinstance(keyword, str):
-            self._removekeyword (columnname, keyword, -1);
+            self._removekeyword(columnname, keyword, -1)
         else:
-            self._removekeyword (columnname, '', keyword);
+            self._removekeyword(columnname, '', keyword)
 
-    def getdesc (self, actual=True):
+    def getdesc(self, actual=True):
         """Get the table description.
 
         By default it returns the actual description (thus telling the
@@ -1385,9 +1392,9 @@ class table(Table):
         :func:`maketabdesc` is returned.
 
         """
-        return self._getdesc (actual, True);
+        return self._getdesc(actual, True)
 
-    def getcoldesc (self, columnname, actual=True):
+    def getcoldesc(self, columnname, actual=True):
         """Get the description of a column.
 
         By default it returns the actual description (thus telling the
@@ -1396,18 +1403,18 @@ class table(Table):
         :func:`makescacoldesc` or :func:`makearrcoldesc` is returned.
 
         """
-        return self._getcoldesc (columnname, actual, True);
+        return self._getcoldesc(columnname, actual, True)
 
-    def coldesc (self, columnname, actual=True):
+    def coldesc(self, columnname, actual=True):
         """Make the description of a column.
 
         Make the description object of the given column like :func:`makecoldesc`
         is doing with the description given by :func:`getcoldesc`.
 
         """
-        return pt.makecoldesc (columnname, self.getcoldesc (columnname, actual))
+        return pt.makecoldesc(columnname, self.getcoldesc(columnname, actual))
 
-    def getdminfo (self, columnname=None):
+    def getdminfo(self, columnname=None):
         """Get data manager info.
 
         Each column in a table is stored using a data manager. A storage manager
@@ -1439,12 +1446,12 @@ class table(Table):
         # Find the info for the given column
         for fld in dminfo.values():
             if columnname in fld["COLUMNS"]:
-                fldc = fld.copy();
-                del fldc['COLUMNS']     # remove COLUMNS field
+                fldc = fld.copy()
+                del fldc['COLUMNS']  # remove COLUMNS field
                 return fldc
         raise KeyError("Column " + columnname + " does not exist")
 
-    def getdmprop (self, name, bycolumn=True):
+    def getdmprop(self, name, bycolumn=True):
         """Get properties of a data manager.
 
         Each column in a table is stored using a data manager. A storage manager
@@ -1463,9 +1470,9 @@ class table(Table):
         `bycolumn` defines which way is used (default is by column name).
 
         """
-        return self._getdmprop (name, bycolumn)
+        return self._getdmprop(name, bycolumn)
 
-    def setdmprop (self, name, properties, bycolumn=True):
+    def setdmprop(self, name, properties, bycolumn=True):
         """Set properties of a data manager.
 
         Properties (e.g. cachesize) of a data manager can be changed by
@@ -1479,10 +1486,10 @@ class table(Table):
         `bycolumn` defines which way is used (default is by column name).
 
         """
-        return self._setdmprop (name, properties, bycolumn)
+        return self._setdmprop(name, properties, bycolumn)
 
-    def showstructure (self, dataman=True, column=True, subtable=False,
-                       sort=False):
+    def showstructure(self, dataman=True, column=True, subtable=False,
+                      sort=False):
         """Show table structure in a formatted string.
 
         The structure of this table and optionally its subtables is shown.
@@ -1502,9 +1509,9 @@ class table(Table):
           Sort the columns in alphabetical order?
 
         """
-        return self._showstructure (dataman, column, subtable, sort)
+        return self._showstructure(dataman, column, subtable, sort)
 
-    def summary (self, recurse=False):
+    def summary(self, recurse=False):
         """Print a summary of the table.
 
         It prints the number of columns and rows, column names, and table and
@@ -1516,34 +1523,34 @@ class table(Table):
         six.print_('Table summary:', self.name())
         six.print_('Shape:', self.ncols(), 'columns by', self.nrows(), 'rows')
         six.print_('Info:', self.info())
-        tkeys = self.getkeywords();
+        tkeys = self.getkeywords()
         if (len(tkeys) > 0):
             six.print_('Table keywords:', tkeys)
-        columns = self.colnames();
+        columns = self.colnames()
         if (len(columns) > 0):
             six.print_('Columns:', columns)
             for column in columns:
-                ckeys = self.getcolkeywords(column);
+                ckeys = self.getcolkeywords(column)
                 if (len(ckeys) > 0):
                     six.print_(column, 'keywords:', ckeys)
         if (recurse):
             for key in tkeys.keys():
-                value = tkeys[key];
-                tabname = _remove_prefix (value);
+                value = tkeys[key]
+                tabname = _remove_prefix(value)
                 six.print_('Summarizing subtable:', tabname)
-                lt = table(tabname);
+                lt = table(tabname)
                 if (not lt.summary(recurse)):
-                    break;
-        return True;
+                    break
+        return True
 
-    def selectrows (self, rownrs):
+    def selectrows(self, rownrs):
         """Return a reference table containing the given rows."""
-        t = self._selectrows (rownrs, name='');
+        t = self._selectrows(rownrs, name='')
         # selectrows returns a Table object, so turn that into table.
-        return table(t, _oper=3);
+        return table(t, _oper=3)
 
-    def query (self, query='', name='', sortlist='', columns='',
-               limit=0, offset=0, style='Python'):
+    def query(self, query='', name='', sortlist='', columns='',
+              limit=0, offset=0, style='Python'):
         """Query the table and return the result as a reference table.
 
         This method queries the table. It forms a
@@ -1581,26 +1588,26 @@ class table(Table):
           The TaQL syntax style to be used (defaults to Python).
 
         """
-        if not query and not sortlist and not columns and limit<=0 and offset<=0:
-            raise ValueError('No selection done (arguments query, sortlist, columns, limit, and offset are empty)');
-        command = 'select ';
+        if not query and not sortlist and not columns and limit <= 0 and offset <= 0:
+            raise ValueError('No selection done (arguments query, sortlist, columns, limit, and offset are empty)')
+        command = 'select '
         if columns:
-            command += columns;
-        command += ' from $1';
+            command += columns
+        command += ' from $1'
         if query:
-            command += ' where ' + query;
+            command += ' where ' + query
         if sortlist:
-            command += ' orderby ' + sortlist;
+            command += ' orderby ' + sortlist
         if limit > 0:
             command += ' limit %d' % limit
         if offset > 0:
             command += ' offset %d' % offset
         if name:
-            command += ' giving ' + name;
-        return tablecommand(command, style, [self]);
+            command += ' giving ' + name
+        return tablecommand(command, style, [self])
 
-    def sort (self, sortlist, name='',
-              limit=0, offset=0, style='Python'):
+    def sort(self, sortlist, name='',
+             limit=0, offset=0, style='Python'):
         """Sort the table and return the result as a reference table.
 
         This method sorts the table. It forms a
@@ -1628,16 +1635,16 @@ class table(Table):
           The TaQL syntax style to be used (defaults to Python).
 
         """
-        command = 'select from $1 orderby ' + sortlist;
+        command = 'select from $1 orderby ' + sortlist
         if limit > 0:
             command += ' limit %d' % limit
         if offset > 0:
             command += ' offset %d' % offset
         if name:
-            command += ' giving ' + name;
-        return tablecommand(command, style, [self]);
+            command += ' giving ' + name
+        return tablecommand(command, style, [self])
 
-    def select (self, columns, name='', style='Python'):
+    def select(self, columns, name='', style='Python'):
         """Select columns and return the result as a reference table.
 
         This method represents the SELECT part of a TaQL command using the
@@ -1663,10 +1670,10 @@ class table(Table):
         """
         command = 'select ' + columns + ' from $1'
         if name:
-            command += ' giving ' + name;
-        return tablecommand(command, style, [self]);
+            command += ' giving ' + name
+        return tablecommand(command, style, [self])
 
-    def calc (self, expr, style='Python'):
+    def calc(self, expr, style='Python'):
         """Do a TaQL calculation 
         
         The TaQL CALC command can be used to get the result of a calculation on
@@ -1683,9 +1690,9 @@ class table(Table):
           The TaQL syntax style to be used (defaults to Python).
 
         """
-        return tablecommand('calc from $1 calc ' + expr, style, [self]);
-                            
-    def browse (self, wait=True, tempname="/tmp/seltable"):
+        return tablecommand('calc from $1 calc ' + expr, style, [self])
+
+    def browse(self, wait=True, tempname="/tmp/seltable"):
         """ Browse a table using casabrowser or a simple wxwidget based browser.
 
         By default the casabrowser is used if it can be found (in your PATH).
@@ -1716,8 +1723,8 @@ class table(Table):
             waitstr1 = ""
             waitstr2 = "foreground ..."
             if not wait:
-                waitstr1 = " &";
-                waitstr2 = "background ...";
+                waitstr1 = " &"
+                waitstr2 = "background ..."
             if self.iswritable():
                 six.print_("Flushing data and starting casabrowser in the " + waitstr2)
             else:
@@ -1725,16 +1732,16 @@ class table(Table):
             self.flush()
             self.unlock()
             if os.system('test -e ' + self.name() + '/table.dat') == 0:
-                os.system ('casabrowser ' + self.name() + waitstr1)
+                os.system('casabrowser ' + self.name() + waitstr1)
             elif len(tempname) > 0:
                 six.print_("  making a persistent copy in table " + tempname)
-                tx = self.copy (tempname);
-                tx = 0;
-                os.system ('casabrowser ' + tempname + waitstr1)
+                tx = self.copy(tempname)
+                tx = 0
+                os.system('casabrowser ' + tempname + waitstr1)
                 if wait:
                     from casacore.tables import tabledelete
                     six.print_("  finished browsing")
-                    tabledelete (tempname);
+                    tabledelete(tempname)
 
                 else:
                     six.print_("  after browsing use tabledelete('" + tempname + "') to delete the copy")
@@ -1756,7 +1763,7 @@ class table(Table):
             frame.Show(True)
             app.MainLoop()
 
-    def view (self, wait=True, tempname="/tmp/seltable"):
+    def view(self, wait=True, tempname="/tmp/seltable"):
         """ View a table using casaviewer, casabrowser, or wxwidget based browser.
 
         The table is viewed depending on the type:
@@ -1799,8 +1806,8 @@ class table(Table):
                 waitstr1 = ""
                 waitstr2 = "foreground ..."
                 if not wait:
-                    waitstr1 = " &";
-                    waitstr2 = "background ...";
+                    waitstr1 = " &"
+                    waitstr2 = "background ..."
                 if self.iswritable():
                     six.print_("Flushing data and starting casaviewer in the " + waitstr2)
                 else:
@@ -1808,18 +1815,18 @@ class table(Table):
                 self.flush()
                 self.unlock()
                 if os.system('test -e ' + self.name() + '/table.dat') == 0:
-                    os.system ('casaviewer ' + self.name() + waitstr1)
+                    os.system('casaviewer ' + self.name() + waitstr1)
                     viewed = True
                 elif len(tempname) > 0:
                     six.print_("  making a persistent copy in table " + tempname)
-                    tx = self.copy (tempname)
+                    tx = self.copy(tempname)
                     tx = 0
-                    os.system ('casaviewer ' + tempname + waitstr1)
+                    os.system('casaviewer ' + tempname + waitstr1)
                     viewed = True
                     if wait:
                         from casacore.tables import tabledelete
                         six.print_("  finished viewing")
-                        tabledelete (tempname);
+                        tabledelete(tempname)
                     else:
                         six.print_("  after viewing use tabledelete('" + tempname + "') to delete the copy")
                 else:
@@ -1828,4 +1835,4 @@ class table(Table):
                     six.print_("   t.view(True, '/tmp/tab1')")
         # Could not view the table, so browse it.
         if not viewed:
-            self.browse (wait, tempname)
+            self.browse(wait, tempname)

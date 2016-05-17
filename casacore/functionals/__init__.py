@@ -80,4 +80,3 @@ in a least squares fit.
 
 """
 from .functional import *
-

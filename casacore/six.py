@@ -26,11 +26,11 @@ import functools
 import itertools
 import operator
 import sys
+
 import types
 
 __author__ = "Benjamin Peterson <benjamin@python.org>"
 __version__ = "1.8.0"
-
 
 # Useful for very coarse version differentiation.
 PY2 = sys.version_info[0] == 2
@@ -59,6 +59,8 @@ else:
         class X(object):
             def __len__(self):
                 return 1 << 31
+
+
         try:
             len(X())
         except OverflowError:
@@ -82,13 +84,12 @@ def _import_module(name):
 
 
 class _LazyDescr(object):
-
     def __init__(self, name):
         self.name = name
 
     def __get__(self, obj, tp):
         result = self._resolve()
-        setattr(obj, self.name, result) # Invokes __set__.
+        setattr(obj, self.name, result)  # Invokes __set__.
         try:
             # This is a bit ugly, but it avoids running this again by
             # removing this descriptor.
@@ -99,7 +100,6 @@ class _LazyDescr(object):
 
 
 class MovedModule(_LazyDescr):
-
     def __init__(self, name, old, new=None):
         super(MovedModule, self).__init__(name)
         if PY3:
@@ -120,7 +120,6 @@ class MovedModule(_LazyDescr):
 
 
 class _LazyModule(types.ModuleType):
-
     def __init__(self, name):
         super(_LazyModule, self).__init__(name)
         self.__doc__ = self.__class__.__doc__
@@ -135,7 +134,6 @@ class _LazyModule(types.ModuleType):
 
 
 class MovedAttribute(_LazyDescr):
-
     def __init__(self, name, old_mod, new_mod, old_attr=None, new_attr=None):
         super(MovedAttribute, self).__init__(name)
         if PY3:
@@ -166,6 +164,7 @@ class _SixMetaPathImporter(object):
     This class implements a PEP302 finder and loader. It should be compatible
     with Python 2.5 and all existing versions of Python3
     """
+
     def __init__(self, six_module_name):
         self.name = six_module_name
         self.known_modules = {}
@@ -217,7 +216,9 @@ class _SixMetaPathImporter(object):
         Required, if is_package is implemented"""
         self.__get_module(fullname)  # eventually raises ImportError
         return None
+
     get_source = get_code  # same as get_code
+
 
 _importer = _SixMetaPathImporter(__name__)
 
@@ -462,6 +463,7 @@ class Module_six_moves_urllib(types.ModuleType):
     def __dir__(self):
         return ['parse', 'error', 'request', 'response', 'robotparser']
 
+
 _importer._add_module(Module_six_moves_urllib(__name__ + ".moves.urllib"),
                       "moves.urllib")
 
@@ -499,7 +501,6 @@ else:
     _func_defaults = "func_defaults"
     _func_globals = "func_globals"
 
-
 try:
     advance_iterator = next
 except NameError:
@@ -507,17 +508,16 @@ except NameError:
         return it.next()
 next = advance_iterator
 
-
 try:
     callable = callable
 except NameError:
     def callable(obj):
         return any("__call__" in klass.__dict__ for klass in type(obj).__mro__)
 
-
 if PY3:
     def get_unbound_function(unbound):
         return unbound
+
 
     create_bound_method = types.MethodType
 
@@ -526,18 +526,20 @@ else:
     def get_unbound_function(unbound):
         return unbound.im_func
 
+
     def create_bound_method(func, obj):
         return types.MethodType(func, obj, obj.__class__)
+
 
     class Iterator(object):
 
         def next(self):
             return type(self).__next__(self)
 
+
     callable = callable
 _add_doc(get_unbound_function,
          """Get the function out of a possibly unbound function""")
-
 
 get_method_function = operator.attrgetter(_meth_func)
 get_method_self = operator.attrgetter(_meth_self)
@@ -546,19 +548,22 @@ get_function_code = operator.attrgetter(_func_code)
 get_function_defaults = operator.attrgetter(_func_defaults)
 get_function_globals = operator.attrgetter(_func_globals)
 
-
 if PY3:
     def iterkeys(d, **kw):
         return iter(d.keys(**kw))
 
+
     def itervalues(d, **kw):
         return iter(d.values(**kw))
+
 
     def iteritems(d, **kw):
         return iter(d.items(**kw))
 
+
     def iterlists(d, **kw):
         return iter(d.lists(**kw))
+
 
     viewkeys = operator.methodcaller("keys")
 
@@ -569,14 +574,18 @@ else:
     def iterkeys(d, **kw):
         return iter(d.iterkeys(**kw))
 
+
     def itervalues(d, **kw):
         return iter(d.itervalues(**kw))
+
 
     def iteritems(d, **kw):
         return iter(d.iteritems(**kw))
 
+
     def iterlists(d, **kw):
         return iter(d.iterlists(**kw))
+
 
     viewkeys = operator.methodcaller("viewkeys")
 
@@ -591,12 +600,15 @@ _add_doc(iteritems,
 _add_doc(iterlists,
          "Return an iterator over the (key, [values]) pairs of a dictionary.")
 
-
 if PY3:
     def b(s):
         return s.encode("latin-1")
+
+
     def u(s):
         return s
+
+
     unichr = chr
     if sys.version_info[1] <= 1:
         def int2byte(i):
@@ -608,26 +620,37 @@ if PY3:
     indexbytes = operator.getitem
     iterbytes = iter
     import io
+
     StringIO = io.StringIO
     BytesIO = io.BytesIO
 else:
     def b(s):
         return s
+
+
     # Workaround for standalone backslash
     def u(s):
         return unicode(s.replace(r'\\', r'\\\\'), "unicode_escape")
+
+
     unichr = unichr
     int2byte = chr
+
+
     def byte2int(bs):
         return ord(bs[0])
+
+
     def indexbytes(buf, i):
         return ord(buf[i])
+
+
     iterbytes = functools.partial(itertools.imap, ord)
     import StringIO
+
     StringIO = BytesIO = StringIO.StringIO
 _add_doc(b, """Byte literal""")
 _add_doc(u, """Text literal""")
-
 
 if PY3:
     exec_ = getattr(moves.builtins, "exec")
@@ -651,13 +674,12 @@ else:
             del frame
         elif _locs_ is None:
             _locs_ = _globs_
-        exec("""exec _code_ in _globs_, _locs_""")
+        exec ("""exec _code_ in _globs_, _locs_""")
 
 
     exec_("""def reraise(tp, value, tb=None):
     raise tp, value, tb
 """)
-
 
 if sys.version_info > (3, 2):
     exec_("""def raise_from(value, from_value):
@@ -667,7 +689,6 @@ else:
     def raise_from(value, from_value):
         raise value
 
-
 print_ = getattr(moves.builtins, "print", None)
 if print_ is None:
     def print_(*args, **kwargs):
@@ -675,18 +696,20 @@ if print_ is None:
         fp = kwargs.pop("file", sys.stdout)
         if fp is None:
             return
+
         def write(data):
             if not isinstance(data, basestring):
                 data = str(data)
             # If the file has an encoding, encode unicode with it.
             if (isinstance(fp, file) and
-                isinstance(data, unicode) and
-                fp.encoding is not None):
+                    isinstance(data, unicode) and
+                        fp.encoding is not None):
                 errors = getattr(fp, "errors", None)
                 if errors is None:
                     errors = "strict"
                 data = data.encode(fp.encoding, errors)
             fp.write(data)
+
         want_unicode = False
         sep = kwargs.pop("sep", None)
         if sep is not None:
@@ -732,23 +755,28 @@ if sys.version_info[0:2] < (3, 4):
             f = functools.wraps(wrapped)(f)
             f.__wrapped__ = wrapped
             return f
+
         return wrapper
 else:
     wraps = functools.wraps
 
+
 def with_metaclass(meta, *bases):
     """Create a base class with a metaclass."""
+
     # This requires a bit of explanation: the basic idea is to make a dummy
     # metaclass for one level of class instantiation that replaces itself with
     # the actual metaclass.
     class metaclass(meta):
         def __new__(cls, name, this_bases, d):
             return meta(name, bases, d)
+
     return type.__new__(metaclass, 'temporary_class', (), {})
 
 
 def add_metaclass(metaclass):
     """Class decorator for creating a class with a metaclass."""
+
     def wrapper(cls):
         orig_vars = cls.__dict__.copy()
         slots = orig_vars.get('__slots__')
@@ -760,7 +788,9 @@ def add_metaclass(metaclass):
         orig_vars.pop('__dict__', None)
         orig_vars.pop('__weakref__', None)
         return metaclass(cls.__name__, cls.__bases__, orig_vars)
+
     return wrapper
+
 
 # Complete the moves implementation.
 # This code is at the end of this module to speed up module loading.
@@ -779,7 +809,7 @@ if sys.meta_path:
         # the six meta path importer, since the other six instance will have
         # inserted an importer with different class.
         if (type(importer).__name__ == "_SixMetaPathImporter" and
-            importer.name == __name__):
+                    importer.name == __name__):
             del sys.meta_path[i]
             break
     del i, importer

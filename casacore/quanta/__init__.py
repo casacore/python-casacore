@@ -1,5 +1,7 @@
-from .quantity import quantity, is_quantity
 from ._quanta import *
+
+from .quantity import quantity, is_quantity
+
 constants = constants()
 units = units()
 prefixes = prefixes()

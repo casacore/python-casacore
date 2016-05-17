@@ -54,6 +54,5 @@ The following functionality exists:
 
 """
 
-
 # Make image interface available.
 from .image import image

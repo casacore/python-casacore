@@ -26,13 +26,15 @@
 # $Id: __init__.py,v 1.2 2006/12/04 04:01:03 mmarquar Exp $
 __all__ = ['is_measure', 'measures']
 
-import os
+from ._measures import measures as _measures
+
 import casacore.quanta as dq
-from  ._measures import measures as _measures
+import os
 
 if 'MEASURESDATA' in os.environ.keys():
     if 'AIPSPATH' not in os.environ.keys():
-        os.environ['AIPSPATH'] = '%s dummy dummy' %  os.environ['MEASURESDATA']
+        os.environ['AIPSPATH'] = '%s dummy dummy' % os.environ['MEASURESDATA']
+
 
 def is_measure(v):
     """
@@ -40,9 +42,10 @@ def is_measure(v):
 
     :param v: The object to check
     """
-    if isinstance(v, dict) and v.has_key("type") and  v.has_key("m0"):
+    if isinstance(v, dict) and v.has_key("type") and v.has_key("m0"):
         return True
     return False
+
 
 def _check_valid_offset(self, mtype):
     if not off['type'] == mtype:
@@ -80,6 +83,7 @@ class measures(_measures):
         dirmeas = dm.direction()
 
     """
+
     def __init__(self):
         _measures.__init__(self)
         self._framestack = {}
@@ -143,7 +147,7 @@ class measures(_measures):
             >>> dm.direction('mars')
 
         """
-        loc = { 'type': 'direction' , 'refer':  rf}
+        loc = {'type': 'direction', 'refer': rf}
         loc['m0'] = dq.quantity(v0)
         loc['m1'] = dq.quantity(v1)
         if is_measure(off):
@@ -180,7 +184,7 @@ class measures(_measures):
             dm.observatory('ATCA')
 
         """
-        loc = { 'type': 'position' , 'refer':  rf}
+        loc = {'type': 'position', 'refer': rf}
         loc['m0'] = dq.quantity(v0)
         loc['m1'] = dq.quantity(v1)
         loc['m2'] = dq.quantity(v2)
@@ -209,7 +213,7 @@ class measures(_measures):
         :param off: an optional offset measure of same type
 
         """
-        loc = { 'type': 'epoch' , 'refer':  rf}
+        loc = {'type': 'epoch', 'refer': rf}
         loc['m0'] = dq.quantity(v0)
         if is_measure(off):
             if not off['type'] == "epoch":
@@ -245,9 +249,9 @@ class measures(_measures):
         :param off: an optional offset measure of same type
 
         """
-        loc = { 'type': "frequency",
-                'refer': rf,
-                'm0': dq.quantity(v0) }
+        loc = {'type': "frequency",
+               'refer': rf,
+               'm0': dq.quantity(v0)}
         if is_measure(off):
             if not off['type'] == "frequency":
                 raise TypeError('Illegal offset type specified.')
@@ -283,9 +287,9 @@ class measures(_measures):
         """
         if isinstance(v0, float):
             v0 = str(v0)
-        loc = { 'type': "doppler",
-                'refer': rf,
-                'm0': dq.quantity(v0) }
+        loc = {'type': "doppler",
+               'refer': rf,
+               'm0': dq.quantity(v0)}
         if is_measure(off):
             if not off['type'] == "doppler":
                 raise TypeError('Illegal offset type specified.')
@@ -310,9 +314,9 @@ class measures(_measures):
         :param off: an optional offset measure of same type
 
         """
-        loc = { 'type': "radialvelocity",
-                'refer': rf,
-                'm0': dq.quantity(v0) }
+        loc = {'type': "radialvelocity",
+               'refer': rf,
+               'm0': dq.quantity(v0)}
         if is_measure(off):
             if not off['type'] == "radialvelocity":
                 raise TypeError('Illegal offset type specified.')
@@ -338,7 +342,7 @@ class measures(_measures):
         :param v2: height or z as quantity or string
         :param off: an optional offset measure of same type
         """
-        loc = { 'type': "baseline", 'refer': rf }
+        loc = {'type': "baseline", 'refer': rf}
         loc['m0'] = dq.quantity(v0)
         loc['m1'] = dq.quantity(v1)
         loc['m2'] = dq.quantity(v2)
@@ -368,7 +372,7 @@ class measures(_measures):
         :param off: an optional offset measure of same type
 
         """
-        loc = { 'type': "uvw", 'refer': rf }
+        loc = {'type': "uvw", 'refer': rf}
         loc['m0'] = dq.quantity(v0)
         loc['m1'] = dq.quantity(v1)
         loc['m2'] = dq.quantity(v2)
@@ -400,7 +404,7 @@ class measures(_measures):
         :param off: an optional offset measure of same type
 
         """
-        loc = { 'type': "earthmagnetic", 'refer': rf }
+        loc = {'type': "earthmagnetic", 'refer': rf}
         loc['m0'] = dq.quantity(v0)
         loc['m1'] = dq.quantity(v1)
         loc['m2'] = dq.quantity(v2)
@@ -409,7 +413,6 @@ class measures(_measures):
                 raise TypeError('Illegal offset type specified.')
             loc["offset"] = off
         return self.measure(loc, rf)
-
 
     def tofrequency(self, rf, v0, rfq):
         """Convert a Doppler type value (e.g. in radio mode) to a
@@ -432,12 +435,13 @@ class measures(_measures):
             rfq = dq.quantity(rfq['m0'])
         elif isinstance(rfq, str):
             rfq = dq.quantity(rfq)
-        if is_measure(v0) and  v0['type'] == 'doppler' \
-               and  dq.is_quantity(rfq) \
-               and  rfq.conforms(dq.quantity('Hz')):
+        if is_measure(v0) and v0['type'] == 'doppler' \
+                and dq.is_quantity(rfq) \
+                and rfq.conforms(dq.quantity('Hz')):
             return self.doptofreq(v0, rf, rfq)
         else:
             raise TypeError('Illegal Doppler or rest frequency specified')
+
     to_frequency = tofrequency
 
     def torestfrequency(self, f0, d0):
@@ -455,11 +459,12 @@ class measures(_measures):
             dm.torestfrequency(f, dp)        # the corresponding rest frequency
 
         """
-        if is_measure(f0) and  f0['type'] == 'frequency' \
-               and is_measure(d0) and d0['type'] == 'doppler':
+        if is_measure(f0) and f0['type'] == 'frequency' \
+                and is_measure(d0) and d0['type'] == 'doppler':
             return self.torest(f0, d0)
         else:
             raise TypeError('Illegal Doppler or rest frequency specified')
+
     to_restfrequency = torestfrequency
 
     def todoppler(self, rf, v0, rfq):
@@ -484,14 +489,15 @@ class measures(_measures):
             rfq = dq.quantity(rfq)
         if is_measure(v0):
             if v0['type'] == 'radialvelocity':
-                return self.todop(v0, dq.quantity(1.,'Hz'))
-            elif v0['type'] == 'frequency' and  dq.is_quantity(rfq) \
+                return self.todop(v0, dq.quantity(1., 'Hz'))
+            elif v0['type'] == 'frequency' and dq.is_quantity(rfq) \
                     and rfq.conforms(dq.quantity('Hz')):
                 return self.todop(v0, rfq)
             else:
                 raise TypeError('Illegal Doppler or rest frequency specified')
         else:
             raise TypeError('Illegal Frequency specified')
+
     to_doppler = todoppler
 
     def toradialvelocity(self, rf, v0):
@@ -511,6 +517,7 @@ class measures(_measures):
             return self.doptorv(rf, v0)
         else:
             raise TypeError('Illegal Doppler specified')
+
     to_radialvelocity = toradialvelocity
 
     def touvw(self, v):
@@ -532,7 +539,7 @@ class measures(_measures):
         The values of the input baselines can be given as a quantity
         vector per x, y or z value.
 
-        uvw coordinates are calculated for a certain direction in the sky;
+        uvw coordinates are calculated for a certain direction in the sky
         hence the frame has to contain the direction for the calculation to
         work. Since the baseline and the sky rotate with respect of each
         other, the time should be specified as well.
@@ -552,6 +559,7 @@ class measures(_measures):
             return m
         else:
             raise TypeError('Illegal Baseline specified')
+
     to_uvw = touvw
 
     def expand(self, v):
@@ -603,6 +611,7 @@ class measures(_measures):
             loc['type'] = 'baseline'
             return self.measure(loc, 'j2000')
         return pos
+
     as_baseline = asbaseline
 
     def getvalue(self, v):
@@ -611,7 +620,7 @@ class measures(_measures):
 
         :param v: a measure
         """
-        if  not is_measure(v):
+        if not is_measure(v):
             raise TypeError('Incorrect input type for getvalue()')
         import re
         rx = re.compile("m\d+")
@@ -622,6 +631,7 @@ class measures(_measures):
             if re.match(rx, key):
                 out.append(dq.quantity(v.get(key)))
         return out
+
     get_value = getvalue
 
     def get_type(self, m):
@@ -739,26 +749,28 @@ class measures(_measures):
         if not is_measure(v):
             raise TypeError('Argument is not a measure')
         if (v["type"] == "frequency" and v["refer"].lower() == "rest") \
-               or _measures.doframe(self, v):
+                or _measures.doframe(self, v):
             self._framestack[v["type"]] = v
             return True
         return False
+
     do_frame = doframe
 
     def _fillnow(self):
         if not "epoch" in self._framestack \
-               or not is_measure(self._framestack["epoch"]):
+                or not is_measure(self._framestack["epoch"]):
             self.frame_now()
 
     def _getwhere(self):
         if not self._framestack.has_key("position") \
-               or not is_measure(self._framestack["position"]):
+                or not is_measure(self._framestack["position"]):
             raise RuntimeError("Can't find position frame")
         return self._framestack["position"]
 
     def framenow(self):
         """Set the time (epoch) frame to the current time and day."""
         self.do_frame(self.epoch("UTC", "today"))
+
     frame_now = framenow
 
     def rise(self, crd, ev='5deg'):
@@ -780,8 +792,8 @@ class measures(_measures):
         evq = dq.quantity(ev)
         hdm1 = dq.quantity(hd["m1"])
         psm1 = dq.quantity(ps["m1"])
-        ct = (dq.sin(dq.quantity(ev)) - (dq.sin(hdm1) * dq.sin(psm1)))\
-              / (dq.cos(hdm1) * dq.cos(psm1))
+        ct = (dq.sin(dq.quantity(ev)) - (dq.sin(hdm1) * dq.sin(psm1))) \
+             / (dq.cos(hdm1) * dq.cos(psm1))
 
         if ct.get_value() >= 1:
             return {'rise': 'below', 'set': 'below'}
@@ -809,32 +821,32 @@ class measures(_measures):
 
         a = self.rise(crd, ev)
         if isinstance(a['rise'], str):
-            return { "rise": { "last": a[0], "utc": a[0] },
-                     "set" : { "last": a[1], "utc": a[1] },
-                     "solved": False }
+            return {"rise": {"last": a[0], "utc": a[0]},
+                    "set": {"last": a[1], "utc": a[1]},
+                    "solved": False}
         ofe = self.measure(self._framestack["epoch"], "utc")
         if not is_measure(ofe):
             ofe = self.epoch('utc', 'today')
         x = a.copy()
         for k in x:
             x[k] = self.measure(
-                      self.epoch("last",
-                                 a[k].totime(),
-                                 off=self.epoch("r_utc",
-                                                (dq.quantity(ofe["m0"])
-                                                 + dq.quantity("0.5d")
-                                                 ))
-                                 ),
-                      "utc")
-        return { "rise": { "last": self.epoch("last",
-                                              a["rise"].totime()),
-                           "utc": x["rise"] },
+                self.epoch("last",
+                           a[k].totime(),
+                           off=self.epoch("r_utc",
+                                          (dq.quantity(ofe["m0"])
+                                           + dq.quantity("0.5d")
+                                           ))
+                           ),
+                "utc")
+        return {"rise": {"last": self.epoch("last",
+                                            a["rise"].totime()),
+                         "utc": x["rise"]},
 
-                 "set": { "last": self.epoch("last",
-                                             a["set"].totime()),
-                           "utc": x["set"] },
-                 "solved" : True
-                 }
+                "set": {"last": self.epoch("last",
+                                           a["set"].totime()),
+                        "utc": x["set"]},
+                "solved": True
+                }
 
     def observatory(self, name):
         """Get a (position) measure for the given obervatory.
@@ -902,7 +914,7 @@ class measures(_measures):
         """
         return self.srclist()
 
-    #alias
+    # alias
     def list_codes(self, m):
         """Get the known reference codes for a specified measure type. It
         will return a `dict` with two keys. The first is a string list
@@ -912,7 +924,6 @@ class measures(_measures):
         :param m: the measures with the type to get codes for
         """
         return _measures.alltyp(self, m)
-
 
     def posangle(self, m0, m1):
         """
@@ -948,7 +959,6 @@ class measures(_measures):
             10.0 deg
        """
         return _measures.separation(self, m0, m1)
-
 
 ##     def show(v, refcode=True):
 ##         z = ""

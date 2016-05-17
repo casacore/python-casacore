@@ -25,20 +25,20 @@
 #
 
 
+from casacore import six
 from .table import table
 from .tablehelper import _remove_prefix, _value_type_name
-from casacore import six
 
 
-def tablefromascii (tablename, asciifile,
-                    headerfile='',
-                    autoheader=False, autoshape=[],
-                    columnnames=[], datatypes=[],
-                    sep=' ',
-                    commentmarker='',
-                    firstline=1, lastline=-1,
-                    readonly=True,
-                    lockoptions='default', ack=True):
+def tablefromascii(tablename, asciifile,
+                   headerfile='',
+                   autoheader=False, autoshape=[],
+                   columnnames=[], datatypes=[],
+                   sep=' ',
+                   commentmarker='',
+                   firstline=1, lastline=-1,
+                   readonly=True,
+                   lockoptions='default', ack=True):
     """Create a table from an ASCII file.
 
     Create a table from a file in ASCII format. Columnar data as well as
@@ -231,7 +231,7 @@ def tablefromascii (tablename, asciifile,
     tab = table(asciifile, headerfile, tablename, autoheader, autoshape,
                 sep, commentmarker, firstline, lastline,
                 _columnnames=columnnames, _datatypes=datatypes, _oper=1)
-    six.print_('Input format: [' + tab._getasciiformat() +']')
+    six.print_('Input format: [' + tab._getasciiformat() + ']')
     # Close table and reopen it in correct way.
     tab = 0
     return table(tablename, readonly=readonly, lockoptions=lockoptions,
@@ -239,11 +239,11 @@ def tablefromascii (tablename, asciifile,
 
 
 # Create a description of a scalar column
-def makescacoldesc (columnname, value,
-                    datamanagertype='', 
-                    datamanagergroup='',
-                    options=0, maxlen=0, comment='',
-                    valuetype='', keywords={}):
+def makescacoldesc(columnname, value,
+                   datamanagertype='',
+                   datamanagergroup='',
+                   options=0, maxlen=0, comment='',
+                   valuetype='', keywords={}):
     """Create description of a scalar column.
 
     A description for a scalar column can be created from a name for
@@ -300,22 +300,23 @@ def makescacoldesc (columnname, value,
     vtype = valuetype
     if vtype == '':
         vtype = _value_type_name(value)
-    rec2 = {'valueType' : vtype,
-            'dataManagerType' : datamanagertype,
-            'dataManagerGroup' : datamanagergroup,
-            'option' : options,
-            'maxlen' : maxlen,
-            'comment' : comment,
-            'keywords' : keywords}
-    return {'name' : columnname,
-            'desc' : rec2}
+    rec2 = {'valueType': vtype,
+            'dataManagerType': datamanagertype,
+            'dataManagerGroup': datamanagergroup,
+            'option': options,
+            'maxlen': maxlen,
+            'comment': comment,
+            'keywords': keywords}
+    return {'name': columnname,
+            'desc': rec2}
+
 
 # Create a description of an array column
-def makearrcoldesc (columnname, value, ndim=0,
-                    shape=[], datamanagertype='',
-                    datamanagergroup='', 
-                    options=0, maxlen=0, comment='',
-                    valuetype='', keywords={}):
+def makearrcoldesc(columnname, value, ndim=0,
+                   shape=[], datamanagertype='',
+                   datamanagergroup='',
+                   options=0, maxlen=0, comment='',
+                   valuetype='', keywords={}):
     """Create description of an array column.
 
     A description for a scalar column can be created from a name for
@@ -400,21 +401,22 @@ def makearrcoldesc (columnname, value, ndim=0,
     if len(shape) > 0:
         if ndim <= 0:
             ndim = len(shape)
-    rec2 = {'valueType' : vtype,
-            'dataManagerType' : datamanagertype,
-            'dataManagerGroup' : datamanagergroup,
-            'ndim' : ndim,
-            'shape' : shape,
-            '_c_order' : True,
-            'option' : options,
-            'maxlen' : maxlen,
-            'comment' : comment,
-            'keywords' : keywords}
-    return {'name' : columnname,
-            'desc' : rec2}
+    rec2 = {'valueType': vtype,
+            'dataManagerType': datamanagertype,
+            'dataManagerGroup': datamanagergroup,
+            'ndim': ndim,
+            'shape': shape,
+            '_c_order': True,
+            'option': options,
+            'maxlen': maxlen,
+            'comment': comment,
+            'keywords': keywords}
+    return {'name': columnname,
+            'desc': rec2}
+
 
 # Create a description of a column
-def makecoldesc (columnname, desc):
+def makecoldesc(columnname, desc):
     """Create column description using the description of another column.
 
     The other description can be obtained from a table using function
@@ -438,11 +440,12 @@ def makecoldesc (columnname, desc):
     the same description as column `othercol`.
 
     """
-    return {'name' : columnname,
-            'desc' : desc}
+    return {'name': columnname,
+            'desc': desc}
+
 
 # Create a table description from a set of column descriptions
-def maketabdesc (descs=[]):
+def maketabdesc(descs=[]):
     """Create a table description.
 
     Creates a table description from a set of column descriptions. The
@@ -477,17 +480,18 @@ def maketabdesc (descs=[]):
         rec[colname] = desc['desc']
     return rec
 
+
 # Create the old glish names for them.
 tablecreatescalarcoldesc = makescacoldesc
-tablecreatearraycoldesc  = makearrcoldesc
-tablecreatedesc          = maketabdesc
+tablecreatearraycoldesc = makearrcoldesc
+tablecreatedesc = maketabdesc
 
 
 # Define a hypercolumn in the table description.
-def tabledefinehypercolumn (tabdesc,
-                            name, ndim, datacolumns,
-                            coordcolumns=False,
-                            idcolumns=False):
+def tabledefinehypercolumn(tabdesc,
+                           name, ndim, datacolumns,
+                           coordcolumns=False,
+                           idcolumns=False):
     """Add a hypercolumn to a table description.
 
     It defines a hypercolumn and adds it the given table description.
@@ -532,8 +536,8 @@ def tabledefinehypercolumn (tabdesc,
       the TiledColumnStMan).
 
     """
-    rec = {'HCndim' : ndim,
-           'HCdatanames' : datacolumns}
+    rec = {'HCndim': ndim,
+           'HCdatanames': datacolumns}
     if not isinstance(coordcolumns, bool):
         rec['HCcoordnames'] = coordcolumns
     if not isinstance(idcolumns, bool):
@@ -543,7 +547,7 @@ def tabledefinehypercolumn (tabdesc,
     tabdesc['_define_hypercolumn_'][name] = rec
 
 
-def tabledelete (tablename, checksubtables=False, ack=True):
+def tabledelete(tablename, checksubtables=False, ack=True):
     """Delete a table on disk.
 
     It is the same as :func:`table.delete`, but without the need to open
@@ -591,9 +595,9 @@ def tablecopy(tablename, newtablename, deep=False, valuecopy=False, dminfo={},
 
     """
     t = table(tablename, ack=False)
-    return t.copy (newtablename, deep=deep, valuecopy=valuecopy,
-                   dminfo=dminfo, endian=endian, memorytable=memorytable,
-                   copynorows=copynorows)
+    return t.copy(newtablename, deep=deep, valuecopy=valuecopy,
+                  dminfo=dminfo, endian=endian, memorytable=memorytable,
+                  copynorows=copynorows)
 
 
 def tablerename(tablename, newtablename):
@@ -603,7 +607,8 @@ def tablerename(tablename, newtablename):
 
     """
     t = table(tablename, ack=False)
-    t.rename (newtablename)
+    t.rename(newtablename)
+
 
 def tableinfo(tablename):
     """Get type info of a table.

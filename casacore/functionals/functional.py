@@ -1,10 +1,12 @@
-import numpy
 from ._functionals import _functional
+
+import numpy
+
 
 class functional(_functional):
     def __init__(self, name=None, order=-1, params=None, mode=None, dtype=0):
         if isinstance(dtype, str):
-            dtypes = {'real': 0, 'complex' : 1}
+            dtypes = {'real': 0, 'complex': 1}
             dtype = dtypes.get(dtype.lower())
         if numpy.iscomplexobj(params):
             dtype = 1
@@ -17,9 +19,9 @@ class functional(_functional):
         else:
             if isinstance(order, str):
                 progtext = order
-                order=-1
+                order = -1
         # our own functionals server
-        d = { 'type': name, 'order': order, 'progtext': progtext}
+        d = {'type': name, 'order': order, 'progtext': progtext}
         if isinstance(mode, dict):
             d['mode'] = mode
         _functional.__init__(self, d, self._dtype)
@@ -28,10 +30,11 @@ class functional(_functional):
             if len(params) == 0:
                 pass
             elif len(params) == self.npar():
-                 self.set_parameters(params)
+                self.set_parameters(params)
             else:
                 raise ValueError("Incorrect number of parameters "
                                  "specified in functional")
+
     def __repr__(self):
         return str(self.todict())
 
@@ -65,12 +68,11 @@ class functional(_functional):
     def __len__(self):
         return self.npar()
 
+    #    def __getitem__(self, i):
+    #        return self.get_parameters()[i]
 
-#    def __getitem__(self, i):
-#        return self.get_parameters()[i]
-
-#    def __setitem__(self, i, v):
-#        return self.set_parameter(i, v)
+    #    def __setitem__(self, i, v):
+    #        return self.set_parameter(i, v)
 
     def set_parameters(self, params):
         params = self._flatten(params)
@@ -139,11 +141,11 @@ class functional(_functional):
         if self._dtype == 0:
             retval = _functional._fdf(self, x)
         else:
-            retval =  _functional._fdfc(self, x)
+            retval = _functional._fdfc(self, x)
         if len(retval) == n:
             return numpy.array(retval)
-        return numpy.array(retval).reshape(self.npar()+1,
-                                           n/self.ndim()).transpose()
+        return numpy.array(retval).reshape(self.npar() + 1,
+                                           n / self.ndim()).transpose()
 
     def add(self, other):
         if not isinstance(other, functional):
@@ -168,14 +170,17 @@ class functional(_functional):
     def todict(self):
         return _functional.todict(self)
 
+
 class gaussian1d(functional):
     """Create a 1-dimensional Gaussian with the specified height, width and
     center.
     :param params: the [height, center, width] as a list
     """
+
     def __init__(self, params=None, dtype=0):
         functional.__init__(self, name="gaussian1d", params=params,
                             dtype=dtype)
+
 
 class gaussian2d(functional):
     """
@@ -185,12 +190,14 @@ class gaussian2d(functional):
                    Gaussian default is [1, 0, 0, 1, 1, 0]
     :param dtype:  The data type. One of 'real' or 0, or 'complex' or 1
     """
+
     def __init__(self, params=None, dtype=0):
         if params is None:
             params = [1, 0, 0, 1, 1, 0]
         functional.__init__(self, name="gaussian2d",
-                            params= params,
+                            params=params,
                             dtype=dtype)
+
 
 class poly(functional):
     """
@@ -203,13 +210,15 @@ class poly(functional):
     :param dtype: the optional data type. Default is float, but will be
                   auto-detected from `params`. Can be set to 'complex'.
     """
+
     def __init__(self, order, params=None, dtype=0):
         functional.__init__(self, name="poly",
                             order=order,
-                            params= params,
+                            params=params,
                             dtype=dtype)
         if params is None:
-            self.set_parameters([v+1. for v in self.get_parameters()])
+            self.set_parameters([v + 1. for v in self.get_parameters()])
+
 
 class oddpoly(functional):
     """Create an odd polynomial of specified degree.
@@ -220,13 +229,15 @@ class oddpoly(functional):
                   auto-detected from `params`. Can be set to 'complex'.
 
     """
+
     def __init__(self, order, params=None, dtype=0):
         functional.__init__(self, name="oddpoly",
                             order=order,
-                            params= params,
+                            params=params,
                             dtype=dtype)
         if params is None:
-            self.set_parameters([v+1. for v in self.get_parameters()])
+            self.set_parameters([v + 1. for v in self.get_parameters()])
+
 
 class evenpoly(functional):
     """Create an even polynomial of specified degree.
@@ -237,13 +248,15 @@ class evenpoly(functional):
                   auto-detected from `params`. Can be set to 'complex'.
 
     """
+
     def __init__(self, order, params=None, dtype=0):
         functional.__init__(self, name="evenpoly",
                             order=order,
-                            params= params,
+                            params=params,
                             dtype=dtype)
         if params is None:
-            self.set_parameters([v+1. for v in self.get_parameters()])
+            self.set_parameters([v + 1. for v in self.get_parameters()])
+
 
 class chebyshev(functional):
     def __init__(self, order, params=None,
@@ -252,23 +265,26 @@ class chebyshev(functional):
         modes = "constant zeroth extrapolate cyclic edge".split()
         if not ooimode in modes:
             raise ValueError("Unrecognized ooimode")
-        mode = {'interval': [float(xmin),float(xmax)], 'intervalMode': ooimode,
-                'default': float(0.0) };
+        mode = {'interval': [float(xmin), float(xmax)], 'intervalMode': ooimode,
+                'default': float(0.0)}
         functional.__init__(self, name="chebyshev",
                             order=order,
-                            params= params,
+                            params=params,
                             mode=mode,
                             dtype=dtype)
         if params is None:
-            self.set_parameters([v+1. for v in self.get_parameters()])
+            self.set_parameters([v + 1. for v in self.get_parameters()])
+
 
 class compound(functional):
     def __init__(self, dtype=0):
         functional.__init__(self, name="compound", dtype=dtype)
 
+
 class combi(functional):
     def __init__(self, dtype=0):
-        functional.__init__(self, name="combi", dtype=dtype )
+        functional.__init__(self, name="combi", dtype=dtype)
+
 
 class compiled(functional):
     """Create a function based on the programable string. The string should
@@ -320,6 +336,7 @@ class compiled(functional):
         [0.841471, 1.0, 0.841471]
 
     """
+
     def __init__(self, code="", params=None, dtype=0):
         functional.__init__(self, name="compiled", order=code,
                             params=params, dtype=dtype)

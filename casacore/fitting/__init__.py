@@ -217,14 +217,14 @@ Now try the same by a sum of odd and even polynomials of default order
     a = dfs.compound()
     a.add(dfs.functional('oddp'))
     a.add(dfs.functional('evenp'))
-    dfit.linear(a,x,y,id=id2);
+    dfit.linear(a,x,y,id=id2)
     dfit.solution(id=id2)
     [ 2.06 3.041]
 
 And the combination of an odd (2x) and an even polynomial (3)::
 
     a = dfs.combi()
-    a.add(dfs.functional('oddp', params=2));
+    a.add(dfs.functional('oddp', params=2))
     a.add(dfs.functional('evenp', params=3))
     dfit.linear(a, x, y)
     >>> dfit.solution()
@@ -377,7 +377,7 @@ given::
     # Get a complex fitter and see the same fit
     >>> id1 = dfit.fitter()
     >>> dfit.set(ftype='complex', fid=id1)
-    >>> dfit.linear(dfs.poly(1, dtype='complex'), x, y, fid=id1);
+    >>> dfit.linear(dfs.poly(1, dtype='complex'), x, y, fid=id1)
     >>> dfit.solution(fid=id1)
     [ 3.041+0j 2.06+0j]
 

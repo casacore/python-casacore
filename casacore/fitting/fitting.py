@@ -1,7 +1,9 @@
 from ._fitting import fitting
-from casacore.functionals import *
-from casacore import six
+
 import numpy as NUM
+from casacore import six
+from casacore.functionals import *
+
 
 class fitserver(object):
     """Create a `fitserver instance. The object can be created without
@@ -68,7 +70,7 @@ class fitserver(object):
         self.init(n=n, ftype=ftype, colfac=colfac, lmfac=lmfac, fid=fid)
         return fid
 
-    def init(self,  n=0, ftype="real", colfac=1.0e-8, lmfac=1.0e-3, fid=0):
+    def init(self, n=0, ftype="real", colfac=1.0e-8, lmfac=1.0e-3, fid=0):
         """Set selected properties of the fitserver instance. Like in the
         constructor, the number of unknowns to be solved for; the number of
         simultaneous solutions; the ftype and the collinearity and
@@ -123,7 +125,7 @@ class fitserver(object):
     def _reshape(self, fid=0):
         pass
 
-    def  _getstate(self, fid):
+    def _getstate(self, fid):
         d = self._fitproxy.getstate(fid)
         if "typ" in d:
             d["typ"] = self._settype(d["typ"])
@@ -149,15 +151,15 @@ class fitserver(object):
             ftype = -1
         else:
             ftype = self._gettype(ftype)
-        if  n is None:
+        if n is None:
             n = -1
         elif n < 0:
             raise ValueError("Illegal set argument n")
-        if  colfac is None:
+        if colfac is None:
             colfac = -1
         elif colfac < 0:
             raise ValueError("Illegal set argument colfac")
-        if  lmfac is None:
+        if lmfac is None:
             lmfac = -1
         elif lmfac < 0:
             raise ValueError("Illegal set argument lmfac")
@@ -172,7 +174,6 @@ class fitserver(object):
                 return False
         self._fitids[fid]["stat"] = self._getstate(fid)
         return True
-
 
     def done(self, fid=0):
         self._checkid(fid)
@@ -225,7 +226,7 @@ class fitserver(object):
         six.print_(self._fitids[fid]["constraint"])
 
     def fitpoly(self, n, x, y, sd=None, wt=1.0, fid=0):
-        if self.set(n=n+1, fid=fid):
+        if self.set(n=n + 1, fid=fid):
             return self.linear(poly(n), x, y, sd, wt, fid)
 
     def fitspoly(self, n, x, y, sd=None, wt=1.0, fid=0):
@@ -233,7 +234,7 @@ class fitserver(object):
         solve the resulting normal equations. It is in essence a combination
 
         The method expects that the properties of the fitter to be used have
-        been initialized or set (like the number of simultaneous solutions m;
+        been initialized or set (like the number of simultaneous solutions m
         the type; factors). The main reason is to limit the number of
         parameters on the one hand, and on the other hand not to depend
         on the actual array structure to get the variables and type. Before
@@ -260,12 +261,12 @@ class fitserver(object):
         """
         a = max(abs(max(x)), abs(min(x)))
         if a == 0: a = 1
-        a = 1.0/a
-        b = NUM.power(a, range(n+1))
-        if self.set(n=n+1, fid=fid):
+        a = 1.0 / a
+        b = NUM.power(a, range(n + 1))
+        if self.set(n=n + 1, fid=fid):
             return self.linear(poly(n), x, y, sd, wt, fid)
-        if self.set(n=n+1, fid=fid):
-            self.linear(poly(n), x*a, y, sd, wt, fid)
+        if self.set(n=n + 1, fid=fid):
+            self.linear(poly(n), x * a, y, sd, wt, fid)
             self._fitids[fid]["sol"] *= b
             self._fitids[fid]["error"] *= b
 
@@ -296,14 +297,14 @@ class fitserver(object):
             sd = self._as_array(sd)
             wt = sd.copy()
             wt[sd == 0] = 1
-            wt = 1/abs(wt * NUM.conjugate(wt))
+            wt = 1 / abs(wt * NUM.conjugate(wt))
             wt[NUM.logical_or(sd == -1, sd == 0)] = 0
         ftype = fitfunc
         dtype = 'float'
         if (self.getstate(fid)["typ"] != "real"
             or NUM.iscomplexobj(x) \
-            or NUM.iscomplexobj(y) \
-            or NUM.iscomplexobj(wt) ):
+                    or NUM.iscomplexobj(y) \
+                    or NUM.iscomplexobj(wt)):
             ftype = "cx%s" % fitfunc
             dtype = 'complex'
         kw["x"] = self._as_array(x, dtype)
@@ -311,7 +312,7 @@ class fitserver(object):
         kw["wt"] = self._as_array(wt, dtype)
         if not "constraint" in self._fitids[fid]:
             self._fitids[fid]["constraint"] = {}
-        kw["constraint"] =  self._fitids[fid]["constraint"]
+        kw["constraint"] = self._fitids[fid]["constraint"]
         func = getattr(self._fitproxy, ftype)
         result = func(**kw)
         self._fitids[fid].update(result)
@@ -336,6 +337,7 @@ class fitserver(object):
         """
         self._fit(fitfunc="functional", fnct=fnct, x=x, y=y, sd=sd, wt=wt,
                   mxit=mxit, fid=fid)
+
     nonlinear = functional
 
     def linear(self, fnct, x, y, sd=None, wt=1.0, fid=0):

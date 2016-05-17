@@ -57,12 +57,13 @@ submodule `msutil <#measurementset-utility-functions>`_
 
 """
 
+from .msutil import *
 from .table import table
 from .table import tablecommand
 from .table import taql
-from .tableiter import tableiter
-from .tableindex import tableindex
 from .tablecolumn import tablecolumn
+from .tableindex import tableindex
+from .tableiter import tableiter
 from .tablerow import tablerow
 from .tableutil import *
-from .msutil import *
+

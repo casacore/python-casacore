@@ -27,7 +27,9 @@
 
 # Make interface to class ImageProxy available.
 from ._images import Image
+
 import numpy
+
 try:
     import numpy.ma as nma
 except ImportError:
@@ -123,19 +125,19 @@ class image(Image):
             coord = coordsys.dict()
         if isinstance(imagename, Image):
             # Create from the value returned by subimage, etc.
-            Image.__init__ (self, imagename)
+            Image.__init__(self, imagename)
         else:
             opened = False
-            if isinstance(imagename, tuple)  or  isinstance(imagename, list):
+            if isinstance(imagename, tuple) or isinstance(imagename, list):
                 if len(imagename) == 0:
-                    raise ValueError('No images given in list or tuple');
+                    raise ValueError('No images given in list or tuple')
                 if isinstance(imagename[0], str):
                     # Concatenate from image names
-                    Image.__init__ (self, imagename, axis)
+                    Image.__init__(self, imagename, axis)
                     opened = True
                 elif isinstance(imagename[0], image):
                     # Concatenate from image objects
-                    Image.__init__ (self, imagename, axis, 0, 0)
+                    Image.__init__(self, imagename, axis, 0, 0)
                     opened = True
             if not opened:
                 if not isinstance(imagename, str):
@@ -150,14 +152,15 @@ class image(Image):
                         try:
                             # Substitute possible $ arguments
                             import casacore.util
-                            imagename = casacore.util.substitute(imagename, [(image, '', imgs)], locals=casacore.util.getlocals(3))
+                            imagename = casacore.util.substitute(imagename, [(image, '', imgs)],
+                                                                 locals=casacore.util.getlocals(3))
                         except:
                             six.print_("Probably could not import casacore.util")
                             pass
-                        Image.__init__ (self, imagename, maskname, imgs)
+                        Image.__init__(self, imagename, maskname, imgs)
                     else:
                         # Create an image from an array
-                        # The values can be a masked array;
+                        # The values can be a masked array
                         #  use the mask if no explicit mask is given
                         if isinstance(values, nma.MaskedArray):
                             if len(mask) == 0:
@@ -165,87 +168,87 @@ class image(Image):
                             values = values.data
                         if len(mask) > 0:
                             mask = -mask;  # casa and numpy have opposite flags
-                        Image.__init__ (self, values, mask, coord,
-                                        imagename, overwrite, ashdf5,
-                                        maskname, tileshape)
+                        Image.__init__(self, values, mask, coord,
+                                       imagename, overwrite, ashdf5,
+                                       maskname, tileshape)
                 else:
                     # Create an image from a shape (values gives the data type)
                     # default type is float.
                     if values is None:
-                        values = numpy.array([0],dtype='float32')[0]
-                    Image.__init__ (self, shape, values, coord,
-                                    imagename, overwrite, ashdf5,
-                                    maskname, tileshape, 0)
+                        values = numpy.array([0], dtype='float32')[0]
+                    Image.__init__(self, shape, values, coord,
+                                   imagename, overwrite, ashdf5,
+                                   maskname, tileshape, 0)
 
-    def __str__ (self):
+    def __str__(self):
         """Get image name."""
-        return self._name();
+        return self._name()
 
-    def __len__ (self):
+    def __len__(self):
         """Get nr of pixels in the image."""
-        return self._size();
+        return self._size()
 
     def ispersistent(self):
         """Test if the image is persistent, i.e. stored on disk."""
         return self._ispersistent()
 
-    def name (self, strippath=False):
+    def name(self, strippath=False):
         """Get image name."""
-        return self._name (strippath)
+        return self._name(strippath)
 
-    def shape (self):
+    def shape(self):
         """Get image shape."""
         return self._shape()
 
-    def ndim (self):
+    def ndim(self):
         """Get dimensionality of the image."""
         return self._ndim()
 
-    def size (self):
+    def size(self):
         """Get nr of pixels in the image."""
         return self._size()
 
-    def datatype (self):
+    def datatype(self):
         """Get data type of the image."""
         return self._datatype()
 
-    def imagetype (self):
+    def imagetype(self):
         """Get image type of the image (PagedImage, HDF5Image, etc.)."""
         return self._imagetype()
 
-    def attrgroupnames (self):
+    def attrgroupnames(self):
         """Get the names of all attribute groups."""
         return self._attrgroupnames()
 
-    def attrcreategroup (self, groupname):
+    def attrcreategroup(self, groupname):
         """Create a new attribute group."""
-        self._attrcreategroup (groupname)
+        self._attrcreategroup(groupname)
 
-    def attrnames (self, groupname):
+    def attrnames(self, groupname):
         """Get the names of all attributes in this group."""
-        return self._attrnames (groupname)
+        return self._attrnames(groupname)
 
-    def attrnrows (self, groupname):
+    def attrnrows(self, groupname):
         """Get the number of rows in this attribute group."""
-        return self._attrnrows (groupname)
+        return self._attrnrows(groupname)
 
-    def attrget (self, groupname, attrname, rownr):
+    def attrget(self, groupname, attrname, rownr):
         """Get the value of an attribute in the given row in a group."""
-        return self._attrget (groupname, attrname, rownr)
+        return self._attrget(groupname, attrname, rownr)
 
-    def attrgetcol (self, groupname, attrname):
+    def attrgetcol(self, groupname, attrname):
         """Get the value of an attribute for all rows in a group."""
         values = []
         for rownr in range(self.attrnrows(groupname)):
-            values.append (self.attrget (groupname, attrname, rownr))
+            values.append(self.attrget(groupname, attrname, rownr))
         return values
 
-    def attrfindrows (self, groupname, attrname, value):
+    def attrfindrows(self, groupname, attrname, value):
         """Get the row numbers of all rows where the attribute matches the given value."""
         values = self.attrgetcol(groupname, attrname)
         return [i for i in range(len(values)) if values[i] == value]
 
-    def attrgetrow (self, groupname, key, value=None):
+    def attrgetrow(self, groupname, key, value=None):
         """Get the values of all attributes of a row in a group.
 
         If the key is an integer, the key is the row number for which
@@ -258,9 +261,9 @@ class image(Image):
         is raised if no or multiple matches are found.
         """
         if not isinstance(key, str):
-            return self._attrgetrow (groupname, key)
+            return self._attrgetrow(groupname, key)
         # The key is an attribute name whose value has to be found.
-        rownrs = self.attrfindrows (groupname, key, value)
+        rownrs = self.attrfindrows(groupname, key, value)
         if len(rownrs) == 0:
             raise IndexError("Image attribute " + key + " in group " +
                              groupname + " has no matches for value " +
@@ -269,21 +272,21 @@ class image(Image):
             raise IndexError("Image attribute " + key + " in group " +
                              groupname + " has multiple matches for value " +
                              str(value))
-        return self._attrgetrow (groupname, rownrs[0])
+        return self._attrgetrow(groupname, rownrs[0])
 
-    def attrgetunit (self, groupname, attrname):
+    def attrgetunit(self, groupname, attrname):
         """Get the unit(s) of an attribute in a group."""
-        return self._attrgetunit (groupname, attrname)
+        return self._attrgetunit(groupname, attrname)
 
-    def attrgetmeas (self, groupname, attrname):
+    def attrgetmeas(self, groupname, attrname):
         """Get the measinfo (type, frame) of an attribute in a group."""
-        return self._attrgetmeas (groupname, attrname)
+        return self._attrgetmeas(groupname, attrname)
 
-    def attrput (self, groupname, attrname, rownr, value, unit=[], meas=[]):
+    def attrput(self, groupname, attrname, rownr, value, unit=[], meas=[]):
         """Put the value and optionally unit and measinfo of an attribute in a row in a group."""
-        return self._attrput (groupname, attrname, rownr, value, unit, meas)
+        return self._attrput(groupname, attrname, rownr, value, unit, meas)
 
-    def getdata (self, blc=(), trc=(), inc=()):
+    def getdata(self, blc=(), trc=(), inc=()):
         """Get image data.
 
         Using the arguments blc (bottom left corner), trc (top right corner),
@@ -293,12 +296,12 @@ class image(Image):
         as the dimensionality of the image, even if an axis has length 1.
 
         """
-        return self._getdata (self._adjustBlc(blc),
-                              self._adjustTrc(trc),
-                              self._adjustInc(inc));
+        return self._getdata(self._adjustBlc(blc),
+                             self._adjustTrc(trc),
+                             self._adjustInc(inc))
 
     # Negate the mask; in numpy True means invalid.
-    def getmask (self, blc=(), trc=(), inc=()):
+    def getmask(self, blc=(), trc=(), inc=()):
         """Get image mask.
 
         Using the arguments blc (bottom left corner), trc (top right corner),
@@ -316,22 +319,22 @@ class image(Image):
         set to False.
 
         """
-        return -self._getmask (self._adjustBlc(blc),
-                               self._adjustTrc(trc),
-                               self._adjustInc(inc));
+        return -self._getmask(self._adjustBlc(blc),
+                              self._adjustTrc(trc),
+                              self._adjustInc(inc))
 
-    # Get data and mask;
-    def get (self, blc=(), trc=(), inc=()):
+    # Get data and mask
+    def get(self, blc=(), trc=(), inc=()):
         """Get image data and mask.
 
         Get the image data and mask (see ::func:`getdata` and :func:`getmask`)
         as a numpy masked array.
 
         """
-        return nma.masked_array (self.getdata(blc,trc,inc),
-                                 self.getmask(blc,trc,inc))
+        return nma.masked_array(self.getdata(blc, trc, inc),
+                                self.getmask(blc, trc, inc))
 
-    def putdata (self, value, blc=(), trc=(), inc=()):
+    def putdata(self, value, blc=(), trc=(), inc=()):
         """Put image data.
 
         Using the arguments blc (bottom left corner), trc (top right corner),
@@ -342,10 +345,10 @@ class image(Image):
         as the dimensionality of the image.
 
         """
-        return self._putdata (value, self._adjustBlc(blc),
-                              self._adjustInc(inc));
+        return self._putdata(value, self._adjustBlc(blc),
+                             self._adjustInc(inc))
 
-    def putmask (self, value, blc=(), trc=(), inc=()):
+    def putmask(self, value, blc=(), trc=(), inc=()):
         """Put image mask.
 
         Using the arguments blc (bottom left corner), trc (top right corner),
@@ -365,10 +368,10 @@ class image(Image):
 
         """
         # casa and numpy have opposite flags
-        return self._putmask (-value, self._adjustBlc(blc),
-                              self._adjustInc(inc));
+        return self._putmask(-value, self._adjustBlc(blc),
+                             self._adjustInc(inc))
 
-    def put (self, value, blc=(), trc=(), inc=()):
+    def put(self, value, blc=(), trc=(), inc=()):
         """Put image data and mask.
 
         Put the image data and optionally the mask (see ::func:`getdata`
@@ -379,12 +382,12 @@ class image(Image):
 
         """
         if isinstance(value, nma.MaskedArray):
-            self.putdata (value.data, blc, trc, inc);
-            self.putmask (nma.getmaskarray(value), blc, trc, inc);
+            self.putdata(value.data, blc, trc, inc)
+            self.putmask(nma.getmaskarray(value), blc, trc, inc)
         else:
-            self.putdata (value, blc, trc, inc);
+            self.putdata(value, blc, trc, inc)
 
-    def haslock (self, write=False):
+    def haslock(self, write=False):
         """Test if the image holds a read or write lock.
 
         | See `func:`tables.table.haslock` for more information.
@@ -392,9 +395,9 @@ class image(Image):
           (un)locking is a no-op, so this method always returns True.
 
         """
-        return self._haslock (write)
+        return self._haslock(write)
 
-    def lock (self, write=False, nattempts=0):
+    def lock(self, write=False, nattempts=0):
         """Acquire a read or write lock on the image.
 
         | See `func:`tables.table.haslock` for more information.
@@ -405,9 +408,9 @@ class image(Image):
         explicit locking and unlocking is not necessary.
 
         """
-        return self._lock (write, nattempts)
+        return self._lock(write, nattempts)
 
-    def unlock (self):
+    def unlock(self):
         """Release a lock on the image.
 
         | See `func:`tables.table.haslock` for more information.
@@ -417,7 +420,7 @@ class image(Image):
         """
         return self._unlock()
 
-    def subimage (self, blc=(), trc=(), inc=(), dropdegenerate=True):
+    def subimage(self, blc=(), trc=(), inc=(), dropdegenerate=True):
         """Form a subimage.
 
         An image object containing a subset of an image is returned.
@@ -432,59 +435,59 @@ class image(Image):
         :func:`saveas` method.
 
         """
-        return image(self._subimage (self._adjustBlc(blc),
-                                     self._adjustTrc(trc),
-                                     self._adjustInc(inc),
-                                     dropdegenerate))
+        return image(self._subimage(self._adjustBlc(blc),
+                                    self._adjustTrc(trc),
+                                    self._adjustInc(inc),
+                                    dropdegenerate))
 
     def coordinates(self):
         """Get the :class:`coordinatesystem` of the image."""
         return coordinatesystem(self._coordinates())
 
-    def toworld (self, pixel):
+    def toworld(self, pixel):
         """Convert the pixel coordinates of an image value to world coordinates.
 
         The coordinates must be given with the slowest varying axis first.
         Thus normally like frequency(,polarisation axis),Dec,Ra.
 
         """
-        return self._toworld (pixel, True);
-    
-    def topixel (self, world):
+        return self._toworld(pixel, True)
+
+    def topixel(self, world):
         """Convert the world coordinates of an image value to pixel coordinates.
 
         The coordinates must be given with the slowest varying axis first.
         Thus normally like frequency(,polarisation axis),Dec,Ra.
 
         """
-        return self._topixel (world, True);
-    
-    def imageinfo (self):
+        return self._topixel(world, True)
+
+    def imageinfo(self):
         """Get the standard image info."""
         return self._imageinfo()
 
-    def miscinfo (self):
+    def miscinfo(self):
         """Get the auxiliary image info."""
         return self._miscinfo()
 
-    def unit (self):
+    def unit(self):
         """Get the pixel unit of the image."""
         return self._unit()
 
-    def history (self):
+    def history(self):
         """Get the image processing history."""
         return self._history()
 
-    def info (self):
+    def info(self):
         """Get coordinates, image info, and unit"."""
-        return {'coordinates' : self._coordinates(),
-                'imageinfo'   : self._imageinfo(),
-                'miscinfo'    : self._miscinfo(),
-                'unit'        : self._unit()
+        return {'coordinates': self._coordinates(),
+                'imageinfo': self._imageinfo(),
+                'miscinfo': self._miscinfo(),
+                'unit': self._unit()
                 }
 
-    def tofits (self, filename, overwrite=True, velocity=True,
-                optical=True, bitpix=-32, minpix=1, maxpix=-1):
+    def tofits(self, filename, overwrite=True, velocity=True,
+               optical=True, bitpix=-32, minpix=1, maxpix=-1):
         """Write the image to a file in FITS format.
 
         `filename`
@@ -509,11 +512,11 @@ class image(Image):
           Note that this truncation does not occur for `bitpix=-32`.
 
         """
-        return self._tofits (filename, overwrite, velocity, optical,
-                             bitpix, minpix, maxpix)
+        return self._tofits(filename, overwrite, velocity, optical,
+                            bitpix, minpix, maxpix)
 
-    def saveas (self, filename, overwrite=True, hdf5=False,
-                copymask=True, newmaskname="", newtileshape=()):
+    def saveas(self, filename, overwrite=True, hdf5=False,
+               copymask=True, newmaskname="", newtileshape=()):
         """Write the image to disk.
 
         Note that the created disk file is a snapshot, so it is not updated
@@ -536,11 +539,11 @@ class image(Image):
           module for more information about Tiled Storage Managers.
 
         """
-        self._saveas (filename, overwrite, hdf5,
-                      copymask, newmaskname,
-                      newtileshape)
+        self._saveas(filename, overwrite, hdf5,
+                     copymask, newmaskname,
+                     newtileshape)
 
-    def statistics (self, axes=(), minmaxvalues=(), exclude=False, robust=True):
+    def statistics(self, axes=(), minmaxvalues=(), exclude=False, robust=True):
         """Calculate statistics for the image.
 
         Statistics are returned in a dict for the given axes.
@@ -555,13 +558,13 @@ class image(Image):
         By default robust statistics (Median, MedAbsDevMed, and Quartile) are
         calculated too.
         """
-        return self._statistics (self._adaptAxes(axes), "",
-                                 minmaxvalues, exclude, robust)
+        return self._statistics(self._adaptAxes(axes), "",
+                                minmaxvalues, exclude, robust)
 
-    def regrid (self, axes, coordsys, outname="", overwrite=True,
-                outshape=(), interpolation="linear",
-                decimate=10, replicate=False,
-                refchange=True, forceregrid=False):
+    def regrid(self, axes, coordsys, outname="", overwrite=True,
+               outshape=(), interpolation="linear",
+               decimate=10, replicate=False,
+               refchange=True, forceregrid=False):
         """Regrid the image to a new image object.
 
          Regrid the image on the given axes to the given coordinate system.
@@ -571,13 +574,13 @@ class image(Image):
          `replicate=True` means replication rather than regridding.
 
         """
-        return image(self._regrid (self._adaptAxes(axes),
-                                   outname, overwrite,
-                                   outshape, coordsys.dict(),
-                                   interpolation, decimate, replicate,
-                                   refchange, forceregrid))
+        return image(self._regrid(self._adaptAxes(axes),
+                                  outname, overwrite,
+                                  outshape, coordsys.dict(),
+                                  interpolation, decimate, replicate,
+                                  refchange, forceregrid))
 
-    def view (self, tempname='/tmp/tempimage'):
+    def view(self, tempname='/tmp/tempimage'):
         """Display the image using casaviewer.
 
         If the image is not persistent, a copy will be made that the user
@@ -592,12 +595,12 @@ class image(Image):
             six.print_("Starting casaviewer in the background ...")
             self.unlock()
             if self.ispersistent():
-                os.system ('casaviewer ' + self.name() + ' &')
+                os.system('casaviewer ' + self.name() + ' &')
             elif len(tempname) > 0:
                 six.print_("  making a persistent copy in " + tempname)
                 six.print_("  which should be deleted after the viewer has ended")
-                self.saveas (tempname);
-                os.system ('casaviewer ' + tempname + ' &')
+                self.saveas(tempname)
+                os.system('casaviewer ' + tempname + ' &')
             else:
                 six.print_("Cannot view because the image is in memory only.")
                 six.print_("You can browse a persistent copy of the image like:")
@@ -605,8 +608,7 @@ class image(Image):
         else:
             six.print_("casaviewer cannot be found")
 
-
-    def _adaptAxes (self, axes):
+    def _adaptAxes(self, axes):
         # If axes is a single integer value, turn it into a list.
         if isinstance(axes, int):
             axes = [axes]
@@ -614,29 +616,29 @@ class image(Image):
         # So reverse the axes.
         n = self.ndim() - 1
         axout = []
-        for i in range(len(axes),0,-1):
-            axout += [n-axes[i-1]]
+        for i in range(len(axes), 0, -1):
+            axout += [n - axes[i - 1]]
         return axout
 
-    def _adjust (self, val, defval):
+    def _adjust(self, val, defval):
         retval = defval
-        if isinstance(val,tuple) or isinstance(val,list):
+        if isinstance(val, tuple) or isinstance(val, list):
             retval[0:len(val)] = val
         else:
             retval[0] = val
         return retval
 
     # Append blc with 0 if shorter than shape.
-    def _adjustBlc (self, blc):
+    def _adjustBlc(self, blc):
         shp = self._shape()
-        return self._adjust (blc, [0 for x in shp])
+        return self._adjust(blc, [0 for x in shp])
 
     # Append trc with shape-1 if shorter than shape.
-    def _adjustTrc (self, trc):
+    def _adjustTrc(self, trc):
         shp = self._shape()
-        return self._adjust (trc, [x-1 for x in shp])
+        return self._adjust(trc, [x - 1 for x in shp])
 
     # Append inc with 1 if shorter than shape.
-    def _adjustInc (self, inc):
+    def _adjustInc(self, inc):
         shp = self._shape()
-        return self._adjust (inc, [1 for x in shp])
+        return self._adjust(inc, [1 for x in shp])

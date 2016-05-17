@@ -28,18 +28,20 @@ __all__ = ['getlocals', 'getvariable', 'substitute']
 
 import numpy as np
 
+
 def getlocals(back=2):
     """Get the local variables some levels back (-1 is top)."""
     import inspect
     fr = inspect.currentframe()
     try:
         while fr and back != 0:
-            fr1 = fr;
+            fr1 = fr
             fr = fr.f_back
             back -= 1
     except:
         pass
     return fr1.f_locals
+
 
 def getvariable(name):
     """Get the value of a local variable somewhere in the call stack"""
@@ -47,13 +49,14 @@ def getvariable(name):
     fr = inspect.currentframe()
     try:
         while fr:
-            fr  = fr.f_back
+            fr = fr.f_back
             vars = fr.f_locals
             if vars.has_key(name):
                 return vars[name]
     except:
         pass
     return None
+
 
 def substitute(s, objlist=(), globals={}, locals={}):
     """Substitute global python variables in a command string.
@@ -119,19 +122,19 @@ def substitute(s, objlist=(), globals={}, locals={}):
     out = ''
     # Loop through the entire string.
     for tmp in s:
-    # If a dollar was found, we might have a name.
-    # Alphabetics and underscore are always part of name.
+        # If a dollar was found, we might have a name.
+        # Alphabetics and underscore are always part of name.
         if dollar:
-            if tmp=='_' or (tmp>='a' and tmp<='z') or (tmp>='A' and tmp<='Z'):
+            if tmp == '_' or (tmp >= 'a' and tmp <= 'z') or (tmp >= 'A' and tmp <= 'Z'):
                 name += tmp
                 tmp = ''
             else:
                 # Numerics are only part if not first character.
-                if tmp>='0' and tmp<='9' and name!='':
+                if tmp >= '0' and tmp <= '9' and name != '':
                     name += tmp
                     tmp = ''
                 else:
-                    if tmp=='(' and name=='':
+                    if tmp == '(' and name == '':
                         # $( indicates the start of a subexpression to evaluate.
                         nparen = 1
                         evalstr = ''
@@ -144,10 +147,10 @@ def substitute(s, objlist=(), globals={}, locals={}):
 
         if tmp != '':
             # Handle possible single or double quotes.
-            if tmp == '"'  and  not squote:
+            if tmp == '"' and not squote:
                 dquote = not dquote
             else:
-                if tmp == "'"  and  not dquote:
+                if tmp == "'" and not dquote:
                     squote = not squote
                 else:
                     if not dquote and not squote:
@@ -172,7 +175,7 @@ def substitute(s, objlist=(), globals={}, locals={}):
                             # Set a switch if we have a dollar (outside quoted
                             # and eval strings)
                             # that is not preceeded by a backslash.
-                            if tmp == '$'  and  not backslash:
+                            if tmp == '$' and not backslash:
                                 dollar = True
                                 name = ''
                                 tmp = ''
@@ -205,7 +208,7 @@ def substitutename(name, objlist, globals, locals):
 
     # First try as a single variable; otherwise as an expression.
     try:
-        v = getvariable (name)
+        v = getvariable(name)
         if v == None:
             v = eval(name, globals, locals)
     except NameError:
@@ -213,7 +216,7 @@ def substitutename(name, objlist, globals, locals):
 
     # See if the resulting value is one of the given special types.
     try:
-        for objtype,objstr,objs in objlist:
+        for objtype, objstr, objs in objlist:
             if isinstance(v, objtype):
                 objs += [v]
                 return '$' + objstr + str(len(objs))
@@ -222,8 +225,6 @@ def substitutename(name, objlist, globals, locals):
 
     # No specific type, thus a normal value has to be substituted.
     return substitutevar(v)
-
-
 
 
 # This function tries to substitute the given name using
@@ -238,11 +239,10 @@ def substituteexpr(expr, globals={}, locals={}):
     return str(v)
 
 
-
 # Substitute a value.
 def substitutevar(v):
-    out=''
-    if isinstance (v, tuple) or isinstance (v, list) or isinstance(v, np.ndarray):
+    out = ''
+    if isinstance(v, tuple) or isinstance(v, list) or isinstance(v, np.ndarray):
         out = '['
         first = True
         for tmp in v:
@@ -260,12 +260,12 @@ def substitutevar(v):
 def substituteonevar(v):
     # A string needs to be enclosed in quotes.
     # A vector value is enclosed in square brackets and separated by commas.
-    if isinstance (v, str):
-        return substitutestring (v)
+    if isinstance(v, str):
+        return substitutestring(v)
     # A numeric or boolean value is converted to a string.
     # A vector value is enclosed in square brackets and separated by commas.
     # Take care we have enough precision.
-    if isinstance (v, bool):
+    if isinstance(v, bool):
         if v:
             return 'T'
         return 'F'
@@ -278,7 +278,7 @@ def substituteonevar(v):
 # is returned as     "ab"'"'"cd"
 # which is according to the TaQL rules for strings.
 def substitutestring(value):
-    out='"'
+    out = '"'
     for tmp in value:
         if tmp == '"':
             out += '"' + "'" + '"' + "'" + '"'

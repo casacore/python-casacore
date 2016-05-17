@@ -28,6 +28,7 @@
 # Make interface to class TableIndexProxy available.
 from ._tables import TableIndex
 
+
 class tableindex(TableIndex):
     """ The Python interface to Casacore table index
 
@@ -59,7 +60,8 @@ class tableindex(TableIndex):
     """
 
     def __init__(self, table, columnnames, sort=True):
-        TableIndex.__init__ (self, table, columnnames, not sort);
+        TableIndex.__init__(self, table, columnnames, not sort)
+
     """Create the index on one or more columns.
 
     By default the columns get sorted when forming in the index. By giving
@@ -70,17 +72,18 @@ class tableindex(TableIndex):
     `tableindex` object.
 
     """
-    # Turn a key into a dict if needed.
-    def _makekey (self, key):
-        d = key;
-        if not isinstance(d, dict):
-            cols = self.colnames();
-            if len(cols) != 1:
-                raise RunTimeError("key has to be given as a dict for a multi-column index");
-            d = {cols[0] : key};
-        return d;
 
-    def rownr (self, key):
+    # Turn a key into a dict if needed.
+    def _makekey(self, key):
+        d = key
+        if not isinstance(d, dict):
+            cols = self.colnames()
+            if len(cols) != 1:
+                raise RunTimeError("key has to be given as a dict for a multi-column index")
+            d = {cols[0]: key}
+        return d
+
+    def rownr(self, key):
         """Get the unique row number containing the key.
 
         If the index is made from a single column, the keycan be given as a
@@ -103,9 +106,9 @@ class tableindex(TableIndex):
         method :func:`rownrs` should be used instead.
 
         """
-        return self._rownr (self._makekey(key));
+        return self._rownr(self._makekey(key))
 
-    def rownrs (self, key, upperkey={}, lowerincl=True, upperincl=True):
+    def rownrs(self, key, upperkey={}, lowerincl=True, upperincl=True):
         """Get a sequence of row numbers containing the key(s).
 
         A single key can be given, but by giving argument `upperkey` as well
@@ -131,21 +134,21 @@ class tableindex(TableIndex):
           rownr = tinx[0:1]              # same as above
 
         """
-        lkey = self._makekey(key);
-        ukey = self._makekey(upperkey);
+        lkey = self._makekey(key)
+        ukey = self._makekey(upperkey)
         if len(ukey) == 0:
-            return self._rownrs (lkey);
-        return self._rownrsrange (lkey, ukey, lowerincl, upperincl);
+            return self._rownrs(lkey)
+        return self._rownrsrange(lkey, ukey, lowerincl, upperincl)
 
-    def isunique (self):
+    def isunique(self):
         """Tell if all keys in the index are unique."""
         return self._isunique()
 
-    def colnames (self):
+    def colnames(self):
         """Return the column names the index is made of."""
         return self._colnames()
 
-    def setchanged (self, columnnames=[]):
+    def setchanged(self, columnnames=[]):
         """Tell the index that data has changed.
 
         The index is smart enough to detect that the number of rows in the
@@ -157,25 +160,25 @@ class tableindex(TableIndex):
           The names of the columns in which data have changed.
           Giving no names means that all columns in the index have changed.
         """
-        return self._setchanged (columnnames)
+        return self._setchanged(columnnames)
 
-    def __getitem__ (self, key):
+    def __getitem__(self, key):
         if not isinstance(key, slice):
-            rnr = self.rownr (key);
+            rnr = self.rownr(key)
             if rnr < 0:
-                raise KeyError("key not found in tableindex");
-            return rnr;
+                raise KeyError("key not found in tableindex")
+            return rnr
         if key.step != None:
-            raise RuntimeError("tableindex slicing cannot have a step");
-        lowerkey = 0;
+            raise RuntimeError("tableindex slicing cannot have a step")
+        lowerkey = 0
         if key.start != None:
-            lowerkey = key.start;
-        upperkey = 2147483647;        # highest int
+            lowerkey = key.start
+        upperkey = 2147483647;  # highest int
         if key.stop != None:
-            upperkey = key.stop;
+            upperkey = key.stop
             if (lowerkey >= upperkey):
-                raise RuntimeError("tableindex slice stop must be > start");
-        rnrs = self.rownrs (lowerkey, upperkey, True, False);
+                raise RuntimeError("tableindex slice stop must be > start")
+        rnrs = self.rownrs(lowerkey, upperkey, True, False)
         if len(rnrs) == 0:
-            raise KeyError("keys not found in tableindex");
-        return rnrs;
+            raise KeyError("keys not found in tableindex")
+        return rnrs
