@@ -58,7 +58,7 @@ def find_boost():
     for name in possibles:
         result = find_library(name)
         if result is not None:
-            return result
+            return name
     raise Exception("can't find boost library")
 
 
