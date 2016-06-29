@@ -49,22 +49,20 @@ else:
 def find_boost():
     # Find correct boost-python library.
     system = platform.system()
-    if system == 'Linux':
-        # Use version suffix if present
-        boost_python = 'boost_python-py%s%s' % (sys.version_info[0], sys.version_info[1])
-        if not find_library(boost_python):
-            boost_python = "boost_python"
-    elif system == 'Darwin':
-        if sys.version_info[0] == 2:
-            boost_python = "boost_python-mt"
-        else:
-            boost_python = "boost_python3-mt"
-    return boost_python
+    possibles = ['boost_python-py%s%s' % (sys.version_info[0], sys.version_info[1])]
+    if sys.version_info[0] == 2:
+        possibles.append("boost_python-mt")
+    else:
+        possibles.append("boost_python3-mt")
+    possibles.append('boost_python')
+    for name in possibles:
+        result = find_library(name)
+        if result is not None:
+            return result
+    raise Exception("can't find boost library")
 
 
 boost_python = find_boost()
-if not find_library(boost_python):
-    raise Exception("can't find boost library")
 
 
 extension_metas = (
