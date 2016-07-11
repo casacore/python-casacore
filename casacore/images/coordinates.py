@@ -98,7 +98,7 @@ class coordinatesystem(object):
         # reverse index back to fortran order as the record is using this
         i = self._names[::-1].index(name)
         assert isinstance(val, eval("%scoordinate" % name))
-        self._csys[key + str(i)] = val._coord
+        self._csys[name + str(i)] = val._coord
 
     # alias        
     set_coordinate = __setitem__
