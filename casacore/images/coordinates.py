@@ -287,6 +287,9 @@ class spectralcoordinate(coordinate):
     def get_restfrequency(self):
         return self._coord.get("restfreq", None)
 
+    def set_restfrequency(self, val):
+        self._coord["restfreq"] = val
+
     def get_frame(self):
         return self._coord.get("system", None)
 
