@@ -51,3 +51,14 @@ class TestImage(unittest.TestCase):
         imex2.tofits('timage.py_tmp.fits')
         imex3 = image('timage.py_tmp.fits')
         print(imex3.getdata())
+
+        # Get some info on a coordinate system and change it
+        imcor = imex3.coordinates()
+        print(imex3.info())
+        print(imcor.get_names())
+        dircor = imcor.get_coordinate('direction')
+        print(dircor)
+        dircor.set_referencepixel([3.0,0.0])
+        print(dircor)
+        imcor.set_coordinate('direction', dircor)
+        print(imcor)
