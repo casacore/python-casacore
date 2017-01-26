@@ -48,5 +48,7 @@ BOOST_PYTHON_MODULE(_tables)
   casa::python::pytablerow();
   casa::python::pytableiter();
   casa::python::pytableindex();
+
+  casa::python::pyms();
 }
 

@@ -107,9 +107,9 @@ extension_metas = (
     (
         "casacore.tables._tables",
         ["src/pytable.cc", "src/pytableindex.cc", "src/pytableiter.cc",
-         "src/pytablerow.cc", "src/tables.cc"],
+         "src/pytablerow.cc", "src/tables.cc", "src/pyms.cc"],
         ["src/tables.h"],
-        ['casa_tables', boost_python, casa_python],
+        ['casa_tables', 'casa_ms', boost_python, casa_python],
     )
 )
 

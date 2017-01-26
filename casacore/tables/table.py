@@ -40,11 +40,18 @@ Several utility functions exist. Important ones are:
 """
 
 # Make interface to class TableProxy available.
-from ._tables import Table
+from ._tables import Table, _default_ms, _required_ms_desc
 
 from casacore import six
 from .tablehelper import _add_prefix, _remove_prefix, _do_remove_prefix
 
+def default_ms(name, required_td=None):
+  # Default
+  if required_td is None:
+    required_td = {}
+
+  # Wrap the Table object
+  return table(_default_ms(name, required_td), _oper=3)
 
 # Execute a TaQL command on a table.
 def taql(command, style='Python', tables=[], globals={}, locals={}):
@@ -481,9 +488,9 @@ class table(Table):
         """Flush the table to disk.
 
         Until a flush or unlock is performed, the results of operations might
-        not be stored on disk yet. 
+        not be stored on disk yet.
         | If `recursive=True`, all subtables are flushed as well.
-            
+
         """
         self._flush(recursive)
 
@@ -613,7 +620,7 @@ class table(Table):
         The other arguments can be used to specify where to start copying.
         By default the entire input table is appended to the output table.
         Rows are added to the output table if needed.
-        
+
         `startrowin`
           Row where to start in the input table.
         `startrowout`
@@ -628,7 +635,7 @@ class table(Table):
 
           t:=table('test.ms',readonly=F)
           t.copyrows(t)
-        
+
         """
         self._copyrows(outtable, startrowin, startrowout, nrow)
 
@@ -672,7 +679,7 @@ class table(Table):
         """Return the lockoptions.
 
         They are returned as a dict with fields:
-        
+
         'option'
           the locking mode (user, usernoread, auto, autonoread, permanent,
           permanentwait).
@@ -1308,7 +1315,7 @@ class table(Table):
         consisting of multiple parts separated by dots. This represents nested
         structs, thus puts the value into a field in a struct (in a struct,
         etc.).
-        If `makesubrecord=True` structs will be created for the keyword name 
+        If `makesubrecord=True` structs will be created for the keyword name
         parts that do not exist.
 
         Instead of a keyword name an index can be given which returns the value
@@ -1578,7 +1585,7 @@ class table(Table):
           commas have to be used to separate sort keys.
         `columns`
           The columns to be selected (projection in data base terms). It is a
-          single string in which commas have to be used to separate column 
+          single string in which commas have to be used to separate column
           names. Apart from column names, expressions can be given as well.
         `limit`
           If > 0, maximum number of rows to be selected.
@@ -1660,7 +1667,7 @@ class table(Table):
 
         `columns`
           The columns to be selected (projection in data base terms). It is a
-          single string in which commas have to be used to separate column 
+          single string in which commas have to be used to separate column
           names. Apart from column names, expressions can be given as well.
         `name`
           The name of the reference table if it is to be made persistent.
@@ -1674,11 +1681,11 @@ class table(Table):
         return tablecommand(command, style, [self])
 
     def calc(self, expr, style='Python'):
-        """Do a TaQL calculation 
-        
+        """Do a TaQL calculation
+
         The TaQL CALC command can be used to get the result of a calculation on
         table data. It is, however, also possible to use it without table data.
-        
+
         For instance, to use it for converting units::
 
           t = table('',{})
@@ -1712,7 +1719,7 @@ class table(Table):
         function.
 
         If `wait=False`, the casabrowser is started in the background.
-        In that case the user should delete a possibly created copy of a 
+        In that case the user should delete a possibly created copy of a
         temporary table.
 
         """
@@ -1791,7 +1798,7 @@ class table(Table):
         function.
 
         If `wait=False`, the casaviewer is started in the background.
-        In that case the user should delete a possibly created copy of a 
+        In that case the user should delete a possibly created copy of a
         temporary table.
 
         """

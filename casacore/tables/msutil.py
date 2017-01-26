@@ -26,9 +26,21 @@
 
 import numpy as np
 from casacore import six
-from casacore.tables.table import table, taql
+from casacore.tables.table import table, taql, _required_ms_desc
 from casacore.tables.tableutil import makescacoldesc, makearrcoldesc, \
     makecoldesc, maketabdesc
+
+
+def required_ms_desc(table=None):
+    """
+    Obtain the required descriptor for creating
+    """
+
+    # Default to MAIN table
+    if column is None:
+        column = ""
+
+    return _required_ms_desc(column)
 
 
 def addImagingColumns(msname, ack=True):
