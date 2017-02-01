@@ -19,7 +19,11 @@ using namespace boost::python;
 
 namespace casacore {
 
-  Record required_ms_desc(const String & table)
+  // Get the required table descriptions for the given table.
+  // If "" or "MAIN", the table descriptions for a Measurement Set
+  // will be supplied, otherwise table should be some valid
+  // MeasurementSet subtable
+  TableDesc required_table_desc(const String & table)
   {
     String table_ = table;
 
@@ -28,95 +32,94 @@ namespace casacore {
 
     if(table_.empty() || table_ == "MAIN")
     {
-      return TableProxy::getTableDesc(MeasurementSet::requiredTableDesc(), true);
+      return MeasurementSet::requiredTableDesc();
     }
     else if(table_ == "ANTENNA")
     {
-      return TableProxy::getTableDesc(MSAntenna::requiredTableDesc(), true);
+      return MSAntenna::requiredTableDesc();
     }
     else if(table_ == "DATA_DESCRIPTION")
     {
-      return TableProxy::getTableDesc(MSDataDescription::requiredTableDesc(), true);
+      return MSDataDescription::requiredTableDesc();
     }
     else if(table_ == "DOPPLER")
     {
-      return TableProxy::getTableDesc(MSDoppler::requiredTableDesc(), true);
+      return MSDoppler::requiredTableDesc();
     }
     else if(table_ == "FEED")
     {
-      return TableProxy::getTableDesc(MSFeed::requiredTableDesc(), true);
+      return MSFeed::requiredTableDesc();
     }
     else if(table_ == "FIELD")
     {
-      return TableProxy::getTableDesc(MSField::requiredTableDesc(), true);
+      return MSField::requiredTableDesc();
     }
     else if(table_ == "FLAG_CMD")
     {
-      return TableProxy::getTableDesc(MSFlagCmd::requiredTableDesc(), true);
+      return MSFlagCmd::requiredTableDesc();
     }
     else if(table_ == "FREQ_OFFSET")
     {
-      return TableProxy::getTableDesc(MSFreqOffset::requiredTableDesc(), true);
+      return MSFreqOffset::requiredTableDesc();
     }
     else if(table_ == "HISTORY")
     {
-      return TableProxy::getTableDesc(MSHistory::requiredTableDesc(), true);
+      return MSHistory::requiredTableDesc();
     }
     else if(table_ == "OBSERVATION")
     {
-      return TableProxy::getTableDesc(MSObservation::requiredTableDesc(), true);
+      return MSObservation::requiredTableDesc();
     }
     else if(table_ == "POINTING")
     {
-      return TableProxy::getTableDesc(MSPointing::requiredTableDesc(), true);
+      return MSPointing::requiredTableDesc();
     }
     else if(table_ == "POLARIZATION")
     {
-      return TableProxy::getTableDesc(MSPolarization::requiredTableDesc(), true);
+      return MSPolarization::requiredTableDesc();
     }
     else if(table_ == "PROCESSOR")
     {
-      return TableProxy::getTableDesc(MSProcessor::requiredTableDesc(), true);
+      return MSProcessor::requiredTableDesc();
     }
     else if(table_ == "SOURCE")
     {
-      return TableProxy::getTableDesc(MSSource::requiredTableDesc(), true);
+      return MSSource::requiredTableDesc();
     }
     else if(table_ == "SPECTRAL_WINDOW")
     {
-      return TableProxy::getTableDesc(MSSpectralWindow::requiredTableDesc(), true);
+      return MSSpectralWindow::requiredTableDesc();
     }
     else if(table_ == "STATE")
     {
-      return TableProxy::getTableDesc(MSState::requiredTableDesc(), true);
+      return MSState::requiredTableDesc();
     }
     else if(table_ == "SYSCAL")
     {
-      return TableProxy::getTableDesc(MSSysCal::requiredTableDesc(), true);
+      return MSSysCal::requiredTableDesc();
     }
     else if(table_ == "WEATHER")
     {
-      return TableProxy::getTableDesc(MSWeather::requiredTableDesc(), true);
+      return MSWeather::requiredTableDesc();
     }
 
     throw TableError("Unknown table type: " + table_);
   }
 
-  TableProxy default_ms(const String & name, const Record & table_desc)
+  // Get the required table descriptions for the given table.
+  // If "" or "MAIN", the table descriptions for a Measurement Set
+  // will be supplied, otherwise table should be some valid
+  // MeasurementSet subtable
+  Record required_ms_desc(const String & table)
   {
-    String msg;
-    TableDesc user_td;
+    return TableProxy::getTableDesc(required_table_desc(table), true);
+  }
 
-    // Create Table Description object from extra user table description
-    if(!TableProxy::makeTableDesc(table_desc, user_td, msg))
-    {
-      throw TableError("Error Making Table Description " + msg);
-    }
-
-    user_td.show(std::cout);
-
-
-    TableDesc required_td = MeasurementSet::requiredTableDesc();
+  // Merge required and user supplied Table Descriptions
+  TableDesc merge_required_and_user_table_descs(const TableDesc & required_td,
+                                                const TableDesc & user_td)
+  {
+    TableDesc result = required_td;
 
     // Overwrite required columns with user columns
     for(uInt i=0; i < user_td.ncolumn(); ++i)
@@ -124,13 +127,13 @@ namespace casacore {
       const String & name = user_td[i].name();
 
       // Remove if present in required
-      if(required_td.isColumn(name))
+      if(result.isColumn(name))
       {
-        required_td.removeColumn(name);
+        result.removeColumn(name);
       }
 
       // Add the column
-      required_td.addColumn(user_td[i]);
+      result.addColumn(user_td[i]);
     }
 
     // Overwrite required hypercolumns with user hypercolumns
@@ -141,9 +144,9 @@ namespace casacore {
     for(uInt i=0; i < user_hc.size(); ++i)
     {
       // Remove if hypercolumn is present
-      if(required_td.isHypercolumn(user_hc[i]))
+      if(result.isHypercolumn(user_hc[i]))
       {
-        required_td.removeHypercolumnDesc(user_hc[i]);
+        result.removeHypercolumnDesc(user_hc[i]);
       }
 
       Vector<String> dataColumnNames;
@@ -153,24 +156,136 @@ namespace casacore {
       // Get the user hypercolumn
       uInt ndims = user_td.hypercolumnDesc(user_hc[i],
           dataColumnNames, coordColumnNames, idColumnNames);
-      // Place it in required_td
-      required_td.defineHypercolumn(user_hc[i], ndims,
+      // Place it in result
+      result.defineHypercolumn(user_hc[i], ndims,
           dataColumnNames, coordColumnNames, idColumnNames);
     }
 
     // Overwrite required keywords with user keywords
-    required_td.rwKeywordSet().merge(user_td.keywordSet(),
+    result.rwKeywordSet().merge(user_td.keywordSet(),
       RecordInterface::OverwriteDuplicates);
 
-    required_td.show(std::cout);
+    return result;
+  }
 
-    // Setup table definition
-    SetupNewTable new_table(name, required_td, Table::New);
+  SetupNewTable default_ms_factory(const String & name,
+    const String & subtable,
+    const Record & table_desc)
+  {
+    String msg;
+    TableDesc user_td;
 
-    // Create the MS
-    MeasurementSet ms(new_table);
+    // Create Table Description object from extra user table description
+    if(!TableProxy::makeTableDesc(table_desc, user_td, msg))
+    {
+      throw TableError("Error Making Table Description " + msg);
+    }
 
-    // Create the default subtables
+    // Merge required and user table descriptions
+    TableDesc final_desc = merge_required_and_user_table_descs(
+                        required_table_desc(subtable), user_td);
+
+    // Return SetupNewTable object
+    return SetupNewTable(name, final_desc, Table::New);
+  }
+
+  TableProxy default_ms_subtable(const String & subtable, const Record & table_desc)
+  {
+    String table_ = subtable;
+    table_.upcase();
+
+    String name = table_;
+
+    if(name.empty() || name == "MAIN")
+    {
+      name = "MeasurementSet.ms";
+    }
+
+    SetupNewTable setup_new_table = default_ms_factory(subtable, subtable, table_desc);
+
+    if(table_.empty() || subtable == "MAIN")
+    {
+      return TableProxy(MeasurementSet(setup_new_table));
+    }
+    else if(table_ == "ANTENNA")
+    {
+      return TableProxy(MSAntenna(setup_new_table));
+    }
+    else if(table_ == "DATA_DESCRIPTION")
+    {
+      return TableProxy(MSDataDescription(setup_new_table));
+    }
+    else if(table_ == "DOPPLER")
+    {
+      return TableProxy(MSDoppler(setup_new_table));
+    }
+    else if(table_ == "FEED")
+    {
+      return TableProxy(MSFeed(setup_new_table));
+    }
+    else if(table_ == "FIELD")
+    {
+      return TableProxy(MSField(setup_new_table));
+    }
+    else if(table_ == "FLAG_CMD")
+    {
+      return TableProxy(MSFlagCmd(setup_new_table));
+    }
+    else if(table_ == "FREQ_OFFSET")
+    {
+      return TableProxy(MSFreqOffset(setup_new_table));
+    }
+    else if(table_ == "HISTORY")
+    {
+      return TableProxy(MSHistory(setup_new_table));
+    }
+    else if(table_ == "OBSERVATION")
+    {
+      return TableProxy(MSObservation(setup_new_table));
+    }
+    else if(table_ == "POINTING")
+    {
+      return TableProxy(MSPointing(setup_new_table));
+    }
+    else if(table_ == "POLARIZATION")
+    {
+      return TableProxy(MSPolarization(setup_new_table));
+    }
+    else if(table_ == "PROCESSOR")
+    {
+      return TableProxy(MSProcessor(setup_new_table));
+    }
+    else if(table_ == "SOURCE")
+    {
+      return TableProxy(MSSource(setup_new_table));
+    }
+    else if(table_ == "SPECTRAL_WINDOW")
+    {
+      return TableProxy(MSSpectralWindow(setup_new_table));
+    }
+    else if(table_ == "STATE")
+    {
+      return TableProxy(MSState(setup_new_table));
+    }
+    else if(table_ == "SYSCAL")
+    {
+      return TableProxy(MSSysCal(setup_new_table));
+    }
+    else if(table_ == "WEATHER")
+    {
+      return TableProxy(MSWeather(setup_new_table));
+    }
+
+    throw TableError("Unknown table type: " + table_);
+  }
+
+  TableProxy default_ms(const String & name, const Record & table_desc)
+  {
+    // Create the main Measurement Set
+    SetupNewTable setup_new_table = default_ms_factory(name, "MAIN", table_desc);
+    MeasurementSet ms(setup_new_table);
+
+    // Create the MS default subtables
     ms.createDefaultSubtables(Table::New);
 
     // Create a table proxy
@@ -181,8 +296,14 @@ namespace python {
 
   void pyms()
   {
-    def("_default_ms", &default_ms, (boost::python::arg("name")));
-    def("_required_ms_desc", &required_ms_desc, (boost::python::arg("column")));
+    def("_default_ms", &default_ms, (
+      boost::python::arg("name"),
+      boost::python::arg("table_desc")));
+    def("_default_ms_subtable", &default_ms_subtable, (
+      boost::python::arg("subtable"),
+      boost::python::arg("table_desc")));
+    def("_required_ms_desc", &required_ms_desc, (
+      boost::python::arg("table")));
   }
 
 }

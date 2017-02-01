@@ -33,14 +33,16 @@ from casacore.tables.tableutil import makescacoldesc, makearrcoldesc, \
 
 def required_ms_desc(table=None):
     """
-    Obtain the required descriptor for creating
+    Obtain the required table description for a given table.
+    If "" or "MAIN", the description for a MeasurementSet is returned.
+    Otherwise, a the description for a MeasurementSet subtable is returned.
     """
 
     # Default to MAIN table
-    if column is None:
-        column = ""
+    if table is None:
+        table = ""
 
-    return _required_ms_desc(column)
+    return _required_ms_desc(table)
 
 
 def addImagingColumns(msname, ack=True):

@@ -40,18 +40,46 @@ Several utility functions exist. Important ones are:
 """
 
 # Make interface to class TableProxy available.
-from ._tables import Table, _default_ms, _required_ms_desc
+from ._tables import (Table,
+  _default_ms,
+  _default_ms_subtable,
+  _required_ms_desc)
 
 from casacore import six
 from .tablehelper import _add_prefix, _remove_prefix, _do_remove_prefix
 
-def default_ms(name, required_td=None):
+def default_ms(name, tabdesc=None):
+  """
+  Creates a default Measurement Set called name. Any Table Description
+  elements in tabdesc will overwrite the corresponding element in a default
+  Measurement Set Table Description (columns, hypercolumns and keywords).
+
+  In practice, you probably want to specify columns such as DATA, MODEL_DATA
+  and CORRECTED_DATA (and their associated keywords and hypercolumns) in tabdesc
+  """
+
   # Default
-  if required_td is None:
-    required_td = {}
+  if tabdesc is None:
+    tabdesc = {}
 
   # Wrap the Table object
-  return table(_default_ms(name, required_td), _oper=3)
+  return table(_default_ms(name, tabdesc), _oper=3)
+
+def default_ms_subtable(subtable, tabdesc=None):
+  """
+  Creates a default Measurement Set subtable. Any Table Description
+  elements in tabdesc will overwrite the corresponding element in a default
+  Measurement Set Table Description (columns, hypercolumns and keywords).
+
+if subtable is "" or "MAIN" a standard MeasurementSet with subtables will
+be created.
+  """
+
+  if tabdesc is None:
+    tabdesc = {}
+
+  # Wrap the Table object
+  return table(_default_ms_subtable(subtable, tabdesc), _oper=3)
 
 # Execute a TaQL command on a table.
 def taql(command, style='Python', tables=[], globals={}, locals={}):
