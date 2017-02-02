@@ -169,8 +169,9 @@ namespace casacore {
   }
 
   SetupNewTable default_ms_factory(const String & name,
-    const String & subtable,
-    const Record & table_desc)
+                                  const String & subtable,
+                                  const Record & table_desc,
+                                  const Record & dminfo)
   {
     String msg;
     TableDesc user_td;
@@ -186,10 +187,17 @@ namespace casacore {
                         required_table_desc(subtable), user_td);
 
     // Return SetupNewTable object
-    return SetupNewTable(name, final_desc, Table::New);
+    SetupNewTable setup = SetupNewTable(name, final_desc, Table::New);
+
+    // Apply any data manager info
+    setup.bindCreate(dminfo);
+
+    return setup;
   }
 
-  TableProxy default_ms_subtable(const String & subtable, const Record & table_desc)
+  TableProxy default_ms_subtable(const String & subtable,
+                                const Record & table_desc,
+                                const Record & dminfo)
   {
     String table_ = subtable;
     table_.upcase();
@@ -201,7 +209,8 @@ namespace casacore {
       name = "MeasurementSet.ms";
     }
 
-    SetupNewTable setup_new_table = default_ms_factory(subtable, subtable, table_desc);
+    SetupNewTable setup_new_table = default_ms_factory(subtable,
+      subtable, table_desc, dminfo);
 
     if(table_.empty() || subtable == "MAIN")
     {
@@ -279,10 +288,13 @@ namespace casacore {
     throw TableError("Unknown table type: " + table_);
   }
 
-  TableProxy default_ms(const String & name, const Record & table_desc)
+  TableProxy default_ms(const String & name,
+                        const Record & table_desc,
+                        const Record & dminfo)
   {
     // Create the main Measurement Set
-    SetupNewTable setup_new_table = default_ms_factory(name, "MAIN", table_desc);
+    SetupNewTable setup_new_table = default_ms_factory(name,
+      "MAIN", table_desc, dminfo);
     MeasurementSet ms(setup_new_table);
 
     // Create the MS default subtables

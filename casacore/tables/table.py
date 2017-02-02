@@ -48,7 +48,7 @@ from ._tables import (Table,
 from casacore import six
 from .tablehelper import _add_prefix, _remove_prefix, _do_remove_prefix
 
-def default_ms(name, tabdesc=None):
+def default_ms(name, tabdesc=None, dminfo=None):
   """
   Creates a default Measurement Set called name. Any Table Description
   elements in tabdesc will overwrite the corresponding element in a default
@@ -58,28 +58,35 @@ def default_ms(name, tabdesc=None):
   and CORRECTED_DATA (and their associated keywords and hypercolumns) in tabdesc
   """
 
-  # Default
+  # Default to empty dictionaries
   if tabdesc is None:
     tabdesc = {}
 
-  # Wrap the Table object
-  return table(_default_ms(name, tabdesc), _oper=3)
+  if dminfo is None:
+    dminfo = {}
 
-def default_ms_subtable(subtable, tabdesc=None):
+  # Wrap the Table object
+  return table(_default_ms(name, tabdesc, dminfo), _oper=3)
+
+def default_ms_subtable(subtable, tabdesc=None, dminfo=None):
   """
   Creates a default Measurement Set subtable. Any Table Description
   elements in tabdesc will overwrite the corresponding element in a default
   Measurement Set Table Description (columns, hypercolumns and keywords).
 
-if subtable is "" or "MAIN" a standard MeasurementSet with subtables will
-be created.
+  if subtable is "" or "MAIN" a standard MeasurementSet with subtables will
+  be created.
   """
 
+  # Default to empty dictionaries
   if tabdesc is None:
     tabdesc = {}
 
+  if dminfo is None:
+    dminfo = {}
+
   # Wrap the Table object
-  return table(_default_ms_subtable(subtable, tabdesc), _oper=3)
+  return table(_default_ms_subtable(subtable, tabdesc, dminfo), _oper=3)
 
 # Execute a TaQL command on a table.
 def taql(command, style='Python', tables=[], globals={}, locals={}):
