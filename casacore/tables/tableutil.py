@@ -25,6 +25,8 @@
 #
 
 
+from collections import defaultdict
+
 from casacore import six
 from .table import table
 from .tablehelper import _remove_prefix, _value_type_name
@@ -105,20 +107,20 @@ def tablefromascii(tablename, asciifile,
     The column names and types can be described by two lines:
 
     1. The first line contains the names of the columns.
-       These names may be enclosed in quotes (either single or double). 
+       These names may be enclosed in quotes (either single or double).
     2. The second line contains the data type and optionally the shape
-       of each column. Valid types are: 
+       of each column. Valid types are:
 
-       - S for Short data 
-       - I for Integer data 
-       - R for Real data 
-       - D for Double Precision data 
-       - X for Complex data (Real followed by Imaginary) 
-       - Z for Complex data (Amplitude then Phase) 
-       - DX for Double Precision Complex data (Real followed by Imaginary) 
-       - DZ for Double Precision Complex data (Amplitude then Phase) 
+       - S for Short data
+       - I for Integer data
+       - R for Real data
+       - D for Double Precision data
+       - X for Complex data (Real followed by Imaginary)
+       - Z for Complex data (Amplitude then Phase)
+       - DX for Double Precision Complex data (Real followed by Imaginary)
+       - DZ for Double Precision Complex data (Amplitude then Phase)
        - A for ASCII data (a value must be enclosed in single or double quotes
-         if it contains whitespace) 
+         if it contains whitespace)
        - B for Boolean data (False are empty string, 0, or any string
          starting with F, f, N, or n).
 
@@ -171,11 +173,11 @@ def tablefromascii(tablename, asciifile,
     the .keywords string.
     Between these two lines each line should contain the following:
 
-    - The keyword name, e.g., ANYKEY 
+    - The keyword name, e.g., ANYKEY
     - The datatype and optional  shape of the keyword
-      (cf. list of valid types above) 
-    - The value or values for the keyword (the keyword may contain 
-      a scalar or an array of values). e.g., 3.14159 21.78945 
+      (cf. list of valid types above)
+    - The value or values for the keyword (the keyword may contain
+      a scalar or an array of values). e.g., 3.14159 21.78945
 
     Thus to continue the example above, one might wish to add keywords
     as follows::
@@ -363,7 +365,7 @@ def makearrcoldesc(columnname, value, ndim=0,
       `1` means Direct.
           It tells that the data are directly stored in the table. Direct
           forces option FixedShape. If not given, the array is indirect, which
-          means that the data will be stored in a separate file.  
+          means that the data will be stored in a separate file.
       `4` means FixedShape.
           This option does not need to be given, because it is enforced if
           the shape is given. FixedShape means that the shape of the array must
@@ -480,11 +482,98 @@ def maketabdesc(descs=[]):
         rec[colname] = desc['desc']
     return rec
 
+def makedminfo(tabdesc, group_spec=None):
+  """Creates a data manager information object.
+
+  Create a data manager information dictionary outline from a table description.
+  The resulting dictionary is a bare outline and is available for the purposes of
+  further customising the data manager via the `group_spec` argument.
+
+  The resulting dictionary can be used in the :class:`table` constructor and
+  the :meth:`default_ms` and :meth:`default_ms_subtable` functions.
+
+  `tabdesc`
+    The table description
+  `group_spec`
+    The SPEC for a data manager group. In practice this is useful for
+    setting the Default Tile Size and Maximum Cache Size for the Data Manager
+      {
+        'WeightColumnGroup' : {
+          'DEFAULTTILESHAPE': np.int32([4,4,4]),
+          'MAXIMUMCACHESIZE': 1000,
+        }
+      }
+    This should be used with care.
+
+  """
+
+  if group_spec is None:
+    group_spec = {}
+
+  class DMGroup(object):
+    """
+    Keep track of the columns, type and spec of each data manager group
+    """
+    def __init__(self):
+      self.columns = []
+      self.type = None
+      self.spec = None
+
+  dm_groups = defaultdict(DMGroup)
+
+  # Iterate through the table columns, grouping them
+  # by their dataManagerGroup
+  for c, d in tabdesc.iteritems():
+    if c in ('_define_hypercolumn_', '_keywords_', '_private_keywords_'):
+      continue
+
+    # Extract group and data manager type
+    group = d['dataManagerGroup']
+    type_ = d['dataManagerType']
+
+    # Set defaults if necessary
+    if not group:
+      group = "StandardStMan"
+
+    if not type_:
+      type_ = "StandardStMan"
+
+    # Obtain the (possibly empty) data manager group
+    dm_group = dm_groups[group]
+
+    # Add the column
+    dm_group.columns.append(c)
+
+    # Set the spec
+    if dm_group.spec is None:
+      dm_group.spec = group_spec.get(group, {})
+
+    # Check that the data manager type is consistent across columns
+    if dm_group.type is None:
+      dm_group.type = type_
+    elif not dm_group.type == type_:
+      raise ValueError("Mismatched dataManagerType '%s' "
+                        "for dataManagerGroup '%s' "
+                        "Previously, the type was '%s'" %
+                            (type_, group, dm_group.type))
+
+  # Output a data manager entry
+  return {
+    '*%d'%(i+1): {
+      'COLUMNS': dm_group.columns,
+      'TYPE': dm_group.type,
+      'NAME': group,
+      'SPEC' : dm_group.spec,
+      'SEQNR': i
+    } for i, (group, dm_group)
+    in enumerate(dm_groups.iteritems())
+  }
 
 # Create the old glish names for them.
 tablecreatescalarcoldesc = makescacoldesc
 tablecreatearraycoldesc = makearrcoldesc
 tablecreatedesc = maketabdesc
+tablecreatedm = makedminfo
 
 
 # Define a hypercolumn in the table description.
