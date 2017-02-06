@@ -196,20 +196,19 @@ namespace casacore {
   }
 
   TableProxy default_ms_subtable(const String & subtable,
+                                String name,
                                 const Record & table_desc,
                                 const Record & dminfo)
   {
     String table_ = subtable;
     table_.upcase();
 
-    String name = table_;
-
     if(name.empty() || name == "MAIN")
     {
       name = "MeasurementSet.ms";
     }
 
-    SetupNewTable setup_new_table = default_ms_factory(subtable,
+    SetupNewTable setup_new_table = default_ms_factory(name,
       subtable, table_desc, dminfo);
 
     if(table_.empty() || subtable == "MAIN")

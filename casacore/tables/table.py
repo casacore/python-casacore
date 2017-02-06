@@ -68,15 +68,21 @@ def default_ms(name, tabdesc=None, dminfo=None):
   # Wrap the Table object
   return table(_default_ms(name, tabdesc, dminfo), _oper=3)
 
-def default_ms_subtable(subtable, tabdesc=None, dminfo=None):
+def default_ms_subtable(subtable, name=None, tabdesc=None, dminfo=None):
   """
   Creates a default Measurement Set subtable. Any Table Description
   elements in tabdesc will overwrite the corresponding element in a default
   Measurement Set Table Description (columns, hypercolumns and keywords).
 
+  if name is given, it will be treated as a path that the table should
+  be created in. Set to subtable if None
+
   if subtable is "" or "MAIN" a standard MeasurementSet with subtables will
   be created.
   """
+
+  if name is None:
+    name = subtable
 
   # Default to empty dictionaries
   if tabdesc is None:
@@ -86,7 +92,7 @@ def default_ms_subtable(subtable, tabdesc=None, dminfo=None):
     dminfo = {}
 
   # Wrap the Table object
-  return table(_default_ms_subtable(subtable, tabdesc, dminfo), _oper=3)
+  return table(_default_ms_subtable(subtable, name, tabdesc, dminfo), _oper=3)
 
 # Execute a TaQL command on a table.
 def taql(command, style='Python', tables=[], globals={}, locals={}):
