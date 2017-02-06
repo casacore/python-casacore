@@ -528,8 +528,8 @@ def makedminfo(tabdesc, group_spec=None):
       continue
 
     # Extract group and data manager type
-    group = d['dataManagerGroup']
-    type_ = d['dataManagerType']
+    group = d.get("dataManagerGroup", "StandardStMan")
+    type_ = d.get("dataManagerType", "StandardStMan")
 
     # Set defaults if necessary
     if not group:
