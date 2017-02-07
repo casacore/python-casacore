@@ -30,76 +30,41 @@ namespace casacore {
     // Upper case things to be sure
     table_.upcase();
 
-    if(table_.empty() || table_ == "MAIN")
-    {
+    if(table_.empty() || table_ == "MAIN") {
       return MeasurementSet::requiredTableDesc();
-    }
-    else if(table_ == "ANTENNA")
-    {
+    } else if(table_ == "ANTENNA") {
       return MSAntenna::requiredTableDesc();
-    }
-    else if(table_ == "DATA_DESCRIPTION")
-    {
+    } else if(table_ == "DATA_DESCRIPTION") {
       return MSDataDescription::requiredTableDesc();
-    }
-    else if(table_ == "DOPPLER")
-    {
+    } else if(table_ == "DOPPLER") {
       return MSDoppler::requiredTableDesc();
-    }
-    else if(table_ == "FEED")
-    {
+    } else if(table_ == "FEED") {
       return MSFeed::requiredTableDesc();
-    }
-    else if(table_ == "FIELD")
-    {
+    } else if(table_ == "FIELD") {
       return MSField::requiredTableDesc();
-    }
-    else if(table_ == "FLAG_CMD")
-    {
+    } else if(table_ == "FLAG_CMD") {
       return MSFlagCmd::requiredTableDesc();
-    }
-    else if(table_ == "FREQ_OFFSET")
-    {
+    } else if(table_ == "FREQ_OFFSET") {
       return MSFreqOffset::requiredTableDesc();
-    }
-    else if(table_ == "HISTORY")
-    {
+    } else if(table_ == "HISTORY") {
       return MSHistory::requiredTableDesc();
-    }
-    else if(table_ == "OBSERVATION")
-    {
+    } else if(table_ == "OBSERVATION") {
       return MSObservation::requiredTableDesc();
-    }
-    else if(table_ == "POINTING")
-    {
+    } else if(table_ == "POINTING") {
       return MSPointing::requiredTableDesc();
-    }
-    else if(table_ == "POLARIZATION")
-    {
+    } else if(table_ == "POLARIZATION") {
       return MSPolarization::requiredTableDesc();
-    }
-    else if(table_ == "PROCESSOR")
-    {
+    } else if(table_ == "PROCESSOR") {
       return MSProcessor::requiredTableDesc();
-    }
-    else if(table_ == "SOURCE")
-    {
+    } else if(table_ == "SOURCE") {
       return MSSource::requiredTableDesc();
-    }
-    else if(table_ == "SPECTRAL_WINDOW")
-    {
+    } else if(table_ == "SPECTRAL_WINDOW") {
       return MSSpectralWindow::requiredTableDesc();
-    }
-    else if(table_ == "STATE")
-    {
+    } else if(table_ == "STATE") {
       return MSState::requiredTableDesc();
-    }
-    else if(table_ == "SYSCAL")
-    {
+    } else if(table_ == "SYSCAL") {
       return MSSysCal::requiredTableDesc();
-    }
-    else if(table_ == "WEATHER")
-    {
+    } else if(table_ == "WEATHER") {
       return MSWeather::requiredTableDesc();
     }
 
@@ -122,13 +87,11 @@ namespace casacore {
     TableDesc result = required_td;
 
     // Overwrite required columns with user columns
-    for(uInt i=0; i < user_td.ncolumn(); ++i)
-    {
+    for(uInt i=0; i < user_td.ncolumn(); ++i) {
       const String & name = user_td[i].name();
 
       // Remove if present in required
-      if(result.isColumn(name))
-      {
+      if(result.isColumn(name)) {
         result.removeColumn(name);
       }
 
@@ -141,11 +104,9 @@ namespace casacore {
     // doesn't define hypercolumns by default...
     Vector<String> user_hc = user_td.hypercolumnNames();
 
-    for(uInt i=0; i < user_hc.size(); ++i)
-    {
+    for(uInt i=0; i < user_hc.size(); ++i) {
       // Remove if hypercolumn is present
-      if(result.isHypercolumn(user_hc[i]))
-      {
+      if(result.isHypercolumn(user_hc[i])) {
         result.removeHypercolumnDesc(user_hc[i]);
       }
 
@@ -177,8 +138,7 @@ namespace casacore {
     TableDesc user_td;
 
     // Create Table Description object from extra user table description
-    if(!TableProxy::makeTableDesc(table_desc, user_td, msg))
-    {
+    if(!TableProxy::makeTableDesc(table_desc, user_td, msg)) {
       throw TableError("Error Making Table Description " + msg);
     }
 
@@ -203,84 +163,48 @@ namespace casacore {
     String table_ = subtable;
     table_.upcase();
 
-    if(name.empty() || name == "MAIN")
-    {
+    if(name.empty() || name == "MAIN") {
       name = "MeasurementSet.ms";
     }
 
     SetupNewTable setup_new_table = default_ms_factory(name,
       subtable, table_desc, dminfo);
 
-    if(table_.empty() || subtable == "MAIN")
-    {
+    if(table_.empty() || subtable == "MAIN") {
       return TableProxy(MeasurementSet(setup_new_table));
-    }
-    else if(table_ == "ANTENNA")
-    {
+    } else if(table_ == "ANTENNA") {
       return TableProxy(MSAntenna(setup_new_table));
-    }
-    else if(table_ == "DATA_DESCRIPTION")
-    {
+    } else if(table_ == "DATA_DESCRIPTION") {
       return TableProxy(MSDataDescription(setup_new_table));
-    }
-    else if(table_ == "DOPPLER")
-    {
+    } else if(table_ == "DOPPLER") {
       return TableProxy(MSDoppler(setup_new_table));
-    }
-    else if(table_ == "FEED")
-    {
+    } else if(table_ == "FEED") {
       return TableProxy(MSFeed(setup_new_table));
-    }
-    else if(table_ == "FIELD")
-    {
+    } else if(table_ == "FIELD") {
       return TableProxy(MSField(setup_new_table));
-    }
-    else if(table_ == "FLAG_CMD")
-    {
+    } else if(table_ == "FLAG_CMD") {
       return TableProxy(MSFlagCmd(setup_new_table));
-    }
-    else if(table_ == "FREQ_OFFSET")
-    {
+    } else if(table_ == "FREQ_OFFSET") {
       return TableProxy(MSFreqOffset(setup_new_table));
-    }
-    else if(table_ == "HISTORY")
-    {
+    } else if(table_ == "HISTORY") {
       return TableProxy(MSHistory(setup_new_table));
-    }
-    else if(table_ == "OBSERVATION")
-    {
+    } else if(table_ == "OBSERVATION") {
       return TableProxy(MSObservation(setup_new_table));
-    }
-    else if(table_ == "POINTING")
-    {
+    } else if(table_ == "POINTING") {
       return TableProxy(MSPointing(setup_new_table));
-    }
-    else if(table_ == "POLARIZATION")
-    {
+    } else if(table_ == "POLARIZATION") {
       return TableProxy(MSPolarization(setup_new_table));
-    }
-    else if(table_ == "PROCESSOR")
-    {
+    } else if(table_ == "PROCESSOR") {
       return TableProxy(MSProcessor(setup_new_table));
-    }
-    else if(table_ == "SOURCE")
-    {
+    } else if(table_ == "SOURCE") {
       return TableProxy(MSSource(setup_new_table));
-    }
-    else if(table_ == "SPECTRAL_WINDOW")
-    {
+    } else if(table_ == "SPECTRAL_WINDOW") {
       return TableProxy(MSSpectralWindow(setup_new_table));
-    }
-    else if(table_ == "STATE")
-    {
+    } else if(table_ == "STATE") {
       return TableProxy(MSState(setup_new_table));
-    }
-    else if(table_ == "SYSCAL")
-    {
+    } else if(table_ == "SYSCAL") {
       return TableProxy(MSSysCal(setup_new_table));
-    }
-    else if(table_ == "WEATHER")
-    {
+    } else if(table_ == "WEATHER") {
       return TableProxy(MSWeather(setup_new_table));
     }
 
