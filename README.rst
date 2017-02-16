@@ -17,7 +17,7 @@ Installation
 Ubuntu 16.04
 ------------
 
-This is most simple way to get started with python-casacore::
+The easiest way to start using python-casacore is to enable the `KERN suite <https://kernsuite.info>`_ repository and install the binary package ::
 
     $ sudo apt-get install software-properties-common
     $ sudo add-apt-repository ppa:kernsuite/kern-1
