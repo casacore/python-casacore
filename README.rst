@@ -14,13 +14,13 @@ The python-casacore documentation can be found on `casacore.github.io/python-cas
 Installation
 ============
 
-Ubuntu 14.04
+Ubuntu 16.04
 ------------
 
 This is most simple way to get started with python-casacore::
 
     $ sudo apt-get install software-properties-common
-    $ sudo add-apt-repository ppa:radio-astro/main
+    $ sudo add-apt-repository ppa:kernsuite/kern-1
     $ sudo apt-get update
     $ sudo apt-get install python-casacore
 
@@ -38,7 +38,7 @@ install these requirements:
 
 On ubuntu you can install these with:
 
-* enable the `radio astronomy launchpad PPA <https://launchpad.net/~radio-astro/+archive/ubuntu/main>`_ 
+* enable the `KERN suite <https://kernsuite.info>`_ 
 
 * install build dependencies::
 
