@@ -37,6 +37,7 @@ class TestFunctionals(unittest.TestCase):
     def test_gaussian1d_dtype(self):
         self.test_gaussian1d(1)
 
+
     def test_poly(self, dtype=None):
         if dtype != None:
             a = functionals.poly(3, dtype)
@@ -61,3 +62,35 @@ class TestFunctionals(unittest.TestCase):
 
     def test_poly_dtype(self):
         self.test_poly(1)
+
+    def test_gaussian2d(self, dtype=None):
+        if dtype != None:
+            gauss2d = functionals.gaussian2d([1, 2, 3, 4, 5, 6], dtype)
+        else:
+            gauss2d = functionals.gaussian2d([1, 2, 3, 4, 5, 6])
+
+        self.assertTrue(gauss2d.ndim() == 2)
+        self.assertTrue(gauss2d.npar() == 6)
+        self.assertTrue(gauss2d.__len__() == 6)
+
+        self.assertTrue(gauss2d.get_parameters() == [1, 2, 3, 4, 5, 6])
+        gauss2d.set_parameters([3, 4, 5, 1, 2, 3])
+        self.assertTrue(gauss2d.get_parameters() == [3, 4, 5, 1, 2, 3])
+        gauss2d.set_parameter(1, 2)
+        self.assertTrue(gauss2d.get_parameters()[1] == 2)
+
+        self.assertTrue(
+            gauss2d.get_masks() == [True, True, True, True, True, True])
+        gauss2d.set_mask(0, False)
+        self.assertTrue(
+            gauss2d.get_masks() == [False, True, True, True, True, True])
+        gauss2d.set_masks([True, True, False, True, True, True])
+        self.assertTrue(
+            gauss2d.get_masks() == [True, True, False, True, True, True])
+
+        #gauss2d.set_parameters([0, 0, 0, 0, 0, 1])
+        #self.assertTrue(gauss2d.f(0) == [0])
+
+
+    def test_gaussian2d_dtype(self):
+        self.test_gaussian2d(1)
