@@ -55,7 +55,7 @@ efined function. Parameters can be set at creation time or later::
     >>> print a(1)
     [0.062500000000000028]
     >>> print a.fdf([0,0.5]);                  # value and derivatives
-    >>> print a([0, 0.5], derivative=True)
+    >>> print a([0, 0.5], derivatives=True)
 
 In some cases an order can be specified as well (e.g. for polynomials)::
 
