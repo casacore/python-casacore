@@ -55,7 +55,7 @@ On ubuntu you can install these with:
    $ python ./setup.py build_ext -h
    
   For example, if `casacore` is installed in `/opt/local/`, you can specify the
-  library path and include path with
+  library path and include path with::
   
    $ python ./setup.py build_ext -I/opt/local/include -L/opt/local/lib
    
