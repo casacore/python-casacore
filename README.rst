@@ -53,6 +53,13 @@ On ubuntu you can install these with:
   library installed in a different location have a loook at the  `build_ext` help::
   
    $ python ./setup.py build_ext -h
+   
+  For example, if `casacore` is installed in `/opt/local/`, you can specify the
+  library path and include path with
+  
+   $ python ./setup.py build_ext -I/opt/local/include -L/opt/local/lib
+   
+   $ python ./setup.py install
 
 
 Using pip
