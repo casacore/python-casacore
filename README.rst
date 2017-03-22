@@ -50,9 +50,16 @@ On ubuntu you can install these with:
     $ python ./setup.py install
     
 * if you need to supply compile parameters, for example if you have your casacore
-  library installed in a different location have a loook at the  `build_ext` help::
+  library installed in a different location have a look at the  `build_ext` help::
   
    $ python ./setup.py build_ext -h
+   
+  For example, if `casacore` is installed in `/opt/local/`, you can specify the
+  library path and include path with::
+  
+   $ python ./setup.py build_ext -I/opt/local/include -L/opt/local/lib
+   
+   $ python ./setup.py install
 
 
 Using pip
