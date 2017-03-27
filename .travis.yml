@@ -29,9 +29,10 @@ before_install:
 install:
  - python setup.py develop
  - pip install -r tests/requirements.txt
- - pip install coveralls
+ - pip install coveralls travis-sphinx
 script:
  - nosetests --with-coverage
+ - travis-sphinx --nowarn -s doc build
 deploy:
  provider: pypi
  user: gijzelaerr
