@@ -67,6 +67,7 @@ Using pip
 
 python-casacore is also available trough pip. Note that you need to manually satisfy
 the requirements mentioned above::
+
     $ pip install python-casacore
 
 
