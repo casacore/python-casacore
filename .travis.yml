@@ -29,8 +29,9 @@ before_install:
 install:
  - python setup.py develop
  - pip install -r tests/requirements.txt
+ - pip install coveralls
 script:
- - nosetests
+ - nosetests --with-coverage
 deploy:
  provider: pypi
  user: gijzelaerr
@@ -39,6 +40,8 @@ deploy:
  on:
   tags: true
   repo: casacore/python-casacore
+after_success:
+  coveralls
 notifications:
   webhooks:
    urls:
