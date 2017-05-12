@@ -26,7 +26,7 @@ def find_library_file(libname):
     args, unknown = parser.parse_known_args()
     user_libdirs = args.library_dirs.split(':')
     # Append default search path (not a complete list)
-    libdirs = user_libdirs+['/usr/local/lib', '/usr/lib']
+    libdirs = user_libdirs+['/usr/local/lib', '/usr/lib','/usr/lib/x86_64-linux-gnu']
     compiler = ccompiler.new_compiler()
     return compiler.find_library_file(libdirs, libname)
 
