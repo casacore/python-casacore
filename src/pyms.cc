@@ -31,7 +31,27 @@ namespace casacore {
     table_.upcase();
 
     if(table_.empty() || table_ == "MAIN") {
-      return MeasurementSet::requiredTableDesc();
+      TableDesc tabdesc = MeasurementSet::requiredTableDesc();
+
+      // Remove the CATEGORY keyword from the FLAG_CATEGORY column
+      // This empty Vector<String> gets converted to a python dictionary as
+      // 'FLAG_CATEGORY' : {
+      //     ...
+      //     keywords': {'CATEGORY' : []},
+      //     ...
+      // }
+      //
+      // Due to the missing type information this gets converted
+      // into something like Vector<int> when passed to the C++ layer,
+      // which results in Table Conformance errors
+      // This is an OK solution since the C++ layer always adds this keyword
+      // if it is missing from the MS
+      // (see addCat())
+
+      tabdesc.rwColumnDesc("FLAG_CATEGORY")
+             .rwKeywordSet().removeField("CATEGORY");
+
+      return tabdesc;
     } else if(table_ == "ANTENNA") {
       return MSAntenna::requiredTableDesc();
     } else if(table_ == "DATA_DESCRIPTION") {
