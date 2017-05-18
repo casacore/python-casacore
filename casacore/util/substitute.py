@@ -75,8 +75,7 @@ def substitute(s, objlist=(), globals={}, locals={}):
        if an environment variable is used. Note that an extra backslash
        is required in Python to escape the backslash.
        The output contains the quotes and backslashes.
-    3. A variable is looked up in the global namespace; that is, in the
-       outermost namespace.
+    3. A variable is looked up in the given localand global namespaces.
     4. If the variable `name` has a vector value, its substitution is
        enclosed in square brackets and separated by commas.
     5. A string value is enclosed in double quotes. If the value
@@ -103,6 +102,7 @@ def substitute(s, objlist=(), globals={}, locals={}):
       a=2
       b=3
       substitute('$(a+b)+$a')              # results in '5+2' (not '7')
+      substitute('$((a+b)+$a)')            # results in '7'
       substitute('$((a+b)*(a+b))')         # results in '25'
       substitute('$(len("ab cd( de"))')    # results in '9'
 
@@ -110,7 +110,9 @@ def substitute(s, objlist=(), globals={}, locals={}):
     the result of substitute("$b") is "$a" and not 1.
 
     """
-    # Split the string into its individual characters.
+    # Get the local variables at the caller level if not given.
+    if len(locals) == 0:
+        locals = getlocals(3)
     # Initialize some variables.
     backslash = False
     dollar = False
@@ -122,71 +124,64 @@ def substitute(s, objlist=(), globals={}, locals={}):
     out = ''
     # Loop through the entire string.
     for tmp in s:
-        # If a dollar was found, we might have a name.
+        if backslash:
+            out += tmp
+            backslash = False
+            continue
+        # If a dollar is found, we might have a name or expression.
         # Alphabetics and underscore are always part of name.
-        if dollar:
+        if dollar  and  nparen == 0:
             if tmp == '_' or (tmp >= 'a' and tmp <= 'z') or (tmp >= 'A' and tmp <= 'Z'):
                 name += tmp
-                tmp = ''
-            else:
-                # Numerics are only part if not first character.
-                if tmp >= '0' and tmp <= '9' and name != '':
-                    name += tmp
-                    tmp = ''
-                else:
-                    if tmp == '(' and name == '':
-                        # $( indicates the start of a subexpression to evaluate.
-                        nparen = 1
-                        evalstr = ''
-                        tmp = ''
-                        dollar = False
-                    else:
-                        # End of name found. Try to substitute.
-                        dollar = False
-                        out += substitutename(name, objlist, globals, locals)
+                continue
+            # Numerics are only part if not first character.
+            if tmp >= '0' and tmp <= '9' and name != '':
+                name += tmp
+                continue
+            # $( indicates the start of an expression to evaluate.
+            if tmp == '(' and name == '':
+                nparen = 1
+                evalstr = ''
+                continue
+            # End of name found. Try to substitute.
+            out += substitutename(name, objlist, globals, locals)
+            dollar = False
 
-        if tmp != '':
-            # Handle possible single or double quotes.
-            if tmp == '"' and not squote:
-                dquote = not dquote
-            else:
-                if tmp == "'" and not dquote:
-                    squote = not squote
-                else:
-                    if not dquote and not squote:
-                        # Count the number of balanced parentheses
-                        # (outside quoted strings)
-                        # in the subexpression.
-                        if nparen > 0:
-                            if tmp == '(':
-                                nparen += 1
-                            else:
-                                if tmp == ')':
-                                    nparen -= 1
-                                    if nparen == 0:
-                                        # The last closing parenthese is found.
-                                        # Evaluate the subexpression and if
-                                        # successful  put the result in the
-                                        # output.
-                                        out += substituteexpr(evalstr, globals,
-                                                              locals)
-                                        tmp = ''
-                        else:
-                            # Set a switch if we have a dollar (outside quoted
-                            # and eval strings)
-                            # that is not preceeded by a backslash.
-                            if tmp == '$' and not backslash:
-                                dollar = True
-                                name = ''
-                                tmp = ''
-        # Add the character to output or eval string.
-        # Set a switch if we have a backslash.
-        if tmp != '':
+        # Handle possible single or double quotes.
+        if tmp == '"' and not squote:
+            dquote = not dquote
+        elif tmp == "'" and not dquote:
+            squote = not squote
+        if not dquote and not squote:
+            # Count the number of balanced parentheses
+            # (outside quoted strings) in the subexpression.
             if nparen > 0:
+                if tmp == '(':
+                    nparen += 1
+                elif tmp == ')':
+                    nparen -= 1
+                    if nparen == 0:
+                        # The last closing parenthese is found.
+                        # Evaluate the subexpression.
+                        # Add the result to the output.
+                        out += substituteexpr(evalstr, globals, locals)
+                        dollar = False
                 evalstr += tmp
-            else:
-                out += tmp
-        backslash = (tmp == '\\')
+                continue
+            # Set a switch if we have a dollar (outside quoted
+            # and eval strings).
+            if tmp == '$':
+                dollar = True
+                name = ''
+                continue
+        # No special character; add it to output or evalstr.
+        # Set a switch if we have a backslash.
+        if nparen == 0:
+            out += tmp
+        else:
+            evalstr += tmp
+        if tmp == '\\':
+            backslash = True
 
         # The entire string has been handled.
         # Substitute a possible last name.
