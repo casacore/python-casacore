@@ -110,7 +110,14 @@ extension_metas = (
          "src/pytablerow.cc", "src/tables.cc"],
         ["src/tables.h"],
         ['casa_tables', boost_python, casa_python],
+    ),
+    (
+        "casacore.ms._ms",
+        ["src/pytabledesc.cc", "src/pyms.cc", "src/ms.cc"],
+        ["src/ms.h"],
+        ["casa_ms", boost_python, casa_python],
     )
+
 )
 
 # Find casacore libpath
