@@ -66,4 +66,3 @@ from .tableindex import tableindex
 from .tableiter import tableiter
 from .tablerow import tablerow
 from .tableutil import *
-

@@ -35,7 +35,7 @@ def getlocals(back=2):
     import inspect
     fr = inspect.currentframe()
     try:
-        while fr and back != 0:
+        while fr and back:
             fr1 = fr
             fr = fr.f_back
             back -= 1
@@ -45,7 +45,7 @@ def getlocals(back=2):
 
 
 def getvariable(name):
-    """Get the value of a local variable somewhere in the call stack"""
+    """Get the value of a local variable somewhere in the call stack."""
     import inspect
     fr = inspect.currentframe()
     try:
@@ -76,7 +76,7 @@ def substitute(s, objlist=(), globals={}, locals={}):
        if an environment variable is used. Note that an extra backslash
        is required in Python to escape the backslash.
        The output contains the quotes and backslashes.
-    3. A variable is looked up in the given localand global namespaces.
+    3. A variable is looked up in the given local and global namespaces.
     4. If the variable `name` has a vector value, its substitution is
        enclosed in square brackets and separated by commas.
     5. A string value is enclosed in double quotes. If the value

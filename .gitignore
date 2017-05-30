@@ -11,3 +11,4 @@ casacore.egg-info/
 .coverage
 .virtualenv/
 .virtualenv3/
+htmlcov
