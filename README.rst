@@ -10,6 +10,8 @@ The python-casacore documentation can be found on `casacore.github.io/python-cas
 
 .. image:: https://travis-ci.org/casacore/python-casacore.svg?branch=master
     :target: https://travis-ci.org/casacore/python-casacore
+.. image:: https://coveralls.io/repos/github/casacore/python-casacore/badge.svg?branch=master
+:target: https://coveralls.io/github/casacore/python-casacore?branch=master
 
 Installation
 ============
