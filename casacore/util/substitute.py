@@ -35,7 +35,7 @@ def getlocals(back=2):
     import inspect
     fr = inspect.currentframe()
     try:
-        while fr and back:
+        while fr and back != 0:
             fr1 = fr
             fr = fr.f_back
             back -= 1
