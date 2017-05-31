@@ -38,6 +38,8 @@ namespace casacore {
     void pytableiter();
     void pytableindex();
 
+    void pyms();
+
   } // python
 } //casa
 

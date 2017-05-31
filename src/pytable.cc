@@ -277,5 +277,5 @@ namespace casacore { namespace python {
       .def ("_getcalcresult", &TableProxy::getCalcResult)
       ;
   }
-    
+
 }}

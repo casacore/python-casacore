@@ -116,3 +116,116 @@ class TestTable(unittest.TestCase):
         print(ti.rownrs(2, 7))                   # include borders
         print(ti.rownrs(2, 7, False, False))     # exclude borders
         print(ti[2:7])                           # exclude end
+
+    def test_required_desc(self):
+        #=============================================
+        # TEST 1
+        # Create a default Measurement Set
+        #=============================================
+        with default_ms("ttable.py_tmp.ms1") as ms1:
+            pass
+
+        #=============================================
+        # TEST 2
+        # Create a MS with a modified UVW column,
+        # an additional MODEL_DATA column, as well as
+        # specs for the column data managers
+        #=============================================
+
+        # Get the required description for an MS
+        ms2_desc = required_ms_desc("MAIN")
+
+        # Modify UVW to use a Tiled Column Storage Manager
+        ms2_desc["UVW"].update(options=0,
+            shape=[3], ndim=1,
+            dataManagerGroup="UVW",
+            dataManagerType='TiledColumnStMan')
+        dmgroup_spec = { "UVW" : { "DEFAULTTILESHAPE" : [3,128*64]}}
+
+        # Create an array column description
+        # as well as a data manager group spec
+        model_data_desc = makearrcoldesc("MODEL_DATA", 0.0,
+            options=4, valuetype="complex",
+            shape=[16,4], ndim=2,
+            datamanagertype="TiledColumnStMan",
+            datamanagergroup="DataGroup")
+        dmgroup_spec.update({
+            "DataGroup" : {"DEFAULTTILESHAPE" : [4,16,32]} })
+
+        # Incorporate column into table description
+        ms2_desc.update(maketabdesc(model_data_desc))
+
+        # Construct a data manager info from the table description
+        # and the data manager group spec
+        ms2_dminfo = makedminfo(ms2_desc, dmgroup_spec)
+
+        # Create measurement set with table description
+        # and data manager info
+        with default_ms("ttable.py_tmp.ms2", ms2_desc, ms2_dminfo) as ms2:
+
+            # Check that UVW was correctly constructed
+            desc = ms2.getcoldesc("UVW")
+            self.assertTrue(desc["dataManagerType"] == "TiledColumnStMan")
+            self.assertTrue(desc["dataManagerGroup"] == "UVW")
+            self.assertTrue(desc["valueType"] == "double")
+            self.assertTrue(desc["ndim"] == 1)
+            self.assertTrue(np.all(desc["shape"] == [3]))
+
+            dminfo = ms2.getdminfo("UVW")
+            self.assertTrue(dminfo["NAME"] == "UVW")
+            self.assertTrue(dminfo["TYPE"] == "TiledColumnStMan")
+            self.assertTrue(np.all(dminfo["SPEC"]["DEFAULTTILESHAPE"] == [3, 128*64]))
+            self.assertTrue(np.all(dminfo["SPEC"]["HYPERCUBES"]["*1"]["TileShape"] == [3,128*64]))
+
+            self.assertTrue("MODEL_DATA" in ms2.colnames())
+
+            # Check that MODEL_DATA was correctly constructed
+            desc = ms2.getcoldesc("MODEL_DATA")
+            self.assertTrue(desc["dataManagerType"] == "TiledColumnStMan")
+            self.assertTrue(desc["dataManagerGroup"] == "DataGroup")
+            self.assertTrue(desc["valueType"] == "complex")
+            self.assertTrue(desc["ndim"] == 2)
+            self.assertTrue(np.all(desc["shape"] == [16,4]))
+
+            dminfo = ms2.getdminfo("MODEL_DATA")
+            self.assertTrue(dminfo["NAME"] == "DataGroup")
+            self.assertTrue(dminfo["TYPE"] == "TiledColumnStMan")
+            self.assertTrue(np.all(dminfo["SPEC"]["DEFAULTTILESHAPE"] == [4,16,32]))
+            self.assertTrue(np.all(dminfo["SPEC"]["HYPERCUBES"]["*1"]["TileShape"] == [4,16,32]))
+
+
+        #=============================================
+        # TEST 3
+        # Test subtable creation
+        #=============================================
+        subtables = ("ANTENNA", "DATA_DESCRIPTION", "DOPPLER",
+            "FEED", "FIELD", "FLAG_CMD",  "FREQ_OFFSET",
+            "HISTORY", "OBSERVATION", "POINTING", "POLARIZATION",
+            "PROCESSOR", "SOURCE", "SPECTRAL_WINDOW", "STATE",
+            "SYSCAL", "WEATHER")
+
+        for c in subtables:
+            # Check that we can get the default description for this table
+            def_subt_desc = required_ms_desc(c)
+
+            # Don't use it though (too much to check).
+
+            # Rather
+            model_data_desc = makearrcoldesc("MODEL_DATA", 0.0,
+                options=4,
+                valuetype="complex", shape=[16,4], ndim=2,
+                datamanagertype="TiledColumnStMan",
+                datamanagergroup="DataGroup")
+            dmgroup_spec = {"DataGroup" : {"DEFAULTTILESHAPE" : [4,16,32]} }
+
+            tabdesc = maketabdesc(model_data_desc)
+            dminfo = makedminfo(tabdesc, dmgroup_spec)
+            subtname = "ttable.py_tmp_subt_%s.ms" % c
+
+            with default_ms_subtable(c, subtname, tabdesc, dminfo) as subt:
+                self.assertTrue('MODEL_DATA' in subt.colnames())
+                dminfo = subt.getdminfo("MODEL_DATA")
+                self.assertTrue(dminfo["NAME"] == "DataGroup")
+                self.assertTrue(dminfo["TYPE"] == "TiledColumnStMan")
+                self.assertTrue(np.all(dminfo["SPEC"]["DEFAULTTILESHAPE"] == [4,16,32]))
+                self.assertTrue(np.all(dminfo["SPEC"]["HYPERCUBES"]["*1"]["TileShape"] == [4,16,32]))
