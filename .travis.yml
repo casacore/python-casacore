@@ -2,31 +2,24 @@ language: python
 sudo: required
 dist: trusty
 python:
- - 2.6
  - 2.7
-env:
- - CASACORE=20
- - CASACORE=21
-matrix:
- include:
-  # TODO: https://github.com/casacore/python-casacore/issues/54
-  #- os: osx
-  #  language: generic
-  #  env: CASACORE=21
-  #  python: 3.5
-  - os: linux
-    language: python
-    env: CASACORE=21
-    python: 3.4
-  # TODO: https://github.com/casacore/python-casacore/issues/59
-  #- os: linux
-  #  language: python
-  #  env: CASACORE=21
-  #  python: 3.5
+ - 3.5
+ - 3.6
+os:
+ - linux
+ # - osx
 
 before_install:
  - .travis/before_install.sh
+ - mkdir $HOME/data
+ - echo $PWD
+ - cd $HOME/data && wget ftp://ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar && tar xf WSRT_Measures.ztar && cd -
+ - echo $PWD
 install:
+ - export PATH="$HOME/miniconda/bin:$PATH"
+ - source activate testenv
+ - export CPATH="$HOME/miniconda/envs/testenv/include:$CPATH"
+ - echo $CPATH
  - python setup.py develop
  - pip install -r tests/requirements.txt
  - pip install coveralls

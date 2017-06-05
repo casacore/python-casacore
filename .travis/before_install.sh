@@ -1,29 +1,31 @@
 #!/usr/bin/env bash
 
+# Inspired by https://conda.io/docs/travis.html
 set -e
 set -v
 
 if [ "$TRAVIS_OS_NAME" = linux ]; then
-    sudo apt-get update 
-    sudo apt-get install -y software-properties-common python-setuptools libboost-python-dev libcfitsio3-dev
-    sudo add-apt-repository -y ppa:radio-astro/main
-    sudo add-apt-repository -y "deb http://us.archive.ubuntu.com/ubuntu $(lsb_release -sc) restricted multiverse"
-    sudo apt-get update 
-    if [ "$CASACORE" = 20 ]; then
-        sudo apt-get install -y libcasacore2-dev casacore-data
-    elif [ "$CASACORE" = 21 ]; then
-        sudo apt-get install -y libcasacore21-dev casacore-data
-    fi
+    sudo apt-get update
+    MINICONDAVERSION="Linux"
+else
+    MINICONDAVERSION="MacOSX"
 fi
 
-if [ "$TRAVIS_OS_NAME" = osx ]; then
-    brew update > /dev/null
-    brew tap homebrew/science
-    brew tap ska-sa/tap
-    brew install cfitsio wcslib fftw hdf5 ccache
-    curl -L -O https://bintray.com/artifact/download/casacore/homebrew-bottles/boost-python-1.60.0.el_capitan.bottle.1.tar.gz
-    curl -L -O https://bintray.com/artifact/download/casacore/homebrew-bottles/casacore-2.1.0.el_capitan.bottle.tar.gz
-    brew install ./boost-python-1.60.0.el_capitan.bottle.1.tar.gz
-    brew install ./casacore-2.1.0.el_capitan.bottle.tar.gz --with-python3
+if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+  wget https://repo.continuum.io/miniconda/Miniconda2-latest-$MINICONDAVERSION-x86_64.sh -O miniconda.sh;
+else
+  wget https://repo.continuum.io/miniconda/Miniconda3-latest-$MINICONDAVERSION-x86_64.sh -O miniconda.sh;
+  fi
 
-fi
+bash miniconda.sh -b -p $HOME/miniconda
+export PATH="$HOME/miniconda/bin:$PATH"
+hash -r
+conda config --set always_yes yes --set changeps1 no
+conda update -q conda
+conda config --add channels conda-forge
+# Useful for debugging any issues with conda
+conda info -a
+
+conda create -q -n testenv python=$TRAVIS_PYTHON_VERSION casacore=2.3.0
+
+echo "measures.directory: /home/travis/data" > $HOME/.casarc
