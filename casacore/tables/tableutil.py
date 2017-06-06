@@ -523,7 +523,7 @@ def makedminfo(tabdesc, group_spec=None):
 
   # Iterate through the table columns, grouping them
   # by their dataManagerGroup
-  for c, d in tabdesc.iteritems():
+  for c, d in six.iteritems(tabdesc):
     if c in ('_define_hypercolumn_', '_keywords_', '_private_keywords_'):
       continue
 
@@ -566,7 +566,7 @@ def makedminfo(tabdesc, group_spec=None):
       'SPEC' : dm_group.spec,
       'SEQNR': i
     } for i, (group, dm_group)
-    in enumerate(dm_groups.iteritems())
+    in enumerate(six.iteritems(dm_groups))
   }
 
 # Create the old glish names for them.
