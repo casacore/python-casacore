@@ -8,7 +8,7 @@ import platform
 from setuptools import setup, Extension, find_packages
 from distutils.sysconfig import get_config_vars
 from distutils import ccompiler
-import argparse
+import optparse
 from ctypes.util import find_library
 
 from casacore import __version__
@@ -21,9 +21,9 @@ def find_library_file(libname):
     for most configurations. Should be used only for dependency tracking.
     '''
     # Use a dummy argument parser to get user specified library dirs
-    parser = argparse.ArgumentParser(add_help=False)
-    parser.add_argument("--library-dirs", "-L", default='')
-    args, unknown = parser.parse_known_args()
+    parser = optparse.OptionParser(add_help_option=False)
+    parser.add_option("--library-dirs", "-L", default='')
+    args, unknown = parser.parse_args()
     user_libdirs = args.library_dirs.split(':')
     # Append default search path (not a complete list)
     libdirs = user_libdirs+[os.path.join(sys.prefix,'lib'),'/usr/local/lib', '/usr/lib','/usr/lib/x86_64-linux-gnu']
