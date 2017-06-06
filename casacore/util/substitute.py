@@ -24,9 +24,10 @@
 #                        Charlottesville, VA 22903-2475 USA
 #
 # $Id$
-__all__ = ['getlocals', 'getvariable', 'substitute']
 
 import numpy as np
+
+__all__ = ['getlocals', 'getvariable', 'substitute']
 
 
 def getlocals(back=2):
@@ -44,14 +45,14 @@ def getlocals(back=2):
 
 
 def getvariable(name):
-    """Get the value of a local variable somewhere in the call stack"""
+    """Get the value of a local variable somewhere in the call stack."""
     import inspect
     fr = inspect.currentframe()
     try:
         while fr:
             fr = fr.f_back
             vars = fr.f_locals
-            if vars.has_key(name):
+            if name in vars:
                 return vars[name]
     except:
         pass
@@ -75,7 +76,7 @@ def substitute(s, objlist=(), globals={}, locals={}):
        if an environment variable is used. Note that an extra backslash
        is required in Python to escape the backslash.
        The output contains the quotes and backslashes.
-    3. A variable is looked up in the given localand global namespaces.
+    3. A variable is looked up in the given local and global namespaces.
     4. If the variable `name` has a vector value, its substitution is
        enclosed in square brackets and separated by commas.
     5. A string value is enclosed in double quotes. If the value
@@ -90,7 +91,8 @@ def substitute(s, objlist=(), globals={}, locals={}):
 
     1. The first field is the object type (e.g. `table`)
     2. The second field is a prefix for the sequence number (usually empty).
-       E.g. regions could have prefix 'r' resulting in a substitution like `$r1`.
+       E.g. regions could have prefix 'r' resulting in a substitution like
+       `$r1`.
     3. The third field is a list of objects to be substituted. New objects
        get appended to it. Usually the list is initially empty.
 
@@ -99,19 +101,29 @@ def substitute(s, objlist=(), globals={}, locals={}):
     It correctly handles parentheses and quotes in the expression.
     For example::
 
-      a=2
-      b=3
-      substitute('$(a+b)+$a')              # results in '5+2' (not '7')
-      substitute('$((a+b)+$a)')            # results in '7'
-      substitute('$((a+b)*(a+b))')         # results in '25'
-      substitute('$(len("ab cd( de"))')    # results in '9'
+        >>> a = 2
+        >>> b = 3
+        >>> substitute('$(a+b)+$a')
+        '5+2'
+
+        >>> substitute('$(a+b+a)')
+        '7'
+
+        >>> substitute('$((a+b)+$a)')
+        '$((a+b)+$a)'
+
+        >>> substitute('$((a+b)*(a+b))')
+        '25'
+
+        >>> substitute('$(len("ab cd( de"))')
+        '9'
 
     Substitution is NOT recursive. E.g. if a=1 and b="$a",
     the result of substitute("$b") is "$a" and not 1.
 
     """
     # Get the local variables at the caller level if not given.
-    if len(locals) == 0:
+    if not locals:
         locals = getlocals(3)
     # Initialize some variables.
     backslash = False
@@ -130,12 +142,12 @@ def substitute(s, objlist=(), globals={}, locals={}):
             continue
         # If a dollar is found, we might have a name or expression.
         # Alphabetics and underscore are always part of name.
-        if dollar  and  nparen == 0:
-            if tmp == '_' or (tmp >= 'a' and tmp <= 'z') or (tmp >= 'A' and tmp <= 'Z'):
+        if dollar and nparen == 0:
+            if tmp == '_' or ('a' <= tmp <= 'z') or ('A' <= tmp <= 'Z'):
                 name += tmp
                 continue
             # Numerics are only part if not first character.
-            if tmp >= '0' and tmp <= '9' and name != '':
+            if '0' <= tmp <= '9' and name != '':
                 name += tmp
                 continue
             # $( indicates the start of an expression to evaluate.
@@ -204,7 +216,7 @@ def substitutename(name, objlist, globals, locals):
     # First try as a single variable; otherwise as an expression.
     try:
         v = getvariable(name)
-        if v == None:
+        if v is None:
             v = eval(name, globals, locals)
     except NameError:
         return '$' + name
