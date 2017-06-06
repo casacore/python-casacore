@@ -49,7 +49,7 @@ else:
 def find_boost():
     # Find correct boost-python library.
     system = platform.system()
-    if system == 'Linux':
+    if system == 'Linux' or 'conda' in sys.prefix or 'Continuum' in sys.prefix:
         # Use version suffix if present
         boost_python = 'boost_python-py%s%s' % (sys.version_info[0], sys.version_info[1])
         if not find_library_file(boost_python):
