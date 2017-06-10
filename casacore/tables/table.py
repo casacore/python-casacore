@@ -1473,6 +1473,7 @@ class table(Table):
         is doing with the description given by :func:`getcoldesc`.
 
         """
+        import casacore.tables.tableutil as pt
         return pt.makecoldesc(columnname, self.getcoldesc(columnname, actual))
 
     def getdminfo(self, columnname=None):
