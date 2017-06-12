@@ -64,7 +64,7 @@ def _check_index(key, name):
 
 # Check a key or slice given to index a tablerow or tablecolumn object.
 # A TypeError exception is raised if values or not integer or None.
-# An IndexError is raised if incorrect values are given. 
+# An IndexError is raised if incorrect values are given.
 # It returns a list of length 1 if a single index is given.
 # Otherwise it returns [startrow, nrow, step].
 def _check_key_slice(key, nrows, name):
@@ -79,21 +79,21 @@ def _check_key_slice(key, nrows, name):
     # Given as start:stop:step where each part is optional and can
     # be negative.
     incr = 1
-    if key.step != None:
+    if key.step is not None:
         incr = _check_index(key.step, name)
         if incr == 0:
-            raise RunTimeError(name + " slice step cannot be zero")
+            raise RuntimeError(name + " slice step cannot be zero")
     strow = 0
     endrow = nrows
     if incr < 0:
         strow = nrows - 1
         endrow = -1
-    if key.start != None:
+    if key.start is not None:
         strow = _check_index(key.start, name)
         if strow < 0:
             strow += nrows
         strow = min(max(strow, 0), nrows - 1)
-    if key.stop != None:
+    if key.stop is not None:
         endrow = _check_index(key.stop, name)
         if endrow < 0:
             endrow += nrows
