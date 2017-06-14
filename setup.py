@@ -8,17 +8,17 @@ import platform
 from setuptools import setup, Extension, find_packages
 from distutils.sysconfig import get_config_vars
 from distutils import ccompiler
+from distutils.version import LooseVersion
 import argparse
 from ctypes.util import find_library
+import ctypes
 
-from casacore import __version__
+from casacore import __version__, __mincasacoreversion__
 
 
 def find_library_file(libname):
     ''' Try to get the directory of the specified library.
     It adds to the search path the library paths given to distutil's build_ext.
-    This is not guaranteed to work, but should give the correct directory
-    for most configurations. Should be used only for dependency tracking.
     '''
     # Use a dummy argument parser to get user specified library dirs
     parser = argparse.ArgumentParser(add_help=False)
@@ -112,23 +112,35 @@ extension_metas = (
 )
 
 # Find casacore libpath
-found_casacore_libraries=True;
-if not find_library_file('casa_casa'):
-    print("Warning: could not find casa library dir for dependency tracking.")
-    print("Possibly not rebuilding. Specify --force to force a rebuild.")
-    found_casacore_libraries=False
+libcasacasa=find_library_file('casa_casa')
+if libcasacasa is None:
+    raise Exception("Could not find libcasa_casa.so")
+
+# Get version number from casacore
+try:
+    libcasa = ctypes.cdll.LoadLibrary(libcasacasa)
+    getCasacoreVersion = libcasa.getVersion
+    getCasacoreVersion.restype = ctypes.c_char_p
+    casacoreversion = getCasacoreVersion()
+except:
+    # getVersion was fixed in casacore 2.3.0
+    raise Exception("Your casacore version is older than 2.3.0 and " +
+                    "incompatible with this version of python-casacore")
+
+if LooseVersion(casacoreversion.decode()) < LooseVersion(__mincasacoreversion__):
+    raise Exception("Your casacore version is too old. Minimum is " +
+                    __mincasacoreversion__)
 
 extensions = []
 for meta in extension_metas:
     name, sources, depends, libraries = meta
 
     # Add dependency on casacore libraries to trigger rebuild at casacore update
-    if found_casacore_libraries:
-        for library in libraries:
-            if 'casa' in library:
-                found_lib=find_library_file(library)
-                if found_lib:
-                    depends=depends+[found_lib]
+    for library in libraries:
+        if 'casa' in library:
+            found_lib=find_library_file(library)
+            if found_lib:
+                depends=depends+[found_lib]
 
     extensions.append(Extension(name=name, sources=sources, depends=depends,
                                 libraries=libraries))
