@@ -319,9 +319,9 @@ class image(Image):
         set to False.
 
         """
-        return -self._getmask(self._adjustBlc(blc),
-                              self._adjustTrc(trc),
-                              self._adjustInc(inc))
+        return numpy.logical_not(self._getmask(self._adjustBlc(blc),
+                                               self._adjustTrc(trc),
+                                               self._adjustInc(inc)))
 
     # Get data and mask
     def get(self, blc=(), trc=(), inc=()):
