@@ -52,7 +52,8 @@ class functional(_functional):
         return _functional.ndim(self)
 
     def npar(self):
-        """Return the numper of parameters of the functional
+        """Return the number of parameters of the functional
+        
         :retval: int
 
         Equivalent::
