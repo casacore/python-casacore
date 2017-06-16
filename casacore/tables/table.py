@@ -1795,6 +1795,7 @@ class table(Table):
                 os.system('casabrowser ' + self.name() + waitstr1)
             elif len(tempname) > 0:
                 six.print_("  making a persistent copy in table " + tempname)
+                self.copy(tempname)
                 os.system('casabrowser ' + tempname + waitstr1)
                 if wait:
                     from casacore.tables import tabledelete
@@ -1878,6 +1879,7 @@ class table(Table):
                     viewed = True
                 elif len(tempname) > 0:
                     six.print_("  making a persistent copy in table " + tempname)
+                    self.copy(tempname)
                     os.system('casaviewer ' + tempname + waitstr1)
                     viewed = True
                     if wait:
