@@ -41,9 +41,9 @@ Several utility functions exist. Important ones are:
 
 # Make interface to class TableProxy available.
 from ._tables import (Table,
-  _default_ms,
-  _default_ms_subtable,
-  _required_ms_desc)
+                      _default_ms,
+                      _default_ms_subtable,
+                      _required_ms_desc)
 
 from casacore import six
 from .tablehelper import _add_prefix, _remove_prefix, _do_remove_prefix
@@ -831,7 +831,7 @@ class table(Table):
     def isvarcol(self, columnname):
         """Tell if the column holds variable shaped arrays."""
         desc = self.getcoldesc(columnname)
-        return 'ndim' in desc and not 'shape' in desc
+        return 'ndim' in desc and 'shape' not in desc
 
     def coldatatype(self, columnname):
         """Get the data type of a column.
@@ -1019,7 +1019,7 @@ class table(Table):
         rows (default all), and row stride (default 1).
 
         """
-        if not nparray.flags.c_contiguous or nparray.size == 0:
+        if (not nparray.flags.c_contiguous) or nparray.size == 0:
             raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
         return self._getcolvh(columnname, startrow, nrow, rowincr, nparray)
 
@@ -1183,14 +1183,14 @@ class table(Table):
         tdesc = desc
         # Create a tabdesc if only a coldesc is given.
         if 'name' in desc:
-            import casacore.tables.tableutil
+            import casacore.tables.tableutil as pt
             if len(desc) == 2 and 'desc' in desc:
                 # Given as output from makecoldesc
-                tdesc = casacore.tables.tableutil.maketabdesc(desc)
+                tdesc = pt.maketabdesc(desc)
             elif 'valueType' in desc:
                 # Given as output of getcoldesc (with a name field added)
-                cd = casacore.tables.tableutil.makecoldesc(desc['name'], desc)
-                tdesc = casacore.tables.tableutil.maketabdesc(cd)
+                cd = pt.makecoldesc(desc['name'], desc)
+                tdesc = pt.maketabdesc(cd)
         self._addcols(tdesc, dminfo, addtoparent)
         self._makerow()
 
@@ -1279,8 +1279,8 @@ class table(Table):
         - a reference to a table which is returned as a string containing its
           name prefixed by 'Table :'. It can be opened using the normal table
           constructor which will remove the prefix.
-        - a struct which is returned as a dict. A struct is fully nestable, thus
-          each field in the struct can have one of the values described here.
+        - a struct which is returned as a dict. A struct is fully nestable, 
+          thus each field in the struct can have one of the values described here.
 
         Similar to method :func:`fieldnames` a keyword name can be given consisting
         of multiple parts separated by dots. This represents nested structs,
@@ -1326,11 +1326,9 @@ class table(Table):
 
     def getsubtables(self):
         """Get the names of all subtables."""
-
         keyset = self.getkeywords()
         names = []
-        for key in keyset:
-            value = keyset[key]
+        for key, value in keyset.items():
             if isinstance(value, str) and value.find('Table: ') == 0:
                 names.append(_do_remove_prefix(value))
         return names
@@ -1438,7 +1436,6 @@ class table(Table):
         actual array shapes and data managers used).
         `actual=False` means that the original description as made by
         :func:`maketabdesc` is returned.
-
         """
 
         tabledesc = self._getdesc(actual, True)
@@ -1451,7 +1448,7 @@ class table(Table):
           if "HCcoordnames" in hcdef and len(hcdef["HCcoordnames"]) == 0:
             del hcdef["HCcoordnames"]
           if "HCidnames" in hcdef and len(hcdef["HCidnames"]) == 0:
-            del hcdef ["HCidnames"]
+            del hcdef["HCidnames"]
 
         return tabledesc
 
@@ -1473,6 +1470,7 @@ class table(Table):
         is doing with the description given by :func:`getcoldesc`.
 
         """
+        import casacore.tables.tableutil as pt
         return pt.makecoldesc(columnname, self.getcoldesc(columnname, actual))
 
     def getdminfo(self, columnname=None):
@@ -1595,8 +1593,7 @@ class table(Table):
                 if (len(ckeys) > 0):
                     six.print_(column, 'keywords:', ckeys)
         if (recurse):
-            for key in tkeys.keys():
-                value = tkeys[key]
+            for key, value in tkeys.items():
                 tabname = _remove_prefix(value)
                 six.print_('Summarizing subtable:', tabname)
                 lt = table(tabname)
@@ -1766,7 +1763,8 @@ class table(Table):
         To make browsing of such tables possible, the argument `tempname` can
         be used to specify a table name that will be used to form a persistent
         table that can be browsed. Note that such a table is very small as it
-        does not contain data, but only references to rows in the original table.
+        does not contain data, but only references to rows in the original
+        table.
         The default for `tempname` is '/tmp/seltable'.
 
         If needed, the table can be deleted using the :func:`tabledelete`
@@ -1787,7 +1785,8 @@ class table(Table):
                 waitstr1 = " &"
                 waitstr2 = "background ..."
             if self.iswritable():
-                six.print_("Flushing data and starting casabrowser in the " + waitstr2)
+                six.print_("Flushing data and starting casabrowser in the " +
+                           waitstr2)
             else:
                 six.print_("Starting casabrowser in the " + waitstr2)
             self.flush()
@@ -1796,8 +1795,7 @@ class table(Table):
                 os.system('casabrowser ' + self.name() + waitstr1)
             elif len(tempname) > 0:
                 six.print_("  making a persistent copy in table " + tempname)
-                tx = self.copy(tempname)
-                tx = 0
+                self.copy(tempname)
                 os.system('casabrowser ' + tempname + waitstr1)
                 if wait:
                     from casacore.tables import tabledelete
@@ -1805,10 +1803,11 @@ class table(Table):
                     tabledelete(tempname)
 
                 else:
-                    six.print_("  after browsing use tabledelete('" + tempname + "') to delete the copy")
+                    six.print_(" after browsing use tabledelete('" + tempname +
+                               "') to delete the copy")
             else:
                 six.print_("Cannot browse because the table is in memory only.")
-                six.print_("You can browse a (shallow) persistent copy of the table like:")
+                six.print_("You can browse a (shallow) persistent copy of the table like: ")
                 six.print_("   t.browse(True, '/tmp/tab1')")
         else:
             try:
@@ -1880,8 +1879,7 @@ class table(Table):
                     viewed = True
                 elif len(tempname) > 0:
                     six.print_("  making a persistent copy in table " + tempname)
-                    tx = self.copy(tempname)
-                    tx = 0
+                    self.copy(tempname)
                     os.system('casaviewer ' + tempname + waitstr1)
                     viewed = True
                     if wait:

@@ -99,7 +99,7 @@ def addImagingColumns(msname, ack=True):
         # Add IMAGING_WEIGHT which is 1-dim and has type float.
         # It needs a shape, otherwise the CASA imager complains.
         shp = []
-        if cdesc.has_key('shape'):
+        if 'shape' in cdesc:
             shp = cdesc['shape']
         if len(shp) > 0:
             shp = [shp[0]]  # use nchan from shape
@@ -142,7 +142,7 @@ def removeImagingColumns(msname):
 
 
 def addDerivedMSCal(msname):
-    """ Add the derived columns like HA to an MS or CalTable
+    """ Add the derived columns like HA to an MS or CalTable.
 
     It adds the columns HA, HA1, HA2, PA1, PA2, LAST, LAST1, LAST2, AZEL1,
     AZEL2, and UVW_J2000.
@@ -158,7 +158,7 @@ def addDerivedMSCal(msname):
     # Check that the columns needed by DerivedMSCal are present.
     # Note that ANTENNA2 and FEED2 are not required.
     for col in ["TIME", "ANTENNA1", "FIELD_ID", "FEED1"]:
-        if not col in colnames:
+        if col not in colnames:
             raise ValueError("Columns " + colnames +
                              " should be present in table " + msname)
     scols1 = ['HA', 'HA1', 'HA2', 'PA1', 'PA2']
@@ -189,7 +189,7 @@ def addDerivedMSCal(msname):
 
 
 def removeDerivedMSCal(msname):
-    """ Remove the derived columns like HA from an MS or CalTable
+    """ Remove the derived columns like HA from an MS or CalTable.
 
     It removes the columns using the data manager DerivedMSCal.
     Such columns are HA, HA1, HA2, PA1, PA2, LAST, LAST1, LAST2, AZEL1,
@@ -210,7 +210,7 @@ def removeDerivedMSCal(msname):
 
 
 def msconcat(names, newname, concatTime=False):
-    """Virtually concatenate multiple MeasurementSets
+    """Virtually concatenate multiple MeasurementSets.
 
     Multiple MeasurementSets are concatenated into a single MeasurementSet.
     The concatenation is done in an entirely or almost entirely virtual way,
@@ -221,7 +221,7 @@ def msconcat(names, newname, concatTime=False):
     If concatenated in time, no indices need to be updated and the
     concatenation is done in a single step.
 
-    If spectral windows are concatenated, tThe data-description-ids and
+    If spectral windows are concatenated, the data-description-ids and
     spectral-window-ids in the resulting MS and its subtables are updated
     to make them unique.
     The spectral concatenation is done in two steps and results in two MSs:
@@ -277,7 +277,9 @@ def msconcat(names, newname, concatTime=False):
     # to be changed.
     # The new column is filled at the end.
     tnew = table(newname, tdesc, nrow=tn.nrows(), dminfo={
-        '1': {'TYPE': 'ForwardColumnEngine', 'NAME': 'ForwardData', 'COLUMNS': tn.colnames(),
+        '1': {'TYPE': 'ForwardColumnEngine',
+              'NAME': 'ForwardData',
+              'COLUMNS': tn.colnames(),
               'SPEC': {'FORWARDTABLE': tn.name()}}})
     # Remove the DATA_DESC_ID column and recreate it in a stored way.
     tnew.removecols('DATA_DESC_ID')
@@ -306,7 +308,6 @@ def msconcat(names, newname, concatTime=False):
     nrdd = 0
     nrspw = 0
     nrmain = 0
-    useChanSel = True
     for name in names:
         t = table(name, ack=False)
         tdd = table(t.getkeyword('DATA_DESCRIPTION'), ack=False)

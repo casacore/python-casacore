@@ -67,8 +67,9 @@ class tablecolumn:
     """
 
     def __init__(self, table, columnname):
-        if not columnname in table.colnames():
-            raise RuntimeError("Column " + columnname + " does not exist in table " + table.name())
+        if columnname not in table.colnames():
+            raise RuntimeError("Column " + columnname +
+                               " does not exist in table " + table.name())
         self._table = table
         self._column = columnname
 
@@ -257,7 +258,7 @@ class tablecolumn:
         except:
             pass
         # _ or keys means all keywords.
-        if name == '_' or name == 'keys':
+        if name in ('_', 'keys'):
             return self.getkeywords()
         # Unknown name.
         raise AttributeError("table has no attribute/keyword " + name)
@@ -295,7 +296,8 @@ class tablecolumn:
         else:
             # Each row has its own value.
             if len(value) != sei[1]:
-                raise RuntimeError("tablecolumn slice length differs from value length")
+                raise RuntimeError(
+                    "tablecolumn slice length differs from value length")
             for val in value:
                 self.putcell(rownr, val)
                 rownr += sei[2]

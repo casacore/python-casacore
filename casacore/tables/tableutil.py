@@ -506,7 +506,6 @@ def makedminfo(tabdesc, group_spec=None):
     This should be used with care.
 
   """
-
   if group_spec is None:
     group_spec = {}
 
@@ -631,7 +630,7 @@ def tabledefinehypercolumn(tabdesc,
         rec['HCcoordnames'] = coordcolumns
     if not isinstance(idcolumns, bool):
         rec['HCidnames'] = idcolumns
-    if not '_define_hypercolumn_' in tabdesc:
+    if '_define_hypercolumn_' not in tabdesc:
         tabdesc['_define_hypercolumn_'] = {}
     tabdesc['_define_hypercolumn_'][name] = rec
 
