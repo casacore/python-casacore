@@ -146,7 +146,7 @@ class functional(_functional):
         if len(retval) == n:
             return numpy.array(retval)
         return numpy.array(retval).reshape(self.npar() + 1,
-                                           n / self.ndim()).transpose()
+                                           n // self.ndim()).transpose()
 
     def add(self, other):
         if not isinstance(other, functional):

@@ -1,5 +1,5 @@
 import unittest2 as unittest
-from pyrap.functionals import *
+from casacore.functionals import *
 
 
 class TestFunctionals(unittest.TestCase):
