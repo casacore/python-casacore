@@ -132,7 +132,7 @@ class functional(_functional):
             a = gaussian1d()
             a.fdf(0.0)
             # equivalent
-            a(0.0, derivative=True)
+            a(0.0, derivatives=True)
 
         """
         x = self._flatten(x)
@@ -264,7 +264,7 @@ class chebyshev(functional):
                  xmin=-1., xmax=1., ooimode='constant',
                  dtype=0):
         modes = "constant zeroth extrapolate cyclic edge".split()
-        if not ooimode in modes:
+        if ooimode not in modes:
             raise ValueError("Unrecognized ooimode")
         mode = {'interval': [float(xmin), float(xmax)], 'intervalMode': ooimode,
                 'default': float(0.0)}
@@ -292,8 +292,8 @@ class compiled(functional):
     be a single expression, which can use the standard operators and
     functions and parentheses, having a single value as a result. The
     parameters of the function can be addressed with the *p* variable. This
-    variable can be indexed in two ways. The first way is using the standard a
-    lgebraic way, where the parameters are: ``p (or p0), p1, p2, ...`` . The
+    variable can be indexed in two ways. The first way is using the standard
+    algebraic way, where the parameters are: ``p (or p0), p1, p2, ...`` . The
     second way is by indexing, where the parameters are addressed as: p[0],
     p[1], ... . The arguments are accessed in the same way, but using the
     variable name x. The compilation determines the number of dimensions and
@@ -329,7 +329,7 @@ class compiled(functional):
         # the extensive calculation to make sure no divison by 0
         >>> synca = compiled('( (x==0) * 1)+( (x!=0) * sin(x+(x==0)*1)/(x+(x==0)*1) )')
         >>> print synca([-1,0,1])
-        [0.841471, 10., 0.841471]
+        [0.841471, 1., 0.841471]
         >>> print math.sin(1)/1
         0.841471
         # using conditional expressions:
