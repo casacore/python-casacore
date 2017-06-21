@@ -45,8 +45,8 @@ from ._tables import (Table,
                       _default_ms_subtable,
                       _required_ms_desc)
 
+from .tablehelper import (_add_prefix, _remove_prefix, _do_remove_prefix, _format_row)
 from casacore import six
-from .tablehelper import _add_prefix, _remove_prefix, _do_remove_prefix
 
 def default_ms(name, tabdesc=None, dminfo=None):
   """
@@ -1895,3 +1895,38 @@ class table(Table):
         # Could not view the table, so browse it.
         if not viewed:
             self.browse(wait, tempname)
+
+    def _repr_html_(self):
+        """Give a nice representation of tables in notebooks."""
+        out="<table class='taqltable' style='overflow-x:auto'>\n"
+
+        # Print column names (not if they are all auto-generated)
+        if not(all([colname[:4]=="Col_" for colname in self.colnames()])):
+            out+="<tr>"
+            for colname in self.colnames():
+                out+="<th><b>"+colname+"</b></th>"
+            out+="</tr>"
+
+        cropped=False
+        rowcount=0
+        for row in self:
+            rowout=_format_row(row, self.colnames(),self)
+            rowcount+=1
+            out+=rowout
+            if "\n" in rowout: # Double space after multiline rows
+                out+="\n"
+            out+="\n"
+            if rowcount>=20:
+                cropped=True
+                break
+
+        if out[-2:]=="\n\n":
+            out=out[:-1]
+
+        out+="</table>"
+
+        if cropped:
+            out+="<p style='text-align:center'>("+str(self.nrows()-20)+" more rows)</p>\n"
+
+        return out
+

@@ -26,8 +26,7 @@
 # $Id: tablecolumn.py,v 1.9 2007/08/28 07:22:18 gvandiep Exp $
 
 from .table import table
-from .tablehelper import _check_key_slice, _do_remove_prefix
-
+from .tablehelper import _check_key_slice, _do_remove_prefix, _format_cell
 
 class tablecolumn:
     """The Python interface to a column in a Casacore table.
@@ -302,3 +301,37 @@ class tablecolumn:
                 self.putcell(rownr, val)
                 rownr += sei[2]
         return True
+
+    def _repr_html_(self):
+        """Give a nice representation of columns in notebooks."""
+        out="<table class='taqltable'>\n"
+
+        # Print column name (not if it is auto-generated)
+        if not(self.name()[:4]=="Col_"):
+            out+="<tr>"
+            out+="<th><b>"+self.name()+"</b></th>"
+            out+="</tr>"
+
+        cropped=False
+        rowcount=0
+        colkeywords=self.getkeywords()
+        for row in self:
+            out +="\n<tr>"
+            out += "<td>" + _format_cell(row, colkeywords) + "</td>\n"
+            out += "</tr>\n"
+            rowcount+=1
+            out+="\n"
+            if rowcount>=20:
+                cropped=True
+                break
+
+        if out[-2:]=="\n\n":
+            out=out[:-1]
+
+        out+="</table>"
+
+        if cropped:
+            out+="<p style='text-align:center'>("+str(self.nrows()-20)+" more rows)</p>\n"
+
+        return out
+
