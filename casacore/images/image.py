@@ -112,7 +112,7 @@ class image(Image):
 
       im = image('3c343.fits')          # open existing fits image
       im = image('a.img1 - a.img2')     # open as expression
-      im = image(shape=(256,256))       # create temp image 
+      im = image(shape=(256,256))       # create temp image
       im = image('a', shape=(256,256))  # create image a
 
     """
@@ -121,7 +121,7 @@ class image(Image):
                  coordsys=None, overwrite=True, ashdf5=False, mask=(),
                  shape=None, tileshape=()):
         coord = {}
-        if not coordsys is None:
+        if coordsys is not None:
             coord = coordsys.dict()
         if isinstance(imagename, Image):
             # Create from the value returned by subimage, etc.
@@ -141,7 +141,8 @@ class image(Image):
                     opened = True
             if not opened:
                 if not isinstance(imagename, str):
-                    raise ValueError("first argument must be name or sequence of images or names")
+                    raise ValueError("first argument must be name or" +
+                                     " sequence of images or names")
                 if shape is None:
                     if values is None:
                         # Open an image from name or expression
@@ -151,9 +152,10 @@ class image(Image):
                             imgs += [img]
                         try:
                             # Substitute possible $ arguments
-                            import casacore.util
-                            imagename = casacore.util.substitute(imagename, [(image, '', imgs)],
-                                                                 locals=casacore.util.getlocals(3))
+                            import casacore.util as cu
+                            imagename = cu.substitute(imagename,
+                                                      [(image, '', imgs)],
+                                                      locals=cu.getlocals(3))
                         except:
                             six.print_("Probably could not import casacore.util")
                             pass
@@ -167,7 +169,7 @@ class image(Image):
                                 mask = nma.getmaskarray(values)
                             values = values.data
                         if len(mask) > 0:
-                            mask = -mask;  # casa and numpy have opposite flags
+                            mask = -mask  # casa and numpy have opposite flags
                         Image.__init__(self, values, mask, coord,
                                        imagename, overwrite, ashdf5,
                                        maskname, tileshape)
@@ -283,7 +285,8 @@ class image(Image):
         return self._attrgetmeas(groupname, attrname)
 
     def attrput(self, groupname, attrname, rownr, value, unit=[], meas=[]):
-        """Put the value and optionally unit and measinfo of an attribute in a row in a group."""
+        """Put the value and optionally unit and measinfo
+           of an attribute in a row in a group."""
         return self._attrput(groupname, attrname, rownr, value, unit, meas)
 
     def getdata(self, blc=(), trc=(), inc=()):
@@ -307,7 +310,7 @@ class image(Image):
         Using the arguments blc (bottom left corner), trc (top right corner),
         and inc (stride) it is possible to get a mask slice. Not all axes
         need to be specified. Missing values default to begin, end, and 1.
-        
+
         The mask is returned as a numpy array. Its dimensionality is the same
         as the dimensionality of the image, even if an axis has length 1.
         Note that the casacore images use the convention that a mask value
@@ -368,7 +371,7 @@ class image(Image):
 
         """
         # casa and numpy have opposite flags
-        return self._putmask(-value, self._adjustBlc(blc),
+        return self._putmask(~value, self._adjustBlc(blc),
                              self._adjustInc(inc))
 
     def put(self, value, blc=(), trc=(), inc=()):
@@ -550,7 +553,7 @@ class image(Image):
         E.g. if axes [0,1] is given in a 3-dim image, the statistics are
         calculated for each plane along the 3rd axis. By default statistics
         are calculated for the entire image.
-        
+
         `minmaxvalues` can be given to include or exclude pixels
         with values in the given range. If only one value is given,
         min=-abs(val) and max=abs(val).
