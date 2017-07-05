@@ -368,7 +368,7 @@ class image(Image):
 
         """
         # casa and numpy have opposite flags
-        return self._putmask(-value, self._adjustBlc(blc),
+        return self._putmask(~value, self._adjustBlc(blc),
                              self._adjustInc(inc))
 
     def put(self, value, blc=(), trc=(), inc=()):
