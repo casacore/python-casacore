@@ -209,7 +209,7 @@ class fitserver(object):
     def addconstraint(self, x, y=0, fnct=None, fid=0):
         self._checkid(fid)
         i = 0
-        if "constraint" in self._fitids[fid].has_key:
+        if "constraint" in self._fitids[fid]:
             i = len(self._fitids[fid]["constraint"])
         else:
             self._fitids[fid]["constraint"] = {}
