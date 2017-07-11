@@ -6,20 +6,21 @@ from casacore.functionals import *
 
 
 class fitserver(object):
-    """Create a `fitserver instance. The object can be created without
-    arguments (in which case it is assumed to be a real fitter), or with
-    the arguments specifying the number of unknowns to be solved for (a number
-    not relevant in practice); and the type of solution: real, complex,
-    conjugate (complex with both the unknown and its conjugate in the
-    condition equations), separable complex, asreal complex with the real and
-    imaginary part seen as independent unknowns. All solutions need a model
-    (specified as a :mod:`casacore.functionals`. All solutions are done using an
-    SVD type method. A collinearity factor can be specified, which is in
-    essence the sine squared of the minimum angle between two normal equation
-    columns that are still to be considered independent. For automatic
-    non-linear solutions, a Levenberg-Marquardt factor (see
-    `Note 224 <../../casacore/doc/notes/224.html>`_) is used, which can be
-    specified as well.
+    """Create a `fitserver instance.
+
+    The object can be created without arguments (in which case it is assumed
+    to be a real fitter), or with the arguments specifying the number of
+    unknowns to be solved for (a number not relevant in practice); and the type
+    of solution: real, complex, conjugate (complex with both the unknown and
+    its conjugate in the condition equations), separable complex, asreal
+    complex with the real and imaginary part seen as independent unknowns.
+    All solutions need a model (specified as a :mod:`casacore.functionals`.
+    All solutions are done using an SVD type method. A collinearity factor
+    can be specified, which is in essence the sine squared of the minimum angle
+    between two normal equation columns that are still to be considered
+    independent. For automatic non-linear solutions, a Levenberg-Marquardt
+    factor (see`Note 224 <../../casacore/doc/notes/224.html>`_) is used, which
+    can be specified as well.
 
     In the case of non-linear solutions that have to be handled by the system,
     an initial estimate for the model parameters is necessary.
@@ -43,8 +44,10 @@ class fitserver(object):
             raise RuntimeError("System problem creating fitter server")
 
     def fitter(self, n=0, ftype="real", colfac=1.0e-8, lmfac=1.0e-3):
-        """Create a sub-fitter (which can be used in the same way as a fitter
-        default fitter). This function returns an identification, which has to
+        """Create a sub-fitter.
+
+        The created sub-fitter can be used in the same way as a fitter
+        default fitter. This function returns an identification, which has to
         be used in the `fid` argument of subsequent calls. The call can
         specify the standard constructor arguments (`n`, `type`, `colfac`,
         `lmfac`), or can specify them later in a :meth:`set` statement.
@@ -71,11 +74,12 @@ class fitserver(object):
         return fid
 
     def init(self, n=0, ftype="real", colfac=1.0e-8, lmfac=1.0e-3, fid=0):
-        """Set selected properties of the fitserver instance. Like in the
-        constructor, the number of unknowns to be solved for; the number of
-        simultaneous solutions; the ftype and the collinearity and
-        Levenberg-Marquardt factor can be specified. Individual values can be
-        overwritten with the :meth:`set` function.
+        """Set selected properties of the fitserver instance.
+
+        Like in the constructor, the number of unknowns to be solved for;
+        the number of simultaneous solutions; the ftype and the collinearity
+        and Levenberg-Marquardt factor can be specified. Individual values can
+        be overwritten with the :meth:`set` function.
 
         :param n: number of unknowns
         :param ftype: type of solution
@@ -98,12 +102,12 @@ class fitserver(object):
     def _gettype(self, ftype):
         if isinstance(ftype, str):
             ftype = ftype.lower()
-            if not ftype in self._typeids:
+            if ftype not in self._typeids:
                 raise TypeError("Illegal fitting type")
             else:
                 return self._typeids[ftype]
         elif isinstance(ftype, int):
-            if not ftype in self._typeids.values():
+            if ftype not in self._typeids.values():
                 raise TypeError("Illegal fitting type")
         else:
             raise TypeError("Illegal fitting type")
@@ -132,12 +136,13 @@ class fitserver(object):
         return d
 
     def set(self, n=None, ftype=None, colfac=None, lmfac=None, fid=0):
-        """Set selected properties of the fitserver instance. All unset
-        properties remain the same (in the :meth:`init` method all properties
-        are (re-)initialized). Like in the constructor, the number of unknowns
-        to be solved for; the number of simultaneous solutions; the ftype (as
-        code); and the collinearity and Levenberg-Marquardt factor can be
-        specified.
+        """Set selected properties of the fitserver instance.
+
+        All unset properties remain the same (in the :meth:`init` method all
+        properties are (re-)initialized). Like in the constructor, the number
+        of unknowns to be solved for; the number of simultaneous solutions;
+        the ftype (as code); and the collinearity and Levenberg-Marquardt
+        factor can be specified.
 
         :param n: number of unknowns
         :param ftype: type of solution
@@ -176,6 +181,7 @@ class fitserver(object):
         return True
 
     def done(self, fid=0):
+        """Terminates the fitserver."""
         self._checkid(fid)
         self._fitids[fid] = {}
         self._fitproxy.done(fid)
@@ -203,10 +209,12 @@ class fitserver(object):
         return self._fitids[fid]["stat"]
 
     def clearconstraints(self, fid=0):
+        """Clear the constraints."""
         self._checkid(fid)
         self._fitids[fid]["constraint"] = {}
 
     def addconstraint(self, x, y=0, fnct=None, fid=0):
+        """Add constraint."""
         self._checkid(fid)
         i = 0
         if "constraint" in self._fitids[fid]:
@@ -231,7 +239,7 @@ class fitserver(object):
 
     def fitspoly(self, n, x, y, sd=None, wt=1.0, fid=0):
         """Create normal equations from the specified condition equations, and
-        solve the resulting normal equations. It is in essence a combination
+        solve the resulting normal equations. It is in essence a combination.
 
         The method expects that the properties of the fitter to be used have
         been initialized or set (like the number of simultaneous solutions m
@@ -260,15 +268,15 @@ class fitserver(object):
 
         """
         a = max(abs(max(x)), abs(min(x)))
-        if a == 0: a = 1
+        if a == 0:
+            a = 1
         a = 1.0 / a
         b = NUM.power(a, range(n + 1))
-        if self.set(n=n + 1, fid=fid):
-            return self.linear(poly(n), x, y, sd, wt, fid)
         if self.set(n=n + 1, fid=fid):
             self.linear(poly(n), x * a, y, sd, wt, fid)
             self._fitids[fid]["sol"] *= b
             self._fitids[fid]["error"] *= b
+            return self.linear(poly(n), x, y, sd, wt, fid)
 
     def fitavg(self, y, sd=None, wt=1.0, fid=0):
         if self.set(n=1, fid=fid):
@@ -301,16 +309,18 @@ class fitserver(object):
             wt[NUM.logical_or(sd == -1, sd == 0)] = 0
         ftype = fitfunc
         dtype = 'float'
-        if (self.getstate(fid)["typ"] != "real"
-            or NUM.iscomplexobj(x) \
-                    or NUM.iscomplexobj(y) \
-                    or NUM.iscomplexobj(wt)):
+        if (
+            self.getstate(fid)["typ"] != "real" or
+            NUM.iscomplexobj(x) or
+            NUM.iscomplexobj(y) or
+            NUM.iscomplexobj(wt)
+           ):
             ftype = "cx%s" % fitfunc
             dtype = 'complex'
         kw["x"] = self._as_array(x, dtype)
         kw["y"] = self._as_array(y, dtype)
         kw["wt"] = self._as_array(wt, dtype)
-        if not "constraint" in self._fitids[fid]:
+        if "constraint" not in self._fitids[fid]:
             self._fitids[fid]["constraint"] = {}
         kw["constraint"] = self._fitids[fid]["constraint"]
         func = getattr(self._fitproxy, ftype)
@@ -321,7 +331,9 @@ class fitserver(object):
         self._fitids[fid]["looped"] = False
 
     def functional(self, fnct, x, y, sd=None, wt=1.0, mxit=50, fid=0):
-        """Ths will make a non-linear least squares solution for the points
+        """Make a non-linear least squares solution.
+
+        This will make a non-linear least squares solution for the points
         through the ordinates at the abscissa values, using the specified
         `fnct`. Details can be found in the :meth:`linear` description.
 
@@ -341,7 +353,9 @@ class fitserver(object):
     nonlinear = functional
 
     def linear(self, fnct, x, y, sd=None, wt=1.0, fid=0):
-        """Makes a linear least squares solution for the points through the
+        """Make a linear least squares solution.
+
+        Makes a linear least squares solution for the points through the
         ordinates at the x values, using the specified fnct. The x can be of
         any dimension, depending on the number of arguments needed in the
         functional evaluation. The values should be given in the order:
@@ -356,10 +370,6 @@ class fitserver(object):
                    cyclically)
         :param wt: an optional alternate for `sd`
         :param fid: the id of the sub-fitter (numerical)
-
-        Example::
-
-            #
 
         """
         self._fit(fitfunc="linear", fnct=fnct, x=x, y=y, sd=sd, wt=wt, fid=fid)
@@ -379,9 +389,11 @@ class fitserver(object):
         return self._getval("sol", fid)
 
     def rank(self, fid=0):
-        """Obtain the rank (in SVD sense) of a fit. The :meth:`constraint`
-        method will show the equations that are orthogonal to the existing
-        ones, and which will make the solution possible.
+        """Obtain the rank(in SVD sense) of a fit.
+
+         The :meth:`constraint` method will show the equations that are
+         orthogonal to the existing ones, and which will make the solution
+         possible.
 
         :param fid: the id of the sub-fitter (numerical)
 
@@ -389,9 +401,11 @@ class fitserver(object):
         return self._getval("rank", fid)
 
     def deficiency(self, fid=0):
-        """Obtain the missing rank (in SVD sense) of a fit. The
-        :meth:`constraint` method will show the equations that are orthogonal
-        to the existing ones, and which will make the solution possible.
+        """Obtain the missing rank (in SVD sense) of a fit.
+
+        The :meth:`constraint` method will show the equations that are
+        orthogonal to the existing ones, and which will make the solution
+        possible.
 
         :param fid: the id of the sub-fitter (numerical)
 
@@ -454,8 +468,9 @@ class fitserver(object):
             raise RuntimeError("Not yet implemented")
 
     def fitted(self, fid=0):
-        """Test if enough Levenberg-Marquardt loops have been done. It returns
-        True if no improvement possible.
+        """Test if enough Levenberg-Marquardt loops have been done.
+
+        It returns True if no improvement possible.
 
         :param fid: the id of the sub-fitter (numerical)
         """
