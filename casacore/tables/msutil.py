@@ -203,7 +203,7 @@ def removeDerivedMSCal(msname):
     t = table(msname, readonly=False, ack=False)
     # Remove the columns stored as DerivedMSCal.
     dmi = t.getdminfo()
-    for x in dmi.itervalues():
+    for x in dmi.values():
         if x['TYPE'] == 'DerivedMSCal':
             t.removecols(x['COLUMNS'])
     t.flush()
