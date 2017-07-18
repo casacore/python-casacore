@@ -608,13 +608,14 @@ class TestTable(unittest.TestCase):
             # Don't use it though (too much to check).
 
             # Rather
-            model_data_desc = makearrcoldesc("MODEL_DATA", 0.0,
-                                             options=4,
-                                             valuetype="complex",
-                                             shape=[16, 4],
-                                             ndim=2,
-                                             datamanagertype="TiledColumnStMan",
-                                             datamanagergroup="DataGroup")
+            model_data_desc = makearrcoldesc(
+                                    "MODEL_DATA", 0.0,
+                                    options=4,
+                                    valuetype="complex",
+                                    shape=[16, 4],
+                                    ndim=2,
+                                    datamanagertype="TiledColumnStMan",
+                                    datamanagergroup="DataGroup")
             dmgroup_spec = {"DataGroup": {"DEFAULTTILESHAPE": [4, 16, 32]}}
 
             tabdesc = maketabdesc(model_data_desc)
