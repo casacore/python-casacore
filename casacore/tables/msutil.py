@@ -34,10 +34,10 @@ from casacore.tables.tableutil import makescacoldesc, makearrcoldesc, \
 def required_ms_desc(table=None):
     """
     Obtain the required table description for a given table.
+
     If "" or "MAIN", the description for a MeasurementSet is returned.
     Otherwise, a the description for a MeasurementSet subtable is returned.
     """
-
     # Default to MAIN table
     if table is None:
         table = ""
@@ -49,12 +49,11 @@ def addImagingColumns(msname, ack=True):
     """ Add the columns to an MS needed for the casa imager.
 
     It adds the columns MODEL_DATA, CORRECTED_DATA, and IMAGING_WEIGHT.
-    It also sets the CHANNEL_SELECTION keyword needed for the older casa imagers.
+    It also sets the CHANNEL_SELECTION keyword needed for the older casa
+    imagers.
 
     A column is not added if already existing.
-
     """
-
     # numpy is needed
     import numpy as np
     # Open the MS
@@ -75,8 +74,9 @@ def addImagingColumns(msname, ack=True):
         hasTiled = False
     # Use TiledShapeStMan if needed.
     if not hasTiled:
-        dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE': [4, 32, 128]}}
-    # Add the columns (if not existing). Use the description of the DATA column.
+        dminfo = {'TYPE': 'TiledShapeStMan',
+                  'SPEC': {'DEFAULTTILESHAPE': [4, 32, 128]}}
+    # Add the columns(if not existing). Use the description of the DATA column.
     if 'MODEL_DATA' in cnames:
         six.print_("Column MODEL_DATA not added; it already exists")
     else:
@@ -107,7 +107,8 @@ def addImagingColumns(msname, ack=True):
             shp = [t.getcell('DATA', 0).shape[0]]  # use nchan from actual data
         cd = makearrcoldesc('IMAGING_WEIGHT', 0, ndim=1, shape=shp,
                             valuetype='float')
-        dminfo = {'TYPE': 'TiledShapeStMan', 'SPEC': {'DEFAULTTILESHAPE': [32, 128]}}
+        dminfo = {'TYPE': 'TiledShapeStMan',
+                  'SPEC': {'DEFAULTTILESHAPE': [32, 128]}}
         dminfo['NAME'] = 'imagingweight'
         t.addcols(maketabdesc(cd), dminfo)
         if ack:
@@ -203,7 +204,7 @@ def removeDerivedMSCal(msname):
     t = table(msname, readonly=False, ack=False)
     # Remove the columns stored as DerivedMSCal.
     dmi = t.getdminfo()
-    for x in dmi.itervalues():
+    for x in dmi.values():
         if x['TYPE'] == 'DerivedMSCal':
             t.removecols(x['COLUMNS'])
     t.flush()
@@ -284,7 +285,9 @@ def msconcat(names, newname, concatTime=False):
     # Remove the DATA_DESC_ID column and recreate it in a stored way.
     tnew.removecols('DATA_DESC_ID')
     tnew.addcols(makecoldesc('DATA_DESC_ID', tdesc['DATA_DESC_ID']),
-                 dminfo={'TYPE': 'IncrementalStMan', 'NAME': 'DDID', 'SPEC': {}})
+                 dminfo={'TYPE': 'IncrementalStMan',
+                         'NAME': 'DDID',
+                         'SPEC': {}})
     # Copy the table keywords.
     keywords = tn.getkeywords()
     tnew.putkeywords(keywords)
@@ -303,8 +306,10 @@ def msconcat(names, newname, concatTime=False):
     # Now we have to take care that the subbands are numbered correctly.
     # The DATA_DESCRIPTION and SPECTRAL_WINDOW subtables are concatenated.
     # The ddid in the main table and spwid in DD subtable have to be updated.
-    tnewdd = table(tnew.getkeyword('DATA_DESCRIPTION'), readonly=False, ack=False)
-    tnewspw = table(tnew.getkeyword('SPECTRAL_WINDOW'), readonly=False, ack=False)
+    tnewdd = table(tnew.getkeyword('DATA_DESCRIPTION'),
+                   readonly=False, ack=False)
+    tnewspw = table(tnew.getkeyword('SPECTRAL_WINDOW'),
+                    readonly=False, ack=False)
     nrdd = 0
     nrspw = 0
     nrmain = 0
@@ -385,7 +390,8 @@ def msregularize(msname, newname):
             ant2 = str(t1.getcol('ANTENNA2')).replace(' ', ',')
             ant1 = tsub.getcol('ANTENNA1')
             ant2 = tsub.getcol('ANTENNA2')
-            t2 = taql('select from $t1 where !any(ANTENNA1 == $ant1 && ANTENNA2 == $ant2)')
+            t2 = taql('select from $t1 where !any(ANTENNA1 == $ant1 &&' +
+                      ' ANTENNA2 == $ant2)')
             six.print_(nmissing, t1.nrows(), tsub.nrows(), t2.nrows())
             if t2.nrows() != nmissing:
                 raise ValueError("A time/band chunk behaves strangely")
@@ -418,6 +424,6 @@ def msregularize(msname, newname):
     tcombs.rename(newname)
     six.print_(newname, 'has been created; it references the original MS')
     if nadded > 0:
-        six.print_('  and', newname + '_adds', 'containing', nadded, 'new rows')
+        six.print_(' and', newname + '_adds', 'containing', nadded, 'new rows')
     else:
-        six.print_('  no rows needed to be added')
+        six.print_(' no rows needed to be added')
