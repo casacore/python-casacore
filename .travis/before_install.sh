@@ -1,14 +1,18 @@
 #!/usr/bin/env bash
 
 # Inspired by https://conda.io/docs/travis.html
+env
+
 set -e
 set -v
+
 
 if [ "$TRAVIS_OS_NAME" = linux ]; then
     sudo apt-get update
     MINICONDAVERSION="Linux"
 else
     MINICONDAVERSION="MacOSX"
+    brew update;
 fi
 
 if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
@@ -25,7 +29,6 @@ conda update -q conda
 conda config --add channels conda-forge
 # Useful for debugging any issues with conda
 conda info -a
-
 conda create -q -n testenv python=$TRAVIS_PYTHON_VERSION casacore=2.3.0
 
 echo "measures.directory: /home/travis/data" > $HOME/.casarc
