@@ -184,7 +184,7 @@ class image(Image):
 
     def __str__(self):
         """Get image name."""
-        return self._name()
+        return self.name(strippath=True)
 
     def __len__(self):
         """Get nr of pixels in the image."""
