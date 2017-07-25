@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 # Inspired by https://conda.io/docs/travis.html
-env
-
 set -e
 set -v
 
@@ -12,14 +10,13 @@ if [ "$TRAVIS_OS_NAME" = linux ]; then
     MINICONDAVERSION="Linux"
 else
     MINICONDAVERSION="MacOSX"
-    brew update;
 fi
 
 if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
   wget https://repo.continuum.io/miniconda/Miniconda2-latest-$MINICONDAVERSION-x86_64.sh -O miniconda.sh;
 else
   wget https://repo.continuum.io/miniconda/Miniconda3-latest-$MINICONDAVERSION-x86_64.sh -O miniconda.sh;
-  fi
+fi
 
 bash miniconda.sh -b -p $HOME/miniconda
 export PATH="$HOME/miniconda/bin:$PATH"
@@ -31,4 +28,4 @@ conda config --add channels conda-forge
 conda info -a
 conda create -q -n testenv python=$TRAVIS_PYTHON_VERSION casacore=2.3.0
 
-echo "measures.directory: /home/travis/data" > $HOME/.casarc
+echo "measures.directory: $HOME/data" > $HOME/.casarc
