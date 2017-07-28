@@ -3,6 +3,20 @@ from ._functionals import _functional
 import numpy
 
 
+def copydoc(fromfunc, sep="\n"):
+    """
+    Decorator: Copy the docstring of `fromfunc`
+    """
+    def _decorator(func):
+        sourcedoc = fromfunc.__doc__
+        if func.__doc__ is None:
+            func.__doc__ = sourcedoc
+        else:
+            func.__doc__ = sep.join([sourcedoc, func.__doc__])
+        return func
+    return _decorator
+
+
 class functional(_functional):
     def __init__(self, name=None, order=-1, params=None, mode=None, dtype=0):
         if isinstance(dtype, str):
@@ -48,6 +62,13 @@ class functional(_functional):
         return _functional.ndim(self)
 
     def npar(self):
+        """
+        Return the number of parameters of the functional
+
+
+        :retval: int
+
+        """
         return _functional.npar(self)
 
     def __len__(self):
@@ -79,6 +100,13 @@ class functional(_functional):
             return _functional._parametersc(self)
 
     def f(self, x):
+
+        """Calculate the value of the functional for the specified arguments
+        (taking any specified mask into account).
+
+
+        :param x: the value(s) to evaluate at
+        """
         x = self._flatten(x)
         if self._dtype == 0:
             return numpy.array(_functional._f(self, x))
@@ -92,6 +120,13 @@ class functional(_functional):
             return numpy.array(self.f(x))
 
     def fdf(self, x):
+        """Calculate the value of the functional for the specified arguments,
+        and the derivatives with respect to the parameters (taking any
+        specified mask into account).
+
+
+       :param x: the value(s) to evaluate at
+       """
         x = self._flatten(x)
         n = 1
         if hasattr(x, "__len__"):
@@ -139,11 +174,9 @@ class gaussian1d(functional):
         functional.__init__(self, name="gaussian1d", params=params,
                             dtype=dtype)
 
+    @copydoc(functional.npar)
     def npar(self):
-        """Return the number of parameters of the functional
-
-        :retval: int
-
+        """
         Equivalent::
 
             >>> g = gaussian1d([1, 2, 3])
@@ -154,12 +187,9 @@ class gaussian1d(functional):
         """
         return functional.npar(self)
 
+    @copydoc(functional.f)
     def f(self, x):
-        """Calculate the value of the functional for the specified arguments
-        (taking any specified mask into account).
-
-        :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> a = gaussian1d()
@@ -171,13 +201,9 @@ class gaussian1d(functional):
         """
         return functional.f(self, x)
 
+    @copydoc(functional.fdf)
     def fdf(self, x):
-        """Calculate the value of the functional for the specified arguments,
-        and the derivatives with respect to the parameters (taking any
-        specified mask into account).
-
-       :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> g = gaussian1d()
@@ -206,11 +232,9 @@ class gaussian2d(functional):
                             params=params,
                             dtype=dtype)
 
+    @copydoc(functional.npar)
     def npar(self):
-        """Return the number of parameters of the functional
-
-        :retval: int
-
+        """
         Equivalent::
 
             >>> g = gaussian2d([1, 2, 3][4, 5, 6])
@@ -221,12 +245,9 @@ class gaussian2d(functional):
         """
         return functional.npar(self)
 
+    @copydoc(functional.f)
     def f(self, x):
-        """Calculate the value of the functional for the specified arguments
-        (taking any specified mask into account).
-
-        :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> a = gaussian2d()
@@ -238,13 +259,9 @@ class gaussian2d(functional):
         """
         return functional.f(self, x)
 
+    @copydoc(functional.fdf)
     def fdf(self, x):
-        """Calculate the value of the functional for the specified arguments,
-        and the derivatives with respect to the parameters (taking any
-        specified mask into account).
-
-       :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> a = gaussian2d()
@@ -255,7 +272,6 @@ class gaussian2d(functional):
 
         """
         return functional.fdf(self, x)
-
 
 
 class poly(functional):
@@ -278,11 +294,9 @@ class poly(functional):
         if params is None:
             self.set_parameters([v + 1. for v in self.get_parameters()])
 
+    @copydoc(functional.npar)
     def npar(self):
-        """Return the number of parameters of the functional
-
-        :retval: int
-
+        """
         Equivalent::
 
             >>> p = poly(5)
@@ -293,12 +307,9 @@ class poly(functional):
         """
         return functional.npar(self)
 
+    @copydoc(functional.f)
     def f(self, x):
-        """Calculate the value of the functional for the specified arguments
-        (taking any specified mask into account).
-
-        :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> p = poly(5)
@@ -310,13 +321,9 @@ class poly(functional):
         """
         return functional.f(self, x)
 
+    @copydoc(functional.fdf)
     def fdf(self, x):
-        """Calculate the value of the functional for the specified arguments,
-        and the derivatives with respect to the parameters (taking any
-        specified mask into account).
-
-       :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> p = poly(5)
@@ -347,11 +354,9 @@ class oddpoly(functional):
         if params is None:
             self.set_parameters([v + 1. for v in self.get_parameters()])
 
+    @copydoc(functional.npar)
     def npar(self):
-        """Return the number of parameters of the functional
-
-        :retval: int
-
+        """
         Equivalent::
 
             >>> p = oddpoly(3)
@@ -362,12 +367,9 @@ class oddpoly(functional):
         """
         return functional.npar(self)
 
+    @copydoc(functional.f)
     def f(self, x):
-        """Calculate the value of the functional for the specified arguments
-        (taking any specified mask into account).
-
-        :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> p = oddpoly(3)
@@ -378,13 +380,9 @@ class oddpoly(functional):
         """
         return functional.f(self, x)
 
+    @copydoc(functional.fdf)
     def fdf(self, x):
-        """Calculate the value of the functional for the specified arguments,
-        and the derivatives with respect to the parameters (taking any
-        specified mask into account).
-
-       :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> p = oddpoly(3)
@@ -414,11 +412,9 @@ class evenpoly(functional):
         if params is None:
             self.set_parameters([v + 1. for v in self.get_parameters()])
 
+    @copydoc(functional.npar)
     def npar(self):
-        """Return the number of parameters of the functional
-
-        :retval: int
-
+        """
         Equivalent::
 
             >>> p = evenpoly(2)
@@ -429,12 +425,9 @@ class evenpoly(functional):
         """
         return functional.npar(self)
 
+    @copydoc(functional.f)
     def f(self, x):
-        """Calculate the value of the functional for the specified arguments
-        (taking any specified mask into account).
-
-        :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> p = evenpoly(2)
@@ -446,13 +439,9 @@ class evenpoly(functional):
         """
         return functional.f(self, x)
 
+    @copydoc(functional.fdf)
     def fdf(self, x):
-        """Calculate the value of the functional for the specified arguments,
-        and the derivatives with respect to the parameters (taking any
-        specified mask into account).
-
-       :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> p = oddpoly(3)
@@ -482,11 +471,9 @@ class chebyshev(functional):
         if params is None:
             self.set_parameters([v + 1. for v in self.get_parameters()])
 
+    @copydoc(functional.npar)
     def npar(self):
-        """Return the number of parameters of the functional
-
-        :retval: int
-
+        """
         Equivalent::
 
             >>> ch = chebyshev(2)
@@ -497,12 +484,9 @@ class chebyshev(functional):
         """
         return functional.npar(self)
 
+    @copydoc(functional.f)
     def f(self, x):
-        """Calculate the value of the functional for the specified arguments
-        (taking any specified mask into account).
-
-        :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> ch = chebyshev(2)
@@ -514,13 +498,9 @@ class chebyshev(functional):
         """
         return functional.f(self, x)
 
+    @copydoc(functional.fdf)
     def fdf(self, x):
-        """Calculate the value of the functional for the specified arguments,
-        and the derivatives with respect to the parameters (taking any
-        specified mask into account).
-
-       :param x: the value(s) to evaluate at
-
+        """
         Example::
 
             >>> ch = chebyshev(2)
@@ -547,7 +527,7 @@ class compound(functional):
             >>> sum.add(gauss1d)
             >>> print(sum(2))
             [ 7.00001526]
-        
+
         """
         functional.__init__(self, name="compound", dtype=dtype)
 
