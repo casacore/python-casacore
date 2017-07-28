@@ -45,25 +45,9 @@ class functional(_functional):
         return x
 
     def ndim(self):
-        """Return the dimensionality of the functional
-
-        :retval: int
-        """
         return _functional.ndim(self)
 
     def npar(self):
-        """Return the number of parameters of the functional
-        
-        :retval: int
-
-        Equivalent::
-
-            >>> p = poly(2)
-            >>> print p.npar()
-            3
-            >>> print len(p)
-            3
-        """
         return _functional.npar(self)
 
     def __len__(self):
@@ -95,19 +79,6 @@ class functional(_functional):
             return _functional._parametersc(self)
 
     def f(self, x):
-        """Calculate the value of the functional for the specified arguments
-        (taking any specified mask into account).
-
-        :param x: the value(s) to evaluate at
-
-        Example::
-
-            a = gaussian1d()
-            a.f(0.0)
-            # equivalent
-            a(0.0)
-
-        """
         x = self._flatten(x)
         if self._dtype == 0:
             return numpy.array(_functional._f(self, x))
@@ -121,20 +92,6 @@ class functional(_functional):
             return numpy.array(self.f(x))
 
     def fdf(self, x):
-        """Calculate the value of the functional for the specified arguments,
-        and the derivatives with respect to the parameters (taking any
-        specified mask into account).
-
-       :param x: the value(s) to evaluate at
-
-        Example::
-
-            a = gaussian1d()
-            a.fdf(0.0)
-            # equivalent
-            a(0.0, derivatives=True)
-
-        """
         x = self._flatten(x)
         n = 1
         if hasattr(x, "__len__"):
@@ -182,6 +139,56 @@ class gaussian1d(functional):
         functional.__init__(self, name="gaussian1d", params=params,
                             dtype=dtype)
 
+    def npar(self):
+        """Return the number of parameters of the functional
+
+        :retval: int
+
+        Equivalent::
+
+            >>> g = gaussian1d([1, 2, 3])
+            >>> print g.npar()
+            3
+            >>> print len(g)
+            3
+        """
+        return functional.npar(self)
+
+    def f(self, x):
+        """Calculate the value of the functional for the specified arguments
+        (taking any specified mask into account).
+
+        :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> a = gaussian1d()
+            >>> print(a.f(0.0))
+            [ 1.]
+            >>> print(a(0.0))      #equivalent
+            [ 1.]
+
+        """
+        return functional.f(self, x)
+
+    def fdf(self, x):
+        """Calculate the value of the functional for the specified arguments,
+        and the derivatives with respect to the parameters (taking any
+        specified mask into account).
+
+       :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> g = gaussian1d()
+            >>> print(g.fdf(0.0))
+            [[ 1.,  1.,  0.,  0.]]
+            >>> print(g(0.0, derivatives=True))        #equivalent
+            [[ 1.,  1.,  0.,  0.]]
+
+        """
+        return functional.fdf(self, x)
+
 
 class gaussian2d(functional):
     """
@@ -198,6 +205,57 @@ class gaussian2d(functional):
         functional.__init__(self, name="gaussian2d",
                             params=params,
                             dtype=dtype)
+
+    def npar(self):
+        """Return the number of parameters of the functional
+
+        :retval: int
+
+        Equivalent::
+
+            >>> g = gaussian2d([1, 2, 3][4, 5, 6])
+            >>> print g.npar()
+            6
+            >>> print len(g)
+            6
+        """
+        return functional.npar(self)
+
+    def f(self, x):
+        """Calculate the value of the functional for the specified arguments
+        (taking any specified mask into account).
+
+        :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> a = gaussian2d()
+            >>> print(a.f(0.0))
+            []
+            >>> print(a(0.0))      #equivalent
+            []
+
+        """
+        return functional.f(self, x)
+
+    def fdf(self, x):
+        """Calculate the value of the functional for the specified arguments,
+        and the derivatives with respect to the parameters (taking any
+        specified mask into account).
+
+       :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> a = gaussian2d()
+            >>> print(a.fdf(0))
+            []
+            >>> print(g(0.0, derivatives=True))        #equivalent
+            []
+
+        """
+        return functional.fdf(self, x)
+
 
 
 class poly(functional):
@@ -220,6 +278,56 @@ class poly(functional):
         if params is None:
             self.set_parameters([v + 1. for v in self.get_parameters()])
 
+    def npar(self):
+        """Return the number of parameters of the functional
+
+        :retval: int
+
+        Equivalent::
+
+            >>> p = poly(5)
+            >>> print p.npar()
+            6
+            >>> print len(p)
+            6
+        """
+        return functional.npar(self)
+
+    def f(self, x):
+        """Calculate the value of the functional for the specified arguments
+        (taking any specified mask into account).
+
+        :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> p = poly(5)
+            >>> print(p.f(0.0))
+            [ 1.]
+            >>> print(p(0.0))      # equivalent
+            [ 1.]
+
+        """
+        return functional.f(self, x)
+
+    def fdf(self, x):
+        """Calculate the value of the functional for the specified arguments,
+        and the derivatives with respect to the parameters (taking any
+        specified mask into account).
+
+       :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> p = poly(5)
+            >>> print(p.fdf(0.0))
+            [[ 1.,  1.,  0.,  0.,  0.,  0.,  0.]]
+            >>>print(p(0.0, derivatives=True))     # equivalent
+            [[ 1.,  1.,  0.,  0.,  0.,  0.,  0.]]
+        """
+        return functional.fdf(self, x)
+
+
 
 class oddpoly(functional):
     """Create an odd polynomial of specified degree.
@@ -238,6 +346,54 @@ class oddpoly(functional):
                             dtype=dtype)
         if params is None:
             self.set_parameters([v + 1. for v in self.get_parameters()])
+
+    def npar(self):
+        """Return the number of parameters of the functional
+
+        :retval: int
+
+        Equivalent::
+
+            >>> p = oddpoly(3)
+            >>> print p.npar()
+            2
+            >>> print len(p)
+            2
+        """
+        return functional.npar(self)
+
+    def f(self, x):
+        """Calculate the value of the functional for the specified arguments
+        (taking any specified mask into account).
+
+        :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> p = oddpoly(3)
+            >>> print(p.f(0.0))
+            [ 0.]
+            >>> print(p(0.0))      # equivalent
+            [ 0.]
+        """
+        return functional.f(self, x)
+
+    def fdf(self, x):
+        """Calculate the value of the functional for the specified arguments,
+        and the derivatives with respect to the parameters (taking any
+        specified mask into account).
+
+       :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> p = oddpoly(3)
+            >>> print(p.fdf(0.0))
+            [[ 0.,  0.,  0.]]
+            >>> print(p(0.0, derivatives=True))     # equivalent
+            [[ 0.,  0.,  0.]]
+        """
+        return functional.fdf(self, x)
 
 
 class evenpoly(functional):
@@ -258,6 +414,56 @@ class evenpoly(functional):
         if params is None:
             self.set_parameters([v + 1. for v in self.get_parameters()])
 
+    def npar(self):
+        """Return the number of parameters of the functional
+
+        :retval: int
+
+        Equivalent::
+
+            >>> p = evenpoly(2)
+            >>> print p.npar()
+            2
+            >>> print len(p)
+            2
+        """
+        return functional.npar(self)
+
+    def f(self, x):
+        """Calculate the value of the functional for the specified arguments
+        (taking any specified mask into account).
+
+        :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> p = evenpoly(2)
+            >>> print(p.f(0.0))
+            [ 1.]
+            >>> print(p(0.0))      # equivalent
+            [ 1.]
+
+        """
+        return functional.f(self, x)
+
+    def fdf(self, x):
+        """Calculate the value of the functional for the specified arguments,
+        and the derivatives with respect to the parameters (taking any
+        specified mask into account).
+
+       :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> p = oddpoly(3)
+            >>> print(p.fdf(0.0))
+            [[ 1.,  1.,  0.]]
+            >>>print(p(0.0, derivatives=True))     # equivalent
+            [[ 1.,  1.,  0.]]
+        """
+        return functional.fdf(self, x)
+
+
 
 class chebyshev(functional):
     def __init__(self, order, params=None,
@@ -276,14 +482,94 @@ class chebyshev(functional):
         if params is None:
             self.set_parameters([v + 1. for v in self.get_parameters()])
 
+    def npar(self):
+        """Return the number of parameters of the functional
+
+        :retval: int
+
+        Equivalent::
+
+            >>> ch = chebyshev(2)
+            >>> print ch.npar()
+            4
+            >>> print len(p)
+            4
+        """
+        return functional.npar(self)
+
+    def f(self, x):
+        """Calculate the value of the functional for the specified arguments
+        (taking any specified mask into account).
+
+        :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> ch = chebyshev(2)
+            >>> print(ch.f(0.0))
+            [ 0.]
+            >>> print(ch(0.0))      # equivalent
+            [ 0.]
+
+        """
+        return functional.f(self, x)
+
+    def fdf(self, x):
+        """Calculate the value of the functional for the specified arguments,
+        and the derivatives with respect to the parameters (taking any
+        specified mask into account).
+
+       :param x: the value(s) to evaluate at
+
+        Example::
+
+            >>> ch = chebyshev(2)
+            >>> print(ch.fdf(0.0))
+            [[ 0.,  1.,  0., -1.]]
+            >>>print(ch(0.0, derivatives=True))     # equivalent
+            [[ 0.,  1.,  0., -1.]]
+        """
+        return functional.fdf(self, x)
 
 class compound(functional):
     def __init__(self, dtype=0):
+        """Creates a compound function.
+
+        This class takes a arbitary number of functions and
+        generates a new single function object.
+
+        Example::
+
+            >>> d = poly(2)
+            >>> gauss1d = gaussian1d([1, 0, 1])
+            >>> sum = compound()
+            >>> sum.add(d)
+            >>> sum.add(gauss1d)
+            >>> print(sum(2))
+            [ 7.00001526]
+        
+        """
         functional.__init__(self, name="compound", dtype=dtype)
+
 
 
 class combi(functional):
     def __init__(self, dtype=0):
+        """Form a linear combinations of functions object.
+        Example::
+
+            >>> const = poly(0)
+            >>> linear = poly(1)
+            >>> square = poly(2)
+            >>> c = combi()
+            >>> c.add(const)
+            >>> c.add(linear)
+            >>> c.add(square)
+            >>> print(c(0))
+            [ 3.]
+
+        """
+
         functional.__init__(self, name="combi", dtype=dtype)
 
 
