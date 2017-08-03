@@ -98,7 +98,7 @@ def default_ms_subtable(subtable, name=None, tabdesc=None, dminfo=None):
 def taql(command, style='Python', tables=[], globals={}, locals={}):
     """Execute a TaQL command and return a table object.
 
-    A `TaQL <../../casacore/doc/notes/199.html>`_
+    A `TaQL <../../doc/199.html>`_
     command is an SQL-like command to do a selection of rows and/or
     columns in a table.
 
@@ -1279,7 +1279,7 @@ class table(Table):
         - a reference to a table which is returned as a string containing its
           name prefixed by 'Table :'. It can be opened using the normal table
           constructor which will remove the prefix.
-        - a struct which is returned as a dict. A struct is fully nestable, 
+        - a struct which is returned as a dict. A struct is fully nestable,
           thus each field in the struct can have one of the values described here.
 
         Similar to method :func:`fieldnames` a keyword name can be given consisting
@@ -1612,7 +1612,7 @@ class table(Table):
         """Query the table and return the result as a reference table.
 
         This method queries the table. It forms a
-        `TaQL <../../casacore/doc/notes/199.html>`_
+        `TaQL <../../doc/199.html>`_
         command from the given arguments and executes it using the
         :func:`taql` function.
         The result is returned in a so-called reference table which references
@@ -1623,7 +1623,7 @@ class table(Table):
 
         All arguments are optional, but at least one of `query`, `name`,
         `sortlist`, and `columns` should be used.
-        See the `TaQL note <../../casacore/doc/notes/199.html>`_ for the
+        See the `TaQL note <../../doc/199.html>`_ for the
         detailed description of the the arguments representing the various
         parts of a TaQL command.
 
@@ -1669,7 +1669,7 @@ class table(Table):
         """Sort the table and return the result as a reference table.
 
         This method sorts the table. It forms a
-        `TaQL <../../casacore/doc/notes/199.html>`_
+        `TaQL <../../doc/199.html>`_
         command from the given arguments and executes it using the
         :func:`taql` function.
         The result is returned in a so-called reference table which references
@@ -1707,7 +1707,7 @@ class table(Table):
 
         This method represents the SELECT part of a TaQL command using the
         given columns (or column expressions). It forms a
-        `TaQL <../../casacore/doc/notes/199.html>`_
+        `TaQL <../../doc/199.html>`_
         command from the given arguments and executes it using the
         :func:`taql` function.
         The result is returned in a so-called reference table which references
