@@ -194,7 +194,7 @@ class coordinate(object):
         except:
             return -1
 
-            # ALL list/array values have to be reversed as the coordsys dict holds
+    # ALL list/array values have to be reversed as the coordsys dict holds
 
     # everything in fortran order.
 
@@ -322,7 +322,7 @@ class spectralcoordinate(coordinate):
         return self._coord.get("conversion", None)
 
     def set_conversion(self, key, val):
-        assert self._coord.has_key(key)
+        assert key in self._coord
         self._coord["conversion"][key] = val
 
 

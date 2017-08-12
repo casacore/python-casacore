@@ -54,7 +54,7 @@ class functional(_functional):
 
     def _flatten(self, x):
         if (isinstance(x, numpy.ndarray) and x.ndim > 1
-            and x.ndim == self.ndim()):
+                and x.ndim == self.ndim()):
             return x.flatten()
         return x
 
@@ -335,7 +335,6 @@ class poly(functional):
         return functional.fdf(self, x)
 
 
-
 class oddpoly(functional):
     """Create an odd polynomial of specified degree.
 
@@ -453,7 +452,6 @@ class evenpoly(functional):
         return functional.fdf(self, x)
 
 
-
 class chebyshev(functional):
     def __init__(self, order, params=None,
                  xmin=-1., xmax=1., ooimode='constant',
@@ -511,9 +509,10 @@ class chebyshev(functional):
         """
         return functional.fdf(self, x)
 
+
 class compound(functional):
     def __init__(self, dtype=0):
-        """Creates a compound function.
+        """Create a compound function.
 
         This class takes a arbitary number of functions and
         generates a new single function object.
@@ -532,10 +531,10 @@ class compound(functional):
         functional.__init__(self, name="compound", dtype=dtype)
 
 
-
 class combi(functional):
     def __init__(self, dtype=0):
         """Form a linear combinations of functions object.
+
         Example::
 
             >>> const = poly(0)
@@ -549,7 +548,6 @@ class combi(functional):
             [ 3.]
 
         """
-
         functional.__init__(self, name="combi", dtype=dtype)
 
 
