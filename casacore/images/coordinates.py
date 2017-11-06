@@ -30,15 +30,20 @@ from casacore import six
 
 class coordinatesystem(object):
     """
-    A thin wrapper for casacore coordinate systems. It dissects the 
+    A thin wrapper for casacore coordinate systems. It dissects the
     coordinatesystem record returned from casacore images.
     This only handles one instance of each coordinate type.
     The possible types are ''direction'', ''spectral'', ''stokes'',
     ''linear'' and ''tabular''.
+     The first, second, trird and fourth axis are respectively,
+     'Right Ascension','Declination','Stokes' and 'Frequency'.
+     To make a coordinate object, these things should be taken care
+     of.Like to make a spectral coordinate, a 4D image should be used
+     as the 4th axis is 'Frequency' and so on.
 
     It uses reference semantics for the individual coordinates,
     e.g. the following will work::
-    
+
       cs = im.coordinates()
       cs["direction"].set_referencepixel([0.0,0.0])
       # or equivalent
@@ -100,7 +105,7 @@ class coordinatesystem(object):
         assert isinstance(val, eval("%scoordinate" % name))
         self._csys[name + str(i)] = val._coord
 
-    # alias        
+    # alias
     set_coordinate = __setitem__
 
     def __iter__(self):
@@ -189,34 +194,42 @@ class coordinate(object):
         except:
             return -1
 
-            # ALL list/array values have to be reversed as the coordsys dict holds
+    # ALL list/array values have to be reversed as the coordsys dict holds
 
     # everything in fortran order.
 
     def get_referencepixel(self):
+        """Get the reference pixel of the given axis in this coordinate."""
         return self._coord.get("crpix", [])[::-1]
 
     def set_referencepixel(self, pix):
+        """Set the reference pixel of the given axis in this coordinate."""
         assert len(pix) == len(self._coord["crpix"])
         self._coord["crpix"] = pix[::-1]
 
     def get_referencevalue(self):
+        """Get the reference value of the given axis in this coordinate."""
         return self._coord.get("crval", [])[::-1]
 
     def set_referencevalue(self, val):
+        """Set the reference pixel of the given axis in this coordinate."""
         assert len(val) == len(self._coord["crval"])
         self._coord["crval"] = val[::-1]
 
     def get_increment(self):
+        """Get the increment of the given axis in this coordinate."""
         return self._coord.get("cdelt", [])[::-1]
 
     def set_increment(self, inc):
+        """Set the increment of the given axis in this coordinate."""
         self._coord["cdelt"] = inc[::-1]
 
     def get_unit(self):
+        """Get the unit of the given axis in this coordinate."""
         return self._coord.get("units", [])[::-1]
 
     def get_axes(self):
+        """Get the axes in this coordinate."""
         return self._coord.get("axes", [])[::-1]
 
 
@@ -231,9 +244,14 @@ class directioncoordinate(coordinate):
         return out
 
     def get_projection(self):
+        """Get the projection of the given axis in this coordinate."""
         return self._coord.get("projection", None)
 
     def set_projection(self, val):
+        """Set the projection of the given axis in this coordinate.
+
+        The known projections are SIN, ZEA, TAN, NCP, AIT, ZEA
+        """
         knownproj = ["SIN", "ZEA", "TAN", "NCP", "AIT", "ZEA"]  # etc
         assert val.upper() in knownproj
         self._coord["projection"] = val.upper()
@@ -304,7 +322,7 @@ class spectralcoordinate(coordinate):
         return self._coord.get("conversion", None)
 
     def set_conversion(self, key, val):
-        assert self._coord.has_key(key)
+        assert key in self._coord
         self._coord["conversion"][key] = val
 
 

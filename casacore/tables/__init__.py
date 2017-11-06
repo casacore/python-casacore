@@ -31,7 +31,7 @@ A `casacore table <../../casacore/doc/html/group__Tables__module.html>`_
 is similar to a relational data base table with the extension
 that table cells can contain n-dimensional arrays.
 It has a rich SQL-like query language
-(`TaQL <../../casacore/doc/notes/199.html>`_).
+(`TaQL <../../doc/199.html>`_).
 
 A table consists of numbered rows and named columns. A column can hold
 scalar values or arrays of any dimensionality and shape. Furthermore the
