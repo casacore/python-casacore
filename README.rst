@@ -33,7 +33,7 @@ from source
 install these requirements:
 
 * `setuptools <https://pypi.python.org/pypi/setuptools>`_
-* `Casacore <https://code.google.com/p/casacore/>`_ >= 2.0
+* `Casacore <https://code.google.com/p/casacore/>`_ >= 2.3
 * `Boost-python <http://www.boost.org/libs/python/doc/>`_
 * `numpy <http://www.numpy.org/>`_ 
 * `cfitsio <http://heasarc.gsfc.nasa.gov/fitsio/>`_
