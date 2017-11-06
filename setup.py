@@ -4,13 +4,12 @@ Setup script for the CASACORE python wrapper.
 """
 import os
 import sys
-import platform
+import warnings
 from setuptools import setup, Extension, find_packages
 from distutils.sysconfig import get_config_vars
 from distutils import ccompiler
 from distutils.version import LooseVersion
 import argparse
-from ctypes.util import find_library
 import ctypes
 
 from casacore import __version__, __mincasacoreversion__
@@ -61,8 +60,8 @@ def find_boost():
 
 
 boost_python = find_boost()
-if boost_python is None:
-    raise Exception("Could not find a boost library")
+if not boost_python:
+    warnings.warn("Could not find a boost library")
 
 
 extension_metas = (
@@ -113,8 +112,8 @@ extension_metas = (
 
 # Find casacore libpath
 libcasacasa=find_library_file('casa_casa')
-if libcasacasa is None:
-    raise Exception("Could not find libcasa_casa.so")
+if not libcasacasa:
+    warnings.warn("Could not find libcasa_casa.so")
 
 # Get version number from casacore
 try:
@@ -124,12 +123,11 @@ try:
     casacoreversion = getCasacoreVersion()
 except:
     # getVersion was fixed in casacore 2.3.0
-    raise Exception("Your casacore version is older than 2.3.0 and " +
-                    "incompatible with this version of python-casacore")
+    warnings.warn("Your casacore version is older than 2.3.0 and incompatible with this version of python-casacore")
+else:
+    if LooseVersion(casacoreversion.decode()) < LooseVersion(__mincasacoreversion__):
+        warnings.warn("Your casacore version is too old. Minimum is " + __mincasacoreversion__)
 
-if LooseVersion(casacoreversion.decode()) < LooseVersion(__mincasacoreversion__):
-    raise Exception("Your casacore version is too old. Minimum is " +
-                    __mincasacoreversion__)
 
 extensions = []
 for meta in extension_metas:
