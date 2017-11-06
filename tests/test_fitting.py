@@ -52,7 +52,7 @@ class TestFitting(unittest.TestCase):
         f.set_parameters([22, 11, 5, 10, 30, 5, 9])
         self.fitserver.clearconstraints()
         self.fitserver.functional(f, xg, yg)
-        print self.fitserver.solution()
+        print(self.fitserver.solution())
 
     def test_complex_fitting(self):
         """Testing complex fitting."""
