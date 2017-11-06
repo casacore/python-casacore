@@ -29,3 +29,12 @@ conda info -a
 conda create -q -n testenv python=$TRAVIS_PYTHON_VERSION casacore=2.3.0
 
 echo "measures.directory: $HOME/data" > $HOME/.casarc
+
+
+if [ "$TRAVIS_OS_NAME" = osx ]; then
+  if [ "$PYTHONVERSION" = "2.7" ]; then
+    true
+  else
+    ln -s /Users/travis/miniconda/envs/testenv/lib/libboost_python-mt.dylib /Users/travis/miniconda/envs/testenv/lib/libboost_python3-mt.dylib
+  fi
+fi
