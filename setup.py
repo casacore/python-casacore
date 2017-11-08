@@ -135,7 +135,7 @@ for meta in extension_metas:
 
     # Add dependency on casacore libraries to trigger rebuild at casacore update
     for library in libraries:
-        if 'casa' in library:
+        if library and 'casa' in library:
             found_lib=find_library_file(library)
             if found_lib:
                 depends=depends+[found_lib]
