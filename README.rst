@@ -44,8 +44,8 @@ On ubuntu you can install these with:
 
 * install build dependencies::
 
-    $ apt-get install libcasacore2-dev python-numpy \
-        python-setuptools libboost-python-dev libcfitsio3-dev
+    $ apt-get install casacore-dev python-numpy \
+        python-setuptools libboost-python-dev libcfitsio3-dev wcslib-dev
 
 * compile and install::
 
