@@ -6,6 +6,8 @@ set -v
 
 
 if [ "$TRAVIS_OS_NAME" = linux ]; then
+    sudo apt-get install software-properties-common
+    sudo apt-add-repository -s ppa:kernsuite/kern-3
     sudo apt-get update
     sudo apt-get install casacore-data casacore-dev libboost-python-dev \
 		libcasa-python3-2 libcfitsio3-dev python-dev python-numpy \
