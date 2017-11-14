@@ -1,4 +1,6 @@
 nose
 unittest2
 coverage
+coveralls
+travis-sphinx
 
