@@ -16,3 +16,4 @@ if [ "$TRAVIS_OS_NAME" = osx ]; then
     python setup.py install
     pip install -r tests/requirements.txt
 fi
+
