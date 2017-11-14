@@ -4,7 +4,7 @@ set -e
 set -v
 
 if [ "$TRAVIS_OS_NAME" = linux ]; then
-    cd $HOME
+    cd $TRAVIS_BUILD_DIR
     docker build -f .travis/Dockerfile .
 fi
 
