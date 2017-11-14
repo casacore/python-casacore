@@ -4,8 +4,6 @@ dist: trusty
 os:
   - linux
   - osx
-
-
 before_install:
  - .travis/before_install.sh
 install:
