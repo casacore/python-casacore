@@ -29,6 +29,4 @@ if [ "$TRAVIS_OS_NAME" = osx ]; then
     wget ftp://ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar && tar xf WSRT_Measures.ztar &&
     cd $HOME
 	echo "measures.directory: $HOME/data" > $HOME/.casarc
-
-	export CPATH="$HOME/miniconda/envs/testenv/include:$CPATH"
 fi
