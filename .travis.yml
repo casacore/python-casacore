@@ -1,9 +1,15 @@
 language: generic
 sudo: required
 dist: trusty
+
 os:
   - linux
   - osx
+
+matrix:
+  allow_failures:
+    - os: osx
+
 before_install:
  - .travis/before_install.sh
 install:
