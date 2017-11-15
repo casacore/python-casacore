@@ -13,7 +13,7 @@ if [ "$TRAVIS_OS_NAME" = osx ]; then
     python setup.py build_ext \
         -L$HOME/miniconda/envs/testenv/lib \
         -I$HOME/miniconda/envs/testenv/include
-    python setup.py install
+    pip install -e .
     pip install -r tests/requirements.txt
 fi
 
