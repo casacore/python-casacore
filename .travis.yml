@@ -1,55 +1,21 @@
-language: python
+language: generic
 sudo: required
 dist: trusty
 
+os:
+  - linux
+  - osx
+
 matrix:
-    include:
-        - os: linux
-          python: "2.7"
-
-        - os: linux
-          python: "3.5"
-
-        - os: linux
-          python: "3.6"
-
-        # Use generic language for osx
-        - os: osx
-          language: generic
-          python: "2.7"
-          env: TRAVIS_PYTHON_VERSION=2.7
-
-        - os: osx
-          language: generic
-          python: "3.5"
-          env: TRAVIS_PYTHON_VERSION=3.5
-
-        - os: osx
-          language: generic
-          python: "3.6"
-          env: TRAVIS_PYTHON_VERSION=3.6
-
-    allow_failures:
+  allow_failures:
     - os: osx
-
 
 before_install:
  - .travis/before_install.sh
- - mkdir $HOME/data
- - echo $PWD
- - cd $HOME/data && wget ftp://ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar && tar xf WSRT_Measures.ztar && cd -
- - echo $PWD
 install:
- - export PATH="$HOME/miniconda/bin:$PATH"
- - source activate testenv
- - export CPATH="$HOME/miniconda/envs/testenv/include:$CPATH"
- - echo $CPATH
- - python setup.py develop
- - pip install -r tests/requirements.txt
- - pip install coveralls travis-sphinx
+ - .travis/install.sh
 script:
- - nosetests --with-coverage
- - travis-sphinx --nowarn -s doc build
+ - .travis/script.sh
 deploy:
  provider: pypi
  user: gijzelaerr
