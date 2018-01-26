@@ -57,7 +57,7 @@ def find_boost():
     for libboostname in boostlibnames:
         if find_library_file(libboostname):
             return libboostname
-    return None
+    return boostlibnames[0]
 
 
 boost_python = find_boost()
