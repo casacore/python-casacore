@@ -42,7 +42,7 @@ def is_measure(v):
 
     :param v: The object to check
     """
-    if isinstance(v, dict) and v.has_key("type") and v.has_key("m0"):
+    if isinstance(v, dict) and "type" in v and "m0" in v:
         return True
     return False
 
@@ -110,7 +110,8 @@ class measures(_measures):
         :param off: The optional offset for the measure
 
         """
-        if off is None: off = {}
+        if off is None:
+            off = {}
         keys = ["m0", "m1", "m2"]
         for key in keys:
             if key in v:
@@ -757,12 +758,12 @@ class measures(_measures):
     do_frame = doframe
 
     def _fillnow(self):
-        if not "epoch" in self._framestack \
+        if "epoch" not in self._framestack \
                 or not is_measure(self._framestack["epoch"]):
             self.frame_now()
 
     def _getwhere(self):
-        if not self._framestack.has_key("position") \
+        if "position" not in self._framestack \
                 or not is_measure(self._framestack["position"]):
             raise RuntimeError("Can't find position frame")
         return self._framestack["position"]
@@ -960,15 +961,15 @@ class measures(_measures):
        """
         return _measures.separation(self, m0, m1)
 
-##     def show(v, refcode=True):
-##         z = ""
-##         if is_measure(v):
-##             x = dm.gettype(v)
-##             y = dm.getvalue(v)
-##             if x.startswith("epo"):
-##                 z = dq.form.dtime(y[0])
-##             else:
-##                 return ""
-##             if refcode:
-##                 return [z, dm.getref(v)]
-##         return z
+#     def show(v, refcode=True):
+#         z = ""
+#         if is_measure(v):
+#             x = dm.gettype(v)
+#             y = dm.getvalue(v)
+#             if x.startswith("epo"):
+#                 z = dq.form.dtime(y[0])
+#             else:
+#                 return ""
+#             if refcode:
+#                 return [z, dm.getref(v)]
+#         return z
