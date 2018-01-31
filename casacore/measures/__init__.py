@@ -42,7 +42,7 @@ def is_measure(v):
 
     :param v: The object to check
     """
-    if isinstance(v, dict) and v.has_key("type") and v.has_key("m0"):
+    if isinstance(v, dict) and "type" in v and "m0" in v:
         return True
     return False
 
@@ -762,7 +762,7 @@ class measures(_measures):
             self.frame_now()
 
     def _getwhere(self):
-        if not self._framestack.has_key("position") \
+        if not "position" in self._framestack \
                 or not is_measure(self._framestack["position"]):
             raise RuntimeError("Can't find position frame")
         return self._framestack["position"]
