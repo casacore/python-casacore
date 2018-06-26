@@ -38,17 +38,17 @@
 
 BOOST_PYTHON_MODULE(_tables)
 {
-  casa::python::register_convert_excp();
-  casa::python::register_convert_basicdata();
-  casa::python::register_convert_casa_valueholder();
-  casa::python::register_convert_casa_record();
-  casa::python::register_convert_std_vector<casa::TableProxy>();
+  casacore::python::register_convert_excp();
+  casacore::python::register_convert_basicdata();
+  casacore::python::register_convert_casa_valueholder();
+  casacore::python::register_convert_casa_record();
+  casacore::python::register_convert_std_vector<casacore::TableProxy>();
 
-  casa::python::pytable();
-  casa::python::pytablerow();
-  casa::python::pytableiter();
-  casa::python::pytableindex();
+  casacore::python::pytable();
+  casacore::python::pytablerow();
+  casacore::python::pytableiter();
+  casacore::python::pytableindex();
 
-  casa::python::pyms();
+  casacore::python::pyms();
 }
 

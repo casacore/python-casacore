@@ -21,7 +21,7 @@ def new_get_value(quant, *args):
 QuantVec.get_value = new_get_value
 
 
-def to_string(quant, fmt="%0.5f"):
+def to_string(quant, fmt="%0.10g"):
     val = quant.get_value()
     if hasattr(val, "__len__"):
         fmt = "[" + ", ".join([fmt % i for i in val]) + "] %s"
@@ -38,7 +38,7 @@ Quantity.__str__ = to_string
 
 # QuantVec.__repr__ = to_string
 # Quantity.__repr__ = to_string
-
+    
 
 def quantity(*args):
     """Create a quantity. This can be from a scalar or vector.

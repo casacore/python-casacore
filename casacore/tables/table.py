@@ -1778,7 +1778,8 @@ class table(Table):
         import os
         # Test if casabrowser can be found.
         # On OS-X 'which' always returns 0, so use test on top of it.
-        if os.system('test -x `which casabrowser` > /dev/null 2>&1') == 0:
+        # Nothing is written on stdout if not found.
+        if os.system('test `which casabrowser`x != x') == 0:
             waitstr1 = ""
             waitstr2 = "foreground ..."
             if not wait:
@@ -1813,7 +1814,7 @@ class table(Table):
             try:
                 import wxPython
             except ImportError:
-                six.print_('casabrowser nor wx available')
+                six.print_('casabrowser nor wxPython can be found')
                 return
             from wxPython.wx import wxPySimpleApp
             import sys

@@ -30,13 +30,13 @@
 #include <casacore/python/Converters/PycValueHolder.h>
 #include <casacore/python/Converters/PycRecord.h>
 #include <casacore/python/Converters/PycArray.h>
-#include <casa/Arrays/ArrayIO.h>
+#include <casacore/casa/Arrays/ArrayIO.h>
 
 #include <boost/python.hpp>
 
 using namespace boost::python;
 
-namespace casa { namespace pyrap {
+namespace casacore { namespace pyrap {
 
   template<typename T>
   std::ostream& operator<< (std::ostream& os, const std::vector<T>& vec)
@@ -126,13 +126,13 @@ namespace casa { namespace pyrap {
 BOOST_PYTHON_MODULE(_tConvert)
 {
   // Register the required converters.
-  casa::pyrap::register_convert_excp();
-  casa::pyrap::register_convert_basicdata();
-  casa::pyrap::register_convert_casa_valueholder();
-  casa::pyrap::register_convert_casa_record();
-  casa::pyrap::register_convert_std_vector<casa::uInt>();
-  casa::pyrap::register_convert_std_vector<std::vector<casa::uInt> >();
+  casacore::pyrap::register_convert_excp();
+  casacore::pyrap::register_convert_basicdata();
+  casacore::pyrap::register_convert_casa_valueholder();
+  casacore::pyrap::register_convert_casa_record();
+  casacore::pyrap::register_convert_std_vector<casacore::uInt>();
+  casacore::pyrap::register_convert_std_vector<std::vector<casacore::uInt> >();
 
   // Execute the test.
-  casa::pyrap::testConvert();
+  casacore::pyrap::testConvert();
 }
