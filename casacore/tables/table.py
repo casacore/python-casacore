@@ -45,54 +45,60 @@ from ._tables import (Table,
                       _default_ms_subtable,
                       _required_ms_desc)
 
-from .tablehelper import (_add_prefix, _remove_prefix, _do_remove_prefix, _format_row)
+from .tablehelper import (_add_prefix, _remove_prefix, _do_remove_prefix,
+                          _format_row)
 from casacore import six
 
+
 def default_ms(name, tabdesc=None, dminfo=None):
-  """
-  Creates a default Measurement Set called name. Any Table Description
-  elements in tabdesc will overwrite the corresponding element in a default
-  Measurement Set Table Description (columns, hypercolumns and keywords).
+    """
+    Creates a default Measurement Set called name. Any Table Description
+    elements in tabdesc will overwrite the corresponding element in a default
+    Measurement Set Table Description (columns, hypercolumns and keywords).
 
-  In practice, you probably want to specify columns such as DATA, MODEL_DATA
-  and CORRECTED_DATA (and their associated keywords and hypercolumns) in tabdesc
-  """
+    In practice, you probably want to specify columns such as DATA, MODEL_DATA
+    and CORRECTED_DATA (and their associated keywords and hypercolumns)
+    in tabdesc.
+    """
 
-  # Default to empty dictionaries
-  if tabdesc is None:
-    tabdesc = {}
+    # Default to empty dictionaries
+    if tabdesc is None:
+        tabdesc = {}
 
-  if dminfo is None:
-    dminfo = {}
+    if dminfo is None:
+        dminfo = {}
 
-  # Wrap the Table object
-  return table(_default_ms(name, tabdesc, dminfo), _oper=3)
+    # Wrap the Table object
+    return table(_default_ms(name, tabdesc, dminfo), _oper=3)
+
 
 def default_ms_subtable(subtable, name=None, tabdesc=None, dminfo=None):
-  """
-  Creates a default Measurement Set subtable. Any Table Description
-  elements in tabdesc will overwrite the corresponding element in a default
-  Measurement Set Table Description (columns, hypercolumns and keywords).
+    """
+    Creates a default Measurement Set subtable. Any Table Description
+    elements in tabdesc will overwrite the corresponding element in a default
+    Measurement Set Table Description (columns, hypercolumns and keywords).
 
-  if name is given, it will be treated as a path that the table should
-  be created in. Set to subtable if None
+    if name is given, it will be treated as a path that the table should
+    be created in. Set to subtable if None
 
-  if subtable is "" or "MAIN" a standard MeasurementSet with subtables will
-  be created.
-  """
+    if subtable is "" or "MAIN" a standard MeasurementSet with subtables will
+    be created.
+    """
 
-  if name is None:
-    name = subtable
+    if name is None:
+        name = subtable
 
-  # Default to empty dictionaries
-  if tabdesc is None:
-    tabdesc = {}
+    # Default to empty dictionaries
+    if tabdesc is None:
+        tabdesc = {}
 
-  if dminfo is None:
-    dminfo = {}
+    if dminfo is None:
+        dminfo = {}
 
-  # Wrap the Table object
-  return table(_default_ms_subtable(subtable, name, tabdesc, dminfo), _oper=3)
+    # Wrap the Table object
+    return table(_default_ms_subtable(subtable, name, tabdesc, dminfo),
+                 _oper=3)
+
 
 # Execute a TaQL command on a table.
 def taql(command, style='Python', tables=[], globals={}, locals={}):
@@ -112,10 +118,11 @@ def taql(command, style='Python', tables=[], globals={}, locals={}):
       value = 5.1
       t1 = taql('select from $t where COL > $value')
 
-    In this example the table `$t` is replaced by a sequence number (like `$1`)
-    and `$value` by its value 5.1.
-    The table object of `t` will be appended to a copy of the `tables` argument
-    such that the sequence number inserted matches the table object in the list.
+    In this example the table `$t` is replaced by a sequence number
+    (such as `$1`) and `$value` by its value 5.1.
+    The table object of `t` will be appended to a copy of the `tables`
+    argument such that the sequence number inserted matches the table object
+    in the list.
     The more advanced user can already use `$n` in the query string and
     supply the associated table object in the `tables` argument
     (where `n` represents the (n-1)th `tables` element).
@@ -140,8 +147,9 @@ def taql(command, style='Python', tables=[], globals={}, locals={}):
         if len(locals) == 0:
             # local variables in caller are 3 levels up from getlocals
             locals = casacore.util.getlocals(3)
-        cmd = casacore.util.substitute(cmd, [(table, '', tabs)], globals, locals)
-    except:
+        cmd = casacore.util.substitute(cmd, [(table, '', tabs)],
+                                       globals, locals)
+    except Exception:
         pass
     if style:
         cmd = 'using style ' + style + ' ' + cmd
@@ -191,7 +199,8 @@ class table(Table):
       t = table('~/3c343.MS')
       print t[0]
 
-    The `table` class supports the context manager idiom (__enter__ and __exit__).
+    The `table` class supports the context manager idiom
+    (__enter__ and __exit__).
     When used in a `with` statement, the table will be flushed and closed
     automatically, which is handy when writing a table.
     For example::
@@ -345,8 +354,11 @@ class table(Table):
                 Table.__init__(self, tabname, lockopt, endian,
                                memtype, nrow, tabledesc, dminfo)
                 if ack:
-                    six.print_('Successful creation of', lockopt['option'] + '-locked table', tabname + ':',
-                               self.ncols(), 'columns,', self.nrows(), 'rows')
+                    six.print_('Successful creation of',
+                               lockopt['option'] + '-locked table',
+                               tabname + ':',
+                               self.ncols(), 'columns,',
+                               self.nrows(), 'rows')
             else:
                 # Deal with existing tables.
                 if not tabname:
@@ -362,19 +374,27 @@ class table(Table):
                 if isinstance(tabname, str):
                     Table.__init__(self, tabname, lockopt, opt)
                     if ack:
-                        six.print_('Successful', typstr, 'open of', lockopt['option'] + '-locked table', tabname + ':',
-                                   self.ncols(), 'columns,', self.nrows(), 'rows')
+                        six.print_('Successful', typstr, 'open of',
+                                   lockopt['option'] + '-locked table',
+                                   tabname + ':',
+                                   self.ncols(), 'columns,',
+                                   self.nrows(), 'rows')
                 elif isinstance(tabname[0], str):
                     # Concatenate and open named tables.
-                    Table.__init__(self, tabname, concatsubtables, lockopt, opt)
+                    Table.__init__(self, tabname, concatsubtables,
+                                   lockopt, opt)
                     if ack:
-                        six.print_('Successful', typstr, 'open of', lockopt['option'] + '-locked concatenated tables',
-                                   tabname, ':', self.ncols(), 'columns,', self.nrows(), 'rows')
+                        six.print_('Successful', typstr, 'open of',
+                                   lockopt['option'] +
+                                   '-locked concatenated tables',
+                                   tabname, ':', self.ncols(), 'columns,',
+                                   self.nrows(), 'rows')
                 else:
                     # Concatenate already open tables.
                     Table.__init__(self, tabname, concatsubtables, 0, 0, 0)
                     if ack:
-                        six.print_('Successful virtual concatenation of', len(tabname), 'tables:', self.ncols(),
+                        six.print_('Successful virtual concatenation of',
+                                   len(tabname), 'tables:', self.ncols(),
                                    'columns,', self.nrows(), 'rows')
         # Create a row object for this table.
         self._makerow()
@@ -394,8 +414,9 @@ class table(Table):
 
     def __str__(self):
         """Return the table name and the basic statistics"""
-        return _add_prefix(self.name()) + "\n%d rows" % self.nrows() + "\n" + \
-               "%d columns: " % len(self.colnames()) + " ".join(self.colnames())
+        return (_add_prefix(self.name()) + "\n%d rows" % self.nrows() +
+                "\n" + "%d columns: " % len(self.colnames()) +
+                " ".join(self.colnames()))
 
     def __len__(self):
         """Return the number of rows in the table."""
@@ -423,7 +444,7 @@ class table(Table):
         # First try if it is a column.
         try:
             return self.col(name)
-        except:
+        except Exception:
             pass
         # Now try if it is a keyword.
         try:
@@ -432,10 +453,10 @@ class table(Table):
             if val != _do_remove_prefix(val):
                 try:
                     return table(val, ack=False)
-                except:
+                except Exception:
                     pass
             return val
-        except:
+        except Exception:
             pass
         # _ or keys means all keywords.
         if name == '_' or name == 'keys':
@@ -454,9 +475,10 @@ class table(Table):
     def col(self, columnname):
         """Return a tablecolumn object for the given column.
 
-        If multiple operations need to be done on a column, a :class:`tablecolumn`
-        object is somewhat easier to use than the table object because the
-        column name does not have to be repeated each time.
+        If multiple operations need to be done on a column,
+        a :class:`tablecolumn` object is somewhat easier to use than the
+        table object because the column name does not have to be repeated
+        each time.
 
         It is also possible to use a column name as an attribute, It is an
         easier way to get a column object.
@@ -472,7 +494,8 @@ class table(Table):
         return tablecolumn(self, columnname)
 
     def row(self, columnnames=[], exclude=False):
-        """Return a tablerow object which includes (or excludes) the given columns.
+        """Return a tablerow object which includes (or excludes) the
+        given columns.
 
         :class:`tablerow` makes it possible to get/put values in one or
         more rows.
@@ -606,7 +629,8 @@ class table(Table):
     def rename(self, newtablename):
         """Rename the table.
 
-        It renames the table and, if needed, adjusts the names of its subtables.
+        It renames the table and, if needed, adjusts the names of its
+        subtables.
 
         """
         self._rename(newtablename)
@@ -685,7 +709,8 @@ class table(Table):
         return self._iswritable()
 
     def endianformat(self):
-        """Return the endian format ('little' or 'big') in which the table is written."""
+        """Return the endian format ('little' or 'big') in which the table
+        is written."""
         return self._endianformat()
 
     def lock(self, write=True, nattempts=0):
@@ -734,7 +759,8 @@ class table(Table):
         return self._lockoptions()
 
     def datachanged(self):
-        """Tell if data in the table have changed since the last time called."""
+        """Tell if data in the table have changed since the last time
+        called."""
         return self._datachanged()
 
     def ismultiused(self, checksubtables=False):
@@ -812,8 +838,8 @@ class table(Table):
           # [3 9]
 
         The last statements show that the method returns the row numbers
-        referring to the given table. Table t2 contains rows 2 and 5 in table t1,
-        which are rows 3 and 9 in table t.
+        referring to the given table. Table t2 contains rows 2 and 5 in
+        table t1, which are rows 3 and 9 in table t.
 
         """
         if table is None:
@@ -907,14 +933,14 @@ class table(Table):
         """
         return self._getcolshapestring(columnname,
                                        startrow, nrow, rowincr,
-                                       True);  # reverse axes
+                                       True)   # reverse axes
 
     def iscelldefined(self, columnname, rownr):
         """Tell if a column cell contains a value.
 
         Columns containing variable shaped arrays can be empty. For these cases
-        this method returns True. Doing :func:`getcell` on an empty cell results
-        in an exception.
+        this method returns True. Doing :func:`getcell` on an empty cell
+        results in an exception.
 
         Note that an empty cell is not the same as an empty array. A cell can
         contain an empty array (of any dimensionality) as a value.
@@ -944,7 +970,8 @@ class table(Table):
 
         """
         if not nparray.flags.c_contiguous or nparray.size == 0:
-            raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
+            raise ValueError("Argument 'nparray' has to be a contiguous " +
+                             "numpy array")
         return self._getcellvh(columnname, rownr, nparray)
 
     def getcellslice(self, columnname, rownr, blc, trc, inc=[]):
@@ -952,7 +979,7 @@ class table(Table):
 
         The columnname and (0-relative) rownr indicate the table cell.
 
-        The slice to get is defined by the blc, trc, and optional inc arguments.
+        The slice to get is defined by the blc, trc, and optional inc arguments
         (blc = bottom-left corner, trc=top-right corner, inc=stride). Not all
         axes have to be filled in for blc, trc, and inc. Missing axes default
         to begin, end, and 1. A negative blc or trc defaults to begin or end.
@@ -970,7 +997,7 @@ class table(Table):
         The numpy array has to be C-contiguous with a shape matching the
         shape of the slice. Data type coercion will be done as needed.
 
-        The slice to get is defined by the blc, trc, and optional inc arguments.
+        The slice to get is defined by the blc, trc, and optional inc arguments
         (blc = bottom-left corner, trc=top-right corner, inc=stride). Not all
         axes have to be filled in for blc, trc, and inc. Missing axes default
         to begin, end, and 1. A negative blc or trc defaults to begin or end.
@@ -978,7 +1005,8 @@ class table(Table):
 
         """
         if not nparray.flags.c_contiguous or nparray.size == 0:
-            raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
+            raise ValueError("Argument 'nparray' has to be a contiguous " +
+                             "numpy array")
         return self._getcellslicevh(columnname, rownr,
                                     blc, trc, inc, nparray)
 
@@ -1006,7 +1034,8 @@ class table(Table):
         return self._getcol(columnname, startrow, nrow, rowincr)
 
     def getcolnp(self, columnname, nparray, startrow=0, nrow=-1, rowincr=1):
-        """Get the contents of a column or part of it into the given numpy array.
+        """Get the contents of a column or part of it into the given
+        numpy array.
 
         The numpy array has to be C-contiguous with a shape matching the
         shape of the column (part). Data type coercion will be done as needed.
@@ -1020,14 +1049,15 @@ class table(Table):
 
         """
         if (not nparray.flags.c_contiguous) or nparray.size == 0:
-            raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
+            raise ValueError("Argument 'nparray' has to be a contiguous " +
+                             "numpy array")
         return self._getcolvh(columnname, startrow, nrow, rowincr, nparray)
 
     def getvarcol(self, columnname, startrow=0, nrow=-1, rowincr=1):
         """Get the contents of a column or part of it.
 
-        It is similar to :func:`getcol`, but the result is returned as a dict of
-        numpy arrays.
+        It is similar to :func:`getcol`, but the result is returned as a
+        dict of numpy arrays.
         It can deal with a column containing variable shaped arrays.
 
         """
@@ -1037,7 +1067,8 @@ class table(Table):
                     startrow=0, nrow=-1, rowincr=1):
         """Get a slice from a table column holding arrays.
 
-        The slice in each array is given by blc, trc, and inc (as in getcellslice).
+        The slice in each array is given by blc, trc, and inc
+        (as in getcellslice).
         The column can be sliced by giving a start row (default 0), number of
         rows (default all), and row stride (default 1).
 
@@ -1055,7 +1086,8 @@ class table(Table):
         The numpy array has to be C-contiguous with a shape matching the
         shape of the column (slice). Data type coercion will be done as needed.
 
-        The slice in each array is given by blc, trc, and inc (as in getcellslice).
+        The slice in each array is given by blc, trc, and inc
+        (as in getcellslice).
         The column can be sliced by giving a start row (default 0), number of
         rows (default all), and row stride (default 1).
 
@@ -1064,7 +1096,8 @@ class table(Table):
 
         """
         if not nparray.flags.c_contiguous or nparray.size == 0:
-            raise ValueError("Argument 'nparray' has to be a contiguous numpy array")
+            raise ValueError("Argument 'nparray' has to be a contiguous "
+                             + "numpy array")
         return self._getcolslicevh(columnname, blc, trc, inc,
                                    startrow, nrow, rowincr, nparray)
 
@@ -1096,14 +1129,15 @@ class table(Table):
         The columnname and (0-relative) rownr indicate the table cell.
         Unlike putcell only a single row can be given.
 
-        The slice to put is defined by the blc, trc, and optional inc arguments.
-        (blc = bottom-left corner, trc=top-right corner, inc=stride). Not all
-        axes have to be filled in for blc, trc, and inc. Missing axes default
-        to begin, end, and 1. A negative blc or trc defaults to begin or end.
+        The slice to put is defined by the blc, trc, and optional inc
+        arguments (blc = bottom-left corner, trc=top-right corner, inc=stride).
+        Not all axes have to be filled in for blc, trc, and inc.
+        Missing axes default to begin, end, and 1. A negative blc or trc
+        defaults to begin or end.
         Note that trc is inclusive (unlike python indexing).
 
-        As in putcell the array can be given by a scalar, sequence, or numpy array.
-        The shape of the array to put has to match the slice shape.
+        As in putcell the array can be given by a scalar, sequence, or numpy
+        array. The shape of the array to put has to match the slice shape.
 
         """
         self._putcellslice(columnname, rownr, value,
@@ -1211,8 +1245,8 @@ class table(Table):
         allow the removal of one of its columns. In that case all its columns
         have to be removed together.
 
-        Columns can always be removed from a reference table. It does NOT remove
-        the columns from the referenced table.
+        Columns can always be removed from a reference table. It does NOT
+        remove the columns from the referenced table.
 
         """
         self._removecols(columnnames)
@@ -1236,7 +1270,8 @@ class table(Table):
         multiple parts separated by dots (e.g. 'key1.sub1.sub2').
 
         If an empty keyword name is given (which is the default), all table
-        keyword names are shown and its behaviour is the same as :func:`keywordnames`.
+        keyword names are shown and its behaviour is the same as
+        :func:`keywordnames`.
 
         Instead of a keyword name an index can be given which returns the names
         of the struct value of the i-th keyword.
@@ -1280,11 +1315,13 @@ class table(Table):
           name prefixed by 'Table :'. It can be opened using the normal table
           constructor which will remove the prefix.
         - a struct which is returned as a dict. A struct is fully nestable,
-          thus each field in the struct can have one of the values described here.
+          thus each field in the struct can have one of the values described
+          here.
 
-        Similar to method :func:`fieldnames` a keyword name can be given consisting
-        of multiple parts separated by dots. This represents nested structs,
-        thus gives the value of a field in a struct (in a struct, etc.).
+        Similar to method :func:`fieldnames` a keyword name can be given
+        consisting of multiple parts separated by dots. This represents
+        nested structs, thus gives the value of a field in a struct
+        (in a struct, etc.).
 
         Instead of a keyword name an index can be given which returns the value
         of the i-th keyword.
@@ -1345,7 +1382,8 @@ class table(Table):
           string containing its name prefixed by 'Table :'.
         - a struct which can be given as a dict. A struct is fully nestable,
           thus each field in the dict can be one of the values described here.
-          The only exception is that a table value can only be given by the string.
+          The only exception is that a table value can only be given by the
+          string.
 
         If the keyword already exists, the type of the new value should match
         the existing one (e.g. a scalar cannot be replaced by an array).
@@ -1445,10 +1483,10 @@ class table(Table):
         hcdefs = tabledesc.get('_define_hypercolumn_', {})
 
         for c, hcdef in hcdefs.iteritems():
-          if "HCcoordnames" in hcdef and len(hcdef["HCcoordnames"]) == 0:
-            del hcdef["HCcoordnames"]
-          if "HCidnames" in hcdef and len(hcdef["HCidnames"]) == 0:
-            del hcdef["HCidnames"]
+            if "HCcoordnames" in hcdef and len(hcdef["HCcoordnames"]) == 0:
+                del hcdef["HCcoordnames"]
+            if "HCidnames" in hcdef and len(hcdef["HCidnames"]) == 0:
+                del hcdef["HCidnames"]
 
         return tabledesc
 
@@ -1466,8 +1504,9 @@ class table(Table):
     def coldesc(self, columnname, actual=True):
         """Make the description of a column.
 
-        Make the description object of the given column like :func:`makecoldesc`
-        is doing with the description given by :func:`getcoldesc`.
+        Make the description object of the given column as
+        :func:`makecoldesc` is doing with the description given by
+        :func:`getcoldesc`.
 
         """
         import casacore.tables.tableutil as pt
@@ -1476,10 +1515,11 @@ class table(Table):
     def getdminfo(self, columnname=None):
         """Get data manager info.
 
-        Each column in a table is stored using a data manager. A storage manager
-        is a data manager storing the physically in a file. A virtual column
-        engine is a data manager that does not store data but calculates it on
-        the fly (e.g. scaling floats to short to reduce storage).
+        Each column in a table is stored using a data manager. A storage
+        manager is a data manager storing the physically in a file.
+        A virtual column engine is a data manager that does not store data
+        but calculates it on the fly (e.g. scaling floats to short to
+        reduce storage needs).
 
         By default this method returns a dict telling the data managers used.
         Each field in the dict is a dict containing:
@@ -1493,10 +1533,10 @@ class table(Table):
 
         When giving a column name the data manager info of that particular
         column is returned (without the COLUMNS field).
-        It can, for instance, be used when adding a column using :func:`addcols`
-        that should use the same data manager type as an existing column.
-        However, when doing that care should be taken to change the NAME because
-        each data manager name has to be unique.
+        It can, for instance, be used when adding a column using
+        :func:`addcols` that should use the same data manager type as an
+        existing column. However, when doing that care should be taken to
+        change the NAME because each data manager name has to be unique.
 
         """
         dminfo = self._getdminfo()
@@ -1513,10 +1553,11 @@ class table(Table):
     def getdmprop(self, name, bycolumn=True):
         """Get properties of a data manager.
 
-        Each column in a table is stored using a data manager. A storage manager
-        is a data manager storing the physically in a file. A virtual column
-        engine is a data manager that does not store data but calculates it on
-        the fly (e.g. scaling floats to short to reduce storage).
+        Each column in a table is stored using a data manager. A storage
+        manager is a data manager storing the physically in a file.
+        A virtual column engine is a data manager that does not store data
+        but calculates it on the fly (e.g. scaling floats to short to
+        reduce storage needs).
 
         Some data managers have properties that can be changed on the fly
         (e.g. cachesize for a tiled storage manager). The properties of
@@ -1615,9 +1656,10 @@ class table(Table):
         `TaQL <../../doc/199.html>`_
         command from the given arguments and executes it using the
         :func:`taql` function.
-        The result is returned in a so-called reference table which references
-        the selected columns and rows in the original table. Usually a reference
-        table is temporary, but it can be made persistent by giving it a name.
+        The result is returned in a so-called reference table which
+        references the selected columns and rows in the original table.
+        Usually a reference table is temporary, but it can be made
+        persistent by giving it a name.
         Note that a reference table is handled as any table, thus can be
         queried again.
 
@@ -1646,8 +1688,10 @@ class table(Table):
           The TaQL syntax style to be used (defaults to Python).
 
         """
-        if not query and not sortlist and not columns and limit <= 0 and offset <= 0:
-            raise ValueError('No selection done (arguments query, sortlist, columns, limit, and offset are empty)')
+        if not query and not sortlist and not columns and \
+           limit <= 0 and offset <= 0:
+            raise ValueError('No selection done (arguments query, ' +
+                             'sortlist, columns, limit, and offset are empty)')
         command = 'select '
         if columns:
             command += columns
@@ -1740,7 +1784,7 @@ class table(Table):
         For instance, to use it for converting units::
 
           t = table('',{})
-          t.calc ('(1 \in)cm')
+          t.calc ('(1 \\in)cm')
 
         `expr`
           The CALC expression
@@ -1751,7 +1795,8 @@ class table(Table):
         return tablecommand('calc from $1 calc ' + expr, style, [self])
 
     def browse(self, wait=True, tempname="/tmp/seltable"):
-        """ Browse a table using casabrowser or a simple wxwidget based browser.
+        """ Browse a table using casabrowser or a simple wxwidget
+        based browser.
 
         By default the casabrowser is used if it can be found (in your PATH).
         Otherwise the wxwidget one is used if wx can be loaded.
@@ -1807,8 +1852,9 @@ class table(Table):
                     six.print_(" after browsing use tabledelete('" + tempname +
                                "') to delete the copy")
             else:
-                six.print_("Cannot browse because the table is in memory only.")
-                six.print_("You can browse a (shallow) persistent copy of the table like: ")
+                six.print_("Cannot browse because the table is in memory only")
+                six.print_("You can browse a (shallow) persistent copy " +
+                           "of the table like: ")
                 six.print_("   t.browse(True, '/tmp/tab1')")
         else:
             try:
@@ -1825,7 +1871,8 @@ class table(Table):
             app.MainLoop()
 
     def view(self, wait=True, tempname="/tmp/seltable"):
-        """ View a table using casaviewer, casabrowser, or wxwidget based browser.
+        """ View a table using casaviewer, casabrowser, or wxwidget
+        based browser.
 
         The table is viewed depending on the type:
 
@@ -1845,8 +1892,8 @@ class table(Table):
         To make viewing of such tables possible, the argument `tempname` can
         be used to specify a table name that will be used to form a persistent
         table that can be browsed. Note that such a table is very small as it
-        does not contain data, but only references to rows in the original table.
-        The default for `tempname` is '/tmp/seltable'.
+        does not contain data, but only references to rows in the original
+        table. The default for `tempname` is '/tmp/seltable'.
 
         If needed, the table can be deleted using the :func:`tabledelete`
         function.
@@ -1870,7 +1917,8 @@ class table(Table):
                     waitstr1 = " &"
                     waitstr2 = "background ..."
                 if self.iswritable():
-                    six.print_("Flushing data and starting casaviewer in the " + waitstr2)
+                    six.print_("Flushing data and starting casaviewer " +
+                               "in the " + waitstr2)
                 else:
                     six.print_("Starting casaviewer in the " + waitstr2)
                 self.flush()
@@ -1879,7 +1927,8 @@ class table(Table):
                     os.system('casaviewer ' + self.name() + waitstr1)
                     viewed = True
                 elif len(tempname) > 0:
-                    six.print_("  making a persistent copy in table " + tempname)
+                    six.print_("  making a persistent copy in table " +
+                               tempname)
                     self.copy(tempname)
                     os.system('casaviewer ' + tempname + waitstr1)
                     viewed = True
@@ -1888,10 +1937,13 @@ class table(Table):
                         six.print_("  finished viewing")
                         tabledelete(tempname)
                     else:
-                        six.print_("  after viewing use tabledelete('" + tempname + "') to delete the copy")
+                        six.print_("  after viewing use tabledelete('" +
+                                   tempname + "') to delete the copy")
                 else:
-                    six.print_("Cannot browse because the table is in memory only.")
-                    six.print_("You can browse a (shallow) persistent copy of the table like:")
+                    six.print_("Cannot browse because the table is " +
+                               "in memory only.")
+                    six.print_("You can browse a (shallow) persistent " +
+                               "copy of the table like:")
                     six.print_("   t.view(True, '/tmp/tab1')")
         # Could not view the table, so browse it.
         if not viewed:
@@ -1899,35 +1951,35 @@ class table(Table):
 
     def _repr_html_(self):
         """Give a nice representation of tables in notebooks."""
-        out="<table class='taqltable' style='overflow-x:auto'>\n"
+        out = "<table class='taqltable' style='overflow-x:auto'>\n"
 
         # Print column names (not if they are all auto-generated)
-        if not(all([colname[:4]=="Col_" for colname in self.colnames()])):
-            out+="<tr>"
+        if not(all([colname[:4] == "Col_" for colname in self.colnames()])):
+            out += "<tr>"
             for colname in self.colnames():
-                out+="<th><b>"+colname+"</b></th>"
-            out+="</tr>"
+                out += "<th><b>"+colname+"</b></th>"
+            out += "</tr>"
 
-        cropped=False
-        rowcount=0
+        cropped = False
+        rowcount = 0
         for row in self:
-            rowout=_format_row(row, self.colnames(),self)
-            rowcount+=1
-            out+=rowout
-            if "\n" in rowout: # Double space after multiline rows
-                out+="\n"
-            out+="\n"
-            if rowcount>=20:
-                cropped=True
+            rowout = _format_row(row, self.colnames(), self)
+            rowcount += 1
+            out += rowout
+            if "\n" in rowout:  # Double space after multiline rows
+                out += "\n"
+            out += "\n"
+            if rowcount >= 20:
+                cropped = True
                 break
 
-        if out[-2:]=="\n\n":
-            out=out[:-1]
+        if out[-2:] == "\n\n":
+            out = out[:-1]
 
-        out+="</table>"
+        out += "</table>"
 
         if cropped:
-            out+="<p style='text-align:center'>("+str(self.nrows()-20)+" more rows)</p>\n"
+            out += ("<p style='text-align:center'>(" +
+                    str(self.nrows()-20)+" more rows)</p>\n")
 
         return out
-

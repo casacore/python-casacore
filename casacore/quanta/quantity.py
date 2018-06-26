@@ -38,7 +38,7 @@ Quantity.__str__ = to_string
 
 # QuantVec.__repr__ = to_string
 # Quantity.__repr__ = to_string
-    
+
 
 def quantity(*args):
     """Create a quantity. This can be from a scalar or vector.

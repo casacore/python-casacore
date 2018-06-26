@@ -13,7 +13,7 @@ class TestQuanta(unittest.TestCase):
         q2 = quantity([180.0, 0.0], 'deg')
         self.assertTrue(is_quantity(q2))
         self.assertNotEqual(q1, q2)
-        self.assertEqual(str(q0+q1), '2.00000 deg')
+        self.assertEqual(str(q0+q1), '2 deg')
         self.assertEqual(str(q0-q1), '0.00000 deg')
         self.assertEqual(str(q0*q1), '1.00000 deg.deg')
         self.assertEqual(str(q0/q1), '1.00000 deg/(deg)')
