@@ -47,9 +47,17 @@ namespace casacore {
       };
       static Quantity res[N] = {
 	Quantity(C::pi,""), Quantity(C::e,""),
-	QC::c, QC::G, QC::h, QC::HI, QC::R, QC::NA, QC::e, QC::mp,
-	QC::mp_me, QC::mu0, QC::epsilon0, QC::k, QC::F, QC::me, QC::re, QC::a0,
-	QC::R0, QC::k2
+#if CASACORE_MAJOR_VERSION>2 || (CASACORE_MAJOR_VERSION==2 && \
+                 (CASACORE_MINOR_VERSION>4 || (CASACORE_MINOR_VERSION==4 \
+                         && CASACORE_PATCH_VERSION>0)))
+	QC::c(), QC::G(), QC::h(), QC::HI(), QC::R(), QC::NA(), QC::e(), 
+        QC::mp(), QC::mp_me(), QC::mu0(), QC::epsilon0(), QC::k(), QC::F(),
+        QC::me(), QC::re(), QC::a0(), QC::R0(), QC::k2()
+#else
+	QC::c, QC::G, QC::h, QC::HI, QC::R, QC::NA, QC::e, 
+        QC::mp, QC::mp_me, QC::mu0, QC::epsilon0, QC::k, QC::F,
+        QC::me, QC::re, QC::a0, QC::R0, QC::k2
+#endif
       };
       for (int i=0; i<20;++i) {
 	d[types[i]] = res[i];

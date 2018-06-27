@@ -41,16 +41,16 @@
 BOOST_PYTHON_MODULE(_images)
 {
   // Register the required pyrap converters.
-  casa::python::register_convert_excp();
-  casa::python::register_convert_basicdata();
-  casa::python::register_convert_casa_valueholder();
-  casa::python::register_convert_casa_record();
-  casa::python::register_convert_std_vector<casa::ImageProxy>();
+  casacore::python::register_convert_excp();
+  casacore::python::register_convert_basicdata();
+  casacore::python::register_convert_casa_valueholder();
+  casacore::python::register_convert_casa_record();
+  casacore::python::register_convert_std_vector<casacore::ImageProxy>();
 
   // Register the FITS and Miriad image types.
-  casa::FITSImage::registerOpenFunction();
-  casa::MIRIADImage::registerOpenFunction();
+  casacore::FITSImage::registerOpenFunction();
+  casacore::MIRIADImage::registerOpenFunction();
 
   // Make python interface to images.
-  casa::python::pyimages();
+  casacore::python::pyimages();
 }

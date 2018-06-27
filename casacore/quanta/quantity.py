@@ -21,7 +21,7 @@ def new_get_value(quant, *args):
 QuantVec.get_value = new_get_value
 
 
-def to_string(quant, fmt="%0.5f"):
+def to_string(quant, fmt="%0.5g"):
     val = quant.get_value()
     if hasattr(val, "__len__"):
         fmt = "[" + ", ".join([fmt % i for i in val]) + "] %s"

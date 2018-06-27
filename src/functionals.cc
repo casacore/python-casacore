@@ -36,9 +36,9 @@
 
 BOOST_PYTHON_MODULE(_functionals)
 {
-  casa::python::register_convert_excp();
-  casa::python::register_convert_basicdata();
-  casa::python::register_convert_casa_record();
+  casacore::python::register_convert_excp();
+  casacore::python::register_convert_basicdata();
+  casacore::python::register_convert_casa_record();
 
-  casa::python::functional();
+  casacore::python::functional();
 }
