@@ -45,4 +45,4 @@ class TestQuanta(unittest.TestCase):
         self.assertEqual(prefixes['a'], ['atto', 1e-18])
 
         boltzmann = constants['k']
-        self.assertEqual (str(boltzmann), '1.3807e-23 J/K')
+        self.assertEqual(str(boltzmann), '1.3807e-23 J/K')
