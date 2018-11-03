@@ -47,8 +47,10 @@ else:
 
 def find_boost():
     """Find the name of the boost-python library. Returns None if none is found."""
-    boostlibnames = ['boost_python-py%s%s' % (sys.version_info[0], sys.version_info[1])]
-    boostlibnames += ['boost_python']
+    short_version = "{}{}".format(sys.version_info[0], sys.version_info[1])
+    boostlibnames = ['boost_python',
+                     'boost_python-py' + short_version,
+                     'boost_python' + short_version]
     if sys.version_info[0] == 2:
         boostlibnames += ["boost_python-mt"]
     else:
@@ -56,6 +58,8 @@ def find_boost():
     for libboostname in boostlibnames:
         if find_library_file(libboostname):
             return libboostname
+        else:
+            print("tried to find {}".format(libboostname))
     return None
 
 
