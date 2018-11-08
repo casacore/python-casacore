@@ -102,7 +102,9 @@ def find_casacore():
             if LooseVersion(casacoreversion.decode()) < LooseVersion(__mincasacoreversion__):
                 warnings.warn("Your casacore version is too old. Minimum is " + __mincasacoreversion__)
 
-    return find_library_file(casa_python)
+    if find_library_file(casa_python):
+        return casa_python
+    return None
 
 
 def get_extensions():
