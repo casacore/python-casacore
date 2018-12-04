@@ -31,7 +31,7 @@ You can find installation instructions on:
 
 If you have Casacore installed in a non default location, you need to specify the location:
 
-$ python setup.py build_ext -I/opt/casacore/include -L/opt/casacore/lib
+$ python setup.py build_ext -I/opt/casacore/include:/other/include/path -L/opt/casacore/lib
 
 Don't give up!
 """
