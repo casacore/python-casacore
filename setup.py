@@ -173,6 +173,8 @@ def get_extensions():
                 if found_lib:
                     depends = depends + [found_lib]
 
+        # None libraries can cause errors deep down
+        libraries = list(filter(None, libraries))
         extensions.append(Extension(name=name, sources=sources, depends=depends,
                                     libraries=libraries))
     return extensions
