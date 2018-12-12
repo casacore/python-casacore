@@ -8,6 +8,8 @@
  - quanta example not working with python 2.7.6 bug (#17)
  - Fix build and namespace problem (#137)
  - Remove deprecated has_key (#132)
+ - Correct header guard macro definition (#156)
+ - Avoiding TypeError deep down in setuptool (#155)
 
 
 # 2.2.0
