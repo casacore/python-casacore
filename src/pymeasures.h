@@ -26,7 +26,7 @@
 //# $Id: pymeasures.h,v 1.1 2006/09/28 05:55:00 mmarquar Exp $
 
 #ifndef PYRAP_MEASURES_H
-#define PYRAP_PYMEASURES_H
+#define PYRAP_MEASURES_H
 
 #include <casacore/casa/aips.h>
 
