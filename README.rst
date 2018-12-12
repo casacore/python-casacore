@@ -16,13 +16,13 @@ The python-casacore documentation can be found on `casacore.github.io/python-cas
 Installation
 ============
 
-Ubuntu 16.04
+Ubuntu 18.04
 ------------
 
 The easiest way to start using python-casacore is to enable the `KERN suite <http://kernsuite.info>`_ repository and install the binary package ::
 
     $ sudo apt-get install software-properties-common
-    $ sudo add-apt-repository ppa:kernsuite/kern-3
+    $ sudo add-apt-repository ppa:kernsuite/kern-4
     $ sudo apt-get update
     $ sudo apt-get install python-casacore
 
@@ -33,7 +33,7 @@ from source
 install these requirements:
 
 * `setuptools <https://pypi.python.org/pypi/setuptools>`_
-* `Casacore <https://code.google.com/p/casacore/>`_ >= 2.3
+* `Casacore <https://github.com/casacore/casacore/>`_ 
 * `Boost-python <http://www.boost.org/libs/python/doc/>`_
 * `numpy <http://www.numpy.org/>`_ 
 * `cfitsio <http://heasarc.gsfc.nasa.gov/fitsio/>`_
