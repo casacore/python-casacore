@@ -76,7 +76,8 @@ def find_boost():
     for libboostname in boostlibnames:
         if find_library_file(libboostname):
             return libboostname
-    return None
+    warnings.warn(no_boost_error)
+    return boostlibnames[0]
 
 
 def find_casacore():
@@ -102,19 +103,15 @@ def find_casacore():
             if LooseVersion(casacoreversion.decode()) < LooseVersion(__mincasacoreversion__):
                 warnings.warn("Your casacore version is too old. Minimum is " + __mincasacoreversion__)
 
-    if find_library_file(casa_python):
-        return casa_python
-    return None
+    if not find_library_file(casa_python):
+        warnings.warn(no_casacore_error)
+    return casa_python
 
 
 def get_extensions():
-    boost_python = find_boost()
-    if not boost_python:
-        warnings.warn(no_boost_error)
 
+    boost_python = find_boost()
     casa_python = find_casacore()
-    if not casa_python:
-        warnings.warn(no_casacore_error)
 
     extension_metas = (
         # name, sources, depends, libraries
