@@ -1,7 +1,11 @@
 """Tests for tables module."""
-import unittest2 as unittest
-from casacore.tables import *
-import numpy
+import unittest
+from casacore.tables import (makescacoldesc, makearrcoldesc, table, maketabdesc, tableexists, tableiswritable,
+                             tableinfo, tablefromascii, tabledelete, makecoldesc, msconcat, removeDerivedMSCal,
+                             taql, tablerename, tablecopy, tablecolumn, addDerivedMSCal, removeImagingColumns,
+                             addImagingColumns, required_ms_desc, tabledefinehypercolumn, default_ms, makedminfo,
+                             default_ms_subtable)
+import numpy as np
 import collections
 
 
@@ -96,14 +100,14 @@ class TestTable(unittest.TestCase):
                                                     c6)), ack=False)
         t.addrows(2)
         self.assertEqual(t.nrows(), 2)
-        numpy.testing.assert_array_equal(t.getcol('coli'), numpy.array([0, 0]))
+        np.testing.assert_array_equal(t.getcol('coli'), np.array([0, 0]))
         t.putcol("coli", (1, 2))
-        numpy.testing.assert_array_equal(t.getcol('coli'), numpy.array([1, 2]))
-        numpy.testing.assert_array_equal(
-            t.getcol('cold'), numpy.array([0., 0.]))
+        np.testing.assert_array_equal(t.getcol('coli'), np.array([1, 2]))
+        np.testing.assert_array_equal(
+            t.getcol('cold'), np.array([0., 0.]))
         t.putcol("cold", t.getcol('coli') + 3)
-        numpy.testing.assert_array_equal(
-            t.getcol('cold'), numpy.array([4., 5.]))
+        np.testing.assert_array_equal(
+            t.getcol('cold'), np.array([4., 5.]))
         t.removerows(1)
         self.assertEqual(t.nrows(), 1)
         t.close()
@@ -226,13 +230,13 @@ class TestTable(unittest.TestCase):
 
         # Write some data.
         t.addrows(22)
-        t.putcell('colarrtsm', 0, numpy.array([[1, 2, 3], [4, 5, 6]]))
+        t.putcell('colarrtsm', 0, np.array([[1, 2, 3], [4, 5, 6]]))
         t.putcell('colarrtsm', 1, t.getcell('colarrtsm', 0) + 10)
         self.assertEqual(t.getcell('colarrtsm', 0)[1, 2], 6)
         print(t.getvarcol('colarrtsm'))
-        numpy.testing.assert_array_equal(t.getcellslice('colarrtsm', 0, [1, 1],
+        np.testing.assert_array_equal(t.getcellslice('colarrtsm', 0, [1, 1],
                                          [1, 2]),
-                                         numpy.array([[5. + 0.j, 6. + 0.j]]))
+                                         np.array([[5. + 0.j, 6. + 0.j]]))
         print(t.getvarcol('colarrtsm'))
         t.close()
         tabledelete("ttable.py_tmp.tab1")
@@ -289,9 +293,9 @@ class TestTable(unittest.TestCase):
         t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
                                                      c6)), ack=False)
         t.addrows(2)
-        numpy.testing.assert_array_almost_equal(
-            t.calc("(1 km)cm"), numpy.array([100000.]))
-        numpy.testing.assert_array_equal(t.calc("coli+1"), numpy.array([1, 1]))
+        np.testing.assert_array_almost_equal(
+            t.calc("(1 km)cm"), np.array([100000.]))
+        np.testing.assert_array_equal(t.calc("coli+1"), np.array([1, 1]))
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
@@ -348,7 +352,7 @@ class TestTable(unittest.TestCase):
                 print(iter_[0]['coli'])
             self.assertEqual(len(tc), 20)
             self.assertEqual(tc.getkeywords()['key1'], 'keyval')
-            numpy.testing.assert_equal(tc.getvarcol()['r1'], 0)
+            np.testing.assert_equal(tc.getvarcol()['r1'], 0)
             tc.putcell(2, 55)
             self.assertEqual(tc[2], 55)
             iter_.close()

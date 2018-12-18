@@ -1,5 +1,5 @@
 """Tests casacore.images module."""
-import unittest2 as unittest
+import unittest
 from casacore.images import *
 import numpy
 import tempfile
