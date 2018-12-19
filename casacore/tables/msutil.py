@@ -23,7 +23,7 @@
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
 #
-
+from casacore.six import string_types
 import numpy as np
 from casacore import six
 from casacore.tables.table import table, taql, _required_ms_desc
@@ -298,7 +298,7 @@ def msconcat(names, newname, concatTime=False):
     for key in keywords:
         if key != 'SORTED_TABLE':
             val = keywords[key]
-            if isinstance(val, str):
+            if isinstance(val, string_types):
                 tsub = table(val, ack=False)
                 tsubn = tsub.copy(newname + '/' + key, deep=True)
                 tnew.putkeyword(key, tsubn)

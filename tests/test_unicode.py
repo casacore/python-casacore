@@ -18,7 +18,7 @@ class TestUnicode(unittest.TestCase):
         rmtree(cls.workdir)
 
     def test_table_unicode(self):
-        t = table(unicode_string, maketabdesc(), ack=False)
+        t = table(join(self.workdir, unicode_string), maketabdesc(), ack=False)
 
     def test_getcol(self):
         c1 = makescacoldesc(unicode_string, 0)

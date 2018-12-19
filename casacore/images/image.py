@@ -22,19 +22,12 @@
 #                        National Radio Astronomy Observatory
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
-#
-# $Id$
 
-# Make interface to class ImageProxy available.
+
+from casacore.six import string_types
 from ._images import Image
-
 import numpy
-
-try:
-    import numpy.ma as nma
-except ImportError:
-    import numpy.core.ma as nma
-
+import numpy.ma as nma
 from casacore.images.coordinates import coordinatesystem
 from casacore import six
 
@@ -131,7 +124,7 @@ class image(Image):
             if isinstance(imagename, tuple) or isinstance(imagename, list):
                 if len(imagename) == 0:
                     raise ValueError('No images given in list or tuple')
-                if isinstance(imagename[0], str):
+                if isinstance(imagename[0], string_types):
                     # Concatenate from image names
                     Image.__init__(self, imagename, axis)
                     opened = True
@@ -140,7 +133,7 @@ class image(Image):
                     Image.__init__(self, imagename, axis, 0, 0)
                     opened = True
             if not opened:
-                if not isinstance(imagename, str):
+                if not isinstance(imagename, string_types):
                     raise ValueError("first argument must be name or" +
                                      " sequence of images or names")
                 if shape is None:
@@ -262,7 +255,7 @@ class image(Image):
         It can only be used for unique attribute keys. An IndexError exception
         is raised if no or multiple matches are found.
         """
-        if not isinstance(key, str):
+        if not isinstance(key, string_types):
             return self._attrgetrow(groupname, key)
         # The key is an attribute name whose value has to be found.
         rownrs = self.attrfindrows(groupname, key, value)

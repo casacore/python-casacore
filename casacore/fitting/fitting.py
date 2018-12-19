@@ -69,7 +69,7 @@ class fitserver(object):
             self._fitids.append({})
         else:
             # shouldn't happen
-            raise RangeError("fit id out of range")
+            raise IndexError("fit id out of range")
         self.init(n=n, ftype=ftype, colfac=colfac, lmfac=lmfac, fid=fid)
         return fid
 
@@ -100,7 +100,7 @@ class fitserver(object):
             return False
 
     def _gettype(self, ftype):
-        if isinstance(ftype, str):
+        if isinstance(ftype, string_types):
             ftype = ftype.lower()
             if ftype not in self._typeids:
                 raise TypeError("Illegal fitting type")
