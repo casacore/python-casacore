@@ -1,4 +1,4 @@
-from casacore.six import string_types
+from casacore.six import string_types, integer_types
 from ._functionals import _functional
 
 import numpy
@@ -29,7 +29,7 @@ class functional(_functional):
         progtext = ""
         if not isinstance(name, string_types):
             raise TypeError("'name' was not of type string")
-        if not (isinstance(order, int) or isinstance(order, string_types)):
+        if not (isinstance(order, integer_types) or isinstance(order, string_types)):
             raise TypeError("'order' was not of type integer or string")
         else:
             if isinstance(order, string_types):

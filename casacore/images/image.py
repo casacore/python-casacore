@@ -24,7 +24,7 @@
 #                        Charlottesville, VA 22903-2475 USA
 
 
-from casacore.six import string_types
+from casacore.six import string_types, integer_types
 from ._images import Image
 import numpy
 import numpy.ma as nma
@@ -606,7 +606,7 @@ class image(Image):
 
     def _adaptAxes(self, axes):
         # If axes is a single integer value, turn it into a list.
-        if isinstance(axes, int):
+        if isinstance(axes, integer_types):
             axes = [axes]
         # ImageProxy expects Fortran-numbered axes.
         # So reverse the axes.

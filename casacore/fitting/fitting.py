@@ -1,5 +1,4 @@
 from ._fitting import fitting
-
 import numpy as NUM
 from casacore import six
 from casacore.functionals import *
@@ -106,7 +105,7 @@ class fitserver(object):
                 raise TypeError("Illegal fitting type")
             else:
                 return self._typeids[ftype]
-        elif isinstance(ftype, int):
+        elif isinstance(ftype, six.integer_types):
             if ftype not in self._typeids.values():
                 raise TypeError("Illegal fitting type")
         else:
