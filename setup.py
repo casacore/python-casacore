@@ -107,6 +107,15 @@ def find_casacore():
         warnings.warn(no_casacore_error)
     return casa_python
 
+converters = [
+    'src/Converters/PycArray.cc',
+    'src/Converters/PycArrayNP.cc',
+    'src/Converters/PycBasicData.cc',
+    'src/Converters/PycExcp.cc',
+    'src/Converters/PycImport.cc',
+    'src/Converters/PycRecord.cc',
+    'src/Converters/PycValueHolder.cc',
+]
 
 def get_extensions():
 
@@ -117,51 +126,50 @@ def get_extensions():
         # name, sources, depends, libraries
         (
             "casacore.fitting._fitting",
-            ["src/fit.cc", "src/fitting.cc"],
+            ["src/fit.cc", "src/fitting.cc"] + converters,
             ["src/fitting.h"],
-            ['casa_scimath', 'casa_scimath_f', boost_python, casa_python],
+            ['casa_scimath', 'casa_scimath_f', boost_python],
         ),
         (
             "casacore.functionals._functionals",
-            ["src/functional.cc", "src/functionals.cc"],
+            ["src/functional.cc", "src/functionals.cc"] + converters,
             ["src/functionals.h"],
-            ['casa_scimath', 'casa_scimath_f', boost_python, casa_python],
+            ['casa_scimath', 'casa_scimath_f', boost_python],
         ),
         (
             "casacore.images._images",
-            ["src/images.cc", "src/pyimages.cc"],
+            ["src/images.cc", "src/pyimages.cc"] + converters,
             ["src/pyimages.h"],
             ['casa_images', 'casa_coordinates',
              'casa_fits', 'casa_lattices', 'casa_measures',
              'casa_scimath', 'casa_scimath_f', 'casa_tables', 'casa_mirlib',
-             boost_python, casa_python]
+             boost_python]
         ),
         (
             "casacore.measures._measures",
-            ["src/pymeas.cc", "src/pymeasures.cc"],
+            ["src/pymeas.cc", "src/pymeasures.cc"] + converters,
             ["src/pymeasures.h"],
             ['casa_measures', 'casa_scimath', 'casa_scimath_f', 'casa_tables',
-             boost_python, casa_python]
+             boost_python]
         ),
         (
             "casacore.quanta._quanta",
             ["src/quanta.cc", "src/quantamath.cc", "src/quantity.cc",
-             "src/quantvec.cc"],
+             "src/quantvec.cc"] + converters,
             ["src/quanta.h"],
-            ["casa_casa", boost_python, casa_python],
+            ["casa_casa", boost_python],
         ),
         (
             "casacore.tables._tables",
             ["src/pytable.cc", "src/pytableindex.cc", "src/pytableiter.cc",
-             "src/pytablerow.cc", "src/tables.cc", "src/pyms.cc"],
+             "src/pytablerow.cc", "src/tables.cc", "src/pyms.cc"] + converters,
             ["src/tables.h"],
-            ['casa_tables', 'casa_ms', boost_python, casa_python],
+            ['casa_tables', 'casa_ms', boost_python],
         )
     )
 
     extensions = []
-    for meta in extension_metas:
-        name, sources, depends, libraries = meta
+    for name, sources, depends, libraries in extension_metas:
 
         # Add dependency on casacore libraries to trigger rebuild at casacore update
         for library in libraries:
@@ -171,7 +179,7 @@ def get_extensions():
                     depends = depends + [found_lib]
 
         extensions.append(Extension(name=name, sources=sources, depends=depends,
-                                    libraries=libraries))
+                                    libraries=libraries, include_dirs=['src/']))
     return extensions
 
 
