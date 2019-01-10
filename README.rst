@@ -16,13 +16,23 @@ The python-casacore documentation can be found on `casacore.github.io/python-cas
 Installation
 ============
 
-Ubuntu 18.04
-------------
+Debian & Ubuntu
+---------------
 
-The easiest way to start using python-casacore is to enable the `KERN suite <http://kernsuite.info>`_ repository and install the binary package ::
+python-casacore is now part of Debian and Ubuntu and can be installed using apt::
+
+    $ sudo apt-get install python-casacore
+
+
+Binary Using Kern
+-----------------
+
+If you want a more up to date version of python-casacore and you are running the latest
+Ubuntu LTS you can enable the  `KERN suite <http://kernsuite.info>`_ repository and
+install the binary package ::
 
     $ sudo apt-get install software-properties-common
-    $ sudo add-apt-repository ppa:kernsuite/kern-4
+    $ sudo add-apt-repository ppa:kernsuite/kern-5
     $ sudo apt-get update
     $ sudo apt-get install python-casacore
 
@@ -38,40 +48,30 @@ install these requirements:
 * `numpy <http://www.numpy.org/>`_ 
 * `cfitsio <http://heasarc.gsfc.nasa.gov/fitsio/>`_
 
-On ubuntu you can install these with:
-
-* enable the `KERN suite <http://kernsuite.info>`_ 
-
-* install build dependencies::
+On ubuntu you can install these with::
 
     $ apt-get install casacore-dev python-numpy \
         python-setuptools libboost-python-dev libcfitsio3-dev wcslib-dev
 
-* compile and install::
-
-    $ python ./setup.py install
-    
-* if you need to supply compile parameters, for example if you have your casacore
-  library installed in a different location have a look at the  `build_ext` help::
-  
-   $ python ./setup.py build_ext -h
-   
-  For example, if `casacore` is installed in `/opt/local/`, you can specify the
-  library path and include path with::
-  
-   $ python ./setup.py build_ext -I/opt/local/include -L/opt/local/lib
-   
-   $ python ./setup.py install
-
-
-Using pip
----------
-
-python-casacore is also available trough pip. Note that you need to manually satisfy
-the requirements mentioned above::
+* compile and install:
 
     $ pip install python-casacore
 
+* or if you are installing from the source repository::
+
+    $ python ./setup.py install
+    
+* If the compilation fails you might need to help the compiler find the paths to the
+  and casacore libraries and headers. You can control this with the `CFLAGS` environment
+  variable. For example on OS X when using homebrew and clang you need to do something like
+  this::
+  
+    CFLAGS="-std=c++11 \
+            -I/usr/local/Cellar/boost/1.68.0/include/ \
+            -I/usr/local/include/  \
+            -L/usr/local/Cellar/boost/1.68.0/lib \
+            -L/usr/local/lib/" \
+            pip install python-casacore
 
 Support
 =======
