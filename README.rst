@@ -62,7 +62,7 @@ On ubuntu you can install these with::
     $ python ./setup.py install
     
 * If the compilation fails you might need to help the compiler find the paths to the
-  and casacore libraries and headers. You can control this with the `CFLAGS` environment
+  boost and casacore libraries and headers. You can control this with the `CFLAGS` environment
   variable. For example on OS X when using homebrew and clang you need to do something like
   this::
   
