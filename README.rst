@@ -24,8 +24,8 @@ python-casacore is now part of Debian and Ubuntu and can be installed using apt:
     $ sudo apt-get install python-casacore
 
 
-Binary Using Kern
------------------
+Kern
+----
 
 If you want a more up to date version of python-casacore and you are running the latest
 Ubuntu LTS you can enable the  `KERN suite <http://kernsuite.info>`_ repository and
@@ -53,7 +53,7 @@ On ubuntu you can install these with::
     $ apt-get install casacore-dev python-numpy \
         python-setuptools libboost-python-dev libcfitsio3-dev wcslib-dev
 
-* compile and install:
+* compile and install::
 
     $ pip install python-casacore
 
