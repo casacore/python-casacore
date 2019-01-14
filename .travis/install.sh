@@ -5,7 +5,7 @@ set -v
 
 
 if [ "$TRAVIS_OS_NAME" = linux ]; then
-    true
+	true
 fi
 
 if [ "$TRAVIS_OS_NAME" = osx ]; then

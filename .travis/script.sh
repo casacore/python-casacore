@@ -5,7 +5,7 @@ set -v
 
 if [ "$TRAVIS_OS_NAME" = linux ]; then
     cd $TRAVIS_BUILD_DIR
-    docker build -f .travis/Dockerfile .
+    docker build . -t ${TARGET} -f .travis/${TARGET}.docker
 fi
 
 if [ "$TRAVIS_OS_NAME" = osx ]; then
