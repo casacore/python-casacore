@@ -1482,7 +1482,7 @@ class table(Table):
         # as these aren't valid. (See tabledefinehypercolumn)
         hcdefs = tabledesc.get('_define_hypercolumn_', {})
 
-        for c, hcdef in hcdefs.iteritems():
+        for c, hcdef in six.iteritems(hcdefs):
             if "HCcoordnames" in hcdef and len(hcdef["HCcoordnames"]) == 0:
                 del hcdef["HCcoordnames"]
             if "HCidnames" in hcdef and len(hcdef["HCidnames"]) == 0:
