@@ -1,22 +1,50 @@
 FROM quay.io/pypa/manylinux2010_x86_64:latest
-RUN yum install -y flex blas cfitsio-devel wcslib-devel blas-devel lapack-devel python-devel python34-devel boost-devel python27-numpy python34-numpy python27
+
+# install rpms
+RUN yum install -y flex cfitsio-devel blas-devel lapack-devel
+
+# get casacore source
 RUN git clone https://github.com/casacore/casacore
+
+# download other source code
 RUN curl http://www.iausofa.org/2015_0209_F/sofa_f-20150209_a.tar.gz --output sofa.tgz
 RUN curl ftp://ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar --output measures.tgz
+RUN curl ftp://ftp.atnf.csiro.au/pub/software/wcslib/wcslib.tar.bz2 -O 
+
+# build cslib 
+RUN tar jxvf wcslib.tar.bz2
+WORKDIR /wcslib-6.2
+RUN ./configure
+RUN make
+RUN make install
+
+# install and configure sofa and measures
+WORKDIR /
 RUN tar zxvf sofa.tgz
 RUN tar zxvf measures.tgz
 WORKDIR /sofa/20150209_a/f77/src
 RUN make
+
+# setup boost
+RUN curl https://ufpr.dl.sourceforge.net/project/boost/boost/1.70.0/boost_1_70_0.tar.bz2 --output /tmp/boost_1_70_0.tar.bz2
+RUN tar -C /tmp -jxf /tmp/boost_1_70_0.tar.bz2 && \
+    cd /tmp/boost_1_70_0 && \
+    ./bootstrap.sh --prefix=/opt/boost_1_70_0 \
+	--with-libraries=program_options,system,python \
+        --with-python=/opt/python/cp27-cp27mu/bin/python \
+        --with-python-version=2.7 \
+        --with-python-root=/opt/python/cp27-cp27mu \
+    && \
+    ./b2 cxxflags=-fPIC link=static install && \
+    cd / && rm -rf /tmp/boost_1_70_0*
+
+# set up casacore
 WORKDIR /casacore
-RUN sed -i 's/4.7/4.3/g' CMakeLists.txt
 RUN mkdir build
 WORKDIR /casacore/build
-SHELL [ "/usr/bin/scl", "enable", "python27"]
 RUN cmake .. \
    -DSOFA_ROOT_DIR=/ \
+   -DPYTHON2_EXECUTABLE=/opt/python/cp27-cp27mu/bin/python \
    -DDATA_DIR=/ \
-   -DPYTHON2_EXECUTABLE=/opt/rh/python27/root/usr/bin/python2.7 \
-   -DDATA_DIR=/ \
-   -DPYTHON2_LIBRARY=/opt/rh/python27/root/usr/lib64/libpython2.7.so \
    -DBUILD_PYTHON3=OFF
 RUN make -j4
