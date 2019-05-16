@@ -156,6 +156,12 @@ def get_extensions():
              "src/pytablerow.cc", "src/tables.cc", "src/pyms.cc"],
             ["src/tables.h"],
             ['casa_tables', 'casa_ms', boost_python, casa_python],
+        ),
+        (
+            "casacore._tConvert",
+            ["tests/tConvert.cc"],
+            [],
+            [boost_python, casa_python],
         )
     )
 
@@ -185,7 +191,7 @@ os.environ['OPT'] = " ".join(
 setup(name='python-casacore',
       version=__version__,
       description='A wrapper around CASACORE, the radio astronomy library',
-      install_requires=['numpy', 'argparse', 'future'],
+      install_requires=['numpy', 'argparse', 'future', 'six'],
       author='Gijs Molenaar',
       author_email='gijs@pythonic.nl',
       url='https://github.com/casacore/python-casacore',

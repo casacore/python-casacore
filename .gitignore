@@ -13,3 +13,4 @@ casacore.egg-info/
 .virtualenv3/
 .venv*/
 htmlcov
+*.so

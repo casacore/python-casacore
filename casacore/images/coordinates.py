@@ -25,7 +25,7 @@
 #
 # $Id$
 
-from casacore import six
+import six
 
 
 class coordinatesystem(object):

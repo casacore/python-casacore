@@ -1,7 +1,7 @@
 from wxPython.grid import *
 from wxPython.wx import *
 
-from casacore import six
+import six
 
 
 class wxCasaTable(wxPyGridTableBase):

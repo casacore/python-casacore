@@ -79,7 +79,7 @@ class TestFitting(unittest.TestCase):
         self.fitserver.linear(f, xz, yz)
         self.fitserver.addconstraint(x=[1, 1, 1], y=180)
         self.fitserver.linear(f, xz, yz)
-        self.assertEqual(sum(self.fitserver.solution()), 180.0)
+        self.assertAlmostEqual(sum(self.fitserver.solution()), 180.0)
         self.fitserver.clearconstraints()
 
     def test_fitspoly(self):

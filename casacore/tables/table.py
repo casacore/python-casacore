@@ -22,9 +22,6 @@
 #                        National Radio Astronomy Observatory
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
-#
-# $Id: table.py,v 1.13 2006/11/10 01:18:53 gvandiep Exp $
-
 """Access to Casacore tables.
 
 The :class:`table` class is the main class to access a table. Its constructor
@@ -39,7 +36,7 @@ Several utility functions exist. Important ones are:
 
 """
 
-# Make interface to class TableProxy available.
+from six import string_types
 from ._tables import (Table,
                       _default_ms,
                       _default_ms_subtable,
@@ -47,7 +44,7 @@ from ._tables import (Table,
 
 from .tablehelper import (_add_prefix, _remove_prefix, _do_remove_prefix,
                           _format_row)
-from casacore import six
+import six
 
 
 def default_ms(name, tabdesc=None, dminfo=None):
@@ -344,7 +341,7 @@ class table(Table):
             #  - concatenate open tables (ConcatTable)
             tabname = _remove_prefix(tablename)
             lockopt = lockoptions
-            if isinstance(lockoptions, str):
+            if isinstance(lockoptions, string_types):
                 lockopt = {'option': lockoptions}
             if isinstance(tabledesc, dict):
                 # Create a new table.
@@ -371,7 +368,7 @@ class table(Table):
                     opt = 5
                     if _delete:
                         opt = 6
-                if isinstance(tabname, str):
+                if isinstance(tabname, string_types):
                     Table.__init__(self, tabname, lockopt, opt)
                     if ack:
                         six.print_('Successful', typstr, 'open of',
@@ -379,7 +376,7 @@ class table(Table):
                                    tabname + ':',
                                    self.ncols(), 'columns,',
                                    self.nrows(), 'rows')
-                elif isinstance(tabname[0], str):
+                elif isinstance(tabname[0], string_types):
                     # Concatenate and open named tables.
                     Table.__init__(self, tabname, concatsubtables,
                                    lockopt, opt)
@@ -1277,7 +1274,7 @@ class table(Table):
         of the struct value of the i-th keyword.
 
         """
-        if isinstance(keyword, str):
+        if isinstance(keyword, string_types):
             return self._getfieldnames('', keyword, -1)
         else:
             return self._getfieldnames('', '', keyword)
@@ -1299,7 +1296,7 @@ class table(Table):
         of the struct value of the i-th keyword.
 
         """
-        if isinstance(keyword, str):
+        if isinstance(keyword, string_types):
             return self._getfieldnames(columnname, keyword, -1)
         else:
             return self._getfieldnames(columnname, '', keyword)
@@ -1327,7 +1324,7 @@ class table(Table):
         of the i-th keyword.
 
         """
-        if isinstance(keyword, str):
+        if isinstance(keyword, string_types):
             return self._getkeyword('', keyword, -1)
         else:
             return self._getkeyword('', '', keyword)
@@ -1338,7 +1335,7 @@ class table(Table):
         It is similar to :func:`getkeyword`.
 
         """
-        if isinstance(keyword, str):
+        if isinstance(keyword, string_types):
             return self._getkeyword(columnname, keyword, -1)
         else:
             return self._getkeyword(columnname, '', keyword)
@@ -1366,7 +1363,7 @@ class table(Table):
         keyset = self.getkeywords()
         names = []
         for key, value in keyset.items():
-            if isinstance(value, str) and value.find('Table: ') == 0:
+            if isinstance(value, string_types) and value.find('Table: ') == 0:
                 names.append(_do_remove_prefix(value))
         return names
 
@@ -1402,7 +1399,7 @@ class table(Table):
         val = value
         if isinstance(val, table):
             val = _add_prefix(val.name())
-        if isinstance(keyword, str):
+        if isinstance(keyword, string_types):
             return self._putkeyword('', keyword, -1, makesubrecord, val)
         else:
             return self._putkeyword('', '', keyword, makesubrecord, val)
@@ -1416,7 +1413,7 @@ class table(Table):
         val = value
         if isinstance(val, table):
             val = _add_prefix(val.name())
-        if isinstance(keyword, str):
+        if isinstance(keyword, string_types):
             return self._putkeyword(columnname, keyword, -1,
                                     makesubrecord, val)
         else:
@@ -1451,7 +1448,7 @@ class table(Table):
         the i-th keyword.
 
         """
-        if isinstance(keyword, str):
+        if isinstance(keyword, string_types):
             self._removekeyword('', keyword, -1)
         else:
             self._removekeyword('', '', keyword)
@@ -1462,7 +1459,7 @@ class table(Table):
         It is similar to :func:`removekeyword`.
 
         """
-        if isinstance(keyword, str):
+        if isinstance(keyword, string_types):
             self._removekeyword(columnname, keyword, -1)
         else:
             self._removekeyword(columnname, '', keyword)

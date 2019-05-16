@@ -1,4 +1,5 @@
-//# tConvert.cc: Test program for libpyrap's C++/Python converters
+
+//# tConvert.cc: Test program for libcasacore_python's C++/Python converters
 //# Copyright (C) 2006
 //# Associated Universities, Inc. Washington DC, USA.
 //#
@@ -31,24 +32,14 @@
 #include <casacore/python/Converters/PycRecord.h>
 #include <casacore/python/Converters/PycArray.h>
 #include <casacore/casa/Arrays/ArrayIO.h>
+#include <casacore/casa/BasicSL/STLIO.h>
+#include <casacore/casa/Exceptions/Error.h>
 
 #include <boost/python.hpp>
 
 using namespace boost::python;
 
-namespace casacore { namespace pyrap {
-
-  template<typename T>
-  std::ostream& operator<< (std::ostream& os, const std::vector<T>& vec)
-  {
-    os << '[';
-    for (uInt i=0; i<vec.size(); ++i) {
-      if (i > 0) os << ", ";
-      os << "vecuInt " << vec[i];
-    }
-    os << ']';
-    return os;
-  }
+namespace casacore { namespace python {
 
   struct TConvert
   {
@@ -71,27 +62,33 @@ namespace casacore { namespace pyrap {
       {cout << "DComplex " << in << endl; return in;}
     String teststring (const String& in)
       {cout << "String " << in << endl; String out=in; return out;}
+    String testunicode (const String& in)
+      {cout << "Unicode " << in << endl; String out=in; return out;}
     Record testrecord (const Record& in)
       {cout << "Record "; in.print(cout); cout << endl; return in;}
     ValueHolder testvh (const ValueHolder& in)
       {cout << "VH " << in.dataType() << endl; return in;}
+    Vector<Bool> testvecbool (const Vector<Bool>& in)
+      {cout << "VecBool " << in << endl; return in;}
     Vector<Int> testvecint (const Vector<int>& in)
       {cout << "VecInt " << in << endl; return in;}
     Vector<DComplex> testveccomplex (const Vector<DComplex>& in)
       {cout << "VecComplex " << in << endl; return in;}
     Vector<String> testvecstr (const Vector<String>& in)
       {cout << "VecStr " << in << endl; return in;}
+    std::vector<bool> teststdvecbool (const std::vector<bool>& in)
+      {cout << "vecbool " << in << endl; return in;}
     std::vector<uInt> teststdvecuint (const std::vector<uInt>& in)
       {cout << "vecuInt " << in << endl; return in;}
     std::vector<std::vector<uInt> > teststdvecvecuint
     (const std::vector<std::vector<uInt> >& in)
       {cout << "vecvecuInt " << in << endl; return in;}
+    std::vector<ValueHolder> teststdvecvh (const std::vector<ValueHolder>& in)
+      {cout << "vecvh " << in.size() << endl; return in;}
     IPosition testipos (const IPosition& in)
       {cout << "IPos " << in << endl; return in;}
-    Bool canusenumpy()
-      {return PycCanUseNumpy();}
-    Bool canusenumarray()
-      {return PycCanUseNumarray();}
+    void testIterError()
+      {throw IterError();}
   };
 
 
@@ -107,16 +104,19 @@ namespace casacore { namespace pyrap {
       .def ("testcomplex",    &TConvert::testcomplex)
       .def ("testdcomplex",   &TConvert::testdcomplex)
       .def ("teststring",     &TConvert::teststring)
+      .def ("testunicode",    &TConvert::testunicode)
       .def ("testrecord",     &TConvert::testrecord)
       .def ("testvh",         &TConvert::testvh)
+      .def ("testvecbool",    &TConvert::testvecbool)
       .def ("testvecint",     &TConvert::testvecint)
       .def ("testveccomplex", &TConvert::testveccomplex)
       .def ("testvecstr",     &TConvert::testvecstr)
+      .def ("teststdvecbool", &TConvert::teststdvecbool)
       .def ("teststdvecuint", &TConvert::teststdvecuint)
       .def ("teststdvecvecuint", &TConvert::teststdvecvecuint)
+      .def ("teststdvecvh"  , &TConvert::teststdvecvh)
       .def ("testipos",       &TConvert::testipos)
-      .def ("canusenumpy",    &TConvert::canusenumpy)
-      .def ("canusenumarray", &TConvert::canusenumarray)
+      .def ("testitererror",  &TConvert::testIterError)
       ;
   }
 
@@ -126,13 +126,15 @@ namespace casacore { namespace pyrap {
 BOOST_PYTHON_MODULE(_tConvert)
 {
   // Register the required converters.
-  casacore::pyrap::register_convert_excp();
-  casacore::pyrap::register_convert_basicdata();
-  casacore::pyrap::register_convert_casa_valueholder();
-  casacore::pyrap::register_convert_casa_record();
-  casacore::pyrap::register_convert_std_vector<casacore::uInt>();
-  casacore::pyrap::register_convert_std_vector<std::vector<casacore::uInt> >();
+  casacore::python::register_convert_excp();
+  casacore::python::register_convert_basicdata();
+  casacore::python::register_convert_casa_valueholder();
+  casacore::python::register_convert_casa_record();
+  casacore::python::register_convert_std_vector<bool>();
+  casacore::python::register_convert_std_vector<casacore::uInt>();
+  casacore::python::register_convert_std_vector<std::vector<casacore::uInt> >();
+  casacore::python::register_convert_std_vector<casacore::ValueHolder>();
 
   // Execute the test.
-  casacore::pyrap::testConvert();
+  casacore::python::testConvert();
 }
