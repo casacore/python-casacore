@@ -27,7 +27,7 @@
 
 from collections import defaultdict
 
-from casacore import six
+import six
 from .table import table
 from .tablehelper import _remove_prefix, _value_type_name
 

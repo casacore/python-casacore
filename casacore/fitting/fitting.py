@@ -1,7 +1,8 @@
 from ._fitting import fitting
 import numpy as NUM
-from casacore import six
+import six
 from casacore.functionals import *
+from six import string_types
 
 
 class fitserver(object):

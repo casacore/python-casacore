@@ -23,7 +23,7 @@
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
 
-from casacore.six import string_types
+from six import string_types
 import numpy as np
 
 __all__ = ['getlocals', 'getvariable', 'substitute']

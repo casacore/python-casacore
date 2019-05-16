@@ -24,12 +24,12 @@
 #                        Charlottesville, VA 22903-2475 USA
 
 
-from casacore.six import string_types, integer_types
+from six import string_types, integer_types
 from ._images import Image
 import numpy
 import numpy.ma as nma
 from casacore.images.coordinates import coordinatesystem
-from casacore import six
+import six
 
 
 class image(Image):

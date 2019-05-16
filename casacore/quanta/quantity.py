@@ -1,4 +1,4 @@
-from casacore.six import string_types
+from six import string_types
 from ._quanta import QuantVec
 from ._quanta import Quantity
 from ._quanta import from_string, from_dict, from_dict_v

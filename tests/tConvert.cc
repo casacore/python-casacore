@@ -1,5 +1,5 @@
 
-//# tConvert.cc: Test program for libpython's C++/Python converters
+//# tConvert.cc: Test program for libcasacore_python's C++/Python converters
 //# Copyright (C) 2006
 //# Associated Universities, Inc. Washington DC, USA.
 //#

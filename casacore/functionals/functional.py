@@ -1,4 +1,4 @@
-from casacore.six import string_types, integer_types
+from six import string_types, integer_types
 from ._functionals import _functional
 
 import numpy

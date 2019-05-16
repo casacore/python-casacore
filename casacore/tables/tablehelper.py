@@ -25,7 +25,7 @@
 #
 # $Id: tableutil.py,v 1.6 2006/11/08 00:12:55 gvandiep Exp $
 
-from casacore.six import string_types, integer_types
+from six import string_types, integer_types
 import numpy
 import re
 from ..quanta import quantity

@@ -36,7 +36,7 @@ Several utility functions exist. Important ones are:
 
 """
 
-from casacore.six import string_types
+from six import string_types
 from ._tables import (Table,
                       _default_ms,
                       _default_ms_subtable,
@@ -44,7 +44,7 @@ from ._tables import (Table,
 
 from .tablehelper import (_add_prefix, _remove_prefix, _do_remove_prefix,
                           _format_row)
-from casacore import six
+import six
 
 
 def default_ms(name, tabdesc=None, dminfo=None):

@@ -1,11 +1,9 @@
 #!/usr/bin/env python
+from __future__ import print_function
 from unittest import TestCase
-from casacore._tConvert import tConvert
+
 import numpy as np
-
-
-
-
+from casacore._tConvert import tConvert
 
 
 class TestConvert(TestCase):
@@ -38,7 +36,7 @@ class TestConvert(TestCase):
         print(self.t.testcomplex(arr[0]))
 
     def arrc(self, arr):
-        self.arrvh( arr)
+        self.arrvh(arr)
         print(self.t.testcomplex(arr[0]))
 
     def test_na(self):
@@ -198,4 +196,3 @@ class TestConvert(TestCase):
         print('<<<')
         print('end dotest')
         print('')
-
