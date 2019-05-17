@@ -1,4 +1,5 @@
 # coding=utf-8
+import numpy as np
 import unittest
 from casacore.tables import table, maketabdesc, makescacoldesc
 from tempfile import mkdtemp
@@ -24,3 +25,16 @@ class TestUnicode(unittest.TestCase):
         c1 = makescacoldesc(unicode_string, 0)
         t = table(join(self.workdir, 'ascii'), maketabdesc([c1]), ack=False)
         t.getcol(unicode_string)
+
+    def test_numpy_unicode(self):
+        table_path = join(self.workdir, 'blah.ms')
+        col1 = makescacoldesc('mycol1', 'test', valuetype='string')
+        col2 = makescacoldesc('mycol2', 'test', valuetype='string')
+        t = table(table_path, maketabdesc([col1, col2]), ack=False)
+        t.addrows(2)
+        t.putcol('mycol1', np.array([unicode_string, unicode_string]))
+        t.putcol('mycol2', [unicode_string, unicode_string])
+        t.close()
+
+        t = table(table_path)
+        self.assertEqual(t.getcol('mycol1'), t.getcol('mycol2'))
