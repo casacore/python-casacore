@@ -11,7 +11,7 @@ RUN curl http://www.iausofa.org/2015_0209_F/sofa_f-20150209_a.tar.gz --output so
 RUN curl ftp://ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar --output measures.tgz
 RUN curl ftp://ftp.atnf.csiro.au/pub/software/wcslib/wcslib.tar.bz2 -O 
 
-# build cslib 
+# build wcslib 
 RUN tar jxvf wcslib.tar.bz2
 WORKDIR /wcslib-6.2
 RUN ./configure
@@ -29,22 +29,35 @@ RUN make
 RUN curl https://ufpr.dl.sourceforge.net/project/boost/boost/1.70.0/boost_1_70_0.tar.bz2 --output /tmp/boost_1_70_0.tar.bz2
 RUN tar -C /tmp -jxf /tmp/boost_1_70_0.tar.bz2 && \
     cd /tmp/boost_1_70_0 && \
-    ./bootstrap.sh --prefix=/opt/boost_1_70_0 \
+    ./bootstrap.sh --prefix=/usr/local \
 	--with-libraries=program_options,system,python \
         --with-python=/opt/python/cp27-cp27mu/bin/python \
         --with-python-version=2.7 \
         --with-python-root=/opt/python/cp27-cp27mu \
     && \
-    ./b2 cxxflags=-fPIC link=static install && \
+    ./b2 cxxflags=-fPIC link=static,shared install && \
     cd / && rm -rf /tmp/boost_1_70_0*
+
+# casacore wants numpy
+RUN /opt/python/cp27-cp27mu/bin/pip install numpy
 
 # set up casacore
 WORKDIR /casacore
+ADD .travis/casacore_wheel.patch .
+RUN patch -p0 < casacore_wheel.patch
 RUN mkdir build
 WORKDIR /casacore/build
 RUN cmake .. \
    -DSOFA_ROOT_DIR=/ \
    -DPYTHON2_EXECUTABLE=/opt/python/cp27-cp27mu/bin/python \
+   -DPYTHON_INCLUDE_DIR=/opt/python/cp27-cp27mu/include/python2.7/ \
    -DDATA_DIR=/ \
-   -DBUILD_PYTHON3=OFF
+   -DBUILD_PYTHON3=OFF \
+   -DCMAKE_INSTALL_PREFIX=/usr/local
 RUN make -j4
+RUN make install
+
+ADD . /python-casacore
+WORKDIR /python-casacore
+RUN /opt/python/cp27-cp27mu/bin/python ./setup.py bdist_wheel -d .
+RUN auditwheel repair --plat manylinux2010_x86_64 -w /output python-casacore-*-`basename $d`-linux_*.whl
