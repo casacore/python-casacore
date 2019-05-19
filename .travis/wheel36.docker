@@ -1,0 +1,66 @@
+FROM quay.io/pypa/manylinux2010_x86_64:latest
+
+# install rpms
+RUN yum install -y flex cfitsio-devel blas-devel lapack-devel
+
+# get casacore source
+RUN git clone https://github.com/casacore/casacore
+
+# download other source code
+RUN curl http://www.iausofa.org/2015_0209_F/sofa_f-20150209_a.tar.gz --output sofa.tgz
+RUN curl ftp://ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar --output measures.tgz
+RUN curl ftp://ftp.atnf.csiro.au/pub/software/wcslib/wcslib.tar.bz2 -O 
+
+# build wcslib 
+RUN tar jxvf wcslib.tar.bz2
+WORKDIR /wcslib-6.2
+RUN ./configure
+RUN make
+RUN make install
+
+# install and configure sofa and measures
+WORKDIR /
+RUN tar zxvf sofa.tgz
+RUN tar zxvf measures.tgz
+WORKDIR /sofa/20150209_a/f77/src
+RUN make
+
+# setup boost
+RUN curl https://ufpr.dl.sourceforge.net/project/boost/boost/1.70.0/boost_1_70_0.tar.bz2 --output /tmp/boost_1_70_0.tar.bz2
+RUN tar -C /tmp -jxf /tmp/boost_1_70_0.tar.bz2 && \
+    cd /tmp/boost_1_70_0 && \
+    ./bootstrap.sh --prefix=/opt/boost \
+	--with-libraries=python \
+        --with-python=/opt/python/cp36-cp36m/bin/python \
+        --with-python-version=3.6 \
+        --with-python-root=/opt/python/cp36-cp36m \
+    && \
+    ./b2 cxxflags=-fPIC link=static,shared install && \
+    cd / && rm -rf /tmp/boost_1_70_0*
+
+# casacore wants numpy
+RUN /opt/python/cp36-cp36mu/bin/pip install numpy
+
+# set up casacore
+WORKDIR /casacore
+ADD .travis/casacore_wheel.patch .
+RUN patch -p0 < casacore_wheel.patch
+RUN mkdir build
+WORKDIR /casacore/build
+RUN cmake .. \
+   -DSOFA_ROOT_DIR=/ \
+   -DPYTHON2_EXECUTABLE=/opt/python/cp36-cp36mu/bin/python \
+   -DPYTHON_INCLUDE_DIR=/opt/python/cp36-cp36mu/include/python3.6/ \
+   -DDATA_DIR=/ \
+   -DBUILD_PYTHON3=OFF \
+   -DCMAKE_INSTALL_PREFIX=/usr/local \
+   -DBOOST_ROOT=/opt/boost
+RUN make -j4
+RUN make install
+
+ADD . /python-casacore
+WORKDIR /python-casacore
+ENV CFLAGS "-I/opt/boost/include -L/opt/boost/lib -I/usr/include/cfitsio"
+ENV LD_LIBRARY_PATH "/opt/boost/lib:/usr/local/lib"
+RUN /opt/python/cp36-cp36mu/bin/python ./setup.py bdist_wheel -d .
+RUN auditwheel repair --plat manylinux2010_x86_64 -w /output *.whl
