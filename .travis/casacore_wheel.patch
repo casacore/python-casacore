@@ -36,7 +36,7 @@ index db824fd2e..3ec8155eb 100644
 -		"The name of the boost python library to search for")
 -    endif ()
 -    find_package(Boost REQUIRED COMPONENTS ${BOOST_PYTHON_LIBRARY_NAME})
-+    find_package(Boost REQUIRED COMPONENTS python)
++    find_package(Boost REQUIRED COMPONENTS python27)
  
      find_package (NUMPY REQUIRED)
  

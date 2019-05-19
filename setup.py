@@ -64,10 +64,11 @@ def read(fname):
 def find_boost():
     """Find the name of the boost-python library. Returns None if none is found."""
     short_version = "{}{}".format(sys.version_info[0], sys.version_info[1])
-    boostlibnames = ['boost_python-py' + short_version,
-                     'boost_python' + short_version,
-                     'boost_python',
-                     ]
+    boostlibnames = [
+        'boost_python' + short_version,
+        'boost_python-py' + short_version,
+        'boost_python',
+    ]
 
     if sys.version_info[0] == 2:
         boostlibnames += ["boost_python-mt"]

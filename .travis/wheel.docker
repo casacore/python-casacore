@@ -29,8 +29,8 @@ RUN make
 RUN curl https://ufpr.dl.sourceforge.net/project/boost/boost/1.70.0/boost_1_70_0.tar.bz2 --output /tmp/boost_1_70_0.tar.bz2
 RUN tar -C /tmp -jxf /tmp/boost_1_70_0.tar.bz2 && \
     cd /tmp/boost_1_70_0 && \
-    ./bootstrap.sh --prefix=/usr/local \
-	--with-libraries=program_options,system,python \
+    ./bootstrap.sh --prefix=/opt/boost \
+	--with-libraries=python \
         --with-python=/opt/python/cp27-cp27mu/bin/python \
         --with-python-version=2.7 \
         --with-python-root=/opt/python/cp27-cp27mu \
@@ -53,11 +53,14 @@ RUN cmake .. \
    -DPYTHON_INCLUDE_DIR=/opt/python/cp27-cp27mu/include/python2.7/ \
    -DDATA_DIR=/ \
    -DBUILD_PYTHON3=OFF \
-   -DCMAKE_INSTALL_PREFIX=/usr/local
+   -DCMAKE_INSTALL_PREFIX=/usr/local \
+   -DBOOST_ROOT=/opt/boost
 RUN make -j4
 RUN make install
 
 ADD . /python-casacore
 WORKDIR /python-casacore
+ENV CFLAGS "-I/opt/boost/include -L/opt/boost/lib -I/usr/include/cfitsio"
+ENV LD_LIBRARY_PATH "/opt/boost/lib:/usr/local/lib"
 RUN /opt/python/cp27-cp27mu/bin/python ./setup.py bdist_wheel -d .
-RUN auditwheel repair --plat manylinux2010_x86_64 -w /output python-casacore-*-`basename $d`-linux_*.whl
+RUN auditwheel repair --plat manylinux2010_x86_64 -w /output *.whl
