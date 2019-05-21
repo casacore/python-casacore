@@ -68,11 +68,9 @@ def find_boost():
                      'boost_python' + short_version,
                      'boost_python',
                      ]
-
-    if sys.version_info[0] == 2:
-        boostlibnames += ["boost_python-mt"]
-    else:
-        boostlibnames += ["boost_python3-mt"]
+    # The -mt (multithread) extension is used on macOS but not Linux.
+    # Look for it first to avoid ending up with a single-threaded version.
+    boostlibnames = [name + '-mt' for name in boostlibnames] + boostlibnames
     for libboostname in boostlibnames:
         if find_library_file(libboostname):
             return libboostname
@@ -176,8 +174,10 @@ def get_extensions():
                 if found_lib:
                     depends = depends + [found_lib]
 
-        extensions.append(Extension(name=name, sources=sources, depends=depends,
-                                    libraries=libraries))
+        extensions.append(Extension(name=name, sources=sources,
+                                    depends=depends, libraries=libraries,
+                                    # Since casacore 3.0.0 we have to be C++11
+                                    extra_compile_args=['-std=c++11']))
     return extensions
 
 
