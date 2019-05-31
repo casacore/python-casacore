@@ -1,3 +1,17 @@
+# 3.1.0
+
+This is the first release that will be supplied as binary wheels
+(manylinux2010). Note that you need pip > 10.x to use manylinux2010 wheels.
+If you don't use the binary wheel and unicode is important to you, use
+casacore 3.1.1. 
+
+Changes:
+
+ - handle unicode even better! :) (#158)
+ - iteritems() in casacore/tables/table.py incompatible with Python 3 (#165)
+ - Make a big binary wheel including dependencies (#145)
+ 
+ 
 # 3.0
 
  - Improve the setup procedure (#146)
