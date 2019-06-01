@@ -25,21 +25,27 @@ RUN tar zxvf measures.tgz
 WORKDIR /sofa/20150209_a/f77/src
 RUN make
 
+ENV PYMAJOR 3
+ENV PYMINOR 6
+ENV TARGET cp${PYMAJOR}${PYMINOR}-cp${PYMAJOR}${PYMINOR}m
+
 # setup boost
 RUN curl https://ufpr.dl.sourceforge.net/project/boost/boost/1.70.0/boost_1_70_0.tar.bz2 --output /tmp/boost_1_70_0.tar.bz2
 RUN tar -C /tmp -jxf /tmp/boost_1_70_0.tar.bz2 && \
     cd /tmp/boost_1_70_0 && \
     ./bootstrap.sh --prefix=/opt/boost \
-	--with-libraries=python \
-        --with-python=/opt/python/cp36-cp36m/bin/python \
-        --with-python-version=3.6 \
-        --with-python-root=/opt/python/cp36-cp36m \
+	    --with-libraries=python \
+        --with-python=/opt/python/${TARGET}/bin/python \
+        --with-python-version=${PYMAJOR}.${PYMINOR} \
+        --with-python-root=/opt/python/${TARGET} \
     && \
-    ./b2 cxxflags=-fPIC link=static,shared install && \
+    ./b2 \
+    cxxflags="-fPIC -I/opt/python/${TARGET}/include/python${PYMAJOR}.${PYMINOR}m/" \
+    link=static,shared install && \
     cd / && rm -rf /tmp/boost_1_70_0*
 
 # casacore wants numpy
-RUN /opt/python/cp36-cp36mu/bin/pip install numpy
+RUN /opt/python/${TARGET}/bin/pip install numpy
 
 # set up casacore
 WORKDIR /casacore
@@ -49,10 +55,11 @@ RUN mkdir build
 WORKDIR /casacore/build
 RUN cmake .. \
    -DSOFA_ROOT_DIR=/ \
-   -DPYTHON2_EXECUTABLE=/opt/python/cp36-cp36mu/bin/python \
-   -DPYTHON_INCLUDE_DIR=/opt/python/cp36-cp36mu/include/python3.6/ \
+   -DPYTHON3_EXECUTABLE=/opt/python/${TARGET}/bin/python \
+   -DPYTHON3_INCLUDE_DIR=/opt/python/${TARGET}/include/python${PYMAJOR}.${PYMINOR}m/ \
    -DDATA_DIR=/ \
-   -DBUILD_PYTHON3=OFF \
+   -DBUILD_PYTHON=OFF \
+   -DBUILD_PYTHON3=ON \
    -DCMAKE_INSTALL_PREFIX=/usr/local \
    -DBOOST_ROOT=/opt/boost
 RUN make -j4
@@ -62,5 +69,5 @@ ADD . /python-casacore
 WORKDIR /python-casacore
 ENV CFLAGS "-I/opt/boost/include -L/opt/boost/lib -I/usr/include/cfitsio"
 ENV LD_LIBRARY_PATH "/opt/boost/lib:/usr/local/lib"
-RUN /opt/python/cp36-cp36mu/bin/python ./setup.py bdist_wheel -d .
+RUN /opt/python/${TARGET}/bin/python ./setup.py bdist_wheel -d .
 RUN auditwheel repair --plat manylinux2010_x86_64 -w /output *.whl
