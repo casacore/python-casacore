@@ -34,6 +34,9 @@
 #include <casacore/python/Converters/PycArray.h>
 #include <casacore/tables/Tables/TableProxy.h>
 
+#include <casacore/meas/MeasUDF/Register.h>
+#include <casacore/derivedmscal/DerivedMC/Register.h>
+
 #include <boost/python.hpp>
 
 BOOST_PYTHON_MODULE(_tables)
@@ -50,5 +53,11 @@ BOOST_PYTHON_MODULE(_tables)
   casacore::python::pytableindex();
 
   casacore::python::pyms();
+
+  // Register the TaQL meas and mscal functions.
+  // Normally they are loaded as a shared library, but that cannot
+  // be done if the program is built statically.
+  register_meas();
+  register_derivedmscal();
 }
 
