@@ -10,6 +10,7 @@ Changes:
  - handle unicode even better! :) (#158)
  - iteritems() in casacore/tables/table.py incompatible with Python 3 (#165)
  - Make a big binary wheel including dependencies (#145)
+ - Use ~ instead of - to negate the mask (#179)
  
  
 # 3.0
