@@ -32,9 +32,10 @@ RUN tar zxvf /tmp/measures.tgz
 WORKDIR /build/sofa/20150209_a/f77/src
 RUN make -j${THREADS}
 
-ENV PYMAJOR 2
-ENV PYMINOR 7
-ENV TARGET cp${PYMAJOR}${PYMINOR}-cp${PYMAJOR}${PYMINOR}mu
+ENV PYMAJOR 3
+ENV PYMINOR 4
+ENV PYUNICODE m
+ENV TARGET cp${PYMAJOR}${PYMINOR}-cp${PYMAJOR}${PYMINOR}${PYUNICODE}
 
 # setup boost
 WORKDIR /build
@@ -45,12 +46,12 @@ RUN ./bootstrap.sh --prefix=/opt/boost \
     --with-python=/opt/python/${TARGET}/bin/python \
     --with-python-version=${PYMAJOR}.${PYMINOR} \ 
     --with-python-root=/opt/python/${TARGET}      
-RUN ./b2 -j${THREADS} \
-    cxxflags="-fPIC -I/opt/python/${TARGET}/include/python${PYMAJOR}.${PYMINOR}mu/" \
+RUN ./b2 -j ${THREADS} \
+    cxxflags="-fPIC -I/opt/python/${TARGET}/include/python${PYMAJOR}.${PYMINOR}${PYUNICODE}/" \
     link=static,shared install
 
 # casacore wants numpy
-RUN /opt/python/cp27-cp27mu/bin/pip install numpy
+RUN /opt/python/${TARGET}/bin/pip install numpy
 
 # set up casacore
 WORKDIR /build
@@ -60,10 +61,11 @@ RUN mkdir -p /build/casacore-3.1.1/build
 WORKDIR /build/casacore-3.1.1/build
 RUN cmake .. \
     -DSOFA_ROOT_DIR=/build \
-    -DPYTHON2_EXECUTABLE=/opt/python/${TARGET}/bin/python \
-    -DPYTHON_INCLUDE_DIR=/opt/python/${TARGET}/include/python${PYMAJOR}.${PYMINOR}/ \
+    -DPYTHON3_EXECUTABLE=/opt/python/${TARGET}/bin/python \
+    -DPYTHON_INCLUDE_DIR=/opt/python/${TARGET}/include/python${PYMAJOR}.${PYMINOR}m/ \
     -DDATA_DIR=/build \
-    -DBUILD_PYTHON3=OFF \
+    -DBUILD_PYTHON3=ON \
+    -DBUILD_PYTHON=OFF \
     -DCMAKE_INSTALL_PREFIX=/usr/local \
     -DBOOST_ROOT=/opt/boost \
     -DPYTHON_LIBRARY=/opt/boost/lib/libboost_python${PYMAJOR}${PYMINOR}.so
@@ -74,5 +76,6 @@ ADD . /python-casacore
 WORKDIR /python-casacore
 ENV CFLAGS "-I/opt/boost/include -L/opt/boost/lib -I/usr/include/cfitsio"
 ENV LD_LIBRARY_PATH "/opt/boost/lib:/usr/local/lib"
+RUN /opt/python/${TARGET}/bin/python ./setup.py build_ext -j${THREADS}
 RUN /opt/python/${TARGET}/bin/python ./setup.py bdist_wheel -d .
 RUN auditwheel repair --plat manylinux2010_x86_64 -w /output *.whl

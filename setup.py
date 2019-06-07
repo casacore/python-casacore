@@ -53,6 +53,9 @@ def find_library_file(libname):
                               '/usr/lib',
                               '/usr/lib/x86_64-linux-gnu']
 
+    if 'LD_LIBRARY_PATH' in os.environ:
+        lib_dirs += os.environ['LD_LIBRARY_PATH'].split(':')
+
     compiler = ccompiler.new_compiler()
     return compiler.find_library_file(lib_dirs, libname)
 
