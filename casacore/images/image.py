@@ -92,7 +92,11 @@ class image(Image):
       | An optional mask to be stored in the image when creating the image.
         If a mask is given, but no maskname is given, the mask will get the
         name `mask0`.
-      | Note that the mask can also be given in argument `values` (see above).
+      | The mask can also be given in argument `values` (see above).
+      | Note that the casacore images use the convention that a mask value
+        True means good and False means bad. However, numpy uses the opposite.
+        Therefore the mask will be negated, so a numpy masked can be given
+        directly.
     `shape`
       If given, the image will be created. If `values` is also given, its
       shape should match. If `values` is not given, an image with data type
@@ -162,7 +166,7 @@ class image(Image):
                                 mask = nma.getmaskarray(values)
                             values = values.data
                         if len(mask) > 0:
-                            mask = -mask  # casa and numpy have opposite flags
+                            mask = ~mask  # casa and numpy have opposite flags
                         Image.__init__(self, values, mask, coord,
                                        imagename, overwrite, ashdf5,
                                        maskname, tileshape)
@@ -355,7 +359,7 @@ class image(Image):
         as the dimensionality of the image.
         Note that the casacore images use the convention that a mask value
         True means good and False means bad. However, numpy uses the opposite.
-        Therefore the mask will be negated, so a numoy masked can be given
+        Therefore the mask will be negated, so a numpy masked can be given
         directly.
 
         The mask is not written if the image has no mask and if it the entire

@@ -153,7 +153,7 @@ def get_extensions():
             ["src/pytable.cc", "src/pytableindex.cc", "src/pytableiter.cc",
              "src/pytablerow.cc", "src/tables.cc", "src/pyms.cc"],
             ["src/tables.h"],
-            ['casa_tables', 'casa_ms', boost_python, casa_python],
+            ['casa_derivedmscal', 'casa_meas', 'casa_ms', 'casa_tables', boost_python, casa_python],
         ),
         (
             "casacore._tConvert",

@@ -52,11 +52,11 @@ class TestImage(unittest.TestCase):
     def test_image_mask(self):
         """Test image mask."""
         im1 = image("testimg", shape=[2, 3])
-        im1.put(nma.masked_array(numpy.array([[1, 2, 3], [4, 5, 6]]),
-                mask=[[False, True, False], [False, False, True]]))
-        numpy.testing.assert_equal(im1.getmask(),
-                                   numpy.array([[False, True, False],
-                                               [False, False, True]]))
+        marr = nma.masked_array(numpy.array([[1, 2, 3], [4, 5, 6]]),
+                mask=[[False, True, False], [False, False, True]])
+        im1.put(marr)
+        numpy.testing.assert_equal(im1.getdata(), marr.data)
+        numpy.testing.assert_equal(im1.getmask(), marr.mask)
         im1.putmask(numpy.array([[True, False, True],
                                 [False, False, False]]), (0, 0), (0, 1))
         numpy.testing.assert_equal(im1.getmask(),
@@ -67,6 +67,14 @@ class TestImage(unittest.TestCase):
         im1.putdata(numpy.array([0, 1, 0]), (0, 0), (0, 1))
         numpy.testing.assert_equal(im1.getdata(),
                                    numpy.array([[0, 1, 0], [4, 5, 6]]))
+
+    def test_image_mask2(self):
+        """Test image mask."""
+        marr = nma.masked_array(numpy.array([[1., 2, 3], [4, 5, 6]]),
+                mask=[[False, True, False], [False, False, True]])
+        im1 = image("testimg", values=marr)
+        numpy.testing.assert_equal(im1.getdata(), marr.data)
+        numpy.testing.assert_equal(im1.getmask(), marr.mask)
 
     def test_lock(self):
         """Test lock."""
