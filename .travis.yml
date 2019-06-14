@@ -28,6 +28,7 @@ deploy:
  user: gijzelaerr
  password:
   secure: cdrrma3XaFjtv4lHvag6dfhSbKBF8iLmVgPQEjXP8qa+WxHnkHObkyraYAFGqThDY/0lBdrBm7Og6l1JfAcSA2BjdPQYxujP8KEoVicPwlgwEJ5LZo4HqympWVk33APvbcYNw7K/CwEXNJCCD1tDiO4pdwkPAWuKlnYUVfZq2yI=
+ skip_existing: true
  on:
   tags: true
   repo: casacore/python-casacore
