@@ -1,9 +1,13 @@
 """Tests for tables module."""
 import unittest
-from casacore.tables import (makescacoldesc, makearrcoldesc, table, maketabdesc, tableexists, tableiswritable,
-                             tableinfo, tablefromascii, tabledelete, makecoldesc, msconcat, removeDerivedMSCal,
-                             taql, tablerename, tablecopy, tablecolumn, addDerivedMSCal, removeImagingColumns,
-                             addImagingColumns, complete_ms_desc, required_ms_desc, tabledefinehypercolumn,
+from casacore.tables import (makescacoldesc, makearrcoldesc, table,
+                             maketabdesc, tableexists, tableiswritable,
+                             tableinfo, tablefromascii, tabledelete,
+                             makecoldesc, msconcat, removeDerivedMSCal,
+                             taql, tablerename, tablecopy, tablecolumn,
+                             addDerivedMSCal, removeImagingColumns,
+                             addImagingColumns, complete_ms_desc,
+                             required_ms_desc, tabledefinehypercolumn,
                              default_ms, default_ms_subtable, makedminfo)
 import numpy as np
 import collections
