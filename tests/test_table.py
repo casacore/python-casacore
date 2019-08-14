@@ -524,10 +524,11 @@ class TestTable(unittest.TestCase):
         tabledelete("mytable")
 
     def test_complete_desc(self):
-        complete_ms_desc("MAIN")
 
-        for st in subtables:
-            complete_ms_desc(st)
+        for st in ("MAIN",) + subtables:
+            desc = complete_ms_desc(st)
+            assert isinstance(desc, dict)
+            assert len(desc) > 0
 
     def test_required_desc(self):
         """Testing required_desc."""
