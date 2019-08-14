@@ -8,8 +8,8 @@
 #include <boost/python/args.hpp>
 
 #include <casacore/casa/Containers/RecordInterface.h>
-#include <casacore/tables/Tables/SetupNewTab.h>
 #include <casacore/ms/MeasurementSets/MeasurementSet.h>
+#include <casacore/tables/Tables/SetupNewTab.h>
 #include <casacore/tables/Tables/TableDesc.h>
 #include <casacore/tables/Tables/TableError.h>
 #include <casacore/tables/Tables/TableRecord.h>
@@ -17,7 +17,106 @@
 
 using namespace boost::python;
 
+
 namespace casacore {
+
+  TableDesc complete_main_ms_desc()
+  {
+    using CEnum = typename MeasurementSet::PredefinedColumns;
+    using KEnum = typename MeasurementSet::PredefinedKeywords;
+
+    // Get required descriptor
+    TableDesc td = MeasurementSet::requiredTableDesc();
+
+    // Add remaining columns
+    for(int i = CEnum::NUMBER_REQUIRED_COLUMNS + 1;
+        i <= CEnum::NUMBER_PREDEFINED_COLUMNS; ++i)
+    {
+      MeasurementSet::addColumnToDesc(td, static_cast<CEnum>(i));
+    }
+
+    // Add remaining keywords
+    for(int i = KEnum::NUMBER_REQUIRED_KEYWORDS + 1;
+        i <= KEnum::NUMBER_PREDEFINED_KEYWORDS; ++i)
+    {
+      MeasurementSet::addKeyToDesc(td, static_cast<KEnum>(i));
+    }
+
+    return td;
+  }
+
+
+  template <typename SubTable>
+  TableDesc complete_subtable_desc()
+  {
+    using CEnum = typename SubTable::PredefinedColumns;
+
+    // Get required descriptor
+    TableDesc td = SubTable::requiredTableDesc();
+
+    // Add remaining columns
+    for(int i = CEnum::NUMBER_REQUIRED_COLUMNS + 1;
+        i <= CEnum::NUMBER_PREDEFINED_COLUMNS; ++i)
+    {
+      SubTable::addColumnToDesc(td, static_cast<CEnum>(i));
+    }
+
+    // NOTE(sjperkins)
+    // Inspection of the casacore code base seems to indicate
+    // that there are no optional MS subtable keywords.
+    // NUMBER_REQUIRED_KEYWORDS is only defined in the MS
+    return td;
+  }
+
+
+  TableDesc complete_table_desc(const String & table)
+  {
+    String table_ = table;
+
+    // Upper case things to be sure
+    table_.upcase();
+
+    if(table.empty() || table_ == "MAIN") {
+      return complete_main_ms_desc();
+    } else if(table_ == "ANTENNA") {
+      return complete_subtable_desc<MSAntenna>();
+    } else if(table_ == "DATA_DESCRIPTION") {
+      return complete_subtable_desc<MSDataDescription>();
+    } else if(table_ == "DOPPLER") {
+      return complete_subtable_desc<MSDoppler>();
+    } else if(table_ == "FEED") {
+      return complete_subtable_desc<MSFeed>();
+    } else if(table_ == "FIELD") {
+      return complete_subtable_desc<MSField>();
+    } else if(table_ == "FLAG_CMD") {
+      return complete_subtable_desc<MSFlagCmd>();
+    } else if(table_ == "FREQ_OFFSET") {
+      return complete_subtable_desc<MSFreqOffset>();
+    } else if(table_ == "HISTORY") {
+      return complete_subtable_desc<MSHistory>();
+    } else if(table_ == "OBSERVATION") {
+      return complete_subtable_desc<MSObservation>();
+    } else if(table_ == "POINTING") {
+      return complete_subtable_desc<MSPointing>();
+    } else if(table_ == "POLARIZATION") {
+      return complete_subtable_desc<MSPolarization>();
+    } else if(table_ == "PROCESSOR") {
+      return complete_subtable_desc<MSProcessor>();
+    } else if(table_ == "SOURCE") {
+      return complete_subtable_desc<MSSource>();
+    } else if(table_ == "SPECTRAL_WINDOW") {
+      return complete_subtable_desc<MSSpectralWindow>();
+    } else if(table_ == "STATE") {
+      return complete_subtable_desc<MSState>();
+    } else if(table_ == "SYSCAL") {
+      return complete_subtable_desc<MSSysCal>();
+    } else if(table_ == "WEATHER") {
+      return complete_subtable_desc<MSWeather>();
+    }
+
+    throw TableError("Unknown table type: " + table_);
+
+  }
 
   // Get the required table descriptions for the given table.
   // If "" or "MAIN", the table descriptions for a Measurement Set
@@ -89,6 +188,11 @@ namespace casacore {
     }
 
     throw TableError("Unknown table type: " + table_);
+  }
+
+  Record complete_ms_desc(const String & table)
+  {
+    return TableProxy::getTableDesc(complete_table_desc(table), True);
   }
 
   // Get the required table descriptions for the given table.
@@ -258,6 +362,8 @@ namespace python {
       boost::python::arg("subtable"),
       boost::python::arg("table_desc")));
     def("_required_ms_desc", &required_ms_desc, (
+      boost::python::arg("table")));
+    def("_complete_ms_desc", &complete_ms_desc, (
       boost::python::arg("table")));
   }
 

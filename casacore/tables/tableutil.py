@@ -496,13 +496,15 @@ def makedminfo(tabdesc, group_spec=None):
     The table description
   `group_spec`
     The SPEC for a data manager group. In practice this is useful for
-    setting the Default Tile Size and Maximum Cache Size for the Data Manager
+    setting the Default Tile Size and Maximum Cache Size for the Data Manager::
+
       {
         'WeightColumnGroup' : {
           'DEFAULTTILESHAPE': np.int32([4,4,4]),
           'MAXIMUMCACHESIZE': 1000,
         }
       }
+
     This should be used with care.
 
   """

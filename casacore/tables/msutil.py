@@ -26,9 +26,11 @@
 from six import string_types
 import numpy as np
 import six
-from casacore.tables.table import table, taql, _required_ms_desc
-from casacore.tables.tableutil import makescacoldesc, makearrcoldesc, \
-    makecoldesc, maketabdesc
+from casacore.tables.table import (table, taql,
+                                   _required_ms_desc,
+                                   _complete_ms_desc)
+from casacore.tables.tableutil import (makescacoldesc, makearrcoldesc,
+                                       makecoldesc, maketabdesc)
 
 
 def required_ms_desc(table=None):
@@ -43,6 +45,20 @@ def required_ms_desc(table=None):
         table = ""
 
     return _required_ms_desc(table)
+
+
+def complete_ms_desc(table=None):
+    """
+    Obtain the complete table description for a given table.
+
+    If "" or "MAIN", the description for a MeasurementSet is returned.
+    Otherwise, a the description for a MeasurementSet subtable is returned.
+    """
+    # Default to MAIN table
+    if table is None:
+        table = ""
+
+    return _complete_ms_desc(table)
 
 
 def addImagingColumns(msname, ack=True):
