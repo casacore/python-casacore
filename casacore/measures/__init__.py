@@ -626,7 +626,7 @@ class measures(_measures):
         import re
         rx = re.compile("m\d+")
         out = []
-        keys = v.keys()[:]
+        keys = list(v.keys())
         keys.sort()
         for key in keys:
             if re.match(rx, key):
