@@ -50,6 +50,7 @@ def find_library_file(libname):
     # Append default search path (not a complete list)
     lib_dirs = user_lib_dirs + [os.path.join(sys.prefix, 'lib'),
                               '/usr/local/lib',
+                              '/usr/lib64',
                               '/usr/lib',
                               '/usr/lib/x86_64-linux-gnu']
 
