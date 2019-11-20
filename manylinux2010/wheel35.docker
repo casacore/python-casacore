@@ -18,9 +18,10 @@ WORKDIR /build
 # how many threads to use for compiling
 ENV THREADS 4
 
-# build wcslib 
-RUN tar jxvf /tmp/wcslib.tar.bz2
-WORKDIR /build/wcslib-6.2
+# build wcslib (latest version)
+RUN mkdir /build/wcslib
+RUN tar jxvf /tmp/wcslib.tar.bz2 -C /build/wcslib --strip-components=1
+WORKDIR /build/wcslib
 RUN ./configure
 RUN make -j${THREADS}
 RUN make install
