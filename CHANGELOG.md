@@ -1,3 +1,10 @@
+# 3.2.0
+
+This version as a binary wheel ships with underlying casacore v3.2.0.
+
+Changes are only in the underlying casacore.
+
+
 # 3.1.1
 
 This is the first release that will be supplied as binary wheels
