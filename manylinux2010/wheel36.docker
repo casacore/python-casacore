@@ -12,7 +12,7 @@ RUN curl ftp://ftp.atnf.csiro.au/pub/software/wcslib/wcslib.tar.bz2 --output /tm
 RUN curl https://github.com/casacore/casacore/archive/v3.2.0.tar.gz -L --output /tmp/casacore.tar.gz
 RUN curl https://ufpr.dl.sourceforge.net/project/boost/boost/1.70.0/boost_1_70_0.tar.bz2 --output /tmp/boost.tar.bz2
 
-RUN mkdir /buid
+RUN mkdir /build
 WORKDIR /build
 
 # how many threads to use for compiling
