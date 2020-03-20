@@ -68,13 +68,17 @@ def read(fname):
 def find_boost():
     """Find the name of the boost-python library. Returns None if none is found."""
     short_version = "{}{}".format(sys.version_info[0], sys.version_info[1])
+    major_version = str(sys.version_info[0])
+
+    # Prefer libraries with python version in their name over unversioned variants
     boostlibnames = ['boost_python-py' + short_version,
                      'boost_python' + short_version,
+                     'boost_python' + major_version,
                      'boost_python',
                      ]
     # The -mt (multithread) extension is used on macOS but not Linux.
     # Look for it first to avoid ending up with a single-threaded version.
-    boostlibnames = [name + '-mt' for name in boostlibnames] + boostlibnames
+    boostlibnames = sum([[name + '-mt', name] for name in boostlibnames], [])
     for libboostname in boostlibnames:
         if find_library_file(libboostname):
             return libboostname
