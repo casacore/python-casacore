@@ -6,6 +6,10 @@ Module :mod:`tables`
 
 Table utility functions
 -----------------------
+:func:`default_ms`
+  Create a default MS.
+:func:`default_ms_subtable`
+  Create a default MS subtable.
 :func:`taql` or `tablecommand()`
   Execute TaQL query command
 :func:`tablefromascii`
@@ -48,12 +52,17 @@ MeasurementSet utility functions
   Remove the DerivedMSCal virtual columns like PA1, HA1 from a MeasurementSet
 :func:`msconcat`
   Concatenate spectral windows in different MSs to a single MS (in a virtual way)
+:func:`required_ms_desc`
+  Obtained the table descriptor describing a basic MS or an MS subtable.
+:func:`complete_ms_desc`
+  Obtain the table descriptor describing a complete MS or MS subtable.
 
 Utility functions details
 -------------------------
 .. autofunction:: casacore.tables.taql
 .. autofunction:: casacore.tables.tablefromascii
 .. autofunction:: casacore.tables.maketabdesc
+.. autofunction:: casacore.tables.makedminfo
 .. autofunction:: casacore.tables.makescacoldesc
 .. autofunction:: casacore.tables.makearrcoldesc
 .. autofunction:: casacore.tables.makecoldesc

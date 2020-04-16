@@ -1,12 +1,23 @@
 """Tests for tables module."""
 import unittest
-from casacore.tables import (makescacoldesc, makearrcoldesc, table, maketabdesc, tableexists, tableiswritable,
-                             tableinfo, tablefromascii, tabledelete, makecoldesc, msconcat, removeDerivedMSCal,
-                             taql, tablerename, tablecopy, tablecolumn, addDerivedMSCal, removeImagingColumns,
-                             addImagingColumns, required_ms_desc, tabledefinehypercolumn, default_ms, makedminfo,
-                             default_ms_subtable)
+from casacore.tables import (makescacoldesc, makearrcoldesc, table,
+                             maketabdesc, tableexists, tableiswritable,
+                             tableinfo, tablefromascii, tabledelete,
+                             makecoldesc, msconcat, removeDerivedMSCal,
+                             taql, tablerename, tablecopy, tablecolumn,
+                             addDerivedMSCal, removeImagingColumns,
+                             addImagingColumns, complete_ms_desc,
+                             required_ms_desc, tabledefinehypercolumn,
+                             default_ms, default_ms_subtable, makedminfo)
 import numpy as np
 import collections
+
+
+subtables = ("ANTENNA", "DATA_DESCRIPTION", "DOPPLER",
+             "FEED", "FIELD", "FLAG_CMD", "FREQ_OFFSET",
+             "HISTORY", "OBSERVATION", "POINTING", "POLARIZATION",
+             "PROCESSOR", "SOURCE", "SPECTRAL_WINDOW", "STATE",
+             "SYSCAL", "WEATHER")
 
 
 def compare(x, y):
@@ -512,6 +523,17 @@ class TestTable(unittest.TestCase):
         tab.done()
         tabledelete("mytable")
 
+    def test_complete_desc(self):
+        """ Test complete table descriptions """
+        for i, name in enumerate(("MAIN",) + subtables):
+            desc = complete_ms_desc(name)
+            assert isinstance(desc, dict)
+            assert len(desc) > 0
+
+            with table("complete_desc_table_%s-%d.table" % (name, i),
+                       desc, ack=False, readonly=False) as T:
+                T.addrows(10)
+
     def test_required_desc(self):
         """Testing required_desc."""
         # =============================================
@@ -599,11 +621,6 @@ class TestTable(unittest.TestCase):
         # TEST 3
         # Test subtable creation
         # =============================================
-        subtables = ("ANTENNA", "DATA_DESCRIPTION", "DOPPLER",
-                     "FEED", "FIELD", "FLAG_CMD", "FREQ_OFFSET",
-                     "HISTORY", "OBSERVATION", "POINTING", "POLARIZATION",
-                     "PROCESSOR", "SOURCE", "SPECTRAL_WINDOW", "STATE",
-                     "SYSCAL", "WEATHER")
 
         for c in subtables:
             # Check that we can get the default description for this table

@@ -8,8 +8,8 @@
 #include <boost/python/args.hpp>
 
 #include <casacore/casa/Containers/RecordInterface.h>
-#include <casacore/tables/Tables/SetupNewTab.h>
 #include <casacore/ms/MeasurementSets/MeasurementSet.h>
+#include <casacore/tables/Tables/SetupNewTab.h>
 #include <casacore/tables/Tables/TableDesc.h>
 #include <casacore/tables/Tables/TableError.h>
 #include <casacore/tables/Tables/TableRecord.h>
@@ -17,78 +17,145 @@
 
 using namespace boost::python;
 
+
 namespace casacore {
+
+  TableDesc main_ms_desc(bool complete)
+  {
+    // Get required descriptor
+    TableDesc td = MeasurementSet::requiredTableDesc();
+
+    if(!complete) {
+
+        // Remove the CATEGORY keyword from the FLAG_CATEGORY column
+        // This empty Vector<String> gets converted to a python dictionary as
+        // 'FLAG_CATEGORY' : {
+        //     ...
+        //     keywords': {'CATEGORY' : []},
+        //     ...
+        // }
+        //
+        // Due to the missing type information this gets converted
+        // into something like Vector<int> when passed to the C++ layer,
+        // which results in Table Conformance errors
+        // This is an OK solution since the C++ layer always adds this keyword
+        // if it is missing from the MS
+        // (see addCat())
+      td.rwColumnDesc("FLAG_CATEGORY").rwKeywordSet().removeField("CATEGORY");
+
+      return td;
+    }
+
+    using CEnum = typename MeasurementSet::PredefinedColumns;
+    using KEnum = typename MeasurementSet::PredefinedKeywords;
+
+
+    // Add remaining columns
+    for(int i = CEnum::NUMBER_REQUIRED_COLUMNS + 1;
+        i <= CEnum::NUMBER_PREDEFINED_COLUMNS; ++i)
+    {
+      MeasurementSet::addColumnToDesc(td, static_cast<CEnum>(i));
+    }
+
+    // Add remaining keywords
+    for(int i = KEnum::NUMBER_REQUIRED_KEYWORDS + 1;
+        i <= KEnum::NUMBER_PREDEFINED_KEYWORDS; ++i)
+    {
+      MeasurementSet::addKeyToDesc(td, static_cast<KEnum>(i));
+    }
+
+    return td;
+  }
+
+
+  template <typename SubTable>
+  TableDesc ms_subtable_desc(bool complete)
+  {
+    if(!complete) {
+      return SubTable::requiredTableDesc();
+    }
+
+    using CEnum = typename SubTable::PredefinedColumns;
+
+    // Get required descriptor
+    TableDesc td = SubTable::requiredTableDesc();
+
+    // Add remaining columns
+    for(int i = CEnum::NUMBER_REQUIRED_COLUMNS + 1;
+        i <= CEnum::NUMBER_PREDEFINED_COLUMNS; ++i)
+    {
+      SubTable::addColumnToDesc(td, static_cast<CEnum>(i));
+    }
+
+    // NOTE(sjperkins)
+    // Inspection of the casacore code base seems to indicate
+    // that there are no optional MS subtable keywords.
+    // NUMBER_REQUIRED_KEYWORDS is only defined in the MS
+    return td;
+  }
+
 
   // Get the required table descriptions for the given table.
   // If "" or "MAIN", the table descriptions for a Measurement Set
   // will be supplied, otherwise table should be some valid
   // MeasurementSet subtable
-  TableDesc required_table_desc(const String & table)
+  TableDesc ms_table_desc(const String & table, bool complete)
   {
     String table_ = table;
 
     // Upper case things to be sure
     table_.upcase();
 
-    if(table_.empty() || table_ == "MAIN") {
-      TableDesc tabdesc = MeasurementSet::requiredTableDesc();
-
-      // Remove the CATEGORY keyword from the FLAG_CATEGORY column
-      // This empty Vector<String> gets converted to a python dictionary as
-      // 'FLAG_CATEGORY' : {
-      //     ...
-      //     keywords': {'CATEGORY' : []},
-      //     ...
-      // }
-      //
-      // Due to the missing type information this gets converted
-      // into something like Vector<int> when passed to the C++ layer,
-      // which results in Table Conformance errors
-      // This is an OK solution since the C++ layer always adds this keyword
-      // if it is missing from the MS
-      // (see addCat())
-
-      tabdesc.rwColumnDesc("FLAG_CATEGORY")
-             .rwKeywordSet().removeField("CATEGORY");
-
-      return tabdesc;
+    if(table.empty() || table_ == "MAIN") {
+      return main_ms_desc(complete);
     } else if(table_ == "ANTENNA") {
-      return MSAntenna::requiredTableDesc();
+      return ms_subtable_desc<MSAntenna>(complete);
     } else if(table_ == "DATA_DESCRIPTION") {
-      return MSDataDescription::requiredTableDesc();
+      return ms_subtable_desc<MSDataDescription>(complete);
     } else if(table_ == "DOPPLER") {
-      return MSDoppler::requiredTableDesc();
+      return ms_subtable_desc<MSDoppler>(complete);
     } else if(table_ == "FEED") {
-      return MSFeed::requiredTableDesc();
+      return ms_subtable_desc<MSFeed>(complete);
     } else if(table_ == "FIELD") {
-      return MSField::requiredTableDesc();
+      return ms_subtable_desc<MSField>(complete);
     } else if(table_ == "FLAG_CMD") {
-      return MSFlagCmd::requiredTableDesc();
+      return ms_subtable_desc<MSFlagCmd>(complete);
     } else if(table_ == "FREQ_OFFSET") {
-      return MSFreqOffset::requiredTableDesc();
+      return ms_subtable_desc<MSFreqOffset>(complete);
     } else if(table_ == "HISTORY") {
-      return MSHistory::requiredTableDesc();
+      return ms_subtable_desc<MSHistory>(complete);
     } else if(table_ == "OBSERVATION") {
-      return MSObservation::requiredTableDesc();
+      return ms_subtable_desc<MSObservation>(complete);
     } else if(table_ == "POINTING") {
-      return MSPointing::requiredTableDesc();
+      return ms_subtable_desc<MSPointing>(complete);
     } else if(table_ == "POLARIZATION") {
-      return MSPolarization::requiredTableDesc();
+      return ms_subtable_desc<MSPolarization>(complete);
     } else if(table_ == "PROCESSOR") {
-      return MSProcessor::requiredTableDesc();
+      return ms_subtable_desc<MSProcessor>(complete);
     } else if(table_ == "SOURCE") {
-      return MSSource::requiredTableDesc();
+      return ms_subtable_desc<MSSource>(complete);
     } else if(table_ == "SPECTRAL_WINDOW") {
-      return MSSpectralWindow::requiredTableDesc();
+      return ms_subtable_desc<MSSpectralWindow>(complete);
     } else if(table_ == "STATE") {
-      return MSState::requiredTableDesc();
+      return ms_subtable_desc<MSState>(complete);
     } else if(table_ == "SYSCAL") {
-      return MSSysCal::requiredTableDesc();
+      return ms_subtable_desc<MSSysCal>(complete);
     } else if(table_ == "WEATHER") {
-      return MSWeather::requiredTableDesc();
+      return ms_subtable_desc<MSWeather>(complete);
     }
 
     throw TableError("Unknown table type: " + table_);
+
+  }
+
+
+  // Get the required table descriptions for the given table.
+  // If "" or "MAIN", the table descriptions for a Measurement Set
+  // will be supplied, otherwise table should be some valid
+  // MeasurementSet subtable
+  Record complete_ms_desc(const String & table)
+  {
+    return TableProxy::getTableDesc(ms_table_desc(table, true), true);
   }
 
   // Get the required table descriptions for the given table.
@@ -97,7 +164,7 @@ namespace casacore {
   // MeasurementSet subtable
   Record required_ms_desc(const String & table)
   {
-    return TableProxy::getTableDesc(required_table_desc(table), true);
+    return TableProxy::getTableDesc(ms_table_desc(table, false), true);
   }
 
   // Merge required and user supplied Table Descriptions
@@ -164,7 +231,8 @@ namespace casacore {
 
     // Merge required and user table descriptions
     TableDesc final_desc = merge_required_and_user_table_descs(
-                        required_table_desc(subtable), user_td);
+                              ms_table_desc(subtable, false),
+                              user_td);
 
     // Return SetupNewTable object
     SetupNewTable setup = SetupNewTable(name, final_desc, Table::New);
@@ -258,6 +326,8 @@ namespace python {
       boost::python::arg("subtable"),
       boost::python::arg("table_desc")));
     def("_required_ms_desc", &required_ms_desc, (
+      boost::python::arg("table")));
+    def("_complete_ms_desc", &complete_ms_desc, (
       boost::python::arg("table")));
   }
 
