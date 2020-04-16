@@ -128,10 +128,11 @@ def find_casacore():
             casacoreversion = getCasacoreVersion()
         except:
             # getVersion was fixed in casacore 2.3.0
-            warnings.warn("Your casacore version is older than 2.3.0! You need to upgrade your casacore.")
+            raise RuntimeError("Your casacore version is older than 2.3.0! You need to upgrade your casacore.")
         else:
             if LooseVersion(casacoreversion.decode()) < LooseVersion(__mincasacoreversion__):
-                warnings.warn("Your casacore version is too old. Minimum is " + __mincasacoreversion__)
+                raise RuntimeError("Your casacore version is too old. Minimum is " + __mincasacoreversion__ +
+                                   ", you have " + casacoreversion.decode('utf-8'))
 
         libdir = dirname(libcasacasa)
         includedir = join(dirname(libdir), "include")
