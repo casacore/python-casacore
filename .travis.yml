@@ -5,13 +5,13 @@ matrix:
   - env: TARGET=py3_casacore_v3.2
   - env: TARGET=py2_casacore_master
   - env: TARGET=py3_casacore_master
-  - env: TARGET=py2
-  - env: TARGET=py3
+  - env: TARGET=py2-kern
+  - env: TARGET=py3-kern
   - env: TARGET=pep8
   - env: TARGET=mypy
   allow_failures:
-  - env: TARGET=py2
-  - env: TARGET=py3
+  - env: TARGET=py2-kern
+  - env: TARGET=py3-kern
   - env: TARGET=pep8
   - env: TARGET=mypy
 sudo: required
