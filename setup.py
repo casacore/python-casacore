@@ -7,6 +7,7 @@ import sys
 import warnings
 from setuptools import setup, Extension, find_packages
 from distutils.sysconfig import get_config_vars
+from distutils.command import build_ext as build_ext_module
 from distutils import ccompiler
 from distutils.version import LooseVersion
 import argparse
@@ -100,6 +101,33 @@ def find_boost():
     return boostlibnames[0], '', ''
 
 
+def find_casacore_version():
+    """
+    Find the version of casacore, or None if it's not found
+    """
+    if sys.version_info[0] == 2:
+        casa_python = 'casa_python'
+    else:
+        casa_python = 'casa_python3'
+
+    # Find casacore libpath
+    libcasacasa = find_library_file('casa_casa')
+
+    casacoreversion = None
+    if libcasacasa:
+        # Get version number from casacore
+        try:
+            libcasa = ctypes.cdll.LoadLibrary(libcasacasa)
+            getCasacoreVersion = libcasa.getVersion
+            getCasacoreVersion.restype = ctypes.c_char_p
+            casacoreversion = getCasacoreVersion().decode('utf-8')
+        except:
+            # getVersion was fixed in casacore 2.3.0
+            pass
+
+    return casacoreversion
+
+
 def find_casacore():
     """
     Find the name and path of casacore
@@ -120,24 +148,9 @@ def find_casacore():
     libdir = ''
     includedir = ''
     if libcasacasa:
-        # Get version number from casacore
-        try:
-            libcasa = ctypes.cdll.LoadLibrary(libcasacasa)
-            getCasacoreVersion = libcasa.getVersion
-            getCasacoreVersion.restype = ctypes.c_char_p
-            casacoreversion = getCasacoreVersion()
-        except:
-            # getVersion was fixed in casacore 2.3.0
-            warnings.warn("Your casacore version is older than 2.3.0! You need to upgrade your casacore.")
-        else:
-            if LooseVersion(casacoreversion.decode()) < LooseVersion(__mincasacoreversion__):
-                warnings.warn("Your casacore version is too old. Minimum is " + __mincasacoreversion__ +
-                              ", you have " + casacoreversion.decode('utf-8'))
-
         libdir = dirname(libcasacasa)
         includedir = join(dirname(libdir), "include")
-
-    if not find_library_file(casa_python):
+    else:
         warnings.warn(no_casacore_error)
 
     return casa_python, libdir, includedir
@@ -226,6 +239,16 @@ os.environ['OPT'] = " ".join(
 )
 
 
+
+class my_build_ext(build_ext_module.build_ext):
+    def run(self):
+        casacoreversion = find_casacore_version()
+        if casacoreversion is not None and  LooseVersion(casacoreversion) < LooseVersion(__mincasacoreversion__):
+            raise RuntimeError("Your casacore version is too old. Minimum is " + __mincasacoreversion__ +
+                               ", you have " + casacoreversion.decode('utf-8'))
+
+        build_ext_module.build_ext.run(self)
+
 setup(name='python-casacore',
       version=__version__,
       description='A wrapper around CASACORE, the radio astronomy library',
@@ -238,4 +261,5 @@ setup(name='python-casacore',
       long_description_content_type='text/x-rst',
       packages=find_packages(),
       ext_modules=get_extensions(),
+      cmdclass={'build_ext': my_build_ext},
       license='GPL')
