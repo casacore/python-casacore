@@ -16,3 +16,4 @@ WORKDIR /code
 RUN pip3 install -e .
 RUN pip3 install -r tests/requirements.txt
 RUN nosetests3 --with-coverage --verbose --cover-package=casacore
+RUN python3 setup.py clean
