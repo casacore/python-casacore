@@ -63,6 +63,7 @@ RUN cmake .. \
     -DSOFA_ROOT_DIR=/build \
     -DPYTHON2_EXECUTABLE=/opt/python/${TARGET}/bin/python \
     -DPYTHON_INCLUDE_DIR=/opt/python/${TARGET}/include/python${PYMAJOR}.${PYMINOR}/ \
+    -DBUILD_TESTING=OFF \
     -DDATA_DIR=/build \
     -DBUILD_PYTHON3=OFF \
     -DCMAKE_INSTALL_PREFIX=/usr/local \
