@@ -2,7 +2,7 @@ FROM quay.io/pypa/manylinux2010_x86_64
 
 
 # install rpms
-RUN yum install -y flex cfitsio-devel blas-devel lapack-devel
+RUN yum install -y flex cfitsio-devel blas-devel lapack-devel ncurses-devel readline-devel
 
 # download other source code
 WORKDIR /tmp
