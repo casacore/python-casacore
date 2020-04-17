@@ -1,2 +1,2 @@
-include README.rst *.py
+include README.rst *.py LICENSE
 recursive-include src *.cc *.h
