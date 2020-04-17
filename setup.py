@@ -245,7 +245,7 @@ class my_build_ext(build_ext_module.build_ext):
         casacoreversion = find_casacore_version()
         if casacoreversion is not None and  LooseVersion(casacoreversion) < LooseVersion(__mincasacoreversion__):
             raise RuntimeError("Your casacore version is too old. Minimum is " + __mincasacoreversion__ +
-                               ", you have " + casacoreversion.decode('utf-8'))
+                               ", you have " + casacoreversion)
 
         build_ext_module.build_ext.run(self)
 
