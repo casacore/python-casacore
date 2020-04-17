@@ -1,3 +1,14 @@
+# 3.3.0
+
+This version as a binary wheel ships with underlying casacore v3.3.0.
+
+Ony a few changes in python-casacore itself:
+
+ - Expose complete MS and subtable definitions (#183)
+ - Miminum casacore version is now 3.2.0 (#195)
+ - Several improvements to library handling in setup.py (#194)
+
+
 # 3.2.0
 
 This version as a binary wheel ships with underlying casacore v3.2.0.
