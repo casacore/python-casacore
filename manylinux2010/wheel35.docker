@@ -52,7 +52,7 @@ RUN ./b2 -j ${THREADS} \
     link=static,shared install
 
 # casacore wants numpy
-RUN /opt/python/${TARGET}/bin/pip install numpy
+RUN /opt/python/${TARGET}/bin/pip install numpy==1.14
 
 # set up casacore
 WORKDIR /build
