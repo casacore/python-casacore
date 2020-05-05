@@ -244,8 +244,11 @@ class my_build_ext(build_ext_module.build_ext):
     def run(self):
         casacoreversion = find_casacore_version()
         if casacoreversion is not None and  LooseVersion(casacoreversion) < LooseVersion(__mincasacoreversion__):
-            raise RuntimeError("Your casacore version is too old. Minimum is " + __mincasacoreversion__ +
-                               ", you have " + casacoreversion)
+            errorstr = "Your casacore version is too old. Minimum is " + __mincasacoreversion__ + \
+                       ", you have " + casacoreversion
+            if casacoreversion == "2.5.0":
+                errorstr += " or 3.0.0 (which shipped in KERN5, incorrectly reporting itself as 2.5.0)"
+            raise RuntimeError(errorstr)
 
         build_ext_module.build_ext.run(self)
 
