@@ -418,7 +418,7 @@ class table(Table):
 
     def __len__(self):
         """Return the number of rows in the table."""
-        return self._nrows()
+        return int(self._nrows())
 
     def __getattr__(self, name):
         """Get the tablecolumn object or keyword value.
@@ -882,7 +882,7 @@ class table(Table):
 
     def nrows(self):
         """Return the number of rows in the table."""
-        return self._nrows()
+        return int(self._nrows())
 
     def addrows(self, nrows=1):
         """Add one or more rows to the table."""
