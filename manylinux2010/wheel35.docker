@@ -65,7 +65,7 @@ RUN cmake .. \
     -DPYTHON3_EXECUTABLE=/opt/python/${TARGET}/bin/python \
     -DPYTHON_INCLUDE_DIR=/opt/python/${TARGET}/include/python${PYMAJOR}.${PYMINOR}m/ \
     -DBUILD_TESTING=OFF \
-    -DDATA_DIR=/build \
+    -DDATA_DIR=/usr/share/casacore/data \
     -DBUILD_PYTHON3=ON \
     -DBUILD_PYTHON=OFF \
     -DCMAKE_INSTALL_PREFIX=/usr/local \
