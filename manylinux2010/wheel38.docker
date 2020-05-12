@@ -34,8 +34,7 @@ WORKDIR /build/sofa/20150209_a/f77/src
 RUN make -j${THREADS}
 
 ENV PYMAJOR 3
-ENV PYMINOR 6
-ENV PYUNICODE m
+ENV PYMINOR 8
 ENV TARGET cp${PYMAJOR}${PYMINOR}-cp${PYMAJOR}${PYMINOR}${PYUNICODE}
 
 # setup boost
@@ -47,12 +46,12 @@ RUN ./bootstrap.sh --prefix=/opt/boost \
     --with-python=/opt/python/${TARGET}/bin/python \
     --with-python-version=${PYMAJOR}.${PYMINOR} \ 
     --with-python-root=/opt/python/${TARGET}      
-RUN ./b2 -j ${THREADS} \
+RUN ./b2 -j${THREADS} \
     cxxflags="-fPIC -I/opt/python/${TARGET}/include/python${PYMAJOR}.${PYMINOR}${PYUNICODE}/" \
     link=static,shared install
 
 # casacore wants numpy
-RUN /opt/python/${TARGET}/bin/pip install numpy==1.14
+RUN /opt/python/${TARGET}/bin/pip install 'numpy==1.18'
 
 # set up casacore
 WORKDIR /build
@@ -63,7 +62,7 @@ WORKDIR /build/casacore-3.3.0/build
 RUN cmake .. \
     -DSOFA_ROOT_DIR=/build \
     -DPYTHON3_EXECUTABLE=/opt/python/${TARGET}/bin/python \
-    -DPYTHON_INCLUDE_DIR=/opt/python/${TARGET}/include/python${PYMAJOR}.${PYMINOR}m/ \
+    -DPYTHON_INCLUDE_DIR=/opt/python/${TARGET}/include/python${PYMAJOR}.${PYMINOR}/ \
     -DBUILD_TESTING=OFF \
     -DDATA_DIR=/build \
     -DBUILD_PYTHON3=ON \
