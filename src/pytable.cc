@@ -149,38 +149,11 @@ namespace casacore { namespace python {
       .def ("_getvarcol", with<no_gil>(&TableProxy::getVarColumn))
       .def ("_getcolslice", with<no_gil>(&TableProxy::getColumnSliceIP))
       .def ("_getcolslicevh", with<no_gil>(&TableProxy::getColumnSliceVHIP))
-      .def ("_putcell", &TableProxy::putCell,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-	     boost::python::arg("value")))
-      .def ("_putcellslice", &TableProxy::putCellSliceIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-	     boost::python::arg("value"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc")))
-      .def ("_putcol", &TableProxy::putColumn,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr"),
-	     boost::python::arg("value")))
-      .def ("_putvarcol", &TableProxy::putVarColumn,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr"),
-	     boost::python::arg("value")))
-      .def ("_putcolslice", &TableProxy::putColumnSliceIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("value"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr")))
+      .def ("_putcell", with<no_gil>(&TableProxy::putCell))
+      .def ("_putcellslice", with<no_gil>(&TableProxy::putCellSliceIP))
+      .def ("_putcol", with<no_gil>(&TableProxy::putColumn))
+      .def ("_putvarcol", with<no_gil>(&TableProxy::putVarColumn))
+      .def ("_putcolslice", with<no_gil>(&TableProxy::putColumnSliceIP))
       .def ("_getcolshapestring", &TableProxy::getColumnShapeString,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("startrow"),
