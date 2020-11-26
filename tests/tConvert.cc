@@ -31,7 +31,11 @@
 #include <casacore/python/Converters/PycValueHolder.h>
 #include <casacore/python/Converters/PycRecord.h>
 #include <casacore/python/Converters/PycArray.h>
-//#include <casacore/casa/Arrays/ArrayIO.h>
+#if CASACORE_MAJOR_VERSION < 3 || \
+    (CASACORE_MAJOR_VERSION == 3 && CASACORE_MINOR_VERSION < 4)
+// This include disappeared in the arrays refactor for casacore 3.4.0
+#include <casacore/casa/Arrays/ArrayIO.h>
+#endif
 #include <casacore/casa/BasicSL/STLIO.h>
 #include <casacore/casa/Exceptions/Error.h>
 
