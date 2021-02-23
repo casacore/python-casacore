@@ -1,0 +1,18 @@
+FROM quay.io/casacore/casacore:v3.3
+USER root
+RUN docker-apt-install \
+    libboost-python-dev \
+    libcfitsio-dev \
+    wcslib-dev \
+    python3-all \
+    python3-dev \
+    python3-numpy \
+    python3-setuptools \
+    python3-six \
+    python3-pip \
+    python3-nose
+ADD . /code
+WORKDIR /code
+RUN pip3 install -e .
+RUN pip3 install -r tests/requirements.txt
+RUN nosetests3 --with-coverage --verbose --cover-package=casacore

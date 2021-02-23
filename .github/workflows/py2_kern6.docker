@@ -1,7 +1,9 @@
-FROM quay.io/casacore/casacore:v3.2
-USER root
+FROM kernsuite/base:6
 RUN docker-apt-install \
+    casacore-data \
+    casacore-dev \
     libboost-python-dev \
+    libcasa-python5 \
     libcfitsio-dev \
     wcslib-dev \
     python-dev \
