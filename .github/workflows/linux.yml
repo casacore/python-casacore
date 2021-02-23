@@ -15,9 +15,6 @@ jobs:
           - pep8
           - mypy
           - py2_kern6
-          - py2_casacore_master
-          - py2_casacore_v3.3
-          - py2_casacore_v3.4
           - py3_kern6
           - py3_kern7
           - py3_casacore_master

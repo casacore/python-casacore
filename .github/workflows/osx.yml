@@ -31,13 +31,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: install homebrew packages
-        run: homebrew install pyenv
+        run: brew install pyenv
 
 
       - name: install casacore
         run: |
-          homebrew tap ska-sa/tap
-          homebrew install casacore --with-python
+          brew tap ska-sa/tap
+          brew install casacore --with-python
 
       - name: brew packages
         run: brew install pyenv monetdb
