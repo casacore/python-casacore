@@ -1,0 +1,9 @@
+FROM quay.io/casacore/casacore:master_wheel36
+
+ADD . /python-casacore
+WORKDIR /python-casacore
+ENV CFLAGS "-I/opt/boost/include -L/opt/boost/lib -I/usr/include/cfitsio"
+ENV LD_LIBRARY_PATH "/opt/boost/lib:/usr/local/lib"
+RUN /opt/python/${TARGET}/bin/python ./setup.py build_ext -j${THREADS}
+RUN /opt/python/${TARGET}/bin/python ./setup.py bdist_wheel -d .
+RUN auditwheel repair --plat manylinux2010_x86_64 -w /output *.whl
