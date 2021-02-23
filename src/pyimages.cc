@@ -32,6 +32,8 @@
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
+#include <vector>
+
 using namespace boost::python;
 
 namespace casacore { namespace python {
@@ -45,7 +47,7 @@ namespace casacore { namespace python {
 	    // 2 arg: concat from image names
       .def (init<Vector<String>, Int>())
             // 3 arg: open image or image expression
-      .def (init<String, String, vector<ImageProxy> >())
+      .def (init<String, String, std::vector<ImageProxy> >())
 	    // 4 arg: concat from images objects
       .def (init<std::vector<ImageProxy>, Int, Int, Int>())
             // 8 arg: create image from array

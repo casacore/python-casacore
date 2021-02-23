@@ -34,6 +34,8 @@
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
+#include <vector>
+
 using namespace boost::python;
 
 namespace casacore { namespace python {
