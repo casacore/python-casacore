@@ -1,4 +1,4 @@
-FROM quay.io/casacore/casacore:v3.2
+FROM quay.io/casacore/casacore:v3.4
 USER root
 RUN docker-apt-install \
     libboost-python-dev \

@@ -1,5 +1,6 @@
 .git
 .venv*/
+venv/
 .virtualenv*/
 build/
 *.egg-info/

@@ -1,4 +1,4 @@
-FROM kernsuite/base:5
+FROM kernsuite/base:7
 RUN docker-apt-install \
     casacore-data \
     casacore-dev \
