@@ -8,57 +8,34 @@ on:
     branches: [ master ]
 
 jobs:
-  osx_old:
-    runs-on: macos-10.15
-    continue-on-error: true
-
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - name: run old travis script
-        run: .github/workflows/osx_script.sh
-
   osx:
     runs-on: macos-10.15
     continue-on-error: true
-    strategy:
-      matrix:
-        python-version: [ 3.6.13, 3.7.10, 3.8.7, 3.9.1 ]
 
     steps:
       - name: checkout
         uses: actions/checkout@v2
 
       - name: install homebrew packages
-        run: brew install pyenv
+        run: brew install casacore/tap/casacore
 
+      - name: make virtualenv
+        run: python3 -m venv venv
 
-      - name: install casacore
-        run: |
-          brew tap ska-sa/tap
-          brew install casacore --with-python
-
-      - name: brew packages
-        run: brew install pyenv monetdb
-
-      - name: Install Python version
-        run:  |
-          pyenv install -s ${{ matrix.python-version }}
       - name: Install Python dependencies
-        run: ~/.pyenv/versions/${{ matrix.python-version }}/bin/pip install --upgrade pip wheel delocate pytest
+        run: venv/bin/pip install --upgrade pip wheel delocate pytest
 
-      - name: Compile and install MonetDBe-python
-        run: CFLAGS="-I/usr/local/include -L/usr/local/lib" ~/.pyenv/versions/${{ matrix.python-version }}/bin/pip install .
+      - name: Compile and install python-casacore
+        run: CFLAGS="-I/usr/local/include -L/usr/local/lib" venv/bin/pip install .
 
       - name: Run pytest
-        run: ~/.pyenv/versions/${{ matrix.python-version }}/bin/pytest
+        run: venv/bin/pytest
 
       - name: make binary wheel
-        run: ~/.pyenv/versions/${{ matrix.python-version }}/bin/python setup.py bdist_wheel
+        run: venv/bin/python3 setup.py bdist_wheel
 
       - name: Delocate binary wheel
-        run: ~/.pyenv/versions/${{ matrix.python-version }}/bin/delocate-wheel -v dist/*.whl
+        run: venv/bin/delocate-wheel -v dist/*.whl
 
       - name: Publish OS X binary wheels
         uses: actions/upload-artifact@v2
