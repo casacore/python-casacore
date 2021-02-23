@@ -3,7 +3,7 @@ RUN docker-apt-install \
     casacore-data \
     casacore-dev \
     libboost-python-dev \
-    libcasa-python3-2 \
+    libcasa-python3-6 \
     libcfitsio-dev \
     wcslib-dev \
     python3-all \
