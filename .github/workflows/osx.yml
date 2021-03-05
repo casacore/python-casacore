@@ -17,7 +17,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: install homebrew packages
-        run: brew install casacore/tap/casacore --with-python
+        run: |
+          brew tap casacore/tap 
+          brew install casacore --with-python
 
       - name: make virtualenv
         run: python3 -m venv venv
