@@ -1,3 +1,10 @@
+# 3.4.0
+
+This version as a binary wheel ships with underlying casacore v3.4.0
+
+There are no changes to python-casacore itself
+
+
 # 3.3.0
 
 This version as a binary wheel ships with underlying casacore v3.3.0.
