@@ -223,10 +223,13 @@ def get_extensions():
                 if found_lib:
                     depends = depends + [found_lib]
 
+        library_dirs=[lib for lib in (boost_python_libdir, casa_libdir) if lib]
+        include_dirs=[inc for inc in (boost_python_includedir, casa_includedir) if inc]
+
         extensions.append(Extension(name=name, sources=sources,
                                     depends=depends, libraries=libraries,
-                                    library_dirs=[boost_python_libdir, casa_libdir],
-                                    include_dirs=[boost_python_includedir, casa_includedir],
+                                    library_dirs=library_dirs,
+                                    include_dirs=include_dirs,
                                     # Since casacore 3.0.0 we have to be C++11
                                     extra_compile_args=['-std=c++11']))
     return extensions
