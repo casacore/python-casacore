@@ -270,4 +270,4 @@ setup(name='python-casacore',
       packages=find_packages(),
       ext_modules=get_extensions(),
       cmdclass={'build_ext': my_build_ext},
-      license='GPL')
+      license='LGPL')
