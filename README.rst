@@ -76,6 +76,7 @@ On ubuntu you can install these with::
   this::
   
     CFLAGS="-std=c++11 \
+            -lpthread \
             -I/usr/local/Cellar/boost/1.68.0/include/ \
             -I/usr/local/include/  \
             -L/usr/local/Cellar/boost/1.68.0/lib \

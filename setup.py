@@ -233,7 +233,7 @@ def get_extensions():
                                     library_dirs=library_dirs,
                                     include_dirs=include_dirs,
                                     # Since casacore 3.0.0 we have to be C++11
-                                    extra_compile_args=['-std=c++11']))
+                                    extra_compile_args=['-std=c++11', '-lpthread']))
     return extensions
 
 
