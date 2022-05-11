@@ -260,7 +260,7 @@ class my_build_ext(build_ext_module.build_ext):
 setup(name='python-casacore',
       version=__version__,
       description='A wrapper around CASACORE, the radio astronomy library',
-      install_requires=['numpy', 'argparse', 'future', 'six'],
+      install_requires=['numpy', 'future', 'six'],
       author='Gijs Molenaar',
       author_email='gijs@pythonic.nl',
       url='https://github.com/casacore/python-casacore',
