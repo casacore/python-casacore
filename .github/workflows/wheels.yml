@@ -5,8 +5,11 @@ on:
   workflow_dispatch:
 
 env:
+  # Install HEAD version of casacore-data because we don't need exact version
+  # when compiling python-casacore. This avoids failure if it's not up to date.
   CIBW_BEFORE_ALL_MACOS: >
     brew tap casacore/tap &&
+    brew install casacore-data --HEAD &&
     brew install casacore --with-python
   # Support native arm64 and universal2 = Intel + ARM for Apple Silicon
   CIBW_ARCHS_MACOS: "x86_64 arm64 universal2"
