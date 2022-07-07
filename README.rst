@@ -19,7 +19,7 @@ Installation
 Binary wheels
 -------------
 
-We distribute binary manylinux2010 for Linux, which requires pip > 10.x. To
+We distribute binary manylinux2014 for Linux, which requires pip >= 19.3. To
 install python-casacore from a binary wheel run::
 
     $ pip install python-casacore
@@ -30,19 +30,6 @@ Debian & Ubuntu
 
 python-casacore is now part of Debian and Ubuntu and can be installed using apt::
 
-    $ sudo apt-get install python-casacore
-
-
-Kern
-----
-
-If you want a more up to date version of python-casacore and you are running the latest
-Ubuntu LTS you can enable the  `KERN suite <http://kernsuite.info>`_ repository and
-install the binary package ::
-
-    $ sudo apt-get install software-properties-common
-    $ sudo add-apt-repository ppa:kernsuite/kern-5
-    $ sudo apt-get update
     $ sudo apt-get install python-casacore
 
 
@@ -94,3 +81,4 @@ Credits
 * `Ger van Diepen <gervandiepen@gmail.com>`_
 * `Malte Marquarding <Malte.Marquarding@gmail.com>`_
 * `Gijs Molenaar <gijs@pythonic.nl>`_
+* `Tammo Jan Dijkema <dijkema@astron.nl>`_
