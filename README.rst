@@ -80,5 +80,5 @@ Credits
 
 * `Ger van Diepen <gervandiepen@gmail.com>`_
 * `Malte Marquarding <Malte.Marquarding@gmail.com>`_
-* `Tammo Jan Dijkema <dijkema@astron.nl>`_
 * `Gijs Molenaar <gijs@pythonic.nl>`_
+* `Tammo Jan Dijkema <dijkema@astron.nl>`_
