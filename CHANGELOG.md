@@ -1,3 +1,8 @@
+# 3.5.1
+
+The binary wheel for python 3.10 is now based on numpy 1.22.4. Otherwise nothing has changed.
+
+
 # 3.5.0
 
 This version as a binary wheel ships with underlying casacore v3.5.0
