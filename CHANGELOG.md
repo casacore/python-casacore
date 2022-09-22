@@ -1,3 +1,8 @@
+# 3.5.2
+
+The binary wheels have now been built with `-DPORTABLE=True`. This should fix issues with Dysco crashing on some platforms (due to missing AVX instructions). Otherwise nothing has changed.
+
+
 # 3.5.1
 
 The binary wheel for python 3.10 is now based on numpy 1.22.4. Otherwise nothing has changed.
