@@ -7,6 +7,8 @@ on:
   workflow_dispatch:
 
 env:
+  # Just build for the latest Homebrew Python on macOS
+  CIBW_BUID: cp311-macosx*
   # Install HEAD version of casacore-data because we don't need exact version
   # when compiling python-casacore. This avoids failure if it's not up to date.
   # The pip install is a workaround (see https://issues.apache.org/jira/browse/ARROW-11151).
@@ -17,6 +19,8 @@ env:
     brew install casacore --with-python
   # Support both Apple architectures natively
   CIBW_ARCHS_MACOS: "x86_64 arm64"
+  # XXX (but don't test Apple Silicon yet - we first need some M1 runners - Q4 2023?)
+  CIBW_TEST_SKIP: "*-macosx_arm64"
 
 jobs:
   make_sdist:
