@@ -1,7 +1,9 @@
 name: Build wheels
 
 on:
-  # Only a manual trigger for now
+  # Just testing for now, and the dispatch on works on master branch...
+  push:
+    branches: [ cibuildwheel ]
   workflow_dispatch:
 
 env:
