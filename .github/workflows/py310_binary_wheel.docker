@@ -1,4 +1,4 @@
-FROM quay.io/casacore/casacore:master_wheel38
+FROM quay.io/casacore/casacore:master_wheel310
 
 ADD . /python-casacore
 WORKDIR /python-casacore
