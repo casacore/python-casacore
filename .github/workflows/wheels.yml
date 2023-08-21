@@ -12,9 +12,7 @@ env:
     brew install casacore-data --HEAD &&
     brew install casacore --with-python
   # Support native arm64 and universal2 = Intel + ARM for Apple Silicon
-  CIBW_ARCHS_MACOS: "x86_64 arm64 universal2"
-  # XXX (but don't test it yet - we first need some M1 runners)
-  CIBW_TEST_SKIP: "*-macosx_arm64 *-macosx_universal2:arm64"
+  CIBW_ARCHS_MACOS: "x86_64 arm64"
 
 jobs:
   make_sdist:
@@ -42,10 +40,10 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.6.0
+        uses: pypa/cibuildwheel@v2.15.0
 
       - name: Upload wheels
         uses: actions/upload-artifact@v3
         with:
           name: wheels
-          path: wheelhouse/*.whl
+          path: ./wheelhouse/*.whl
