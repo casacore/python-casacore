@@ -13,7 +13,7 @@ env:
     brew tap casacore/tap &&
     brew install casacore-data --HEAD &&
     brew install casacore --with-python
-  # Support native arm64 and universal2 = Intel + ARM for Apple Silicon
+  # Support both Apple architectures natively
   CIBW_ARCHS_MACOS: "x86_64 arm64"
 
 jobs:
