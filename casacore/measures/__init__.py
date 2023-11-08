@@ -624,7 +624,7 @@ class measures(_measures):
         if not is_measure(v):
             raise TypeError('Incorrect input type for getvalue()')
         import re
-        rx = re.compile("m\d+")
+        rx = re.compile(r"m\d+")
         out = []
         keys = list(v.keys())
         keys.sort()
