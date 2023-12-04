@@ -3,6 +3,7 @@
 Setup script for the CASACORE python wrapper.
 """
 import os
+import subprocess
 import sys
 import warnings
 from setuptools import setup, Extension, find_packages
@@ -52,7 +53,17 @@ def find_library_file(libname):
 
     if 'LD_LIBRARY_PATH' in os.environ:
         lib_dirs += os.environ['LD_LIBRARY_PATH'].split(':')
-
+    # Look for Homebrewed libraries
+    try:
+        homebrew_prefix = subprocess.run(
+            ['brew', '--prefix'],
+            capture_output=True,
+            check=True,
+            text=True
+        ).stdout.strip()
+        lib_dirs.append(join(homebrew_prefix, 'lib'))
+    except subprocess.CalledProcessError:
+        pass
     # Append default search path (not a complete list)
     lib_dirs += [join(sys.prefix, 'lib'),
                  '/usr/local/lib',
