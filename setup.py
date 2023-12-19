@@ -62,7 +62,7 @@ def find_library_file(libname):
             text=True
         ).stdout.strip()
         lib_dirs.append(join(homebrew_prefix, 'lib'))
-    except subprocess.CalledProcessError:
+    except (subprocess.CalledProcessError, FileNotFoundError):
         pass
     # Append default search path (not a complete list)
     lib_dirs += [join(sys.prefix, 'lib'),
