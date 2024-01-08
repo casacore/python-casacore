@@ -11,7 +11,7 @@ RUN docker-apt-install \
     python3-six \
     python3-pip \
     python3-nose
-ADD . /code
+COPY . /code
 WORKDIR /code
 RUN pip3 install -e .
 RUN pip3 install -r tests/requirements.txt
