@@ -11,18 +11,18 @@ on: [push] #, pull_request]
 
 jobs:
 
-  # build_sdist:
-  #   name: Build source distribution
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - name: Build sdist
-  #       run: pipx run build --sdist
+      - name: Build sdist
+        run: pipx run build --sdist
 
-  #     - uses: actions/upload-artifact@v4
-  #       with:
-  #         path: dist/*.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          path: dist/*.tar.gz
 
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
@@ -50,10 +50,12 @@ jobs:
   upload_pypi:
     name: Upload release to PyPI
     runs-on: ubuntu-latest
-    needs: [build_wheels] # [build_sdist] #, build_wheels]
-    # environment:
-    #   name: pypi
-    #   url: https://test.pypi.org/p/python-casacore
+    needs: [build_sdist] #, build_wheels]
+    environment:
+      name: pypi
+      # url: https://pypi.org/p/python-casacore
+      # For testing
+      url: https://test.pypi.org/p/python-casacore
     permissions:
       id-token: write
     # upload to PyPI on every tag starting with 'v'
@@ -70,9 +72,7 @@ jobs:
 
       - uses: pypa/gh-action-pypi-publish@v1.8.11
         with:
-          verbose: true
-          # user: __token__
-          # password: ${{ secrets.pypi_password }}
           # To test:
           repository-url: https://test.pypi.org/legacy/
-          # password: ${{ secrets.test_pypi_password }}
+          skip-existing: true
+          verbose: true
