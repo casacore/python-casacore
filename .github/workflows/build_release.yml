@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: wheelhouse/*.whl
-          overwrite: true  # Needed for testing only!
+          # overwrite: true  # Only use when testing!
 
   upload_pypi:
     name: Upload release to PyPI
@@ -49,9 +49,9 @@ jobs:
     needs: [build_sdist, build_wheels]
     environment:
       name: pypi
-      # url: https://pypi.org/p/python-casacore
-      # For testing
-      url: https://test.pypi.org/p/python-casacore
+      url: https://pypi.org/p/python-casacore
+      # For testing, use TestPyPI
+      # url: https://test.pypi.org/p/python-casacore
     permissions:
       id-token: write
     # Upload to PyPI on every tag starting with 'v'
@@ -68,7 +68,7 @@ jobs:
 
       - uses: pypa/gh-action-pypi-publish@v1.8.11
         with:
-          # To test:
-          repository-url: https://test.pypi.org/legacy/
+          # For testing, use TestPyPI
+          # repository-url: https://test.pypi.org/legacy/
           skip-existing: true
           verbose: true
