@@ -69,6 +69,6 @@ jobs:
       - uses: pypa/gh-action-pypi-publish@v1.8.11
         with:
           # To test:
-          repository-url: https://test.pypi.org/legacy/
+          # repository-url: https://test.pypi.org/legacy/
           skip-existing: true
           verbose: true
