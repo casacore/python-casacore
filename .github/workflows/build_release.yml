@@ -49,9 +49,9 @@ jobs:
     needs: [build_sdist, build_wheels]
     environment:
       name: pypi
-      # url: https://pypi.org/p/python-casacore
+      url: https://pypi.org/p/python-casacore
       # For testing
-      url: https://test.pypi.org/p/python-casacore
+      # url: https://test.pypi.org/p/python-casacore
     permissions:
       id-token: write
     # upload to PyPI on every tag starting with 'v'
