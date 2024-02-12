@@ -41,7 +41,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: wheelhouse/*.whl
-          # overwrite: true  # Only use when testing!
+          # Temporary allow overwrite until we use setuptools_scm to
+          # generate unique version numbers on every push
+          overwrite: true
 
   upload_pypi:
     name: Upload release to PyPI
