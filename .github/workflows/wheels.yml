@@ -1,0 +1,57 @@
+name: Build wheels
+
+on:
+  # Just testing for now, and the dispatch on works on master branch...
+  push:
+    branches: [ cibuildwheel ]
+  workflow_dispatch:
+
+env:
+  # Just build for the latest Homebrew Python on macOS
+  CIBW_BUILD: cp311-macosx*
+  # Install HEAD version of casacore-data because we don't need exact version
+  # when compiling python-casacore. This avoids failure if it's not up to date.
+  # The pip install is a workaround (see https://issues.apache.org/jira/browse/ARROW-11151).
+  CIBW_BEFORE_ALL_MACOS: >
+    brew tap casacore/tap &&
+    brew install casacore-data --HEAD &&
+    pip3 install numpy &&
+    brew install casacore --with-python
+  # Support both Apple architectures natively
+  CIBW_ARCHS_MACOS: "x86_64 arm64"
+  # XXX (but don't test Apple Silicon yet - we first need some M1 runners - Q4 2023?)
+  CIBW_TEST_SKIP: "*-macosx_arm64"
+
+jobs:
+  make_sdist:
+    name: Build SDist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build SDist
+        run: pipx run build --sdist
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sdist
+          path: dist/*.tar.gz
+
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.15.0
+
+      - name: Upload wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheels
+          path: ./wheelhouse/*.whl
