@@ -12,8 +12,8 @@ RUN docker-apt-install \
     python-six \
     python-pip \
     python-nose 
-ADD . /code
-WORKDIR /code
+ADD . /src
+WORKDIR /src
 RUN pip install -e .
 RUN pip install -r tests/requirements.txt
 RUN nosetests --with-coverage --verbose --cover-package=casacore
