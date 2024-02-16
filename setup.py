@@ -254,9 +254,11 @@ os.environ['OPT'] = " ".join(
     flag for flag in opt.split() if flag != '-Wstrict-prototypes'
 )
 
+
 def create_symlink(src_dir, dest_dir):
     """
-    Create a symbolic link from `src_dir` to `dest_dir`, unless `dest_dir` already exists.
+    Create a symbolic link from `src_dir` to `dest_dir`, unless `dest_dir`
+    already exists.
     Return `dest_dir` upon success, or an empty string upon failure.
     """
     try:
@@ -271,7 +273,7 @@ def create_symlink(src_dir, dest_dir):
 class my_build_ext(build_ext_module.build_ext):
     def run(self):
         casacoreversion = find_casacore_version()
-        if casacoreversion is not None and  LooseVersion(casacoreversion) < LooseVersion(__mincasacoreversion__):
+        if casacoreversion is not None and LooseVersion(casacoreversion) < LooseVersion(__mincasacoreversion__):
             errorstr = "Your casacore version is too old. Minimum is " + __mincasacoreversion__ + \
                        ", you have " + casacoreversion
             if casacoreversion == "2.5.0":
