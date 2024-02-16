@@ -290,10 +290,10 @@ setup(name='python-casacore',
       keywords=['pyrap', 'casacore', 'utilities', 'astronomy'],
       long_description=read('README.rst'),
       long_description_content_type='text/x-rst',
-      packages=find_packages() + find_namespace_packages(include=["data.*"]),
+      packages=find_packages() + find_namespace_packages(include=["casacore.data.*"]),
       include_package_data=True,
       package_data={
-          "data": [create_symlink(os.getenv("CASACORE_DATA"), "data")]
+          "casacore.data": [create_symlink(os.getenv("CASACORE_DATA"), "casacore/data")]
       },
       ext_modules=get_extensions(),
       cmdclass={'build_ext': my_build_ext},
