@@ -1,5 +1,5 @@
 include *.rst *.md
-graft data
+graft casacore/data
 graft doc
 graft src
 graft tests
