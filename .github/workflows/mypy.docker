@@ -1,7 +1,7 @@
 FROM kernsuite/base:7
 RUN docker-apt-install python3-pip
 RUN pip3 install mypy
-ADD . /code
-WORKDIR /code
+ADD . /src
+WORKDIR /src
 RUN mypy --ignore-missing-imports casacore
 

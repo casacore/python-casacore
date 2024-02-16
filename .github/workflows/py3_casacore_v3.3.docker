@@ -11,8 +11,8 @@ RUN docker-apt-install \
     python3-six \
     python3-pip \
     python3-nose
-ADD . /code
-WORKDIR /code
+ADD . /src
+WORKDIR /src
 RUN pip3 install -e .
 RUN pip3 install -r tests/requirements.txt
 RUN nosetests3 --with-coverage --verbose --cover-package=casacore
