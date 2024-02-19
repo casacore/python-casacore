@@ -10,4 +10,4 @@ import os
 if "AIPSPATH" not in os.environ:
     root = os.path.dirname(__file__)
     os.environ["AIPSPATH"] = root
-    os.environ["CASACORE_DATA"] = os.path.join(root, "data")
+    os.environ["CASACORE_DATADIR"] = os.path.join(root, "data")

@@ -261,6 +261,8 @@ def create_symlink(src_dir, dest_dir):
     already exists.
     Return `dest_dir` upon success, or an empty string upon failure.
     """
+    if os.path.islink(dest_dir):
+        os.remove(dest_dir)
     try:
         os.symlink(src_dir, dest_dir)
     except FileExistsError:
