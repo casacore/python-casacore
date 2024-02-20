@@ -1,1 +1,1 @@
-measures.directory: ${CASACORE_DATA}
+measures.directory: ${CASACORE_DATADIR}
