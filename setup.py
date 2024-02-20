@@ -6,7 +6,7 @@ import os
 import subprocess
 import sys
 import warnings
-from setuptools import setup, Extension, find_packages
+from setuptools import setup, Extension, find_packages, find_namespace_packages
 from distutils.sysconfig import get_config_vars
 from distutils.command import build_ext as build_ext_module
 from distutils import ccompiler
@@ -234,7 +234,7 @@ def get_extensions():
                 if found_lib:
                     depends = depends + [found_lib]
 
-        library_dirs = [lib for lib in (boost_python_libdir, 
+        library_dirs = [lib for lib in (boost_python_libdir,
                                         casa_libdir) if lib]
         include_dirs = [inc for inc in (boost_python_includedir,
                                         casa_includedir) if inc]
@@ -254,6 +254,18 @@ os.environ['OPT'] = " ".join(
     flag for flag in opt.split() if flag != '-Wstrict-prototypes'
 )
 
+def create_symlink(src_dir, dest_dir):
+    """
+    Create a symbolic link from `src_dir` to `dest_dir`, unless `dest_dir` already exists.
+    Return `dest_dir` upon success, or an empty string upon failure.
+    """
+    try:
+        os.symlink(src_dir, dest_dir)
+    except FileExistsError:
+        pass
+    except (FileNotFoundError, TypeError):
+        return ""
+    return dest_dir
 
 
 class my_build_ext(build_ext_module.build_ext):
@@ -278,7 +290,11 @@ setup(name='python-casacore',
       keywords=['pyrap', 'casacore', 'utilities', 'astronomy'],
       long_description=read('README.rst'),
       long_description_content_type='text/x-rst',
-      packages=find_packages(),
+      packages=find_packages() + find_namespace_packages(include=["data.*"]),
+      include_package_data=True,
+      package_data={
+          "data": [create_symlink(os.getenv("CASACORE_DATA"), "data")]
+      },
       ext_modules=get_extensions(),
       cmdclass={'build_ext': my_build_ext},
       license='LGPL')
