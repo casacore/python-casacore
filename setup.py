@@ -296,6 +296,13 @@ setup(name='python-casacore',
       long_description_content_type='text/x-rst',
       packages=find_packages() + find_namespace_packages(include=["casacore.data.*"]),
       include_package_data=True,
+      # We need to bring the casacore data files in scope of the python package.
+      # There is no need to copy the files, creating a symlink suffices. Environment
+      # variable `CASACORE_DATA` must point to the directory containing the data files.
+      # If `CASACORE_DATA` is not set, or points to a non-existing directory, no data
+      # will be added to the python package. If `casacore/data` already exists and is
+      # not a symlink, then no attempt is made to create a symlink; the contents of
+      # `casacore/data` will be used instead.
       package_data={
           "casacore.data": [create_symlink(os.getenv("CASACORE_DATA"), "casacore/data")]
       },
