@@ -1,4 +1,4 @@
-__version__ = "3.6.0a1"
+__version__ = "3.5.3"
 __mincasacoreversion__ = "3.1.1"
 
 import os
