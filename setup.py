@@ -6,7 +6,7 @@ import os
 import subprocess
 import sys
 import warnings
-from setuptools import setup, Extension, find_packages
+from setuptools import setup, Extension, find_packages, find_namespace_packages
 from distutils.sysconfig import get_config_vars
 from distutils.command import build_ext as build_ext_module
 from distutils import ccompiler
@@ -234,7 +234,7 @@ def get_extensions():
                 if found_lib:
                     depends = depends + [found_lib]
 
-        library_dirs = [lib for lib in (boost_python_libdir, 
+        library_dirs = [lib for lib in (boost_python_libdir,
                                         casa_libdir) if lib]
         include_dirs = [inc for inc in (boost_python_includedir,
                                         casa_includedir) if inc]
@@ -255,11 +255,27 @@ os.environ['OPT'] = " ".join(
 )
 
 
+def create_symlink(src_dir, dest_dir):
+    """
+    Create a symbolic link from `src_dir` to `dest_dir`, unless `dest_dir`
+    already exists.
+    Return `dest_dir` upon success, or an empty string upon failure.
+    """
+    if os.path.islink(dest_dir):
+        os.remove(dest_dir)
+    try:
+        os.symlink(src_dir, dest_dir)
+    except FileExistsError:
+        pass
+    except (FileNotFoundError, TypeError):
+        return ""
+    return dest_dir
+
 
 class my_build_ext(build_ext_module.build_ext):
     def run(self):
         casacoreversion = find_casacore_version()
-        if casacoreversion is not None and  LooseVersion(casacoreversion) < LooseVersion(__mincasacoreversion__):
+        if casacoreversion is not None and LooseVersion(casacoreversion) < LooseVersion(__mincasacoreversion__):
             errorstr = "Your casacore version is too old. Minimum is " + __mincasacoreversion__ + \
                        ", you have " + casacoreversion
             if casacoreversion == "2.5.0":
@@ -278,7 +294,18 @@ setup(name='python-casacore',
       keywords=['pyrap', 'casacore', 'utilities', 'astronomy'],
       long_description=read('README.rst'),
       long_description_content_type='text/x-rst',
-      packages=find_packages(),
+      packages=find_packages() + find_namespace_packages(include=["casacore.data.*"]),
+      include_package_data=True,
+      # We need to bring the casacore data files in scope of the python package.
+      # There is no need to copy the files, creating a symlink suffices. Environment
+      # variable `CASACORE_DATA` must point to the directory containing the data files.
+      # If `CASACORE_DATA` is not set, or points to a non-existing directory, no data
+      # will be added to the python package. If `casacore/data` already exists and is
+      # not a symlink, then no attempt is made to create a symlink; the contents of
+      # `casacore/data` will be used instead.
+      package_data={
+          "casacore.data": [create_symlink(os.getenv("CASACORE_DATA"), "casacore/data")]
+      },
       ext_modules=get_extensions(),
       cmdclass={'build_ext': my_build_ext},
       license='LGPL')

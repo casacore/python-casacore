@@ -1,2 +1,6 @@
-include README.rst *.py LICENSE
-recursive-include src *.cc *.h
+include *.rst *.md
+include casacore/.aipsrc
+graft casacore/data
+graft doc
+graft src
+graft tests
