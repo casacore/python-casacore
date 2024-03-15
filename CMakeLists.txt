@@ -24,6 +24,7 @@ target_include_directories(_fitting PRIVATE
 target_link_directories(_fitting PRIVATE ${Casacore_LIBRARY_DIRS})
 target_link_libraries(_fitting ${Casacore_LIBRARIES})
 python_extension_module(_fitting)
+install(TARGETS _fitting LIBRARY DESTINATION casacore/fitting)
 
 add_library(_functionals MODULE
     src/functional.cc
@@ -36,6 +37,7 @@ target_include_directories(_functionals PRIVATE
 target_link_directories(_functionals PRIVATE ${Casacore_LIBRARY_DIRS})
 target_link_libraries(_functionals ${Casacore_LIBRARIES})
 python_extension_module(_functionals)
+install(TARGETS _fitting LIBRARY DESTINATION casacore/functionals)
 
 add_library(_images MODULE
     src/images.cc
@@ -48,6 +50,7 @@ target_include_directories(_images PRIVATE
 target_link_directories(_images PRIVATE ${Casacore_LIBRARY_DIRS})
 target_link_libraries(_images ${Casacore_LIBRARIES})
 python_extension_module(_images)
+install(TARGETS _images LIBRARY DESTINATION casacore/images)
 
 add_library(_measures MODULE
     src/pymeas.cc
@@ -60,6 +63,7 @@ target_include_directories(_measures PRIVATE
 target_link_directories(_measures PRIVATE ${Casacore_LIBRARY_DIRS})
 target_link_libraries(_measures ${Casacore_LIBRARIES})
 python_extension_module(_measures)
+install(TARGETS _measures LIBRARY DESTINATION casacore/measures)
 
 add_library(_quanta MODULE
     src/quanta.cc
@@ -74,6 +78,7 @@ target_include_directories(_quanta PRIVATE
 target_link_directories(_quanta PRIVATE ${Casacore_LIBRARY_DIRS})
 target_link_libraries(_quanta ${Casacore_LIBRARIES})
 python_extension_module(_quanta)
+install(TARGETS _quanta LIBRARY DESTINATION casacore/quanta)
 
 add_library(_tables MODULE
     src/pytable.cc
@@ -90,3 +95,4 @@ target_include_directories(_tables PRIVATE
 target_link_directories(_tables PRIVATE ${Casacore_LIBRARY_DIRS})
 target_link_libraries(_tables ${Casacore_LIBRARIES})
 python_extension_module(_tables)
+install(TARGETS _tables LIBRARY DESTINATION casacore/tables)
