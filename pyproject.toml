@@ -3,6 +3,7 @@ requires = [
     "build",
     "cmake>=3.18",
     "oldest-supported-numpy",
+    "scikit-build>=0.13",
     "setuptools",
     "wheel",
 ]

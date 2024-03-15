@@ -1,4 +1,4 @@
-include *.rst *.md
+include *.rst *.md CMakeLists.txt
 include casacore/.aipsrc
 graft casacore/data
 graft doc
