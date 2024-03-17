@@ -34,7 +34,7 @@ Debian & Ubuntu
 
 python-casacore is now part of Debian and Ubuntu and can be installed using apt::
 
-    $ sudo apt-get install python-casacore
+    $ sudo apt-get install python3-casacore
 
 
 from source
