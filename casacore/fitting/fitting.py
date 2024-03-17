@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from ._fitting import fitting
 import numpy as NUM
 import six
@@ -231,7 +233,7 @@ class fitserver(object):
                 functional("hyper", len(x)).todict()
         self._fitids[fid]["constraint"][i]["x"] = [float(v) for v in x]
         self._fitids[fid]["constraint"][i]["y"] = float(y)
-        six.print_(self._fitids[fid]["constraint"])
+        print(self._fitids[fid]["constraint"])
 
     def fitpoly(self, n, x, y, sd=None, wt=1.0, fid=0):
         if self.set(n=n + 1, fid=fid):

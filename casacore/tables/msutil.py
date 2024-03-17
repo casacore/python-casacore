@@ -23,9 +23,10 @@
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
 #
+from __future__ import print_function
+
 from six import string_types
 import numpy as np
-import six
 from casacore.tables.table import (table, taql,
                                    _required_ms_desc,
                                    _complete_ms_desc)
@@ -94,23 +95,23 @@ def addImagingColumns(msname, ack=True):
                   'SPEC': {'DEFAULTTILESHAPE': [4, 32, 128]}}
     # Add the columns(if not existing). Use the description of the DATA column.
     if 'MODEL_DATA' in cnames:
-        six.print_("Column MODEL_DATA not added; it already exists")
+        print("Column MODEL_DATA not added; it already exists")
     else:
         dminfo['NAME'] = 'modeldata'
         cdesc['comment'] = 'The model data column'
         t.addcols(maketabdesc(makecoldesc('MODEL_DATA', cdesc)), dminfo)
         if ack:
-            six.print_("added column MODEL_DATA")
+            print("added column MODEL_DATA")
     if 'CORRECTED_DATA' in cnames:
-        six.print_("Column CORRECTED_DATA not added; it already exists")
+        print("Column CORRECTED_DATA not added; it already exists")
     else:
         dminfo['NAME'] = 'correcteddata'
         cdesc['comment'] = 'The corrected data column'
         t.addcols(maketabdesc(makecoldesc('CORRECTED_DATA', cdesc)), dminfo)
         if ack:
-            six.print_("'added column CORRECTED_DATA")
+            print("'added column CORRECTED_DATA")
     if 'IMAGING_WEIGHT' in cnames:
-        six.print_("Column IMAGING_WEIGHT not added; it already exists")
+        print("Column IMAGING_WEIGHT not added; it already exists")
     else:
         # Add IMAGING_WEIGHT which is 1-dim and has type float.
         # It needs a shape, otherwise the CASA imager complains.
@@ -128,7 +129,7 @@ def addImagingColumns(msname, ack=True):
         dminfo['NAME'] = 'imagingweight'
         t.addcols(maketabdesc(cd), dminfo)
         if ack:
-            six.print_("added column IMAGING_WEIGHT")
+            print("added column IMAGING_WEIGHT")
     # Add or overwrite keyword CHANNEL_SELECTION.
     if 'CHANNEL_SELECTION' in t.colkeywordnames('MODEL_DATA'):
         t.removecolkeyword('MODEL_DATA', 'CHANNEL_SELECTION')
@@ -139,7 +140,7 @@ def addImagingColumns(msname, ack=True):
     chans = [[0, nch] for nch in nchans]
     t.putcolkeyword('MODEL_DATA', 'CHANNEL_SELECTION', np.int32(chans))
     if ack:
-        six.print_("defined keyword CHANNEL_SELECTION in column MODEL_DATA")
+        print("defined keyword CHANNEL_SELECTION in column MODEL_DATA")
     # Flush the table to make sure it is written.
     t.flush()
 
@@ -408,7 +409,7 @@ def msregularize(msname, newname):
             ant2 = tsub.getcol('ANTENNA2')
             t2 = taql('select from $t1 where !any(ANTENNA1 == $ant1 &&' +
                       ' ANTENNA2 == $ant2)')
-            six.print_(nmissing, t1.nrows(), tsub.nrows(), t2.nrows())
+            print(nmissing, t1.nrows(), tsub.nrows(), t2.nrows())
             if t2.nrows() != nmissing:
                 raise ValueError("A time/band chunk behaves strangely")
             # If nothing added yet, create a new table.
@@ -438,8 +439,8 @@ def msregularize(msname, newname):
     else:
         tcombs = t.query(offset=0)
     tcombs.rename(newname)
-    six.print_(newname, 'has been created; it references the original MS')
+    print(newname, 'has been created; it references the original MS')
     if nadded > 0:
-        six.print_(' and', newname + '_adds', 'containing', nadded, 'new rows')
+        print(' and', newname + '_adds', 'containing', nadded, 'new rows')
     else:
-        six.print_(' no rows needed to be added')
+        print(' no rows needed to be added')

@@ -24,6 +24,7 @@
 #                        Charlottesville, VA 22903-2475 USA
 #
 
+from __future__ import print_function
 
 from collections import defaultdict
 
@@ -233,7 +234,7 @@ def tablefromascii(tablename, asciifile,
     tab = table(asciifile, headerfile, tablename, autoheader, autoshape,
                 sep, commentmarker, firstline, lastline,
                 _columnnames=columnnames, _datatypes=datatypes, _oper=1)
-    six.print_('Input format: [' + tab._getasciiformat() + ']')
+    print('Input format: [' + tab._getasciiformat() + ']')
     # Close table and reopen it in correct way.
     tab = 0
     return table(tablename, readonly=readonly, lockoptions=lockoptions,
@@ -647,12 +648,12 @@ def tabledelete(tablename, checksubtables=False, ack=True):
     tabname = _remove_prefix(tablename)
     t = table(tabname, ack=False)
     if t.ismultiused(checksubtables):
-        six.print_('Table', tabname, 'cannot be deleted; it is still in use')
+        print('Table', tabname, 'cannot be deleted; it is still in use')
     else:
         t = 0
         table(tabname, readonly=False, _delete=True, ack=False)
         if ack:
-            six.print_('Table', tabname, 'has been deleted')
+            print('Table', tabname, 'has been deleted')
 
 
 def tableexists(tablename):
@@ -731,4 +732,4 @@ def tablestructure(tablename, dataman=True, column=True, subtable=False,
 
     """
     t = table(tablename, ack=False)
-    six.print_(t.showstructure(dataman, column, subtable, sort))
+    print(t.showstructure(dataman, column, subtable, sort))

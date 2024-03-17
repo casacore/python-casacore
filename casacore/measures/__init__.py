@@ -31,6 +31,8 @@ from ._measures import measures as _measures
 import casacore.quanta as dq
 import os
 
+from six import string_types
+
 if 'MEASURESDATA' in os.environ.keys():
     if 'AIPSPATH' not in os.environ.keys():
         os.environ['AIPSPATH'] = '%s dummy dummy' % os.environ['MEASURESDATA']
