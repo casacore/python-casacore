@@ -32,15 +32,18 @@
 #include <casacore/python/Converters/PycValueHolder.h>
 #include <casacore/python/Converters/PycRecord.h>
 #include <casacore/python/Converters/PycArray.h>
+#include <casacore/python/Converters/PyNotThreadSafe.h>
 #include <casacore/tables/Tables/TableProxy.h>
 
 #include <casacore/meas/MeasUDF/Register.h>
 #include <casacore/derivedmscal/DerivedMC/Register.h>
 
 #include <boost/python.hpp>
+#include <string>
 
 BOOST_PYTHON_MODULE(_tables)
 {
+  casacore::python::registerNotThreadSafeException();
   casacore::python::register_convert_excp();
   casacore::python::register_convert_basicdata();
   casacore::python::register_convert_casa_valueholder();
