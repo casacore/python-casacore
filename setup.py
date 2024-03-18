@@ -310,7 +310,8 @@ setup(name='python-casacore',
       # not a symlink, then no attempt is made to create a symlink; the contents of
       # `casacore/data` will be used instead.
       package_data={
-          "casacore.data": [create_symlink(os.getenv("CASACORE_DATA"), "casacore/data")]
+        #   "casacore.data": [create_symlink(os.getenv("CASACORE_DATA"), "casacore/data")]
+          "casacore.data": ["casacore/data"]
       },
     #   ext_modules=get_extensions(),
     #   cmdclass={'build_ext': my_build_ext},

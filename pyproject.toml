@@ -2,6 +2,7 @@
 requires = [
     "build",
     "cmake>=3.18",
+    "ninja",
     "oldest-supported-numpy",
     "scikit-build>=0.13",
     "setuptools",
@@ -12,8 +13,9 @@ requires = [
 build = "cp3{7,8,9,10,11,12}-*_x86_64"
 build-verbosity = 1
 environment = """ \
-    CFLAGS="-I/usr/include/cfitsio" \
-    LD_LIBRARY_PATH=/opt/boost/lib \
+    BOOST_ROOT="/opt/boost" \
+    CXXFLAGS="-I/usr/include/cfitsio" \
+    LD_LIBRARY_PATH="${BOOST_ROOT}/lib" \
 """
 test-command = "cd {package}/tests && pytest"
 test-requires = "pytest"
