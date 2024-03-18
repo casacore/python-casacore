@@ -37,7 +37,7 @@ target_include_directories(_functionals PRIVATE
 target_link_directories(_functionals PRIVATE ${Casacore_LIBRARY_DIRS})
 target_link_libraries(_functionals ${Casacore_LIBRARIES})
 python_extension_module(_functionals)
-install(TARGETS _fitting LIBRARY DESTINATION casacore/functionals)
+install(TARGETS _functionals LIBRARY DESTINATION casacore/functionals)
 
 add_library(_images MODULE
     src/images.cc
