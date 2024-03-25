@@ -83,6 +83,7 @@ cmake.version = ">=3.15"
 ninja.version = ">=1.5"
 logging.level = "INFO"
 install.components = ["data", "libraries"]
+sdist.exclude = [".github", ".gitignore"]
 wheel.packages = ["casacore", "pyrap"]
 
 [tool.scikit-build.cmake.define]
