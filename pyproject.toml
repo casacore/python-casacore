@@ -35,9 +35,7 @@ Homepage = "https://github.com/casacore/python-casacore"
 build = "cp3{7,8,9,10,11,12}-*_x86_64"
 build-verbosity = 1
 environment = """ \
-    BOOST_ROOT="/opt/boost" \
     CXXFLAGS="-I/usr/include/cfitsio" \
-    LD_LIBRARY_PATH="${BOOST_ROOT}/lib" \
 """
 test-command = "cd {package}/tests && pytest"
 test-requires = "pytest"
@@ -86,3 +84,6 @@ ninja.version = ">=1.5"
 logging.level = "INFO"
 install.components = ["data", "libraries"]
 wheel.packages = ["casacore", "pyrap"]
+
+[tool.scikit-build.cmake.define]
+BUILD_TESTING = "ON"
