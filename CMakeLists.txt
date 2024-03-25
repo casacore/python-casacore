@@ -11,7 +11,20 @@ find_package(Boost REQUIRED COMPONENTS python)
 # If environment variable CASACORE_DATA is set, assume it points to a directory
 # containing the cascacore data files, and install its contents.
 if (DEFINED ENV{CASACORE_DATA})
+    foreach(_dir ephemerides geodetic)
+        if(NOT IS_DIRECTORY $ENV{CASACORE_DATA}/${_dir})
+            message(FATAL_ERROR
+                "Directory $ENV{CASACORE_DATA}/${_dir} does not exist. "
+                "Does environment variable CASACORE_DATA point to a valid data directory?"
+            )
+        endif()
+    endforeach()
     install(DIRECTORY $ENV{CASACORE_DATA} DESTINATION casacore COMPONENT data)
+else()
+    message(WARNING
+        "Environment variable CASACORE_DATA is not defined. "
+        "Casacore data files will not be included in the python-casacore package."
+    )
 endif()
 
 python_add_library(_fitting MODULE WITH_SOABI
