@@ -13,7 +13,7 @@ find_package(Boost REQUIRED COMPONENTS python)
 if (DEFINED ENV{CASACORE_DATA})
     foreach(_dir ephemerides geodetic)
         if(NOT IS_DIRECTORY $ENV{CASACORE_DATA}/${_dir})
-            message(FATAL_ERROR
+            message(SEND_ERROR
                 "Directory $ENV{CASACORE_DATA}/${_dir} does not exist. "
                 "Does environment variable CASACORE_DATA point to a valid data directory?"
             )
