@@ -8,10 +8,13 @@ a c++ library used in radio astronomy. Python-casacore replaces the old
 
 The python-casacore documentation can be found on `casacore.github.io/python-casacore <http://casacore.github.io/python-casacore>`_.
 
-.. image:: https://travis-ci.org/casacore/python-casacore.svg?branch=master
-    :target: https://travis-ci.org/casacore/python-casacore
 .. image:: https://coveralls.io/repos/github/casacore/python-casacore/badge.svg?branch=master
     :target: https://coveralls.io/github/casacore/python-casacore?branch=master
+.. image:: https://github.com/casacore/python-casacore/actions/workflows/linux.yml/badge.svg?branch=master
+    :target: https://github.com/casacore/python-casacore/actions/workflows/linux.yml
+.. image:: https://github.com/casacore/python-casacore/actions/workflows/osx.yml/badge.svg?branch=master
+    :target: https://github.com/casacore/python-casacore/actions/workflows/osx.yml
+
 
 Installation
 ============
@@ -38,16 +41,17 @@ from source
 
 install these requirements:
 
-* `setuptools <https://pypi.python.org/pypi/setuptools>`_
 * `Casacore <https://github.com/casacore/casacore/>`__
 * `Boost-python <http://www.boost.org/libs/python/doc/>`_
-* `numpy <http://www.numpy.org/>`_ 
+* `numpy <http://www.numpy.org/>`_
 * `cfitsio <http://heasarc.gsfc.nasa.gov/fitsio/>`_
+* `wcslib <http://www.atnf.csiro.au/people/mcalabre/WCS/wcslib-8.2.2.tar.bz2>`_
+* `pip <https://bootstrap.pypa.io/get-pip.py>`_
 
 On ubuntu you can install these with::
 
-    $ apt-get install casacore-dev python-numpy \
-        python-setuptools libboost-python-dev libcfitsio3-dev wcslib-dev
+    $ apt-get install casacore-dev libboost-python-dev python3-numpy \
+        libcfitsio3-dev wcslib-dev python3-pip
 
 * compile and install::
 
@@ -55,13 +59,13 @@ On ubuntu you can install these with::
 
 * or if you are installing from the source repository::
 
-    $ python ./setup.py install
-    
+    $ pip install .
+
 * If the compilation fails you might need to help the compiler find the paths to the
   boost and casacore libraries and headers. You can control this with the `CFLAGS` environment
   variable. For example on OS X when using homebrew and clang you need to do something like
   this::
-  
+
     CFLAGS="-std=c++11 \
             -I/usr/local/Cellar/boost/1.68.0/include/ \
             -I/usr/local/include/  \
