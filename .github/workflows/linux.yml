@@ -9,17 +9,11 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-20.04
-#    continue-on-error: true
     strategy:
       matrix:
         dist:
-#          - pep8
-#          - mypy
-#          - py2_kern6
-#          - py3_kern6
           - py3_kern7
           - py3_casacore_master
-#          - py3_casacore_v3.3
           - py3_casacore_v3.4
     steps:
       - name: Checkout
@@ -29,30 +23,3 @@ jobs:
         run: docker build . -t ${{ matrix.dist }} -f .github/workflows/${{ matrix.dist }}.docker
 
 
-#  wheels:
-#    runs-on: ubuntu-20.04
-#    continue-on-error: true
-#    strategy:
-#      matrix:
-#        dist:
-#          - py36_binary_wheel
-#          - py37_binary_wheel
-#          - py38_binary_wheel
-#          - py39_binary_wheel
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#
-#      - name: Build container
-#        run: docker build . -t ${{ matrix.dist }} -f .github/workflows/${{ matrix.dist }}.docker
-#
-#      - name: Get wheel
-#        run: |
-#          mkdir -p bridge
-#          docker run -v `pwd`/bridge:/bridge ${{ matrix.dist }} sh -c "cp /output/*.whl /bridge/."
-#
-#      - uses: actions/upload-artifact@v2
-#        name: Publish Linux binary wheels
-#        with:
-#          path: bridge/*.whl
-#

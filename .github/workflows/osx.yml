@@ -34,7 +34,7 @@ jobs:
         run: venv/bin/pytest
 
       - name: make binary wheel
-        run: venv/bin/python3 setup.py bdist_wheel
+        run: venv/bin/pip wheel -w dist .
 
       - name: Delocate binary wheel
         run: venv/bin/delocate-wheel -v dist/*.whl
