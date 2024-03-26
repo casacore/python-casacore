@@ -1,3 +1,1 @@
-pytest
-coverage
-coveralls
+pytest-cov
