@@ -18,10 +18,29 @@ name = "python-casacore"
 version = "3.5.3"
 description = "A wrapper around CASACORE, the radio astronomy library"
 keywords = ["pyrap", "casacore", "utilities", "astronomy"]
+license = {file = "LICENSE"}
 readme = {file = "README.rst", content-type = "test/x-rst"}
-license = {text = "LGPL"}
 requires-python = ">=3.7"
-dependencies = ["numpy", "six"]
+authors = [
+    {name = "Malte Marquarding", email = "Malte.Marquarding@gmail.com"},
+    {name = "Ger van Diepen", email = "gervandiepen@gmail.com"},
+    {name = "Gijs Molenaar", email = "gijs@pythonic.nl"},
+    {name = "Tammo Jan Dijkema", email = "dijkema@astron.nl"},
+    {name = "Marcel Loose", email = "loose@astron.nl"},
+]
+classifiers=[
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Natural Language :: English",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+dependencies = [
+    "numpy",
+    "six",
+]
 
 [project.urls]
 Homepage = "https://github.com/casacore/python-casacore"
