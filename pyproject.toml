@@ -1,18 +1,61 @@
+#########################
+# build-system settings #
+#########################
+
 [build-system]
 requires = [
-    "build",
-    "cmake>=3.18",
-    "oldest-supported-numpy",
-    "setuptools",
-    "wheel",
+    "scikit-build-core>=0.8",
 ]
+build-backend = "scikit_build_core.build"
+
+
+####################
+# project settings #
+####################
+
+[project]
+name = "python-casacore"
+version = "3.5.3"
+description = "A wrapper around CASACORE, the radio astronomy library"
+keywords = ["pyrap", "casacore", "utilities", "astronomy"]
+license = {file = "LICENSE"}
+readme = {file = "README.rst", content-type = "test/x-rst"}
+requires-python = ">=3.7"
+authors = [
+    {name = "Malte Marquarding", email = "Malte.Marquarding@gmail.com"},
+    {name = "Ger van Diepen", email = "gervandiepen@gmail.com"},
+    {name = "Gijs Molenaar", email = "gijs@pythonic.nl"},
+    {name = "Tammo Jan Dijkema", email = "dijkema@astron.nl"},
+    {name = "Marcel Loose", email = "loose@astron.nl"},
+]
+classifiers=[
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Natural Language :: English",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: C++",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+dependencies = [
+    "numpy",
+    "six",
+]
+
+[project.urls]
+Homepage = "https://github.com/casacore/python-casacore"
+
+
+#########################
+# cibuildwheel settings #
+#########################
 
 [tool.cibuildwheel]
 build = "cp3{7,8,9,10,11,12}-*_x86_64"
 build-verbosity = 1
 environment = """ \
-    CFLAGS="-I/usr/include/cfitsio" \
-    LD_LIBRARY_PATH=/opt/boost/lib \
+    CXXFLAGS="-I/usr/include/cfitsio" \
 """
 test-command = "cd {package}/tests && pytest"
 test-requires = "pytest"
@@ -49,3 +92,19 @@ manylinux-x86_64-image = "quay.io/casacore/casacore:py311_master"
 [[tool.cibuildwheel.overrides]]
 select="cp312-*"
 manylinux-x86_64-image = "quay.io/casacore/casacore:py312_master"
+
+
+#########################
+# scikit-build settings #
+#########################
+
+[tool.scikit-build]
+cmake.version = ">=3.15"
+ninja.version = ">=1.5"
+logging.level = "INFO"
+install.components = ["data", "libraries"]
+sdist.exclude = [".github", ".gitignore"]
+wheel.packages = ["casacore", "pyrap"]
+
+[tool.scikit-build.cmake.define]
+BUILD_TESTING = "ON"
