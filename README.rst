@@ -8,11 +8,12 @@ a c++ library used in radio astronomy. Python-casacore replaces the old
 
 The python-casacore documentation can be found on `casacore.github.io/python-casacore <http://casacore.github.io/python-casacore>`_.
 
-.. image:: https://coveralls.io/repos/github/casacore/python-casacore/badge.svg?branch=master
-    :target: https://coveralls.io/github/casacore/python-casacore?branch=master
-.. image:: https://github.com/casacore/python-casacore/actions/workflows/linux.yml/badge.svg?branch=master
+Build status
+------------
+
+.. image:: https://github.com/casacore/python-casacore/actions/workflows/linux.yml/badge.svg
     :target: https://github.com/casacore/python-casacore/actions/workflows/linux.yml
-.. image:: https://github.com/casacore/python-casacore/actions/workflows/osx.yml/badge.svg?branch=master
+.. image:: https://github.com/casacore/python-casacore/actions/workflows/osx.yml/badge.svg
     :target: https://github.com/casacore/python-casacore/actions/workflows/osx.yml
 
 
