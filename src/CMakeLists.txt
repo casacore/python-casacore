@@ -33,6 +33,7 @@ foreach(_target ${_targets})
                                                 ${CASACORE_INCLUDE_DIRS})
   target_link_directories(${_target} PRIVATE ${CASACORE_LIBRARY_DIRS})
   target_link_libraries(${_target} PRIVATE ${CASACORE_LIBRARIES})
+  target_link_options(${_target} PRIVATE "LINKER:--as-needed")
   install(TARGETS ${_target} LIBRARY DESTINATION ${_destination}
                                      COMPONENT libraries)
 endforeach()
