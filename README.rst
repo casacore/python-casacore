@@ -46,7 +46,7 @@ install these requirements:
 * `Boost-python <http://www.boost.org/libs/python/doc/>`_
 * `numpy <http://www.numpy.org/>`_
 * `cfitsio <http://heasarc.gsfc.nasa.gov/fitsio/>`_
-* `wcslib <http://www.atnf.csiro.au/people/mcalabre/WCS/wcslib-8.2.2.tar.bz2>`_
+* `wcslib <https://www.atnf.csiro.au/people/mcalabre/WCS/wcslib-8.2.2.tar.bz2>`_
 * `pip <https://bootstrap.pypa.io/get-pip.py>`_
 
 On ubuntu you can install these with::

@@ -30,9 +30,9 @@ get_directory_property(_targets BUILDSYSTEM_TARGETS)
 foreach(_target ${_targets})
   string(REGEX REPLACE "^_" "casacore/" _destination "${_target}")
   target_include_directories(${_target} PRIVATE ${Boost_INCLUDE_DIRS}
-                                                ${Casacore_INCLUDE_DIRS})
-  target_link_directories(${_target} PRIVATE ${Casacore_LIBRARY_DIRS})
-  target_link_libraries(${_target} PRIVATE ${Casacore_LIBRARIES})
+                                                ${CASACORE_INCLUDE_DIRS})
+  target_link_directories(${_target} PRIVATE ${CASACORE_LIBRARY_DIRS})
+  target_link_libraries(${_target} PRIVATE ${CASACORE_LIBRARIES})
   install(TARGETS ${_target} LIBRARY DESTINATION ${_destination}
                                      COMPONENT libraries)
 endforeach()
