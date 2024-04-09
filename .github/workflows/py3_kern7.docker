@@ -5,7 +5,6 @@ RUN docker-apt-install \
     libboost-python-dev \
     libcasa-python3-6 \
     libcfitsio-dev \
-    pkg-config \
     wcslib-dev \
     python3-all \
     python3-dev \

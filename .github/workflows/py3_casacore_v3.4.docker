@@ -3,7 +3,6 @@ USER root
 RUN docker-apt-install \
     libboost-python-dev \
     libcfitsio-dev \
-    pkg-config \
     wcslib-dev \
     python3-all \
     python3-dev \
