@@ -33,6 +33,7 @@
 
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
+#include "guards.h"
 
 using namespace boost::python;
 
@@ -139,91 +140,20 @@ namespace casacore { namespace python {
       .def ("_iscelldefined", &TableProxy::cellContentsDefined,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("rownr")))
-      .def ("_getcell", &TableProxy::getCell,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr")))
-      .def ("_getcellvh", &TableProxy::getCellVH,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-             boost::python::arg("value")))
-      .def ("_getcellslice", &TableProxy::getCellSliceIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc")))
-      .def ("_getcellslicevh", &TableProxy::getCellSliceVHIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc"),
-             boost::python::arg("value")))
-      .def ("_getcol", &TableProxy::getColumn,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr")))
-      .def ("_getcolvh", &TableProxy::getColumnVH,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr"),
-             boost::python::arg("value")))
-      .def ("_getvarcol", &TableProxy::getVarColumn,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr")))
-      .def ("_getcolslice", &TableProxy::getColumnSliceIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr")))
-      .def ("_getcolslicevh", &TableProxy::getColumnSliceVHIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr"),
-             boost::python::arg("value")))
-      .def ("_putcell", &TableProxy::putCell,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-	     boost::python::arg("value")))
-      .def ("_putcellslice", &TableProxy::putCellSliceIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-	     boost::python::arg("value"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc")))
-      .def ("_putcol", &TableProxy::putColumn,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr"),
-	     boost::python::arg("value")))
-      .def ("_putvarcol", &TableProxy::putVarColumn,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr"),
-	     boost::python::arg("value")))
-      .def ("_putcolslice", &TableProxy::putColumnSliceIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("value"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr")))
+      .def ("_getcell", with<no_gil>(&TableProxy::getCell))
+      .def ("_getcellvh", with<no_gil>(&TableProxy::getCellVH))
+      .def ("_getcellslice", with<no_gil>(&TableProxy::getCellSliceIP))
+      .def ("_getcellslicevh", with<no_gil>(&TableProxy::getCellSliceVHIP))
+      .def ("_getcol", with<no_gil>(&TableProxy::getColumn))
+      .def ("_getcolvh", with<no_gil>(&TableProxy::getColumnVH))
+      .def ("_getvarcol", with<no_gil>(&TableProxy::getVarColumn))
+      .def ("_getcolslice", with<no_gil>(&TableProxy::getColumnSliceIP))
+      .def ("_getcolslicevh", with<no_gil>(&TableProxy::getColumnSliceVHIP))
+      .def ("_putcell", with<no_gil>(&TableProxy::putCell))
+      .def ("_putcellslice", with<no_gil>(&TableProxy::putCellSliceIP))
+      .def ("_putcol", with<no_gil>(&TableProxy::putColumn))
+      .def ("_putvarcol", with<no_gil>(&TableProxy::putVarColumn))
+      .def ("_putcolslice", with<no_gil>(&TableProxy::putColumnSliceIP))
       .def ("_getcolshapestring", &TableProxy::getColumnShapeString,
 	    (boost::python::arg("columnname"),
 	     boost::python::arg("startrow"),
