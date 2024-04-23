@@ -8,10 +8,13 @@ casacore/*/_*.so
 python_casacore.egg-info/
 casacore.egg-info/
 *~
+*.bak
+*.log
 .coverage
 .virtualenv/
 .virtualenv3/
 .venv*/
 venv/
+wheelhouse/
 htmlcov
 *.so

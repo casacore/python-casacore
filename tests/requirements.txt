@@ -1,5 +1,1 @@
-pytest
-coverage
-coveralls
-travis-sphinx
-
+pytest-cov

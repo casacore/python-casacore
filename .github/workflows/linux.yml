@@ -12,9 +12,7 @@ jobs:
     strategy:
       matrix:
         dist:
-          - py3_kern7
           - py3_casacore_master
-          - py3_casacore_v3.4
     steps:
       - name: Checkout
         uses: actions/checkout@v4
