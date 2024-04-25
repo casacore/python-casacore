@@ -18,3 +18,5 @@ venv/
 wheelhouse/
 htmlcov
 *.so
+.vscode/
+casacore/_version.py

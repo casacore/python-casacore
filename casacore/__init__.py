@@ -1,7 +1,7 @@
-__version__ = "3.5.3"
-__mincasacoreversion__ = "3.1.1"
-
 import os
+from ._version import __version__
+
+__mincasacoreversion__ = "3.1.1"
 
 # If environment variable `AIPSPATH` is not set, then set it to the directory
 # containing the `.aipsrc` file that is distributed with this package.

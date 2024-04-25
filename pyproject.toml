@@ -15,8 +15,8 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "python-casacore"
-version = "3.5.3"
 description = "A wrapper around CASACORE, the radio astronomy library"
+dynamic = ["version"]
 keywords = ["pyrap", "casacore", "utilities", "astronomy"]
 license = {file = "LICENSE"}
 readme = {file = "README.rst", content-type = "test/x-rst"}
@@ -103,8 +103,18 @@ cmake.version = ">=3.15"
 ninja.version = ">=1.5"
 logging.level = "INFO"
 install.components = ["data", "libraries"]
+metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
 sdist.exclude = [".github", ".gitignore"]
+sdist.include = ["casacore/_version.py"]
 wheel.packages = ["casacore", "pyrap"]
 
 [tool.scikit-build.cmake.define]
 BUILD_TESTING = "ON"
+
+
+###########################
+# setuptools_scm settings #
+###########################
+
+[tool.setuptools_scm]
+write_to = "casacore/_version.py"
