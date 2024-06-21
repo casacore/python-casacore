@@ -39,7 +39,7 @@ classifiers=[
     "Topic :: Scientific/Engineering :: Astronomy",
 ]
 dependencies = [
-    "numpy",
+    "numpy<2.0",
     "six",
 ]
 
