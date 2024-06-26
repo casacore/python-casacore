@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.15...3.26)
 project(python-casacore)
 
+# Require a C++11 compatible compiler with no funny stuff
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 find_package(
   Python
   COMPONENTS Interpreter Development.Module
