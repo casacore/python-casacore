@@ -39,7 +39,7 @@ jobs:
         run: venv/bin/pip install .
 
       - name: Run pytest
-        run: cd tests && venv/bin/pytest
+        run: cd tests && ../venv/bin/pytest
 
       - name: make binary wheel
         run: venv/bin/pip wheel -w dist .
@@ -47,7 +47,7 @@ jobs:
       - name: Delocate binary wheel
         run: venv/bin/delocate-wheel -v dist/*.whl
 
-      - name: Publish OS X binary wheels
+      - name: Publish macOS binary wheels
         uses: actions/upload-artifact@v4
         with:
           path: dist/*.whl
