@@ -30,7 +30,9 @@ jobs:
           brew install casacore
 
       - name: make virtualenv
-        run: python3 -m venv venv
+        # XXX Use Homebrew's numpy to be safe for now, especially since
+        # PyPI is now on numpy 2.0, which complicates matters
+        run: python3 -m venv venv --system-site-packages
 
       - name: Install Python dependencies
         run: venv/bin/pip install --upgrade pip wheel delocate pytest
