@@ -1,4 +1,4 @@
-name: OS X
+name: macOS
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   osx:
-    runs-on: macos-11
+    runs-on: [macos-13, macos-14]
     continue-on-error: true
 
     steps:
@@ -22,7 +22,7 @@ jobs:
       - name: install homebrew packages
         run: |
           brew tap casacore/tap 
-          brew install casacore --with-python
+          brew install casacore
 
       - name: make virtualenv
         run: python3 -m venv venv
@@ -31,7 +31,7 @@ jobs:
         run: venv/bin/pip install --upgrade pip wheel delocate pytest
 
       - name: Compile and install python-casacore
-        run: CFLAGS="-I/usr/local/include -L/usr/local/lib" venv/bin/pip install .
+        run: venv/bin/pip install .
 
       - name: Run pytest
         run: venv/bin/pytest
