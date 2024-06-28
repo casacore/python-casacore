@@ -1,4 +1,4 @@
-name: macOS
+name: Build macOS Homebrew wheels
 
 on:
   push:
@@ -8,8 +8,13 @@ on:
     branches: [ master ]
 
 jobs:
-  osx:
-    runs-on: [macos-13, macos-14]
+  build_wheel_macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-13, macos-14]
+    runs-on: ${{ matrix.os }}
+    # This is still pretty much an experimental feature
     continue-on-error: true
 
     steps:
@@ -34,7 +39,7 @@ jobs:
         run: venv/bin/pip install .
 
       - name: Run pytest
-        run: venv/bin/pytest
+        run: cd tests && venv/bin/pytest
 
       - name: make binary wheel
         run: venv/bin/pip wheel -w dist .
