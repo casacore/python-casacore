@@ -42,7 +42,7 @@ jobs:
         run: python3 -m venv venv --system-site-packages
 
       - name: Install Python dependencies
-        run: venv/bin/pip install --upgrade pip six wheel delocate pytest
+        run: venv/bin/pip install --upgrade pip wheel delocate pytest
 
       - name: Compile and install python-casacore
         run: venv/bin/pip install .
@@ -53,7 +53,9 @@ jobs:
       - name: Make binary wheel
         # XXX Use Homebrew's numpy to be safe for now, especially since
         # PyPI is now on numpy 2.0, which complicates matters
-        run: venv/bin/pip wheel -w dist --no-build-isolation .
+        run: |
+          venv/bin/pip install --upgrade six scikit-build-core
+          venv/bin/pip wheel -w dist --no-build-isolation .
 
       - name: Delocate binary wheel
         run: venv/bin/delocate-wheel -v dist/*.whl
