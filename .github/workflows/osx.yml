@@ -54,7 +54,7 @@ jobs:
         # XXX Use Homebrew's numpy to be safe for now, especially since
         # PyPI is now on numpy 2.0, which complicates matters
         run: |
-          venv/bin/pip install --upgrade six scikit-build-core
+          venv/bin/pip install --upgrade six scikit-build-core setuptools_scm
           venv/bin/pip wheel -w dist --no-build-isolation .
 
       - name: Delocate binary wheel
