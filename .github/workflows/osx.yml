@@ -26,7 +26,9 @@ jobs:
 
       # See https://github.com/orgs/Homebrew/discussions/3895#discussioncomment-4130560
       - name: Ensure we use Homebrew Python
-        run: find /usr/local/bin -lname '*/Library/Frameworks/Python.framework/*' -delete
+        run: |
+          find /usr/local/bin -lname '*/Library/Frameworks/Python.framework/*' -delete
+          brew update
 
       - name: Install Homebrew packages
         run: |
