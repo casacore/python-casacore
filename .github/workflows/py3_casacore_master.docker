@@ -14,7 +14,7 @@ ADD . /src
 WORKDIR /src
 RUN python3 -m venv venv && \
     . venv/bin/activate && \
-    pip install numpy==1.26.4 && \
+    pip install 'numpy<2' && \
     pip install . && \
     cd tests && \
     pip install -r requirements.txt && \
