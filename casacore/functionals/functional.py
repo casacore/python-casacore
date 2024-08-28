@@ -1,4 +1,3 @@
-from six import string_types, integer_types
 from ._functionals import _functional
 
 import numpy
@@ -20,19 +19,19 @@ def copydoc(fromfunc, sep="\n"):
 
 class functional(_functional):
     def __init__(self, name=None, order=-1, params=None, mode=None, dtype=0):
-        if isinstance(dtype, string_types):
+        if isinstance(dtype, str):
             dtypes = {'real': 0, 'complex': 1}
             dtype = dtypes.get(dtype.lower())
         if numpy.iscomplexobj(params):
             dtype = 1
         self._dtype = dtype
         progtext = ""
-        if not isinstance(name, string_types):
+        if not isinstance(name, str):
             raise TypeError("'name' was not of type string")
-        if not (isinstance(order, integer_types) or isinstance(order, string_types)):
+        if not (isinstance(order, int) or isinstance(order, str)):
             raise TypeError("'order' was not of type integer or string")
         else:
-            if isinstance(order, string_types):
+            if isinstance(order, str):
                 progtext = order
                 order = -1
         # our own functionals server

@@ -40,7 +40,6 @@ classifiers=[
 ]
 dependencies = [
     "numpy",
-    "six",
 ]
 
 [project.urls]

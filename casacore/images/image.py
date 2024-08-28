@@ -25,7 +25,6 @@
 
 from __future__ import print_function
 
-from six import string_types, integer_types
 from ._images import Image
 import numpy
 import numpy.ma as nma
@@ -128,7 +127,7 @@ class image(Image):
             if isinstance(imagename, tuple) or isinstance(imagename, list):
                 if len(imagename) == 0:
                     raise ValueError('No images given in list or tuple')
-                if isinstance(imagename[0], string_types):
+                if isinstance(imagename[0], str):
                     # Concatenate from image names
                     Image.__init__(self, imagename, axis)
                     opened = True
@@ -137,7 +136,7 @@ class image(Image):
                     Image.__init__(self, imagename, axis, 0, 0)
                     opened = True
             if not opened:
-                if not isinstance(imagename, string_types):
+                if not isinstance(imagename, str):
                     raise ValueError("first argument must be name or" +
                                      " sequence of images or names")
                 if shape is None:
@@ -259,7 +258,7 @@ class image(Image):
         It can only be used for unique attribute keys. An IndexError exception
         is raised if no or multiple matches are found.
         """
-        if not isinstance(key, string_types):
+        if not isinstance(key, str):
             return self._attrgetrow(groupname, key)
         # The key is an attribute name whose value has to be found.
         rownrs = self.attrfindrows(groupname, key, value)
@@ -610,7 +609,7 @@ class image(Image):
 
     def _adaptAxes(self, axes):
         # If axes is a single integer value, turn it into a list.
-        if isinstance(axes, integer_types):
+        if isinstance(axes, int):
             axes = [axes]
         # ImageProxy expects Fortran-numbered axes.
         # So reverse the axes.
