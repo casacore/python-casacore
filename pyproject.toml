@@ -19,7 +19,7 @@ description = "A wrapper around CASACORE, the radio astronomy library"
 dynamic = ["version"]
 keywords = ["pyrap", "casacore", "utilities", "astronomy"]
 license = {file = "LICENSE"}
-readme = {file = "README.rst", content-type = "test/x-rst"}
+readme = {file = "README.rst", content-type = "text/x-rst"}
 requires-python = ">=3.7"
 authors = [
     {name = "Malte Marquarding", email = "Malte.Marquarding@gmail.com"},
