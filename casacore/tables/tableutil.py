@@ -483,92 +483,92 @@ def maketabdesc(descs=[]):
     return rec
 
 def makedminfo(tabdesc, group_spec=None):
-  """Creates a data manager information object.
+    """Creates a data manager information object.
 
-  Create a data manager information dictionary outline from a table description.
-  The resulting dictionary is a bare outline and is available for the purposes of
-  further customising the data manager via the `group_spec` argument.
+    Create a data manager information dictionary outline from a table description.
+    The resulting dictionary is a bare outline and is available for the purposes of
+    further customising the data manager via the `group_spec` argument.
 
-  The resulting dictionary can be used in the :class:`table` constructor and
-  the :meth:`default_ms` and :meth:`default_ms_subtable` functions.
+    The resulting dictionary can be used in the :class:`table` constructor and
+    the :meth:`default_ms` and :meth:`default_ms_subtable` functions.
 
-  `tabdesc`
-    The table description
-  `group_spec`
-    The SPEC for a data manager group. In practice this is useful for
-    setting the Default Tile Size and Maximum Cache Size for the Data Manager::
+    `tabdesc`
+      The table description
+    `group_spec`
+      The SPEC for a data manager group. In practice this is useful for
+      setting the Default Tile Size and Maximum Cache Size for the Data Manager::
 
-      {
-        'WeightColumnGroup' : {
-          'DEFAULTTILESHAPE': np.int32([4,4,4]),
-          'MAXIMUMCACHESIZE': 1000,
+        {
+          'WeightColumnGroup' : {
+            'DEFAULTTILESHAPE': np.int32([4,4,4]),
+            'MAXIMUMCACHESIZE': 1000,
+          }
         }
-      }
 
-    This should be used with care.
+      This should be used with care.
 
-  """
-  if group_spec is None:
-    group_spec = {}
-
-  class DMGroup(object):
     """
-    Keep track of the columns, type and spec of each data manager group
-    """
-    def __init__(self):
-      self.columns = []
-      self.type = None
-      self.spec = None
+    if group_spec is None:
+        group_spec = {}
 
-  dm_groups = defaultdict(DMGroup)
+    class DMGroup(object):
+        """
+        Keep track of the columns, type and spec of each data manager group
+        """
+        def __init__(self):
+            self.columns = []
+            self.type = None
+            self.spec = None
 
-  # Iterate through the table columns, grouping them
-  # by their dataManagerGroup
-  for c, d in tabdesc.items():
-    if c in ('_define_hypercolumn_', '_keywords_', '_private_keywords_'):
-      continue
+    dm_groups = defaultdict(DMGroup)
 
-    # Extract group and data manager type
-    group = d.get("dataManagerGroup", "StandardStMan")
-    type_ = d.get("dataManagerType", "StandardStMan")
+    # Iterate through the table columns, grouping them
+    # by their dataManagerGroup
+    for c, d in tabdesc.items():
+        if c in ('_define_hypercolumn_', '_keywords_', '_private_keywords_'):
+            continue
 
-    # Set defaults if necessary
-    if not group:
-      group = "StandardStMan"
+        # Extract group and data manager type
+        group = d.get("dataManagerGroup", "StandardStMan")
+        type_ = d.get("dataManagerType", "StandardStMan")
 
-    if not type_:
-      type_ = "StandardStMan"
+        # Set defaults if necessary
+        if not group:
+            group = "StandardStMan"
 
-    # Obtain the (possibly empty) data manager group
-    dm_group = dm_groups[group]
+        if not type_:
+            type_ = "StandardStMan"
 
-    # Add the column
-    dm_group.columns.append(c)
+        # Obtain the (possibly empty) data manager group
+        dm_group = dm_groups[group]
 
-    # Set the spec
-    if dm_group.spec is None:
-      dm_group.spec = group_spec.get(group, {})
+        # Add the column
+        dm_group.columns.append(c)
 
-    # Check that the data manager type is consistent across columns
-    if dm_group.type is None:
-      dm_group.type = type_
-    elif not dm_group.type == type_:
-      raise ValueError("Mismatched dataManagerType '%s' "
-                        "for dataManagerGroup '%s' "
-                        "Previously, the type was '%s'" %
-                            (type_, group, dm_group.type))
+        # Set the spec
+        if dm_group.spec is None:
+            dm_group.spec = group_spec.get(group, {})
 
-  # Output a data manager entry
-  return {
-    '*%d'%(i+1): {
-      'COLUMNS': dm_group.columns,
-      'TYPE': dm_group.type,
-      'NAME': group,
-      'SPEC' : dm_group.spec,
-      'SEQNR': i
-    } for i, (group, dm_group)
-    in enumerate(dm_groups.items())
-  }
+        # Check that the data manager type is consistent across columns
+        if dm_group.type is None:
+            dm_group.type = type_
+        elif not dm_group.type == type_:
+            raise ValueError("Mismatched dataManagerType '%s' "
+                              "for dataManagerGroup '%s' "
+                              "Previously, the type was '%s'" %
+                                  (type_, group, dm_group.type))
+
+    # Output a data manager entry
+    return {
+      '*%d'%(i+1): {
+        'COLUMNS': dm_group.columns,
+        'TYPE': dm_group.type,
+        'NAME': group,
+        'SPEC' : dm_group.spec,
+        'SEQNR': i
+      } for i, (group, dm_group)
+      in enumerate(dm_groups.items())
+    }
 
 # Create the old glish names for them.
 tablecreatescalarcoldesc = makescacoldesc
