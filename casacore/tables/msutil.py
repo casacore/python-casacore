@@ -25,7 +25,6 @@
 #
 from __future__ import print_function
 
-from six import string_types
 import numpy as np
 from casacore.tables.table import (table, taql,
                                    _required_ms_desc,
@@ -315,7 +314,7 @@ def msconcat(names, newname, concatTime=False):
     for key in keywords:
         if key != 'SORTED_TABLE':
             val = keywords[key]
-            if isinstance(val, string_types):
+            if isinstance(val, str):
                 tsub = table(val, ack=False)
                 tsubn = tsub.copy(newname + '/' + key, deep=True)
                 tnew.putkeyword(key, tsubn)

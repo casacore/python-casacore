@@ -25,7 +25,6 @@
 #
 # $Id: tableutil.py,v 1.6 2006/11/08 00:12:55 gvandiep Exp $
 
-from six import string_types, integer_types
 import numpy
 import re
 from ..quanta import quantity
@@ -42,7 +41,7 @@ def _add_prefix(name):
 def _do_remove_prefix(name):
     """Strip the possible prefix 'Table: ' from a table name."""
     res = name
-    if isinstance(res, string_types):
+    if isinstance(res, str):
         if res.find('Table: ') == 0:
             res = res.replace('Table: ', '', 1)
     return res
@@ -50,7 +49,7 @@ def _do_remove_prefix(name):
 
 def _remove_prefix(name):
     """Strip the possible prefix 'Table: ' from one or more table names."""
-    if isinstance(name, string_types):
+    if isinstance(name, str):
         return _do_remove_prefix(name)
     return [_do_remove_prefix(nm) for nm in name]
 
@@ -114,13 +113,13 @@ def _check_key_slice(key, nrows, name):
 def _value_type_name(value):
     if isinstance(value, bool):
         return 'boolean'
-    if isinstance(value, integer_types):
+    if isinstance(value, int):
         return 'integer'
     if isinstance(value, float):
         return 'double'
     if isinstance(value, complex):
         return 'dcomplex'
-    if isinstance(value, string_types):
+    if isinstance(value, str):
         return 'string'
     if isinstance(value, dict):
         return 'record'

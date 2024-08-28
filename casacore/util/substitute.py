@@ -23,7 +23,6 @@
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
 
-from six import string_types
 import numpy as np
 
 __all__ = ['getlocals', 'getvariable', 'substitute']
@@ -266,7 +265,7 @@ def substitutevar(v):
 def substituteonevar(v):
     # A string needs to be enclosed in quotes.
     # A vector value is enclosed in square brackets and separated by commas.
-    if isinstance(v, string_types):
+    if isinstance(v, str):
         return substitutestring(v)
     # A numeric or boolean value is converted to a string.
     # A vector value is enclosed in square brackets and separated by commas.

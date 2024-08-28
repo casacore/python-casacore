@@ -28,7 +28,6 @@ from __future__ import print_function
 
 from collections import defaultdict
 
-import six
 from .table import table
 from .tablehelper import _remove_prefix, _value_type_name
 
@@ -525,7 +524,7 @@ def makedminfo(tabdesc, group_spec=None):
 
   # Iterate through the table columns, grouping them
   # by their dataManagerGroup
-  for c, d in six.iteritems(tabdesc):
+  for c, d in tabdesc.items():
     if c in ('_define_hypercolumn_', '_keywords_', '_private_keywords_'):
       continue
 
@@ -568,7 +567,7 @@ def makedminfo(tabdesc, group_spec=None):
       'SPEC' : dm_group.spec,
       'SEQNR': i
     } for i, (group, dm_group)
-    in enumerate(six.iteritems(dm_groups))
+    in enumerate(dm_groups.items())
   }
 
 # Create the old glish names for them.

@@ -1,4 +1,3 @@
-from six import string_types
 from ._quanta import QuantVec
 from ._quanta import Quantity
 from ._quanta import from_string, from_dict, from_dict_v
@@ -52,7 +51,7 @@ def quantity(*args):
 
     """
     if len(args) == 1:
-        if isinstance(args[0], string_types):
+        if isinstance(args[0], str):
             # use copy constructor to create quantity from string
             return Quantity(from_string(args[0]))
         elif isinstance(args[0], dict):
