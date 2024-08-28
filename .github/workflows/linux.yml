@@ -8,9 +8,10 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04]
         dist:
           - py3_casacore_master
     steps:
@@ -22,5 +23,3 @@ jobs:
 
       - name: Build container
         run: docker build . -t ${{ matrix.dist }} -f .github/workflows/${{ matrix.dist }}.docker
-
-
