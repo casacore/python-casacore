@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 from ._fitting import fitting
 import numpy as NUM
 from casacore.functionals import *

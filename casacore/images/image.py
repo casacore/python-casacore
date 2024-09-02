@@ -23,8 +23,6 @@
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
 
-from __future__ import print_function
-
 from ._images import Image
 import numpy
 import numpy.ma as nma

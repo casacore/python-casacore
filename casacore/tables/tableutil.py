@@ -24,8 +24,6 @@
 #                        Charlottesville, VA 22903-2475 USA
 #
 
-from __future__ import print_function
-
 from collections import defaultdict
 
 from .table import table

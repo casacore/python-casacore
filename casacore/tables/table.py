@@ -36,8 +36,6 @@ Several utility functions exist. Important ones are:
 
 """
 
-from __future__ import print_function
-
 from ._tables import (Table,
                       _default_ms,
                       _default_ms_subtable,

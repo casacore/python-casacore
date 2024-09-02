@@ -25,8 +25,6 @@
 #
 # $Id$
 
-from __future__ import print_function
-
 
 class coordinatesystem(object):
     """
