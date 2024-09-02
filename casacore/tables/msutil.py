@@ -23,8 +23,6 @@
 #                        520 Edgemont Road
 #                        Charlottesville, VA 22903-2475 USA
 #
-from __future__ import print_function
-
 import numpy as np
 from casacore.tables.table import (table, taql,
                                    _required_ms_desc,

@@ -1,4 +1,4 @@
-from __future__ import print_function
+#!/usr/bin/env python
 
 from wxPython.grid import *
 from wxPython.wx import *
