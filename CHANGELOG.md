@@ -1,3 +1,7 @@
+# 3.7.1
+
+This version as a binary wheel ships with underlying casacore v3.7.1.
+
 # 3.6.1
 
 This version as a binary wheel ships with underlying casacore v3.6.1.
