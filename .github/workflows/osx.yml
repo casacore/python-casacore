@@ -1,4 +1,4 @@
-name: OS X
+name: Build macOS Homebrew wheels
 
 on:
   push:
@@ -8,41 +8,56 @@ on:
     branches: [ master ]
 
 jobs:
-  osx:
-    runs-on: macos-11
+  build_wheel_macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-13, macos-14]
+    runs-on: ${{ matrix.os }}
+    # This is still pretty much an experimental feature
     continue-on-error: true
 
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           # Needed for `setuptools-scm`
           fetch-depth: 0
 
-      - name: install homebrew packages
+      # See https://github.com/orgs/Homebrew/discussions/3895#discussioncomment-4130560
+      - name: Ensure we use Homebrew Python
+        run: |
+          find /usr/local/bin -lname '*/Library/Frameworks/Python.framework/*' -delete
+          brew unlink python@3.12
+          brew link python@3.12
+
+      - name: Install Homebrew packages
         run: |
           brew tap casacore/tap 
-          brew install casacore --with-python
+          brew install casacore
 
-      - name: make virtualenv
+      - name: Make virtualenv
         run: python3 -m venv venv
 
       - name: Install Python dependencies
         run: venv/bin/pip install --upgrade pip wheel delocate pytest
 
       - name: Compile and install python-casacore
-        run: CFLAGS="-I/usr/local/include -L/usr/local/lib" venv/bin/pip install .
+        run: venv/bin/pip install .
 
       - name: Run pytest
-        run: venv/bin/pytest
+        run: cd tests && ../venv/bin/pytest
 
-      - name: make binary wheel
-        run: venv/bin/pip wheel -w dist .
+      - name: Make binary wheel
+        run: |
+          venv/bin/pip install --upgrade six scikit-build-core setuptools_scm
+          venv/bin/pip wheel -w dist .
 
       - name: Delocate binary wheel
         run: venv/bin/delocate-wheel -v dist/*.whl
 
-      - name: Publish OS X binary wheels
+      - name: Publish macOS binary wheels
         uses: actions/upload-artifact@v4
         with:
+          name: wheel_${{ matrix.os }}
           path: dist/*.whl
