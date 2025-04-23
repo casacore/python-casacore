@@ -25,6 +25,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          name: tarball
           path: dist/*.tar.gz
 
   build_wheels:
@@ -46,10 +47,8 @@ jobs:
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
+          name: wheels-${{ matrix.os }}
           path: wheelhouse/*.whl
-          # Temporary allow overwrite until we use setuptools_scm to
-          # generate unique version numbers on every push
-          overwrite: true
 
   upload_pypi:
     name: Upload release to PyPI
@@ -61,7 +60,7 @@ jobs:
       # For testing, use TestPyPI
       # url: https://test.pypi.org/p/python-casacore
     permissions:
-      id-token: write
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     # Upload to PyPI on every tag starting with 'v'
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     # Alternatively, to publish when a GitHub Release is created, use the following rule:
@@ -69,12 +68,9 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          # unpacks default artifact into dist/
-          # if `name: artifact` is omitted, the action will create extra parent dir
-          name: artifact
-          path: dist
-
-      - uses: pypa/gh-action-pypi-publish@v1.8.11
+          path: dist  # put artifacts where next action expects them to be
+          merge-multiple: true
+      - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           # For testing, use TestPyPI
           # repository-url: https://test.pypi.org/legacy/
