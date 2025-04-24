@@ -56,13 +56,13 @@ jobs:
     needs: [build_sdist, build_wheels]
     environment:
       name: pypi
-      url: https://pypi.org/p/python-casacore
+      # url: https://pypi.org/p/python-casacore
       # For testing, use TestPyPI
-      # url: https://test.pypi.org/p/python-casacore
+      url: https://test.pypi.org/p/python-casacore
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     # Upload to PyPI on every tag starting with 'v'
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+#    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     # Alternatively, to publish when a GitHub Release is created, use the following rule:
     # if: github.event_name == 'release' && github.event.action == 'published'
     steps:
@@ -73,6 +73,6 @@ jobs:
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           # For testing, use TestPyPI
-          # repository-url: https://test.pypi.org/legacy/
+          repository-url: https://test.pypi.org/legacy/
           skip-existing: true
           verbose: true
