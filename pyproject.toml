@@ -51,7 +51,7 @@ Homepage = "https://github.com/casacore/python-casacore"
 #########################
 
 [tool.cibuildwheel]
-build = "cp313-*_x86_64"
+build = "cp312-*_x86_64"
 build-verbosity = 1
 environment = """ \
     CXXFLAGS="-I/usr/include/cfitsio" \
