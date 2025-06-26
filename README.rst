@@ -62,17 +62,11 @@ On ubuntu you can install these with::
 
     $ pip install .
 
-* If the compilation fails you might need to help the compiler find the paths to the
-  boost and casacore libraries and headers. You can control this with the `CFLAGS` environment
-  variable. For example on OS X when using homebrew and clang you need to do something like
-  this::
+* If the compilation fails you might need to help the compiler find the paths
+  to the boost and casacore libraries and headers. You can control this with
+  the `CMAKE_ARGS` environment variable. For example::
 
-    CFLAGS="-std=c++11 \
-            -I/usr/local/Cellar/boost/1.68.0/include/ \
-            -I/usr/local/include/  \
-            -L/usr/local/Cellar/boost/1.68.0/lib \
-            -L/usr/local/lib/" \
-            pip install python-casacore
+    $ CMAKE_ARGS="-DCASACORE_ROOT_DIR=/path/to/casacore" pip install .
 
 Support
 =======
