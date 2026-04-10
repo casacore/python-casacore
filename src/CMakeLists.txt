@@ -1,11 +1,3 @@
-python_add_library(_fitting MODULE WITH_SOABI fit.cc fitting.cc)
-
-python_add_library(_functionals MODULE WITH_SOABI functional.cc functionals.cc)
-
-python_add_library(_images MODULE WITH_SOABI images.cc pyimages.cc)
-
-python_add_library(_measures MODULE WITH_SOABI pymeas.cc pymeasures.cc)
-
 python_add_library(
   _quanta
   MODULE
@@ -23,8 +15,7 @@ python_add_library(
   pytableindex.cc
   pytableiter.cc
   pytablerow.cc
-  tables.cc
-  pyms.cc)
+  tables.cc)
 
 get_directory_property(_targets BUILDSYSTEM_TARGETS)
 foreach(_target ${_targets})
