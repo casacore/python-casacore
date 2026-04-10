@@ -25,6 +25,7 @@
 //#
 //# $Id: pyfunctional.cc,v 1.1 2006/09/29 06:42:55 mmarquar Exp $
 
+#include <cstddef>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 #include <casacore/scimath/Functionals/FunctionalProxy.h>

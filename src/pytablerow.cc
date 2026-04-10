@@ -25,6 +25,7 @@
 //#
 //# $Id: pytablerow.cc,v 1.2 2006/10/25 22:14:54 gvandiep Exp $
 
+#include <cstddef>
 #include <casacore/tables/Tables/TableRowProxy.h>
 #include <casacore/tables/Tables/TableProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>

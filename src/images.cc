@@ -27,6 +27,7 @@
 
 #include "pyimages.h"
 
+#include <cstddef>
 #include <casacore/python/Converters/PycExcp.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycValueHolder.h>

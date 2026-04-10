@@ -25,6 +25,7 @@
 //#
 //# $Id: pymeas.cc,v 1.1 2006/09/28 05:55:00 mmarquar Exp $
 
+#include <cstddef>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 #include <casacore/measures/Measures/MeasuresProxy.h>

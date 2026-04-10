@@ -25,6 +25,7 @@
 //#
 //# $Id: pymeasures.cc,v 1.2 2006/10/17 03:37:27 gvandiep Exp $
 
+#include <cstddef>
 #include <boost/python.hpp>
 #include <casacore/python/Converters/PycExcp.h>
 #include <casacore/python/Converters/PycBasicData.h>

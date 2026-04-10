@@ -25,6 +25,7 @@
 //#
 //# $Id: pytable.cc,v 1.5 2006/11/08 00:12:55 gvandiep Exp $
 
+#include <cstddef>
 #include <casacore/tables/Tables/TableProxy.h>
 
 #include <casacore/python/Converters/PycBasicData.h>
