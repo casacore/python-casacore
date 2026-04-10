@@ -28,8 +28,6 @@
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
-#include <cstddef>
-
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
 

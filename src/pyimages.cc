@@ -25,7 +25,6 @@
 //#
 //# $Id$
 
-#include <cstddef>
 #include <casacore/images/Images/ImageProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycValueHolder.h>

@@ -24,7 +24,6 @@
 //#                        AUSTRALIA
 //# $Id:$
 
-#include <cstddef>
 #include <casacore/casa/Quanta.h>
 #include <casacore/casa/Quanta/QMath.h>
 #include <casacore/casa/Quanta/QLogical.h>

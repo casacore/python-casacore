@@ -25,7 +25,6 @@
 //#
 //# $Id: pytableindex.cc,v 1.1 2006/09/19 06:44:14 gvandiep Exp $
 
-#include <cstddef>
 #include <casacore/tables/Tables/TableIndexProxy.h>
 #include <casacore/tables/Tables/TableProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>

@@ -25,7 +25,6 @@
 //#
 //# $Id:$
 
-#include <cstddef>
 #include <casacore/casa/Quanta.h>
 #include <casacore/casa/Quanta/QLogical.h>
 #include <casacore/casa/Quanta/QuantumHolder.h>
