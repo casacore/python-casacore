@@ -27,12 +27,15 @@
 
 #include "functionals.h"
 
+#include <cstddef>
+
 #include <boost/python.hpp>
 
 #include <casacore/python/Converters/PycExcp.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycArray.h>
 #include <casacore/python/Converters/PycRecord.h>
+
 
 BOOST_PYTHON_MODULE(_functionals)
 {
