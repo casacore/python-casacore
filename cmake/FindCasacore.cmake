@@ -13,7 +13,7 @@
 # For this, you need to have a complete casacore installation, built with shared
 # libraries, at your disposal.
 #
-# The dependencies in this macro were generated against casacore release 1.7.0.
+# The dependencies in this macro were generated against casacore release 2.0.
 #
 # Variables used by this module:
 #  CASACORE_ROOT_DIR         - Casacore root directory.
@@ -24,6 +24,7 @@
 #  CASACORE_FOUND            - System has Casacore, which means that the
 #                              include dir was found, as well as all
 #                              libraries specified (not cached)
+#  CASACORE_VERSION          - Found version, e.g. "3.6.1" (not cached)
 #  CASACORE_INCLUDE_DIR      - Casacore include directory (cached)
 #  CASACORE_INCLUDE_DIRS     - Casacore include directories (not cached)
 #                              identical to CASACORE_INCLUDE_DIR
@@ -112,13 +113,11 @@ endmacro(casacore_find_library _name)
 #   Usage: casacore_find_package(name [REQUIRED])
 #
 macro(casacore_find_package _name)
-  if("${ARGN}" MATCHES "^REQUIRED$" AND
-      Casacore_FIND_REQUIRED AND
-      NOT CASACORE_MAKE_REQUIRED_EXTERNALS_OPTIONAL)
-    find_package(${_name} REQUIRED)
-  else()
-    find_package(${_name})
+  set(_arg_list ${ARGN})
+  if(NOT Casacore_FIND_REQUIRED OR CASACORE_MAKE_REQUIRED_EXTERNALS_OPTIONAL)
+    list(REMOVE_ITEM _arg_list "REQUIRED")
   endif()
+  find_package(${_name} ${_arg_list})
   if(${_name}_FOUND)
     list(APPEND CASACORE_INCLUDE_DIRS ${${_name}_INCLUDE_DIRS})
     list(APPEND CASACORE_LIBRARIES ${${_name}_LIBRARIES})
@@ -150,12 +149,12 @@ set(Casacore_coordinates_DEPENDENCIES   fits measures casa)
 set(Casacore_derivedmscal_DEPENDENCIES  ms measures tables casa)
 set(Casacore_fits_DEPENDENCIES          measures tables casa)
 set(Casacore_images_DEPENDENCIES        coordinates mirlib lattices fits measures scimath tables casa)
-set(Casacore_lattices_DEPENDENCIES      scimath tables casa)
+set(Casacore_lattices_DEPENDENCIES      tables scimath casa)
 set(Casacore_meas_DEPENDENCIES          measures tables casa)
 set(Casacore_measures_DEPENDENCIES      tables casa)
 set(Casacore_mirlib_DEPENDENCIES)
 set(Casacore_ms_DEPENDENCIES            measures scimath tables casa)
-set(Casacore_msfits_DEPENDENCIES        ms fits measures scimath tables casa)
+set(Casacore_msfits_DEPENDENCIES        ms fits measures tables casa)
 set(Casacore_python3_DEPENDENCIES       casa)
 set(Casacore_scimath_DEPENDENCIES       scimath_f casa)
 set(Casacore_scimath_f_DEPENDENCIES)
@@ -166,6 +165,7 @@ set(CASACORE_FOUND FALSE)
 set(CASACORE_DEFINITIONS)
 set(CASACORE_LIBRARIES)
 set(CASACORE_MISSING_COMPONENTS)
+set(CASACORE_VERSION)
 
 # Search for the header file first.
 if(NOT CASACORE_INCLUDE_DIR)
@@ -209,7 +209,7 @@ else(NOT CASACORE_INCLUDE_DIR)
   foreach(_comp ${_find_components})
     casacore_find_library(casa_${_comp})
     if(${_comp} STREQUAL casa)
-      casacore_find_package(HDF5)
+      casacore_find_package(HDF5 COMPONENTS CXX)
       casacore_find_library(m)
       list(APPEND CASACORE_LIBRARIES ${CMAKE_DL_LIBS})
     elseif(${_comp} STREQUAL coordinates)
@@ -242,6 +242,25 @@ if(CASACORE_FOUND)
   set(HAVE_AIPSPP TRUE CACHE INTERNAL "Define if AIPS++/Casacore is installed")
 endif(CASACORE_FOUND)
 
+# Check version requirements
+file(WRITE ${CMAKE_BINARY_DIR}/casacore_version.cpp "#include <iostream>\n#include <casacore/casa/version.h>\nint main(int argc,char *argv[]) { std::cout << CASACORE_VERSION; return 0; }\n")
+try_run(CASACORE_VERSION_RUN_RESULT CASACORE_VERSION_COMPILE_RESULT ${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/casacore_version.cpp
+  RUN_OUTPUT_VARIABLE CASACORE_VERSION
+  COMPILE_DEFINITIONS "-I${CASACORE_INCLUDE_DIR}" )
+if (CASACORE_FOUND AND CASACORE_VERSION)
+    if (Casacore_FIND_VERSION)
+        if (Casacore_FIND_VERSION_EXACT)
+            if (NOT CASACORE_VERSION VERSION_EQUAL Casacore_FIND_VERSION)
+                message(FATAL_ERROR "Found Casacore version ${CASACORE_VERSION}, but EXACT version ${Casacore_FIND_VERSION} is required.")
+            endif()
+        else()
+            if (CASACORE_VERSION VERSION_LESS Casacore_FIND_VERSION)
+                message(FATAL_ERROR "Found Casacore version ${CASACORE_VERSION}, but at least version ${Casacore_FIND_VERSION} is required.")
+            endif()
+        endif()
+    endif()
+endif()
+
 # Compose diagnostic message if not all necessary components were found.
 if(CASACORE_MISSING_COMPONENTS)
   set(CASACORE_ERROR_MESSAGE "Casacore: the following components could not be found:\n     ${CASACORE_MISSING_COMPONENTS}")
@@ -250,7 +269,7 @@ endif(CASACORE_MISSING_COMPONENTS)
 # Print diagnostics.
 if(CASACORE_FOUND)
   if(NOT Casacore_FIND_QUIETLY)
-    message(STATUS "Found the following Casacore components: ")
+    message(STATUS "Found Casacore (version ${CASACORE_VERSION}) with the following components:")
     foreach(_comp ${_find_components})
       string(TOUPPER casa_${_comp} _COMP)
       message(STATUS "  ${_comp}: ${${_COMP}_LIBRARY}")
