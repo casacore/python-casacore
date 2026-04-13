@@ -11,7 +11,7 @@ find_package(
 
 # Find Casacore and its dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-find_package(Casacore REQUIRED COMPONENTS casa tables)
+find_package(Casacore REQUIRED COMPONENTS casa tables python3)
 find_package(Boost REQUIRED COMPONENTS python3)
 
 # If environment variable CASACORE_DATA is set, assume it points to a directory

@@ -23,7 +23,7 @@ foreach(_target ${_targets})
   target_include_directories(${_target} PRIVATE ${Boost_INCLUDE_DIRS}
                                                 ${CASACORE_INCLUDE_DIRS})
   target_link_directories(${_target} PRIVATE ${CASACORE_LIBRARY_DIRS})
-  target_link_libraries(${_target} PRIVATE ${CASACORE_LIBRARIES})
+  target_link_libraries(${_target} PRIVATE ${CASACORE_LIBRARIES} ${Boost_LIBRARIES})
   if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     target_link_options(${_target} PRIVATE "LINKER:--as-needed")
   endif()
