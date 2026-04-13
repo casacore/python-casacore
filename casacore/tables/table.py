@@ -36,11 +36,7 @@ Several utility functions exist. Important ones are:
 
 """
 
-from ._tables import (Table,
-                      _default_ms,
-                      _default_ms_subtable,
-                      _required_ms_desc,
-                      _complete_ms_desc)
+from ._tables import (Table)
 
 from .tablehelper import (_add_prefix, _remove_prefix, _do_remove_prefix,
                           _format_row)

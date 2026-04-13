@@ -24,9 +24,7 @@
 #                        Charlottesville, VA 22903-2475 USA
 #
 import numpy as np
-from casacore.tables.table import (table, taql,
-                                   _required_ms_desc,
-                                   _complete_ms_desc)
+from casacore.tables.table import (table, taql)
 from casacore.tables.tableutil import (makescacoldesc, makearrcoldesc,
                                        makecoldesc, maketabdesc)
 

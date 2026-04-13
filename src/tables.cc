@@ -48,7 +48,5 @@ BOOST_PYTHON_MODULE(_tables)
   casacore::python::pytablerow();
   casacore::python::pytableiter();
   casacore::python::pytableindex();
-
-  casacore::python::pyms();
 }
 
