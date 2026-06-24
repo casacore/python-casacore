@@ -17,7 +17,7 @@ jobs:
           - py3_casacore_master
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # Needed for `setuptools-scm`
           fetch-depth: 0

@@ -9,12 +9,12 @@ on:
 
 jobs:
   osx:
-    runs-on: macos-13
+    runs-on: macos-15
     continue-on-error: true
 
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           # Needed for `setuptools-scm`
           fetch-depth: 0
@@ -43,6 +43,6 @@ jobs:
         run: venv/bin/delocate-wheel -v dist/*.whl
 
       - name: Publish OS X binary wheels
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           path: dist/*.whl
