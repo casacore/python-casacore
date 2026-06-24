@@ -71,23 +71,23 @@ skip = ["*-musllinux_*"]
 
 [[tool.cibuildwheel.overrides]]
 select="cp310-*"
-manylinux-x86_64-image = "quay.io/casacore/casacore:py310_master"
+manylinux-x86_64-image = "quay.io/casacore/casacore:py310_v3.8.1"
 
 [[tool.cibuildwheel.overrides]]
 select="cp311-*"
-manylinux-x86_64-image = "quay.io/casacore/casacore:py311_master"
+manylinux-x86_64-image = "quay.io/casacore/casacore:py311_v3.8.1"
 
 [[tool.cibuildwheel.overrides]]
 select="cp312-*"
-manylinux-x86_64-image = "quay.io/casacore/casacore:py312_master"
+manylinux-x86_64-image = "quay.io/casacore/casacore:py312_v3.8.1"
 
 [[tool.cibuildwheel.overrides]]
 select="cp313-*"
-manylinux-x86_64-image = "quay.io/casacore/casacore:py313_master"
+manylinux-x86_64-image = "quay.io/casacore/casacore:py313_v3.8.1"
 
 [[tool.cibuildwheel.overrides]]
 select="cp314-*"
-manylinux-x86_64-image = "quay.io/casacore/casacore:py314_master"
+manylinux-x86_64-image = "quay.io/casacore/casacore:py314_v3.8.1"
 
 
 #########################
