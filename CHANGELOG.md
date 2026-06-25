@@ -3,6 +3,7 @@
 This version as a binary wheel ships with underlying casacore v3.8.1.
 
 Support for Python 3.8 and 3.9 was dropped; support for Python 3.14 was added.
+This version requires a C++-20 compatible compiler.
 
 # 3.7.1
 
