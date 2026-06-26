@@ -21,6 +21,7 @@ jobs:
 
       - name: install homebrew packages
         run: |
+          brew trust casacore/tap
           brew tap casacore/tap 
           brew install casacore --with-python
 
