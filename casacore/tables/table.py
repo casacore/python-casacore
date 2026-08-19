@@ -315,6 +315,9 @@ class table(Table):
                  _columnnames=[], _datatypes=[],
                  _oper=0, _delete=False):
         """Open or create a table."""
+        import pathlib
+        if isinstance(tablename, pathlib.Path):
+            tablename = str(tablename)
         if _oper == 1:
             # This is the readascii constructor.
             tabname = _remove_prefix(tablename)

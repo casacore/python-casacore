@@ -1,4 +1,5 @@
 """Tests for tables module."""
+import pathlib
 import unittest
 from casacore.tables import (makescacoldesc, makearrcoldesc, table,
                              maketabdesc, tableexists, tableiswritable,
@@ -57,6 +58,14 @@ class TestTable(unittest.TestCase):
         self.assertEqual(t.endianformat(), 'little')
         t.close()
         tabledelete("ttable.py_tmp.tab1")
+
+    def test_path_support(self):
+        """Test table names can be given as Path objects."""
+        c1 = makescacoldesc("col", 0)
+        path = pathlib.Path("ttable.py_tmp.tab1")
+        t = table(path, maketabdesc([c1]), ack=False)
+        t.close()
+        tabledelete(path)
 
     def test_tableascii(self):
         """Testing ASCII table."""

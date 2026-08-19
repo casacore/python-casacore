@@ -26,6 +26,7 @@
 # $Id: tableutil.py,v 1.6 2006/11/08 00:12:55 gvandiep Exp $
 
 import numpy
+import pathlib
 import re
 from ..quanta import quantity
 
@@ -51,6 +52,8 @@ def _remove_prefix(name):
     """Strip the possible prefix 'Table: ' from one or more table names."""
     if isinstance(name, str):
         return _do_remove_prefix(name)
+    elif isinstance(name, pathlib.Path):
+        return name
     return [_do_remove_prefix(nm) for nm in name]
 
 
