@@ -33,13 +33,28 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest] #, macos-latest]
+        os: [ubuntu-latest, macos-15] # macos-15 is Sequoia, arm64
 
     steps:
       - uses: actions/checkout@v7
         with:
           # Needed for `setuptools-scm`
           fetch-depth: 0
+
+      - name: Cache compiler output from the casacore builds
+        if: runner.os == 'macOS'
+        uses: actions/cache@v6
+        with:
+          # CCACHE_DIR in .github/scripts/cibw_env.sh
+          path: ~/cibw/ccache
+          key: ccache-${{ matrix.os }}-${{ hashFiles('.github/scripts/cibw_env.sh') }}
+          restore-keys: ccache-${{ matrix.os }}-
+
+      # We're using Homebrew for deps, so we can only build
+      # wheels targeting the runner's macOS version
+      - name: Match wheel deployment target to the runner
+        if: runner.os == 'macOS'
+        run: echo "MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion | cut -d. -f1).0" >> "$GITHUB_ENV"
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v4.1

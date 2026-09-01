@@ -51,23 +51,41 @@ Homepage = "https://github.com/casacore/python-casacore"
 #########################
 
 [tool.cibuildwheel]
-build = "cp3{10,11,12,13,14}-*_x86_64"
+# Each runner builds only its native architecture: x86_64 on Linux,
+# arm64 on the macOS runner.
+build = "cp3{10,11,12,13,14}-*"
 build-verbosity = 1
-environment = """ \
-    CXXFLAGS="-I/usr/include/cfitsio" \
-    LD_LIBRARY_PATH=/opt/boost/lib \
-"""
 test-command = "cd {package}/tests && pytest"
 test-requires = "pytest"
 
 [tool.cibuildwheel.macos]
+# before-build compiles Boost.Python and casacore against each Python version,
+# the macOS analogue of the per-Python Linux images below; see the script for
+# details.
+before-all = "bash {project}/.github/scripts/cibw_before_all_macos.sh"
+before-build = "bash {project}/.github/scripts/cibw_before_build_macos.sh"
+# cibuildwheel cannot source cibw_env.sh, so these are literals. Keep the
+# paths in sync with CIBW_PREFIX, CIBW_DATA and CCACHE_DIR there. CMAKE_ARGS
+# routes the extension build through the same ccache as the dependencies.
+environment = """ \
+    CMAKE_PREFIX_PATH=$HOME/cibw/local \
+    CASACORE_DATA=$HOME/cibw/measures/data \
+    CCACHE_DIR=$HOME/cibw/ccache \
+    CMAKE_ARGS="-DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache" \
+"""
 repair-wheel-command = """\
-    DYLD_LIBRARY_PATH=${BOOST_INSTALL_DIR}/lib delocate-wheel \
+    source {project}/.github/scripts/cibw_env.sh && \
+    DYLD_LIBRARY_PATH=$CIBW_PREFIX/lib delocate-wheel \
     --require-archs {delocate_archs} -w {dest_dir} -v {wheel}\
 """
 
 [tool.cibuildwheel.linux]
 skip = ["*-musllinux_*"]
+# These paths exist inside the prebuilt wheel images selected below.
+environment = """ \
+    CXXFLAGS="-I/usr/include/cfitsio" \
+    LD_LIBRARY_PATH=/opt/boost/lib \
+"""
 
 [[tool.cibuildwheel.overrides]]
 select="cp310-*"
